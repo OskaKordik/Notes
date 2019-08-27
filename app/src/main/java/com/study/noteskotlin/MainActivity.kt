@@ -22,6 +22,9 @@ class MainActivity : AppCompatActivity() {
 
         initRecycleView()
         addNotes()
+
+        setSupportActionBar(findViewById(R.id.notesToolbar))
+        title = getString(R.string.app_name)
     }
 
     private fun addNotes() {
