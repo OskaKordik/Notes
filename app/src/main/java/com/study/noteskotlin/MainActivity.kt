@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.study.noteskotlin.adapters.RecyclerAdapter
 import com.study.noteskotlin.models.Note
+import com.study.noteskotlin.utils.VerticalSpacingItemDecorator
 
 class MainActivity : AppCompatActivity() {
 
@@ -34,6 +35,7 @@ class MainActivity : AppCompatActivity() {
         mRecyclerView = findViewById<RecyclerView>(R.id.recyclerView).apply {
             layoutManager = mViewManager
             adapter = mViewAdapter
+            addItemDecoration(VerticalSpacingItemDecorator(5))
         }
     }
 }
