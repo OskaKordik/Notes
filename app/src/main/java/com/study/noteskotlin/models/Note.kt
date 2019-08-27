@@ -1,18 +1,12 @@
 package com.study.noteskotlin.models
 
-class Note {
-    private var title: String
-    private var content: String
-    private var time: String
+class Note(
+    var title: String = "title",
+    var content: String = "content",
+    var time: String = "time") {
 
-    constructor(title: String = "title1", content: String = "content1", time: String = "time1") {
-        this.title = title
-        this.content = content
-        this.time = time
-    }
 
     override fun toString(): String {
         return "Note(title='$title', content='$content', time='$time')"
     }
-
 }
