@@ -7,14 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.study.noteskotlin.adapters.RecyclerAdapter
 import com.study.noteskotlin.models.Note
 import com.study.noteskotlin.utils.VerticalSpacingItemDecorator
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-
-    private lateinit var mRecyclerView: RecyclerView
     private lateinit var mViewAdapter: RecyclerView.Adapter<*>
-    private lateinit var mViewManager: RecyclerView.LayoutManager
     private val mNotes: ArrayList<Note> = ArrayList()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,10 +30,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initRecycleView() {
-        mViewManager = LinearLayoutManager(this)
         mViewAdapter = RecyclerAdapter(mNotes)
-        mRecyclerView = findViewById<RecyclerView>(R.id.recyclerView).apply {
-            layoutManager = mViewManager
+        recyclerView.apply {
+            layoutManager = LinearLayoutManager(this@MainActivity)
             adapter = mViewAdapter
             addItemDecoration(VerticalSpacingItemDecorator(5))
         }
