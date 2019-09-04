@@ -10,6 +10,8 @@ import kotlinx.android.synthetic.main.note_list_item.view.*
 
 class RecyclerAdapter(private val notes : ArrayList<Note>) : RecyclerView.Adapter<RecyclerAdapter.MyViewHolder>() {
 
+    var onItemClick: ((Note) -> Unit)? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         return MyViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.note_list_item, parent, false))
     }
@@ -24,9 +26,13 @@ class RecyclerAdapter(private val notes : ArrayList<Note>) : RecyclerView.Adapte
     }
 
 
-    class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         // !! - null check, title & time is not null and if it’s null -> throw a null pointer exception
         val title = view.noteTitleView!!
         val time = view.timeView!!
+
+        init {
+            view.setOnClickListener { onItemClick?.invoke(notes[adapterPosition]) }
+        }
     }
 }

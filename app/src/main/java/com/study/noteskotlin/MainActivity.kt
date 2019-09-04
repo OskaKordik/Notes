@@ -2,6 +2,7 @@ package com.study.noteskotlin
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.study.noteskotlin.adapters.RecyclerAdapter
@@ -10,7 +11,7 @@ import com.study.noteskotlin.utils.VerticalSpacingItemDecorator
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var mViewAdapter: RecyclerView.Adapter<*>
+    private lateinit var mViewAdapter: RecyclerAdapter
     private val mNotes: ArrayList<Note> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,6 +36,9 @@ class MainActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@MainActivity)
             adapter = mViewAdapter
             addItemDecoration(VerticalSpacingItemDecorator(5))
+        }
+        mViewAdapter.onItemClick = {mNotes ->
+            Toast.makeText(this, "clicked ${mNotes.title}", Toast.LENGTH_SHORT).show()
         }
     }
 }
