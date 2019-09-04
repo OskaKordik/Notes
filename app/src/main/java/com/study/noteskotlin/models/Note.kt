@@ -1,9 +1,13 @@
 package com.study.noteskotlin.models
 
-class Note(
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
+data class Note(
     var title: String = "title",
     var content: String = "content",
-    var time: String = "time") {
+    var time: String = "time")  : Parcelable {
 
 
     override fun toString(): String {

@@ -1,5 +1,6 @@
 package com.study.noteskotlin
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -38,7 +39,10 @@ class MainActivity : AppCompatActivity() {
             addItemDecoration(VerticalSpacingItemDecorator(5))
         }
         mViewAdapter.onItemClick = {mNotes ->
-            Toast.makeText(this, "clicked ${mNotes.title}", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(this, "clicked ${mNotes.title}", Toast.LENGTH_SHORT).show()
+            val intentNoteActivity = Intent(this, NoteActivity::class.java)
+            intentNoteActivity.putExtra("selected_note", mNotes)
+            startActivity(intentNoteActivity)
         }
     }
 }
