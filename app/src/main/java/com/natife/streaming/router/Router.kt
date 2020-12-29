@@ -1,0 +1,56 @@
+package com.natife.streaming.router
+
+import android.net.Uri
+import android.view.View
+import androidx.annotation.IdRes
+import androidx.navigation.NavController
+import androidx.navigation.NavDirections
+import androidx.navigation.findNavController
+import com.natife.streaming.MainActivity
+import com.natife.streaming.R
+import com.natife.streaming.preferenses.AuthPrefs
+import org.koin.core.KoinComponent
+import org.koin.core.inject
+import timber.log.Timber
+
+class Router(
+    private val activity: MainActivity,
+    @IdRes viewId: Int
+    ) : KoinComponent {
+
+        private val authPrefs by inject<AuthPrefs>()
+
+        private val navController: NavController = activity.findNavController(viewId)
+
+        init {
+
+
+            val navGraph = navController.navInflater.inflate(R.navigation.nav_main)
+
+            navController.graph = navGraph
+        }
+
+        fun navigateUp() {
+            navController.navigateUp()
+        }
+
+        fun navigate(@IdRes resId: Int) {
+            try {
+                if (navController.currentDestination?.id != resId) {
+                    navController.navigate(resId)
+                }
+            } catch (exc: Exception) {
+                Timber.e(exc)
+            }
+        }
+
+        fun navigate(navDirections: NavDirections) {
+            try {
+                navController.navigate(navDirections)
+            } catch (exc: Exception) {
+                Timber.e(exc)
+            }
+        }
+
+
+    }
