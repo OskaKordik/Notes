@@ -5,18 +5,11 @@
     android:id="@+id/nav_main"
     app:startDestination="@id/loginFragment">
 
-    <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.natife.streaming.ui.login.LoginFragment"
-        android:label="LoginFragment"
-        tools:layout="@layout/fragment_login">
-        <action
-            android:id="@+id/action_loginFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
-    </fragment>
+
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.natife.streaming.ui.home.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home"/>
+
 </navigation>

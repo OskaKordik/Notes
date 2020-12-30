@@ -4,6 +4,8 @@ import android.content.Context
 import com.natife.streaming.mock.MockLoginRepository
 import com.natife.streaming.preferenses.AuthPrefsImpl
 import com.natife.streaming.preferenses.AuthPrefs
+import com.natife.streaming.ui.account.AccountViewModel
+import com.natife.streaming.ui.account.AccountViewModelImpl
 import com.natife.streaming.ui.home.HomeViewModel
 import com.natife.streaming.ui.home.HomeViewModelImpl
 import com.natife.streaming.ui.login.LoginViewModel
@@ -12,6 +14,8 @@ import com.natife.streaming.ui.main.MainViewModel
 import com.natife.streaming.ui.main.MainViewModelImpl
 import com.natife.streaming.usecase.LoginUseCase
 import com.natife.streaming.usecase.LoginUseCaseImpl
+import com.natife.streaming.usecase.LogoutUseCase
+import com.natife.streaming.usecase.LogoutUseCaseImpl
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
@@ -21,6 +25,7 @@ val viewModelModule = module {
     viewModel <LoginViewModel>{ LoginViewModelImpl(get()) }
     viewModel <MainViewModel>{ MainViewModelImpl() }
     viewModel <HomeViewModel>{ HomeViewModelImpl() }
+    viewModel <AccountViewModel>{ AccountViewModelImpl(get()) }
 }
 
 val prefsModule = module{
@@ -35,6 +40,7 @@ val prefsModule = module{
 
 val useCaseModule = module {
     factory <LoginUseCase>{ LoginUseCaseImpl(get(),get()) }
+    factory <LogoutUseCase>{ LogoutUseCaseImpl(get(),get()) }
 }
 
 val mockModule = module {

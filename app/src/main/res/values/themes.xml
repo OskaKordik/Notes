@@ -16,5 +16,9 @@
 
         <!-- Customize your theme here. -->
     </style>
+    <style name="materialButtonStile">
+        <item name="backgroundTint">@color/button_background_state</item>
+        <item name="android:textColor">@color/button_text_state</item>
+    </style>
 
 </resources>

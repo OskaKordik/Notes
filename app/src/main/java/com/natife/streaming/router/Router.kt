@@ -23,12 +23,12 @@ class Router(
         init {
 
 
-            val navGraph = navController.navInflater.inflate(R.navigation.nav_main)
-            val destination = if (authPrefs.isLoggedIn()) {
+            val navGraph = navController.navInflater.inflate(R.navigation.nav_home)
+            val destination = /*if (authPrefs.isLoggedIn()) {
                 R.id.homeFragment
-            } else {
+            } else {*/
                 R.id.loginFragment
-            }
+            //}
             navGraph.startDestination = destination
             navController.graph = navGraph
         }
@@ -55,5 +55,13 @@ class Router(
             }
         }
 
+    fun toAccount() {
 
     }
+
+    fun toHome() {
+        TODO("Not yet implemented")
+    }
+
+
+}

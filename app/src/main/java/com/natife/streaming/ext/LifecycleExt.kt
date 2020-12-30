@@ -1,6 +1,7 @@
 package com.natife.streaming.ext
 
 import android.content.Context
+import android.content.Intent
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
@@ -9,10 +10,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import kotlin.reflect.KClass
 
 
-
-    fun <T> Fragment.subscribe(liveData: (LiveData<T>)?, onNext: (t: T) -> Unit) {
+fun <T> Fragment.subscribe(liveData: (LiveData<T>)?, onNext: (t: T) -> Unit) {
         liveData?.observe(viewLifecycleOwner, Observer {
             if (it != null) {
                 onNext(it)
@@ -42,6 +43,15 @@ import androidx.lifecycle.Observer
                 onNext(it)
             }
         })
+    }
+
+    fun <T : AppCompatActivity> AppCompatActivity.startClearActivity(kClass: KClass<T>) {
+        finish()
+        startActivity(
+            Intent(this, kClass.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+            }
+        )
     }
 
     fun FragmentActivity.showToast(text: CharSequence, duration: Int = Toast.LENGTH_LONG) =

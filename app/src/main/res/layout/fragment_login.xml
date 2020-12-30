@@ -122,7 +122,7 @@
         android:enabled="false"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="#4Dffffff"
+        style="@style/materialButtonStile"
         app:strokeColor="@android:color/transparent"
         android:text="Войти"
         app:layout_constraintEnd_toEndOf="@+id/textInputLayout2"
