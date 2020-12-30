@@ -1,12 +1,10 @@
 package com.natife.streaming.router
 
-import android.net.Uri
-import android.view.View
 import androidx.annotation.IdRes
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
-import com.natife.streaming.MainActivity
+import com.natife.streaming.ui.main.MainActivity
 import com.natife.streaming.R
 import com.natife.streaming.preferenses.AuthPrefs
 import org.koin.core.KoinComponent
@@ -26,7 +24,12 @@ class Router(
 
 
             val navGraph = navController.navInflater.inflate(R.navigation.nav_main)
-
+            val destination = if (authPrefs.isLoggedIn()) {
+                R.id.homeFragment
+            } else {
+                R.id.loginFragment
+            }
+            navGraph.startDestination = destination
             navController.graph = navGraph
         }
 
