@@ -13,7 +13,8 @@ interface LogoutUseCase {
 
 class LogoutUseCaseImpl(
     private val application: Application,
-    private val authPrefs: AuthPrefs): LogoutUseCase{
+    private val authPrefs: AuthPrefs
+) : LogoutUseCase {
     override suspend fun execute() {
         authPrefs.clear()
         (application as? App)?.restartKoin()

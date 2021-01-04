@@ -32,7 +32,6 @@ abstract class BaseFragment<VM : BaseViewModel> : Fragment() {
     abstract fun getLayoutRes(): Int
 
 
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         baseActivity = context as BaseActivity<*>
@@ -67,17 +66,21 @@ abstract class BaseFragment<VM : BaseViewModel> : Fragment() {
 
         subscribe(viewModel.defaultErrorLiveData) {
             onError(it)
-          //  onLoading(false)
+            //  onLoading(false)
         }
 
         subscribe(viewModel.defaultLoadingLiveData) {
-          //  onLoading(it)
+            //  onLoading(it)
         }
     }
 
 
     @CallSuper
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
 
         val root = inflater.inflate(getLayoutRes(), container, false)
@@ -86,7 +89,8 @@ abstract class BaseFragment<VM : BaseViewModel> : Fragment() {
     }
 
     override fun onResume() {
-        val imm: InputMethodManager = activity?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        val imm: InputMethodManager =
+            activity?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         var view = activity?.currentFocus
         if (view == null) {
             view = View(activity)
@@ -97,7 +101,8 @@ abstract class BaseFragment<VM : BaseViewModel> : Fragment() {
 
     @Suppress("UNCHECKED_CAST")
     protected fun getViewModelKClass(): KClass<VM> {
-        val actualClass = (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[0] as Class<VM>
+        val actualClass =
+            (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[0] as Class<VM>
         return actualClass.kotlin
     }
 

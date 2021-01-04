@@ -5,6 +5,6 @@ import com.natife.streaming.base.BaseViewModel
 abstract class HomeViewModel : BaseViewModel() {
 }
 
- class HomeViewModelImpl(): HomeViewModel() {
+class HomeViewModelImpl() : HomeViewModel() {
 
 }

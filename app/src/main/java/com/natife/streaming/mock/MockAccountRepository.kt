@@ -7,8 +7,10 @@ import kotlinx.coroutines.delay
 class MockAccountRepository {
     suspend fun getProfile(): Profile {
         delay(500)
-        return Profile(firstName = "Иван",
-        lastName = "Иванов",
-        email = "konstantinopolsky@gmail.com")
+        return Profile(
+            firstName = "Иван",
+            lastName = "Иванов",
+            email = "konstantinopolsky@gmail.com"
+        )
     }
 }

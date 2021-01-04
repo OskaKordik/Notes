@@ -15,49 +15,49 @@ import timber.log.Timber
 class Router(
     private val activity: MainActivity,
     @IdRes viewId: Int
-    ) : KoinComponent {
+) : KoinComponent {
 
-        private val authPrefs by inject<AuthPrefs>()
+    private val authPrefs by inject<AuthPrefs>()
 
-        private val navController: NavController = activity.findNavController(viewId)
-        private var navGraph: NavGraph? = null
-        private var destination: Int? = null
+    private val navController: NavController = activity.findNavController(viewId)
+    private var navGraph: NavGraph? = null
+    private var destination: Int? = null
 
-        init {
+    init {
 
-            if (authPrefs.isLoggedIn()) {
+        if (authPrefs.isLoggedIn()) {
             toHome()
-            } else {
-              toLogin()
+        } else {
+            toLogin()
+        }
+
+    }
+
+    fun navigateUp() {
+        navController.navigateUp()
+    }
+
+    fun navigate(@IdRes resId: Int) {
+        try {
+            if (navController.currentDestination?.id != resId) {
+                navController.navigate(resId)
             }
-
+        } catch (exc: Exception) {
+            Timber.e(exc)
         }
+    }
 
-        fun navigateUp() {
-            navController.navigateUp()
+    fun navigate(navDirections: NavDirections) {
+        try {
+            navController.navigate(navDirections)
+        } catch (exc: Exception) {
+            Timber.e(exc)
         }
-
-        fun navigate(@IdRes resId: Int) {
-            try {
-                if (navController.currentDestination?.id != resId) {
-                    navController.navigate(resId)
-                }
-            } catch (exc: Exception) {
-                Timber.e(exc)
-            }
-        }
-
-        fun navigate(navDirections: NavDirections) {
-            try {
-                navController.navigate(navDirections)
-            } catch (exc: Exception) {
-                Timber.e(exc)
-            }
-        }
+    }
 
     fun toAccount() {
         navGraph = navController.navInflater.inflate(R.navigation.nav_account)
-        destination =  R.id.accountFragment
+        destination = R.id.accountFragment
         navController.graph = navGraph as NavGraph
     }
 
@@ -69,15 +69,15 @@ class Router(
 
     fun toLogin() {
         navGraph = navController.navInflater.inflate(R.navigation.nav_login)
-        destination =  R.id.loginFragment
+        destination = R.id.loginFragment
         navController.graph = navGraph as NavGraph
     }
+
     fun toFavorites() {
 
     }
+
     fun toSettings() {
 
     }
-
-
 }

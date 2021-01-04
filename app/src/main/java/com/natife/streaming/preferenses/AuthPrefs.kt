@@ -24,11 +24,13 @@ private const val REFRESH_TOKEN = "REFRESH_TOKEN"
 @SuppressLint("ApplySharedPref")
 class AuthPrefsImpl(private val pref: SharedPreferences) : AuthPrefs {
     override fun getAuthToken(): String? = pref.getString(AUTH_TOKEN, null)
-    override fun saveAuthToken(token: String?): Boolean = pref.edit().putString(AUTH_TOKEN, token).commit()
+    override fun saveAuthToken(token: String?): Boolean =
+        pref.edit().putString(AUTH_TOKEN, token).commit()
 
     //maybe will useful for future
     override fun getRefreshAuthToken(): String? = pref.getString(REFRESH_TOKEN, null)
-    override fun saveRefreshAuthToken(refToken: String?): Boolean = pref.edit().putString(REFRESH_TOKEN, refToken).commit()
+    override fun saveRefreshAuthToken(refToken: String?): Boolean =
+        pref.edit().putString(REFRESH_TOKEN, refToken).commit()
 
     override fun isLoggedIn() = pref.getString(AUTH_TOKEN, null) != null
 

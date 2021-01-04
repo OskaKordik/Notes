@@ -9,7 +9,7 @@ import com.natife.streaming.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_login.*
 import timber.log.Timber
 
-class LoginFragment: BaseFragment<LoginViewModel>() {
+class LoginFragment : BaseFragment<LoginViewModel>() {
     override fun getLayoutRes() = R.layout.fragment_login
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -18,17 +18,17 @@ class LoginFragment: BaseFragment<LoginViewModel>() {
 
         emailText.addTextChangedListener(textWatcher)
         passwordText.addTextChangedListener(textWatcher)
-        buttonLogin.setOnClickListener{
+        buttonLogin.setOnClickListener {
             viewModel.login(email = emailText.text?.trim().toString(),
-                            password = passwordText.text?.trim().toString(),
-                            onError = {
-                                emailText.error = it
-                                passwordText.error = it
-                            })
+                password = passwordText.text?.trim().toString(),
+                onError = {
+                    emailText.error = it
+                    passwordText.error = it
+                })
         }
     }
 
-    val textWatcher = object :TextWatcher{
+    private val textWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
         }
@@ -40,7 +40,9 @@ class LoginFragment: BaseFragment<LoginViewModel>() {
         override fun afterTextChanged(s: Editable?) {
             emailText.error = null
             passwordText.error = null
-           buttonLogin.isEnabled = !emailText.text?.trim().isNullOrEmpty() && !passwordText.text?.trim().isNullOrEmpty()
+            buttonLogin.isEnabled =
+                !emailText.text?.trim().isNullOrEmpty() && !passwordText.text?.trim()
+                    .isNullOrEmpty()
         }
 
     }

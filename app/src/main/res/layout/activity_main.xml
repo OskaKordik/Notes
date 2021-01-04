@@ -2,23 +2,21 @@
 <androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainMotion"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.MainActivity"
-    android:id="@+id/mainMotion"
-    app:layoutDescription="@xml/activity_main_scene">
-
-
+    app:layoutDescription="@xml/activity_main_scene"
+    tools:context=".ui.main.MainActivity">
 
     <com.natife.streaming.custom.SideMenu
         android:id="@+id/mainMenu"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        app:layout_constraintWidth_percent="0.3"
         android:paddingVertical="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.3" />
 
     <fragment
         android:id="@+id/mainNavFragment"
@@ -26,7 +24,9 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         app:defaultNavHost="true"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/mainMenu" />
+        app:layout_constraintStart_toEndOf="@+id/mainMenu"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.motion.widget.MotionLayout>

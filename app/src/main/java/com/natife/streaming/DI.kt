@@ -20,13 +20,13 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val viewModelModule = module {
-    viewModel <LoginViewModel>{ LoginViewModelImpl(get()) }
-    viewModel <MainViewModel>{ MainViewModelImpl() }
-    viewModel <HomeViewModel>{ HomeViewModelImpl() }
-    viewModel <AccountViewModel>{ AccountViewModelImpl(get(),get()) }
+    viewModel<LoginViewModel> { LoginViewModelImpl(get()) }
+    viewModel<MainViewModel> { MainViewModelImpl() }
+    viewModel<HomeViewModel> { HomeViewModelImpl() }
+    viewModel<AccountViewModel> { AccountViewModelImpl(get(), get()) }
 }
 
-val prefsModule = module{
+val prefsModule = module {
     single(named(PREFS_AUTH_QUALIFIER)) {
         androidContext().getSharedPreferences(
             PREFS_AUTH_NAME,
@@ -37,9 +37,9 @@ val prefsModule = module{
 }
 
 val useCaseModule = module {
-    factory <LoginUseCase>{ LoginUseCaseImpl(get(),get()) }
-    factory <LogoutUseCase>{ LogoutUseCaseImpl(get(),get()) }
-    factory <AccountUseCase>{ AccountUseCaseImpl(get()) }
+    factory<LoginUseCase> { LoginUseCaseImpl(get(), get()) }
+    factory<LogoutUseCase> { LogoutUseCaseImpl(get(), get()) }
+    factory<AccountUseCase> { AccountUseCaseImpl(get()) }
 }
 
 val mockModule = module {
