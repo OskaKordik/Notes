@@ -5,6 +5,11 @@ import com.natife.streaming.mock.MockLoginRepository
 import com.natife.streaming.preferenses.AuthPrefs
 import kotlinx.coroutines.delay
 
+/**
+ * Выступает в роли интерфейса между ViewModel и Api.
+ * Необходимо реализовать свой UseCaseImpl или отредактировать имеющийся
+ * в нем же можно мапить данные.
+ */
 interface LoginUseCase {
     suspend fun execute(email: String, password: String,onComplete: (com.natife.streaming.utils.Result<Unit>) -> Unit)
 }

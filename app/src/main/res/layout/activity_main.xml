@@ -8,7 +8,15 @@
     android:id="@+id/mainMotion"
     app:layoutDescription="@xml/activity_main_scene">
 
-
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:src="@drawable/ic_logo"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <com.natife.streaming.custom.SideMenu
         android:id="@+id/mainMenu"

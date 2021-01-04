@@ -16,6 +16,13 @@ class AccountFragment: BaseFragment<AccountViewModel>() {
         subscribe(viewModel.nameLiveData,name::setText)
         subscribe(viewModel.emailLiveData,email::setText)
 
+        buttonLogout.setOnClickListener {
+            viewModel.logout()
+        }
+
+        backButton.setOnClickListener {
+            viewModel.back()
+        }
 
     }
 }

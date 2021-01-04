@@ -9,6 +9,8 @@ import com.natife.streaming.usecase.LogoutUseCase
 
 abstract class AccountViewModel: BaseViewModel() {
     abstract fun logout()
+    abstract fun back()
+
     abstract val nameLiveData: LiveData<String>
     abstract val emailLiveData: LiveData<String>
 }
@@ -30,6 +32,10 @@ class AccountViewModelImpl(private val logoutUseCase: LogoutUseCase,
         launch {
             logoutUseCase.execute()
         }
+    }
+
+    override fun back() {
+        router?.navigateUp()
     }
 
 
