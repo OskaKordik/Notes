@@ -13,6 +13,8 @@ import com.natife.streaming.ui.login.LoginViewModel
 import com.natife.streaming.ui.login.LoginViewModelImpl
 import com.natife.streaming.ui.main.MainViewModel
 import com.natife.streaming.ui.main.MainViewModelImpl
+import com.natife.streaming.ui.player.PlayerViewModel
+import com.natife.streaming.ui.player.PlayerViewModelImpl
 import com.natife.streaming.usecase.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -24,6 +26,7 @@ val viewModelModule = module {
     viewModel <MainViewModel>{ MainViewModelImpl() }
     viewModel <HomeViewModel>{ HomeViewModelImpl() }
     viewModel <AccountViewModel>{ AccountViewModelImpl(get(),get()) }
+    viewModel <PlayerViewModel>{ PlayerViewModelImpl()}
 }
 
 val prefsModule = module{

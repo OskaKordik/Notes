@@ -39,7 +39,8 @@ class SideMenu @JvmOverloads constructor(
             router?.toHome()
         }
         menuFavorites.setOnClickListener {
-
+            //TODO remove mocked logic
+            router?.toFavorites()
         }
         menuSettings.setOnClickListener {
 

@@ -67,4 +67,8 @@ dependencies {
     //logging
     implementation "com.jakewharton.timber:timber:4.7.1"
 
+    //ExoPlayer
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.12.0'
+    implementation 'com.google.android.exoplayer:exoplayer-dash:2.12.0'
+    implementation 'com.google.android.exoplayer:exoplayer-ui:2.12.0'
 }
