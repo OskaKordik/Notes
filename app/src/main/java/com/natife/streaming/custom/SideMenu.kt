@@ -30,13 +30,13 @@ class SideMenu @JvmOverloads constructor(
         this.addView(view)
 
         menuAccount.setOnClickListener {
-            router.toAccount()
+            router?.toAccount()
         }
         menuSearch.setOnClickListener {
 
         }
         menuHome.setOnClickListener {
-            router.toHome()
+            router?.toHome()
         }
         menuFavorites.setOnClickListener {
 

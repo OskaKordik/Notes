@@ -3,6 +3,7 @@ package com.natife.streaming.router
 import androidx.annotation.IdRes
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
+import androidx.navigation.NavGraph
 import androidx.navigation.findNavController
 import com.natife.streaming.ui.main.MainActivity
 import com.natife.streaming.R
@@ -19,18 +20,17 @@ class Router(
         private val authPrefs by inject<AuthPrefs>()
 
         private val navController: NavController = activity.findNavController(viewId)
+        private var navGraph: NavGraph? = null
+        private var destination: Int? = null
 
         init {
 
+            if (authPrefs.isLoggedIn()) {
+            toHome()
+            } else {
+              toLogin()
+            }
 
-            val navGraph = navController.navInflater.inflate(R.navigation.nav_home)
-            val destination = /*if (authPrefs.isLoggedIn()) {
-                R.id.homeFragment
-            } else {*/
-                R.id.loginFragment
-            //}
-            navGraph.startDestination = destination
-            navController.graph = navGraph
         }
 
         fun navigateUp() {
@@ -56,11 +56,27 @@ class Router(
         }
 
     fun toAccount() {
-
+        navGraph = navController.navInflater.inflate(R.navigation.nav_account)
+        destination =  R.id.accountFragment
+        navController.graph = navGraph as NavGraph
     }
 
     fun toHome() {
-        TODO("Not yet implemented")
+        navGraph = navController.navInflater.inflate(R.navigation.nav_home)
+        destination = R.id.homeFragment
+        navController.graph = navGraph as NavGraph
+    }
+
+    fun toLogin() {
+        navGraph = navController.navInflater.inflate(R.navigation.nav_login)
+        destination =  R.id.loginFragment
+        navController.graph = navGraph as NavGraph
+    }
+    fun toFavorites() {
+
+    }
+    fun toSettings() {
+
     }
 
 

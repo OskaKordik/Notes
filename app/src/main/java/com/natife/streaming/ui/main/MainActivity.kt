@@ -22,10 +22,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mainMenu.hasFocus()
-        mainMenu.setOnFocusChangeListener { v, hasFocus ->
-
-        }
+        mainMenu.setRouter(router)
 
     }
 
