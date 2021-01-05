@@ -24,6 +24,8 @@ class LoginFragment : BaseFragment<LoginViewModel>() {
                     passwordText.error = it
                 })
         }
+
+        keyboardView.attachInput(emailTextInput, passwordTextInput)
     }
 
     private val textWatcher = object : TextWatcher {

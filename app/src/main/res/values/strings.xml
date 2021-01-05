@@ -6,6 +6,9 @@
     <string name="instat">Instat</string>
     <string name="score">Счет</string>
     <string name="add_to_favorite">Добавить в избранное</string>
+    <string name="whitespace">Пробел</string>
+    <string name="clear">Очистить</string>
+    <string name="search">Поиск</string>
 
 
 </resources>

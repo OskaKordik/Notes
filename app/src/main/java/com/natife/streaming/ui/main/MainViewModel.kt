@@ -14,7 +14,7 @@ class MainViewModel(
         launch {
             val isLoggedIn = authPrefs.isLoggedIn()
             if (isLoggedIn) {
-                router.navigate(R.id.action_global_nav_main)
+                router.navigate(R.id.action_global_nav_auth)
             } else {
                 router.navigate(R.id.action_global_nav_auth)
             }
