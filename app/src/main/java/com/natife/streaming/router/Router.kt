@@ -12,25 +12,29 @@ import org.koin.core.KoinComponent
 import org.koin.core.inject
 import timber.log.Timber
 
+/**
+ * Примочка для Navigation component
+ */
 class Router(
     private val activity: MainActivity,
     @IdRes viewId: Int
-    ) : KoinComponent {
+) : KoinComponent {
 
-        private val authPrefs by inject<AuthPrefs>()
+    private val authPrefs by inject<AuthPrefs>()
 
         private val navController: NavController = activity.findNavController(viewId)
-        private var navGraph: NavGraph? = null
-        private var destination: Int? = null
+
 
         init {
 
-            if (authPrefs.isLoggedIn()) {
-            toHome()
+            val navGraph = navController.navInflater.inflate(R.navigation.nav_main)
+            val destination =   if (authPrefs.isLoggedIn()) {
+              R.id.homeFragment
             } else {
-              toLogin()
+              R.id.loginFragment
             }
-
+            navGraph.startDestination = destination
+            navController.graph = navGraph
         }
 
         fun navigateUp() {
@@ -56,21 +60,17 @@ class Router(
         }
 
     fun toAccount() {
-        navGraph = navController.navInflater.inflate(R.navigation.nav_account)
-        destination =  R.id.accountFragment
-        navController.graph = navGraph as NavGraph
+      navigate(R.id.action_global_accountFragment)
+
     }
 
     fun toHome() {
-        navGraph = navController.navInflater.inflate(R.navigation.nav_home)
-        destination = R.id.homeFragment
-        navController.graph = navGraph as NavGraph
+
+        navigate(R.id.action_global_homeFragment)
     }
 
     fun toLogin() {
-        navGraph = navController.navInflater.inflate(R.navigation.nav_login)
-        destination =  R.id.loginFragment
-        navController.graph = navGraph as NavGraph
+
     }
 
     fun toFavorites() {
@@ -80,6 +80,10 @@ class Router(
     }
     fun toSettings() {
 
+    }
+
+    fun setListener(navListener: NavController.OnDestinationChangedListener) {
+        navController.addOnDestinationChangedListener(navListener)
     }
 
 

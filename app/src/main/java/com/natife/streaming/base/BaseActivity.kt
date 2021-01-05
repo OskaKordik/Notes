@@ -45,7 +45,8 @@ abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity() {
 
     @Suppress("UNCHECKED_CAST")
     private fun getViewModelKClass(): KClass<VM> {
-        val actualClass = (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[0] as Class<VM>
+        val actualClass =
+            (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[0] as Class<VM>
         return actualClass.kotlin
     }
 

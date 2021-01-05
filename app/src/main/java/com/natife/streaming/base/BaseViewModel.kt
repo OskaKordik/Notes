@@ -14,10 +14,10 @@ import timber.log.Timber
 abstract class BaseViewModel : ViewModel() {
     var router: Router? = null
 
-    protected val _defaultErrorLiveData = SingleLiveEvent<Throwable>()
+    private val _defaultErrorLiveData = SingleLiveEvent<Throwable>()
     val defaultErrorLiveData: LiveData<Throwable> = _defaultErrorLiveData
 
-    protected val _defaultLoadingLiveData = MutableLiveData<Boolean>()
+    private val _defaultLoadingLiveData = MutableLiveData<Boolean>()
     val defaultLoadingLiveData: LiveData<Boolean> = _defaultLoadingLiveData
 
     protected val defaultErrorHandler = CoroutineExceptionHandler { _, throwable ->
@@ -57,5 +57,4 @@ abstract class BaseViewModel : ViewModel() {
             this.block()
         }
     }
-
 }

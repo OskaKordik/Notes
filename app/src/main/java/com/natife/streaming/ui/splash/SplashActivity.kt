@@ -7,7 +7,7 @@ import com.natife.streaming.ext.startClearActivity
 import com.natife.streaming.router.Router
 import com.natife.streaming.ui.main.MainActivity
 
-class SplashActivity: BaseActivity<EmptyViewModel>() {
+class SplashActivity : BaseActivity<EmptyViewModel>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,6 +19,6 @@ class SplashActivity: BaseActivity<EmptyViewModel>() {
     }
 
     override fun onCreateRouter(): Router? {
-       return null
+        return null
     }
 }
