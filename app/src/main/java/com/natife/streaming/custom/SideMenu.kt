@@ -1,20 +1,15 @@
 package com.natife.streaming.custom
 
 import android.content.Context
-import android.os.Bundle
 import android.util.AttributeSet
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.FrameLayout
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
-import androidx.navigation.NavDestination
 import com.natife.streaming.R
 import com.natife.streaming.router.Router
 import kotlinx.android.synthetic.main.view_side_menu.view.*
 import timber.log.Timber
-
 
 class SideMenu @JvmOverloads constructor(
     context: Context,
@@ -42,7 +37,7 @@ class SideMenu @JvmOverloads constructor(
             router?.toHome()
         }
         menuFavorites.setOnClickListener {
-
+            router?.navigate(R.id.action_main_tournamentFragment)
         }
         menuSettings.setOnClickListener {
 
@@ -52,10 +47,6 @@ class SideMenu @JvmOverloads constructor(
 
     fun setRouter(router: Router?){
         this.router = router
-        this.router?.setListener(navListener)
-
+        this.router?.addListener(navListener)
     }
-
-
-
 }

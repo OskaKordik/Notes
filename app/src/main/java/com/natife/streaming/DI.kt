@@ -6,6 +6,7 @@ import com.natife.streaming.mock.MockAccountRepository
 import com.natife.streaming.mock.MockLoginRepository
 import com.natife.streaming.preferenses.AuthPrefsImpl
 import com.natife.streaming.preferenses.AuthPrefs
+import com.natife.streaming.router.Router
 import com.natife.streaming.ui.account.AccountViewModel
 import com.natife.streaming.ui.account.AccountViewModelImpl
 import com.natife.streaming.ui.home.HomeViewModel
@@ -13,7 +14,7 @@ import com.natife.streaming.ui.home.HomeViewModelImpl
 import com.natife.streaming.ui.login.LoginViewModel
 import com.natife.streaming.ui.login.LoginViewModelImpl
 import com.natife.streaming.ui.main.MainViewModel
-import com.natife.streaming.ui.main.MainViewModelImpl
+import com.natife.streaming.ui.tournament.TournamentViewModel
 import com.natife.streaming.usecase.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -22,10 +23,11 @@ import org.koin.dsl.module
 
 val viewModelModule = module {
     viewModel { EmptyViewModel() }
-    viewModel<LoginViewModel> { LoginViewModelImpl(get()) }
-    viewModel<MainViewModel> { MainViewModelImpl() }
+    viewModel<LoginViewModel> { LoginViewModelImpl(get(), get()) }
+    viewModel { MainViewModel(get(), get()) }
     viewModel<HomeViewModel> { HomeViewModelImpl() }
-    viewModel<AccountViewModel> { AccountViewModelImpl(get(), get()) }
+    viewModel<AccountViewModel> { AccountViewModelImpl(get(), get(), get()) }
+    viewModel { TournamentViewModel(get(), get()) }
 }
 
 val prefsModule = module {
@@ -42,6 +44,7 @@ val useCaseModule = module {
     factory<LoginUseCase> { LoginUseCaseImpl(get(), get()) }
     factory<LogoutUseCase> { LogoutUseCaseImpl(get(), get()) }
     factory<AccountUseCase> { AccountUseCaseImpl(get()) }
+    factory { TournamentUseCase() }
 }
 
 val mockModule = module {
@@ -49,4 +52,8 @@ val mockModule = module {
     single { MockAccountRepository() }
 }
 
-val appModules = arrayListOf(viewModelModule, prefsModule, useCaseModule, mockModule)
+val routerModule = module {
+    single { Router() }
+}
+
+val appModules = arrayListOf(viewModelModule, prefsModule, useCaseModule, mockModule, routerModule)
