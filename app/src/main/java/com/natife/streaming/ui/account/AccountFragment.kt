@@ -13,6 +13,15 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+        buttonLogout.setOnClickListener {
+            viewModel.logout()
+        }
+
+        backButton.setOnClickListener {
+            viewModel.back()
+        }
+
         subscribe(viewModel.nameLiveData, name::setText)
         subscribe(viewModel.emailLiveData, email::setText)
     }

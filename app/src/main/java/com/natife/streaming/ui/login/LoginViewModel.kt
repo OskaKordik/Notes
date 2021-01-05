@@ -16,7 +16,7 @@ class LoginViewModelImpl(private val loginUseCase: LoginUseCase) : LoginViewMode
         launch {
             loginUseCase.execute(email, password) { result ->
                 if (result.status == Result.Status.SUCCESS) {
-                    router?.navigate(R.id.homeFragment)
+                    router?.navigate(R.id.action_loginFragment_to_homeFragment)
                 } else {
                     onError.invoke(result.message)
                 }

@@ -1,6 +1,7 @@
 package com.natife.streaming
 
 import android.content.Context
+import com.natife.streaming.base.EmptyViewModel
 import com.natife.streaming.mock.MockAccountRepository
 import com.natife.streaming.mock.MockLoginRepository
 import com.natife.streaming.preferenses.AuthPrefsImpl
@@ -20,6 +21,7 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val viewModelModule = module {
+    viewModel { EmptyViewModel() }
     viewModel<LoginViewModel> { LoginViewModelImpl(get()) }
     viewModel<MainViewModel> { MainViewModelImpl() }
     viewModel<HomeViewModel> { HomeViewModelImpl() }

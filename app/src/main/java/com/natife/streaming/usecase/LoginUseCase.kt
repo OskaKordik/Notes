@@ -3,6 +3,11 @@ package com.natife.streaming.usecase
 import com.natife.streaming.mock.MockLoginRepository
 import com.natife.streaming.preferenses.AuthPrefs
 
+/**
+ * Выступает в роли интерфейса между ViewModel и Api.
+ * Необходимо реализовать свой UseCaseImpl или отредактировать имеющийся
+ * в нем же можно мапить данные.
+ */
 interface LoginUseCase {
     suspend fun execute(
         email: String,

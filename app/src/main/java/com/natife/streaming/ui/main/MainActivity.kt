@@ -21,6 +21,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
         super.onCreate(savedInstanceState)
         mainMenu.setRouter(router)
 
+
     }
 
     override fun dispatchKeyEvent(event: KeyEvent?): Boolean {

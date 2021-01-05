@@ -12,6 +12,9 @@ import org.koin.core.KoinComponent
 import org.koin.core.inject
 import timber.log.Timber
 
+/**
+ * Примочка для Navigation component
+ */
 class Router(
     private val activity: MainActivity,
     @IdRes viewId: Int
@@ -19,65 +22,66 @@ class Router(
 
     private val authPrefs by inject<AuthPrefs>()
 
-    private val navController: NavController = activity.findNavController(viewId)
-    private var navGraph: NavGraph? = null
-    private var destination: Int? = null
+        private val navController: NavController = activity.findNavController(viewId)
 
-    init {
 
-        if (authPrefs.isLoggedIn()) {
-            toHome()
-        } else {
-            toLogin()
-        }
+        init {
 
-    }
-
-    fun navigateUp() {
-        navController.navigateUp()
-    }
-
-    fun navigate(@IdRes resId: Int) {
-        try {
-            if (navController.currentDestination?.id != resId) {
-                navController.navigate(resId)
+            val navGraph = navController.navInflater.inflate(R.navigation.nav_main)
+            val destination =   if (authPrefs.isLoggedIn()) {
+              R.id.homeFragment
+            } else {
+              R.id.loginFragment
             }
-        } catch (exc: Exception) {
-            Timber.e(exc)
+            navGraph.startDestination = destination
+            navController.graph = navGraph
         }
-    }
 
-    fun navigate(navDirections: NavDirections) {
-        try {
-            navController.navigate(navDirections)
-        } catch (exc: Exception) {
-            Timber.e(exc)
+        fun navigateUp() {
+            navController.navigateUp()
         }
-    }
+
+        fun navigate(@IdRes resId: Int) {
+            try {
+                if (navController.currentDestination?.id != resId) {
+                    navController.navigate(resId)
+                }
+            } catch (exc: Exception) {
+                Timber.e(exc)
+            }
+        }
+
+        fun navigate(navDirections: NavDirections) {
+            try {
+                navController.navigate(navDirections)
+            } catch (exc: Exception) {
+                Timber.e(exc)
+            }
+        }
 
     fun toAccount() {
-        navGraph = navController.navInflater.inflate(R.navigation.nav_account)
-        destination = R.id.accountFragment
-        navController.graph = navGraph as NavGraph
+      navigate(R.id.action_global_accountFragment)
+
     }
 
     fun toHome() {
-        navGraph = navController.navInflater.inflate(R.navigation.nav_home)
-        destination = R.id.homeFragment
-        navController.graph = navGraph as NavGraph
+
+        navigate(R.id.action_global_homeFragment)
     }
 
     fun toLogin() {
-        navGraph = navController.navInflater.inflate(R.navigation.nav_login)
-        destination = R.id.loginFragment
-        navController.graph = navGraph as NavGraph
-    }
 
+    }
     fun toFavorites() {
 
     }
-
     fun toSettings() {
 
     }
+
+    fun setListener(navListener: NavController.OnDestinationChangedListener) {
+        navController.addOnDestinationChangedListener(navListener)
+    }
+
+
 }

@@ -7,6 +7,7 @@
             android:id="@+id/mainMenu"
             android:layout_width="58dp"
             android:layout_height="match_parent"
+            app:visibilityMode="ignore"
             app:layout_constraintStart_toStartOf="parent" />
         <Constraint
             android:id="@+id/linearLayout"
@@ -23,6 +24,7 @@
             android:id="@id/mainMenu"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            app:visibilityMode="ignore"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
