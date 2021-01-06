@@ -37,7 +37,7 @@ abstract class BaseViewModel : ViewModel() {
     }
 
     protected fun <T> collectCatching(flow: Flow<T>, block: (T) -> Unit): Job {
-        return viewModelScope.launch(Dispatchers.Main + defaultErrorHandler) {
+        return viewModelScope.launch(Dispatchers.IO + defaultErrorHandler) {
             flow.collect {
                 block(it)
             }

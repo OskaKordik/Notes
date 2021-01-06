@@ -2,8 +2,11 @@ package com.natife.streaming
 
 import android.content.Context
 import com.natife.streaming.base.EmptyViewModel
+import com.natife.streaming.datasource.MatchDataSource
+import com.natife.streaming.datasource.MatchDataSourceFactory
 import com.natife.streaming.mock.MockAccountRepository
 import com.natife.streaming.mock.MockLoginRepository
+import com.natife.streaming.mock.MockMatchRepository
 import com.natife.streaming.preferenses.AuthPrefsImpl
 import com.natife.streaming.preferenses.AuthPrefs
 import com.natife.streaming.ui.account.AccountViewModel
@@ -24,7 +27,7 @@ val viewModelModule = module {
     viewModel { EmptyViewModel() }
     viewModel<LoginViewModel> { LoginViewModelImpl(get()) }
     viewModel<MainViewModel> { MainViewModelImpl() }
-    viewModel<HomeViewModel> { HomeViewModelImpl() }
+    viewModel<HomeViewModel> { HomeViewModelImpl(get()) }
     viewModel<AccountViewModel> { AccountViewModelImpl(get(), get()) }
 }
 
@@ -42,11 +45,16 @@ val useCaseModule = module {
     factory<LoginUseCase> { LoginUseCaseImpl(get(), get()) }
     factory<LogoutUseCase> { LogoutUseCaseImpl(get(), get()) }
     factory<AccountUseCase> { AccountUseCaseImpl(get()) }
+    factory<MatchUseCase> { MatchUseCaseImpl(get()) }
 }
 
 val mockModule = module {
     single { MockLoginRepository() }
     single { MockAccountRepository() }
+    single { MockMatchRepository() }
 }
 
-val appModules = arrayListOf(viewModelModule, prefsModule, useCaseModule, mockModule)
+val dataSourceModule = module{
+    factory { MatchDataSourceFactory(get()) }
+}
+val appModules = arrayListOf(viewModelModule, prefsModule, useCaseModule, mockModule, dataSourceModule)
