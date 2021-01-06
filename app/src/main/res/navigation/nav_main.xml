@@ -13,6 +13,10 @@
             app:destination="@id/homeFragment"
             app:launchSingleTop="true"
             app:popUpTo="@id/nav_main"/>
+        <action
+            android:id="@+id/action_loginFragment_to_playerFragment"
+            app:destination="@id/playerFragment" />
+
     </fragment>
 
 
@@ -21,6 +25,11 @@
         android:name="com.natife.streaming.ui.home.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home"/>
+
+    <fragment
+        android:id="@+id/playerFragment"
+        android:name="com.natife.streaming.ui.player.PlayerFragment"
+        android:label="PlayerFragment" />
 
 
     <fragment
