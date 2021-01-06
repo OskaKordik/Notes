@@ -7,6 +7,7 @@ import com.natife.streaming.datasource.MatchDataSourceFactory
 import com.natife.streaming.mock.MockAccountRepository
 import com.natife.streaming.mock.MockLoginRepository
 import com.natife.streaming.mock.MockMatchRepository
+import com.natife.streaming.mock.MockVideosRepository
 import com.natife.streaming.preferenses.AuthPrefsImpl
 import com.natife.streaming.preferenses.AuthPrefs
 import com.natife.streaming.ui.account.AccountViewModel
@@ -31,11 +32,7 @@ val viewModelModule = module {
     viewModel<MainViewModel> { MainViewModelImpl() }
     viewModel<HomeViewModel> { HomeViewModelImpl(get()) }
     viewModel<AccountViewModel> { AccountViewModelImpl(get(), get()) }
-    viewModel <LoginViewModel>{ LoginViewModelImpl(get()) }
-    viewModel <MainViewModel>{ MainViewModelImpl() }
-    viewModel <HomeViewModel>{ HomeViewModelImpl() }
-    viewModel <AccountViewModel>{ AccountViewModelImpl(get(),get()) }
-    viewModel <PlayerViewModel>{ PlayerViewModelImpl()}
+    viewModel <PlayerViewModel>{ PlayerViewModelImpl(get(), get())}
 }
 
 val prefsModule = module {
@@ -53,12 +50,14 @@ val useCaseModule = module {
     factory<LogoutUseCase> { LogoutUseCaseImpl(get(), get()) }
     factory<AccountUseCase> { AccountUseCaseImpl(get()) }
     factory<MatchUseCase> { MatchUseCaseImpl(get()) }
+    factory<GetVideosUseCase> { GetVideosUseCaseImpl(get())}
 }
 
 val mockModule = module {
     single { MockLoginRepository() }
     single { MockAccountRepository() }
     single { MockMatchRepository() }
+    single { MockVideosRepository() }
 }
 
 val dataSourceModule = module{

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -22,42 +22,40 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="32dp"
-            tools:text="Футзал  |  Россия  |  Суперлига  |  34 тур"
             android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Футзал  |  Россия  |  Суперлига  |  34 тур" />
 
         <TextView
             android:id="@+id/bigGameTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="КПРФ-Футзал : Сибиряк Новосибирск"
             android:textColor="@color/white"
             android:textSize="32sp"
             app:layout_constraintStart_toStartOf="@+id/smallGameTitle"
-            app:layout_constraintTop_toBottomOf="@+id/smallGameTitle" />
+            app:layout_constraintTop_toBottomOf="@+id/smallGameTitle"
+            tools:text="КПРФ-Футзал : Сибиряк Новосибирск" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/nestedScrollView"
+    <View
+        android:id="@+id/bottomSheetHelperView"
+        android:layout_width="match_parent"
+        android:focusable="false"
+        android:layout_height="20dp"
+        android:layout_gravity="center" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewVideos"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
         android:background="@android:color/transparent"
+        android:descendantFocusability="beforeDescendants"
         android:focusable="true"
-        app:behavior_peekHeight="50dp"
-        app:layout_behavior="@string/bottom_sheet_behavior">
-
-<!--        TODO Remove TextView and add RecyclerView-->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            tools:text="My Awesome text My Awesome text My Awesome text My Awesome textMy Awesome text My Awesome text My Awesome text My Awesome textMy Awesome text My Awesome text My Awesome text My Awesome textMy Awesome text My Awesome text My Awesome text My Awesome textMy Awesome text My Awesome text My Awesome text My Awesome textMy Awesome text My Awesome text My Awesome text My Awesome textMy Awesome text My Awesome text My Awesome text My Awesome textMy Awesome text My Awesome text My Awesome text My Awesome textMy Awesome text My Awesome text My Awesome text My Awesome textMy Awesome text My Awesome text My Awesome text My Awesome textMy Awesome text My Awesome text My Awesome text My Awesome textMy Awesome text My Awesome text My Awesome text My Awesome textMy Awesome text My Awesome text My Awesome text My Awesome textMy Awesome text My Awesome text My Awesome text My Awesome text"
-            android:textColor="@android:color/black" />
-
-    </androidx.core.widget.NestedScrollView>
+        app:behavior_peekHeight="70dp"
+        app:layout_behavior="@string/bottom_sheet_behavior" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
