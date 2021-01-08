@@ -51,6 +51,7 @@
             android:layout_height="wrap_content"
             android:focusable="true"
             android:textColorHint="@color/white"
+            android:nextFocusRight="@id/text_input_end_icon"
             app:passwordToggleDrawable="@drawable/password_checkbox"
             app:passwordToggleEnabled="true"
             app:passwordToggleTint="@android:color/white">
@@ -64,6 +65,7 @@
                 android:hint="Пароль"
                 android:imeOptions="actionNext"
                 android:inputType="textPassword"
+                android:nextFocusRight="@id/text_input_end_icon"
                 android:maxLines="1"
                 android:privateImeOptions="horizontalAlignment=right"
                 android:singleLine="true"

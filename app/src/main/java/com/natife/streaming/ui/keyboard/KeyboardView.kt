@@ -221,8 +221,8 @@ class KeyboardView @JvmOverloads constructor(
 }
 
 private fun View.setOnCenterClicked(block: () -> Unit) {
-    setOnKeyListener { _, keyCode, _ ->
-        if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
+    setOnKeyListener { _, keyCode, event ->
+        if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER && event.action == KeyEvent.ACTION_DOWN) {
             block()
         }
         false
