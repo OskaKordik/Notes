@@ -1,17 +1,27 @@
 package com.natife.streaming.ui.home
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import com.natife.streaming.R
 import com.natife.streaming.base.BasePagedListAdapter
 import com.natife.streaming.data.match.Match
 
-class MatchAdapter: BasePagedListAdapter<Match, MatchViewHolder>(MatchDiffUtil()) {
+class MatchAdapter(private val onMatchClickListener: (match: Match?) -> Unit): BasePagedListAdapter<Match, MatchViewHolder>(MatchDiffUtil()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MatchViewHolder {
-        return MatchViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_match, parent, false)
-        )
+        val view: View = LayoutInflater.from(parent.context).inflate(R.layout.item_match, parent, false)
+        return MatchViewHolder(view).apply {
+            itemView.setOnClickListener {
+                val position = absoluteAdapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    if (getItem(position)?.hasVideo!!) {
+                        onMatchClickListener.invoke(getItem(position))
+                    }
+                }
+            }
+        }
     }
 }
 class MatchDiffUtil: DiffUtil.ItemCallback<Match>() {

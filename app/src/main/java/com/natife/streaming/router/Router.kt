@@ -74,9 +74,7 @@ class Router(
     }
 
     fun toFavorites() {
-        navGraph = navController.navInflater.inflate(R.navigation.nav_favorites)
-        destination = R.id.playerFragment
-        navController.graph = navGraph as NavGraph
+
     }
     fun toSettings() {
 

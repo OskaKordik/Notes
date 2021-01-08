@@ -14,6 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:focusable="true"
+            app:use_controller="true"
             app:controller_layout_id="@layout/custom_playback_control" />
 
         <TextView
@@ -42,6 +43,7 @@
     <View
         android:id="@+id/bottomSheetHelperView"
         android:layout_width="match_parent"
+        android:background="@android:color/transparent"
         android:focusable="false"
         android:layout_height="20dp"
         android:layout_gravity="center" />
@@ -50,8 +52,8 @@
         android:id="@+id/recyclerViewVideos"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginEnd="36dp"
         android:background="@android:color/transparent"
         android:descendantFocusability="beforeDescendants"
         android:focusable="true"

@@ -12,7 +12,9 @@ import timber.log.Timber
 class HomeFragment : BaseFragment<HomeViewModel>() {
     override fun getLayoutRes() = R.layout.fragment_home
 
-    val adapter: MatchAdapter by lazy { MatchAdapter() }
+    val adapter: MatchAdapter by lazy { MatchAdapter {
+
+    } }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

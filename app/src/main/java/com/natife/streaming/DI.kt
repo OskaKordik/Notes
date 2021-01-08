@@ -32,7 +32,7 @@ val viewModelModule = module {
     viewModel<MainViewModel> { MainViewModelImpl() }
     viewModel<HomeViewModel> { HomeViewModelImpl(get()) }
     viewModel<AccountViewModel> { AccountViewModelImpl(get(), get()) }
-    viewModel <PlayerViewModel>{ PlayerViewModelImpl(get(), get())}
+    viewModel <PlayerViewModel>{ PlayerViewModelImpl(get(), get(), get())}
 }
 
 val prefsModule = module {
@@ -51,6 +51,7 @@ val useCaseModule = module {
     factory<AccountUseCase> { AccountUseCaseImpl(get()) }
     factory<MatchUseCase> { MatchUseCaseImpl(get()) }
     factory<GetVideosUseCase> { GetVideosUseCaseImpl(get())}
+    factory<GetMatchInfoUseCase> { GetMatchInfoUseCaseImpl(get())}
 }
 
 val mockModule = module {

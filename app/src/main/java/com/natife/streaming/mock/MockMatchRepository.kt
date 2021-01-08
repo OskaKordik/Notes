@@ -1,5 +1,7 @@
 package com.natife.streaming.mock
 
+import com.natife.streaming.data.api.request.GetMatchInfoRequest
+import com.natife.streaming.data.dto.MatchInfoDTO
 import com.natife.streaming.data.match.Match
 import com.natife.streaming.data.match.Team
 import com.natife.streaming.data.match.Tournament
@@ -31,18 +33,25 @@ class MockMatchRepository {
                     "basketball",
                     "25.01.2020 25:47",
                     Tournament(
-                        Random(100).nextInt(),
-                        "Молодежная хоккейная лига"
+                        id = Random(100).nextInt(),
+                        nameRus = "Молодежная хоккейная лига",
+                        nameEng = "Молодежная хоккейная лига"
                     ),
-                    Team(
-                        Random(5).nextInt(),
-                        "МХК Динамо Мск",
-                        0
+                    team1 = Team(
+                        id = Random(5).nextInt(),
+                        nameRus = "МХК Динамо Мск",
+                        nameEng = "МХК Динамо Мск",
+                        shortNameRus = "МХК Динамо Мск",
+                        shortNameEng = "МХК Динамо Мск",
+                        score = 0
                     ),
-                    Team(
-                        Random(5).nextInt(),
-                        "МХК Динамо Мск",
-                        0
+                    team2 = Team(
+                        id = Random(5).nextInt(),
+                        nameRus = "МХК Динамо Мск",
+                        nameEng = "МХК Динамо Мск",
+                        shortNameRus = "МХК Динамо Мск",
+                        shortNameEng = "МХК Динамо Мск",
+                        score = 0
                     ),
                     "Россия Суперлига 34 тур",
                     true,
@@ -55,6 +64,38 @@ class MockMatchRepository {
             )
         }
         return resp
+    }
+
+    suspend fun getMatchInfo(request: GetMatchInfoRequest): MatchInfoDTO {
+        return MatchInfoDTO(
+            tournament = Tournament(
+                id = 0,
+                nameRus = "Россия. Суперлига 1",
+                nameEng = "Россия. Суперлига 1"
+            ),
+            date = "25.01.2020 25:47",
+            hasVideo = true,
+            live = true,
+            storage = true,
+            team1 = Team(
+                id = Random(5).nextInt(),
+                nameRus = "МХК Динамо Мск",
+                nameEng = "МХК Динамо Мск",
+                shortNameRus = "МХК Динамо Мск",
+                shortNameEng = "МХК Динамо Мск",
+                score = 0
+            ),
+            team2 = Team(
+                id = Random(5).nextInt(),
+                nameRus = "МХК Динамо Мск",
+                nameEng = "МХК Динамо Мск",
+                shortNameRus = "МХК Динамо Мск",
+                shortNameEng = "МХК Динамо Мск",
+                score = 0
+            ),
+            sub = true,
+            access = true
+        )
     }
 
 }
