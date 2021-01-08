@@ -7,12 +7,22 @@ import com.natife.streaming.datasource.MatchDataSourceFactory
 import com.natife.streaming.mock.MockAccountRepository
 import com.natife.streaming.mock.MockLoginRepository
 import com.natife.streaming.mock.MockMatchRepository
+import com.natife.streaming.mock.MockSportRepository
 import com.natife.streaming.preferenses.AuthPrefsImpl
 import com.natife.streaming.preferenses.AuthPrefs
 import com.natife.streaming.ui.account.AccountViewModel
 import com.natife.streaming.ui.account.AccountViewModelImpl
 import com.natife.streaming.ui.home.HomeViewModel
 import com.natife.streaming.ui.home.HomeViewModelImpl
+import com.natife.streaming.ui.home.live.LiveViewModel
+import com.natife.streaming.ui.home.live.LiveViewModelImpl
+import com.natife.streaming.ui.home.score.ScoreViewModel
+import com.natife.streaming.ui.home.score.ScoreViewModelImpl
+import com.natife.streaming.ui.home.sport.SportViewModel
+import com.natife.streaming.ui.home.sport.SportViewModelImpl
+import com.natife.streaming.ui.home.tournament.TournamentDialogArgs
+import com.natife.streaming.ui.home.tournament.TournamentViewModel
+import com.natife.streaming.ui.home.tournament.TournamentViewModelImpl
 import com.natife.streaming.ui.login.LoginViewModel
 import com.natife.streaming.ui.login.LoginViewModelImpl
 import com.natife.streaming.ui.main.MainViewModel
@@ -29,6 +39,10 @@ val viewModelModule = module {
     viewModel<MainViewModel> { MainViewModelImpl() }
     viewModel<HomeViewModel> { HomeViewModelImpl(get()) }
     viewModel<AccountViewModel> { AccountViewModelImpl(get(), get()) }
+    viewModel<ScoreViewModel> { ScoreViewModelImpl(get(), get()) }
+    viewModel<SportViewModel> { SportViewModelImpl(get(), get()) }
+    viewModel<LiveViewModel> { LiveViewModelImpl(get(), get()) }
+    viewModel<TournamentViewModel> { (args: TournamentDialogArgs)->TournamentViewModelImpl(args.thournuments) }
 }
 
 val prefsModule = module {
@@ -46,12 +60,19 @@ val useCaseModule = module {
     factory<LogoutUseCase> { LogoutUseCaseImpl(get(), get()) }
     factory<AccountUseCase> { AccountUseCaseImpl(get()) }
     factory<MatchUseCase> { MatchUseCaseImpl(get()) }
+    factory<GetShowScoreUseCase> { GetShowScoreUseCaseImpl() }
+    factory<SaveShowScoreUseCase> { SaveShowScoreUseCaseImpl() }
+    factory<GetSportUseCase> { GetSportUseCaseImpl(get()) }
+    factory<SaveSportUseCase> { SaveSportUseCaseImpl() }
+    factory<GetLiveUseCase> { GetLiveUseCaseImpl() }
+    factory<SaveLiveUseCase> { SaveLiveUseCaseImpl() }
 }
 
 val mockModule = module {
     single { MockLoginRepository() }
     single { MockAccountRepository() }
     single { MockMatchRepository() }
+    single { MockSportRepository() }
 }
 
 val dataSourceModule = module{

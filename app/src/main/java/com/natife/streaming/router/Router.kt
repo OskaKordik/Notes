@@ -8,6 +8,7 @@ import androidx.navigation.findNavController
 import com.natife.streaming.ui.main.MainActivity
 import com.natife.streaming.R
 import com.natife.streaming.preferenses.AuthPrefs
+import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 import timber.log.Timber
@@ -26,6 +27,8 @@ class Router(
 
 
         init {
+
+
 
             val navGraph = navController.navInflater.inflate(R.navigation.nav_main)
             val destination =   if (authPrefs.isLoggedIn()) {

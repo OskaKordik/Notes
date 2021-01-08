@@ -5,6 +5,7 @@ import com.natife.streaming.data.match.Team
 import com.natife.streaming.data.match.Tournament
 import com.natife.streaming.datasource.MatchParams
 import kotlinx.coroutines.delay
+import java.util.*
 import kotlin.random.Random
 
 class MockMatchRepository {
@@ -49,7 +50,7 @@ class MockMatchRepository {
                     true,
                     true,
                     true,
-                    true,
+                    Random(Date().time +40).nextBoolean(),
                     "https://instatscout.com/images/tournaments/180/39.png"
                 )
             )

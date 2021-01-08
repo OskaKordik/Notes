@@ -29,6 +29,14 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintWidth_percent="0.20" />
+        <Constraint
+            android:id="@+id/mainNavFragment"
+            app:layout_constraintBottom_toBottomOf="parent"
+
+            app:layout_constraintStart_toEndOf="@+id/mainMenu"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.95"
+            />
 
     </ConstraintSet>
 

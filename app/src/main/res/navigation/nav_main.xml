@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_main"
-   >
+    app:startDestination="@id/scoreDialog">
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.natife.streaming.ui.login.LoginFragment"
@@ -20,7 +20,40 @@
         android:id="@+id/homeFragment"
         android:name="com.natife.streaming.ui.home.HomeFragment"
         android:label="HomeFragment"
-        tools:layout="@layout/fragment_home"/>
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_scoreDialog"
+            app:destination="@id/scoreDialog"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"
+            app:popUpTo="@id/homeFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_sportDialog"
+            app:destination="@id/sportDialog"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"
+            app:popUpTo="@id/homeFragment"/>
+        <action
+            android:id="@+id/action_homeFragment_to_liveDialog"
+            app:destination="@id/liveDialog"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"
+            app:popUpTo="@id/homeFragment"/>
+        <action
+            android:id="@+id/action_homeFragment_to_tournamentDialog"
+            app:destination="@id/tournamentDialog"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"
+            app:popUpTo="@id/homeFragment"/>
+    </fragment>
 
 
     <fragment
@@ -41,5 +74,29 @@
         android:id="@+id/action_global_homeFragment"
         app:destination="@id/homeFragment"
         app:launchSingleTop="true" />
+    <dialog
+        android:id="@+id/scoreDialog"
+        android:name="com.natife.streaming.ui.home.score.ScoreDialog"
+        android:label="ScoreDialog"
+        tools:layout="@layout/dialog_variant"/>
+    <dialog
+        android:id="@+id/sportDialog"
+        android:name="com.natife.streaming.ui.home.sport.SportDialog"
+        android:label="SportDialog"
+        tools:layout="@layout/dialog_variant"/>
+    <dialog
+        android:id="@+id/liveDialog"
+        android:name="com.natife.streaming.ui.home.live.LiveDialog"
+        android:label="LiveDialog"
+        tools:layout="@layout/dialog_variant"/>
+    <dialog
+        android:id="@+id/tournamentDialog"
+        android:name="com.natife.streaming.ui.home.tournament.TournamentDialog"
+        android:label="TournamentDialog"
+        tools:layout="@layout/dialog_variant">
+        <argument
+            android:name="thournuments"
+            app:argType="com.natife.streaming.data.match.Tournament[]" />
+    </dialog>
 
 </navigation>
