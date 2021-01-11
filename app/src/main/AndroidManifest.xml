@@ -23,9 +23,6 @@
         android:usesCleartextTraffic="true"
         tools:ignore="MissingTvBanner">
         <activity android:name=".ui.main.MainActivity">
-
-        </activity>
-        <activity android:name=".ui.splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

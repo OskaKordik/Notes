@@ -23,8 +23,6 @@ import kotlin.reflect.KClass
 
 abstract class BaseFragment<VM : BaseViewModel> : Fragment() {
 
-    protected var router: Router? = null
-
     protected lateinit var baseActivity: BaseActivity<*>
 
     protected lateinit var viewModel: VM
@@ -61,8 +59,6 @@ abstract class BaseFragment<VM : BaseViewModel> : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        this.router = baseActivity.router
-        viewModel.router = router
 
         subscribe(viewModel.defaultErrorLiveData) {
             onError(it)

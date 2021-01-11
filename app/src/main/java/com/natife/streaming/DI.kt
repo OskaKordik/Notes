@@ -10,6 +10,7 @@ import com.natife.streaming.mock.MockMatchRepository
 import com.natife.streaming.mock.MockSportRepository
 import com.natife.streaming.preferenses.AuthPrefsImpl
 import com.natife.streaming.preferenses.AuthPrefs
+import com.natife.streaming.router.Router
 import com.natife.streaming.ui.account.AccountViewModel
 import com.natife.streaming.ui.account.AccountViewModelImpl
 import com.natife.streaming.ui.home.HomeViewModel
@@ -20,13 +21,11 @@ import com.natife.streaming.ui.home.score.ScoreViewModel
 import com.natife.streaming.ui.home.score.ScoreViewModelImpl
 import com.natife.streaming.ui.home.sport.SportViewModel
 import com.natife.streaming.ui.home.sport.SportViewModelImpl
-import com.natife.streaming.ui.home.tournament.TournamentDialogArgs
-import com.natife.streaming.ui.home.tournament.TournamentViewModel
-import com.natife.streaming.ui.home.tournament.TournamentViewModelImpl
+import com.natife.streaming.ui.home.tournament.*
 import com.natife.streaming.ui.login.LoginViewModel
 import com.natife.streaming.ui.login.LoginViewModelImpl
 import com.natife.streaming.ui.main.MainViewModel
-import com.natife.streaming.ui.main.MainViewModelImpl
+import com.natife.streaming.ui.tournament.TournamentViewModel
 import com.natife.streaming.usecase.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -35,14 +34,20 @@ import org.koin.dsl.module
 
 val viewModelModule = module {
     viewModel { EmptyViewModel() }
-    viewModel<LoginViewModel> { LoginViewModelImpl(get()) }
-    viewModel<MainViewModel> { MainViewModelImpl() }
-    viewModel<HomeViewModel> { HomeViewModelImpl(get()) }
-    viewModel<AccountViewModel> { AccountViewModelImpl(get(), get()) }
-    viewModel<ScoreViewModel> { ScoreViewModelImpl(get(), get()) }
-    viewModel<SportViewModel> { SportViewModelImpl(get(), get()) }
-    viewModel<LiveViewModel> { LiveViewModelImpl(get(), get()) }
-    viewModel<TournamentViewModel> { (args: TournamentDialogArgs)->TournamentViewModelImpl(args.thournuments) }
+    viewModel<LoginViewModel> { LoginViewModelImpl(get(), get()) }
+    viewModel { MainViewModel(get(), get()) }
+    viewModel<AccountViewModel> { AccountViewModelImpl(get(), get(), get()) }
+    viewModel { TournamentViewModel(get(), get()) }
+    viewModel<HomeViewModel> { HomeViewModelImpl(get(), get()) }
+    viewModel<ScoreViewModel> { ScoreViewModelImpl(get(), get(), get()) }
+    viewModel<SportViewModel> { SportViewModelImpl(get(), get(), get()) }
+    viewModel<LiveViewModel> { LiveViewModelImpl(get(), get(), get()) }
+    viewModel<TournamentDialogViewModel> { (args: TournamentDialogArgs) ->
+        TournamentDialogViewModelImpl(
+            args.thournuments,
+            get()
+        )
+    }
 }
 
 val prefsModule = module {
@@ -66,6 +71,7 @@ val useCaseModule = module {
     factory<SaveSportUseCase> { SaveSportUseCaseImpl() }
     factory<GetLiveUseCase> { GetLiveUseCaseImpl() }
     factory<SaveLiveUseCase> { SaveLiveUseCaseImpl() }
+    factory { TournamentUseCase() }
 }
 
 val mockModule = module {
@@ -75,7 +81,18 @@ val mockModule = module {
     single { MockSportRepository() }
 }
 
-val dataSourceModule = module{
+val routerModule = module {
+    single { Router() }
+}
+
+val dataSourceModule = module {
     factory { MatchDataSourceFactory(get()) }
 }
-val appModules = arrayListOf(viewModelModule, prefsModule, useCaseModule, mockModule, dataSourceModule)
+val appModules = arrayListOf(
+    viewModelModule,
+    prefsModule,
+    useCaseModule,
+    mockModule,
+    dataSourceModule,
+    routerModule
+)

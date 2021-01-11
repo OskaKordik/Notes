@@ -4,6 +4,11 @@
     <string name="e_mail">E-mail</string>
     <string name="instat_tv">Если у Вас нет логина и пароля, то пройдите на сайт <a href="http://www.google.com">instat.tv</a> и зарегистрируйтесь</string>
     <string name="instat">Instat</string>
+    <string name="score">Счет</string>
+    <string name="add_to_favorite">Добавить в избранное</string>
+    <string name="whitespace">Пробел</string>
+    <string name="clear">Очистить</string>
+    <string name="search">Поиск</string>
 
 
 </resources>

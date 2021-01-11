@@ -1,12 +1,14 @@
 package com.natife.streaming.router
 
+import android.widget.Toast
 import androidx.annotation.IdRes
+import androidx.annotation.StringRes
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
-import androidx.navigation.NavGraph
 import androidx.navigation.findNavController
-import com.natife.streaming.ui.main.MainActivity
 import com.natife.streaming.R
+import com.natife.streaming.ext.hideKeyboard
 import com.natife.streaming.preferenses.AuthPrefs
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.core.KoinComponent
@@ -16,75 +18,86 @@ import timber.log.Timber
 /**
  * Примочка для Navigation component
  */
-class Router(
-    private val activity: MainActivity,
-    @IdRes viewId: Int
-) : KoinComponent {
+class Router : KoinComponent {
 
-    private val authPrefs by inject<AuthPrefs>()
+    private var activity: AppCompatActivity? = null
 
-        private val navController: NavController = activity.findNavController(viewId)
+    @IdRes
+    private var navHostId: Int? = null
 
+    fun attach(activity: AppCompatActivity, @IdRes navHostId: Int) {
+        this.activity = activity
+        this.navHostId = navHostId
+    }
 
-        init {
+    fun navigateUp() {
+        val activity = activity ?: return
+        val navHostId = navHostId ?: return
+        val navController = activity.findNavController(navHostId)
+        activity.hideKeyboard()
+        navController.navigateUp()
+    }
 
-
-
-            val navGraph = navController.navInflater.inflate(R.navigation.nav_main)
-            val destination =   if (authPrefs.isLoggedIn()) {
-              R.id.homeFragment
-            } else {
-              R.id.loginFragment
+    fun navigate(@IdRes resId: Int) {
+        try {
+            val activity = activity ?: return
+            val navHostId = navHostId ?: return
+            val navController = activity.findNavController(navHostId)
+            if (navController.currentDestination?.id != resId) {
+                navController.navigate(resId)
             }
-            navGraph.startDestination = destination
-            navController.graph = navGraph
+        } catch (exc: Exception) {
+            Timber.e(exc)
         }
+    }
 
-        fun navigateUp() {
-            navController.navigateUp()
+    fun navigate(navDirections: NavDirections) {
+        try {
+            val activity = activity ?: return
+            val navHostId = navHostId ?: return
+            val navController = activity.findNavController(navHostId)
+            navController.navigate(navDirections)
+        } catch (exc: Exception) {
+            Timber.e(exc)
         }
-
-        fun navigate(@IdRes resId: Int) {
-            try {
-                if (navController.currentDestination?.id != resId) {
-                    navController.navigate(resId)
-                }
-            } catch (exc: Exception) {
-                Timber.e(exc)
-            }
-        }
-
-        fun navigate(navDirections: NavDirections) {
-            try {
-                navController.navigate(navDirections)
-            } catch (exc: Exception) {
-                Timber.e(exc)
-            }
-        }
+    }
 
     fun toAccount() {
-      navigate(R.id.action_global_accountFragment)
+        navigate(R.id.action_main_accountFragment)
 
     }
 
     fun toHome() {
 
-        navigate(R.id.action_global_homeFragment)
+        navigate(R.id.action_main_homeFragment)
     }
 
     fun toLogin() {
 
     }
+
     fun toFavorites() {
 
     }
+
     fun toSettings() {
 
     }
 
-    fun setListener(navListener: NavController.OnDestinationChangedListener) {
+    fun addListener(navListener: NavController.OnDestinationChangedListener) {
+        val activity = activity ?: return
+        val navHostId = navHostId ?: return
+        val navController = activity.findNavController(navHostId)
         navController.addOnDestinationChangedListener(navListener)
     }
 
+    fun toast(text: String) {
+        val activity = activity ?: return
+        Toast.makeText(activity, text, Toast.LENGTH_SHORT).show()
+    }
 
+    fun toast(@StringRes res: Int) {
+        val activity = activity ?: return
+        toast(activity.getString(res))
+    }
 }

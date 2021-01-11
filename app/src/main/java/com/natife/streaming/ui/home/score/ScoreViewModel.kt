@@ -3,6 +3,7 @@ package com.natife.streaming.ui.home.score
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.natife.streaming.base.BaseViewModel
+import com.natife.streaming.router.Router
 import com.natife.streaming.usecase.GetShowScoreUseCase
 import com.natife.streaming.usecase.SaveShowScoreUseCase
 
@@ -14,7 +15,8 @@ abstract class ScoreViewModel : BaseViewModel() {
 
 class ScoreViewModelImpl(
     private val getShowScoreUseCase: GetShowScoreUseCase,
-    private val saveShowScoreUseCase: SaveShowScoreUseCase
+    private val saveShowScoreUseCase: SaveShowScoreUseCase,
+    private val router: Router
 ) : ScoreViewModel() {
     override val title = MutableLiveData<String>()
     override val showScore = MutableLiveData<List<String>>()

@@ -2,101 +2,132 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_main"
-    app:startDestination="@id/scoreDialog">
+    android:id="@+id/nav_global"
+    app:startDestination="@id/splashFragment">
+
     <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.natife.streaming.ui.login.LoginFragment"
-        android:label="LoginFragment" >
+        android:id="@+id/splashFragment"
+        android:name="com.natife.streaming.ui.splash.SplashFragment" />
+
+    <navigation
+        android:id="@+id/nav_authorization"
+        app:startDestination="@id/loginFragment">
+
+        <fragment
+            android:id="@+id/loginFragment"
+            android:name="com.natife.streaming.ui.login.LoginFragment"
+            android:label="LoginFragment" />
+
+    </navigation>
+
+    <navigation
+        android:id="@+id/nav_main"
+        app:startDestination="@id/homeFragment">
+        <fragment
+            android:id="@+id/homeFragment"
+            android:name="com.natife.streaming.ui.home.HomeFragment"
+            android:label="HomeFragment"
+            tools:layout="@layout/fragment_home">
+            <action
+                android:id="@+id/action_homeFragment_to_scoreDialog"
+                app:destination="@id/scoreDialog"
+                app:enterAnim="@android:anim/slide_in_left"
+                app:exitAnim="@android:anim/slide_out_right"
+                app:popEnterAnim="@android:anim/slide_in_left"
+                app:popExitAnim="@android:anim/slide_out_right"
+                app:popUpTo="@id/homeFragment" />
+            <action
+                android:id="@+id/action_homeFragment_to_sportDialog"
+                app:destination="@id/sportDialog"
+                app:enterAnim="@android:anim/slide_in_left"
+                app:exitAnim="@android:anim/slide_out_right"
+                app:popEnterAnim="@android:anim/slide_in_left"
+                app:popExitAnim="@android:anim/slide_out_right"
+                app:popUpTo="@id/homeFragment" />
+            <action
+                android:id="@+id/action_homeFragment_to_liveDialog"
+                app:destination="@id/liveDialog"
+                app:enterAnim="@android:anim/slide_in_left"
+                app:exitAnim="@android:anim/slide_out_right"
+                app:popEnterAnim="@android:anim/slide_in_left"
+                app:popExitAnim="@android:anim/slide_out_right"
+                app:popUpTo="@id/homeFragment" />
+            <action
+                android:id="@+id/action_homeFragment_to_tournamentDialog"
+                app:destination="@id/tournamentDialog"
+                app:enterAnim="@android:anim/slide_in_left"
+                app:exitAnim="@android:anim/slide_out_right"
+                app:popEnterAnim="@android:anim/slide_in_left"
+                app:popExitAnim="@android:anim/slide_out_right"
+                app:popUpTo="@id/homeFragment" />
+        </fragment>
+
+        <fragment
+            android:id="@+id/tournamentFragment"
+            android:name="com.natife.streaming.ui.tournament.TournamentFragment"
+            android:label="TournamentFragment"
+            tools:layout="@layout/fragment_tournament" />
+
+        <fragment
+            android:id="@+id/accountFragment"
+            android:name="com.natife.streaming.ui.account.AccountFragment"
+            android:label="AccountFragment"
+            tools:layout="@layout/fragment_account" />
+
         <action
-            android:id="@+id/action_loginFragment_to_homeFragment"
+            android:id="@+id/action_main_accountFragment"
+            app:destination="@id/accountFragment" />
+        <action
+            android:id="@+id/action_main_loginFragment"
+            app:destination="@id/loginFragment"
+            app:launchSingleTop="true" />
+        <action
+            android:id="@+id/action_main_homeFragment"
             app:destination="@id/homeFragment"
-            app:launchSingleTop="true"
-            app:popUpTo="@id/nav_main"/>
-    </fragment>
-
-
-    <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.natife.streaming.ui.home.HomeFragment"
-        android:label="HomeFragment"
-        tools:layout="@layout/fragment_home">
+            app:launchSingleTop="true" />
         <action
-            android:id="@+id/action_homeFragment_to_scoreDialog"
-            app:destination="@id/scoreDialog"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@android:anim/slide_in_left"
-            app:popExitAnim="@android:anim/slide_out_right"
-            app:popUpTo="@id/homeFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_sportDialog"
-            app:destination="@id/sportDialog"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@android:anim/slide_in_left"
-            app:popExitAnim="@android:anim/slide_out_right"
-            app:popUpTo="@id/homeFragment"/>
-        <action
-            android:id="@+id/action_homeFragment_to_liveDialog"
-            app:destination="@id/liveDialog"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@android:anim/slide_in_left"
-            app:popExitAnim="@android:anim/slide_out_right"
-            app:popUpTo="@id/homeFragment"/>
-        <action
-            android:id="@+id/action_homeFragment_to_tournamentDialog"
-            app:destination="@id/tournamentDialog"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@android:anim/slide_in_left"
-            app:popExitAnim="@android:anim/slide_out_right"
-            app:popUpTo="@id/homeFragment"/>
-    </fragment>
+            android:id="@+id/action_main_tournamentFragment"
+            app:destination="@id/tournamentFragment"
+            app:launchSingleTop="true" />
+        <dialog
+            android:id="@+id/scoreDialog"
+            android:name="com.natife.streaming.ui.home.score.ScoreDialog"
+            android:label="ScoreDialog"
+            tools:layout="@layout/dialog_variant" />
+        <dialog
+            android:id="@+id/sportDialog"
+            android:name="com.natife.streaming.ui.home.sport.SportDialog"
+            android:label="SportDialog"
+            tools:layout="@layout/dialog_variant" />
+        <dialog
+            android:id="@+id/liveDialog"
+            android:name="com.natife.streaming.ui.home.live.LiveDialog"
+            android:label="LiveDialog"
+            tools:layout="@layout/dialog_variant" />
+        <dialog
+            android:id="@+id/tournamentDialog"
+            android:name="com.natife.streaming.ui.home.tournament.TournamentDialog"
+            android:label="TournamentDialog"
+            tools:layout="@layout/dialog_variant">
+            <argument
+                android:name="thournuments"
+                app:argType="com.natife.streaming.data.match.Tournament[]" />
+        </dialog>
 
-
-    <fragment
-        android:id="@+id/accountFragment"
-        android:name="com.natife.streaming.ui.account.AccountFragment"
-        android:label="AccountFragment"
-        tools:layout="@layout/fragment_account"/>
+    </navigation>
 
     <action
-        android:id="@+id/action_global_accountFragment"
-        app:destination="@id/accountFragment"
-        />
+        android:id="@+id/action_global_nav_auth"
+        app:destination="@id/nav_authorization"
+        app:launchSingleTop="true"
+        app:popUpTo="@id/nav_global" />
+
     <action
-        android:id="@+id/action_global_loginFragment"
-        app:destination="@id/loginFragment"
-        app:launchSingleTop="true" />
-    <action
-        android:id="@+id/action_global_homeFragment"
-        app:destination="@id/homeFragment"
-        app:launchSingleTop="true" />
-    <dialog
-        android:id="@+id/scoreDialog"
-        android:name="com.natife.streaming.ui.home.score.ScoreDialog"
-        android:label="ScoreDialog"
-        tools:layout="@layout/dialog_variant"/>
-    <dialog
-        android:id="@+id/sportDialog"
-        android:name="com.natife.streaming.ui.home.sport.SportDialog"
-        android:label="SportDialog"
-        tools:layout="@layout/dialog_variant"/>
-    <dialog
-        android:id="@+id/liveDialog"
-        android:name="com.natife.streaming.ui.home.live.LiveDialog"
-        android:label="LiveDialog"
-        tools:layout="@layout/dialog_variant"/>
-    <dialog
-        android:id="@+id/tournamentDialog"
-        android:name="com.natife.streaming.ui.home.tournament.TournamentDialog"
-        android:label="TournamentDialog"
-        tools:layout="@layout/dialog_variant">
-        <argument
-            android:name="thournuments"
-            app:argType="com.natife.streaming.data.match.Tournament[]" />
-    </dialog>
+        android:id="@+id/action_global_nav_main"
+        app:destination="@id/nav_main"
+        app:launchSingleTop="true"
+        app:popUpTo="@id/nav_global" />
+
+
 
 </navigation>

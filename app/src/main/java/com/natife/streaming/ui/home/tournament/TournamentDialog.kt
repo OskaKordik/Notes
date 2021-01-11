@@ -7,7 +7,7 @@ import com.natife.streaming.ext.subscribe
 import org.koin.core.parameter.ParametersDefinition
 import org.koin.core.parameter.parametersOf
 
-class TournamentDialog: VariantDialog<TournamentViewModel>() {
+class TournamentDialog: VariantDialog<TournamentDialogViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

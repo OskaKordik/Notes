@@ -7,14 +7,12 @@ import android.view.View
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_login.*
-import timber.log.Timber
 
 class LoginFragment : BaseFragment<LoginViewModel>() {
     override fun getLayoutRes() = R.layout.fragment_login
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         emailText.addTextChangedListener(textWatcher)
         passwordText.addTextChangedListener(textWatcher)
@@ -26,6 +24,8 @@ class LoginFragment : BaseFragment<LoginViewModel>() {
                     passwordText.error = it
                 })
         }
+
+        keyboardView.attachInput(emailTextInput, passwordTextInput)
     }
 
     private val textWatcher = object : TextWatcher {
@@ -44,6 +44,5 @@ class LoginFragment : BaseFragment<LoginViewModel>() {
                 !emailText.text?.trim().isNullOrEmpty() && !passwordText.text?.trim()
                     .isNullOrEmpty()
         }
-
     }
 }

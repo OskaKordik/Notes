@@ -2,7 +2,9 @@ package com.natife.streaming.ui.account
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.natife.streaming.R
 import com.natife.streaming.base.BaseViewModel
+import com.natife.streaming.router.Router
 import com.natife.streaming.usecase.AccountUseCase
 import com.natife.streaming.usecase.LogoutUseCase
 
@@ -15,6 +17,7 @@ abstract class AccountViewModel : BaseViewModel() {
 }
 
 class AccountViewModelImpl(
+    private val router: Router,
     private val logoutUseCase: LogoutUseCase,
     private val accountUseCase: AccountUseCase
 ) : AccountViewModel() {
@@ -32,12 +35,11 @@ class AccountViewModelImpl(
     override fun logout() {
         launch {
             logoutUseCase.execute()
+            router.navigate(R.id.action_global_nav_auth)
         }
     }
 
     override fun back() {
-        router?.navigateUp()
+        router.navigateUp()
     }
-
-
 }

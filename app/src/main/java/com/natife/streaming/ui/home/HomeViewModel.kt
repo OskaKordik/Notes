@@ -9,6 +9,7 @@ import androidx.paging.map
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseViewModel
 import com.natife.streaming.data.match.Match
+import com.natife.streaming.router.Router
 import com.natife.streaming.usecase.MatchUseCase
 import timber.log.Timber
 
@@ -21,7 +22,7 @@ abstract class HomeViewModel : BaseViewModel() {
     abstract val list: LiveData<PagingData<Match>>
 }
 
-class HomeViewModelImpl(matchUseCase: MatchUseCase) : HomeViewModel() {
+class HomeViewModelImpl(matchUseCase: MatchUseCase,private val router: Router) : HomeViewModel() {
     override fun showScoreDialog() {
         router?.navigate(R.id.action_homeFragment_to_scoreDialog)
     }

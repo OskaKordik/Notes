@@ -8,16 +8,15 @@
     app:layoutDescription="@xml/activity_main_scene"
     tools:context=".ui.main.MainActivity">
 
-
     <ImageView
         android:id="@+id/logo"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="60dp"
         android:layout_width="wrap_content"
         android:layout_height="25dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="60dp"
         android:src="@drawable/ic_logo"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.natife.streaming.custom.SideMenu
         android:id="@+id/mainMenu"
@@ -30,7 +29,7 @@
         app:layout_constraintWidth_percent="0.3" />
 
     <fragment
-        android:id="@+id/mainNavFragment"
+        android:id="@+id/globalNavFragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"
@@ -38,6 +37,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/mainMenu"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:navGraph="@navigation/nav_main" />
 
 </androidx.constraintlayout.motion.widget.MotionLayout>

@@ -74,7 +74,7 @@ abstract class BaseDialog<VM : BaseViewModel>: DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         this.router = baseActivity.router
-        viewModel.router = router
+
 
 
     }

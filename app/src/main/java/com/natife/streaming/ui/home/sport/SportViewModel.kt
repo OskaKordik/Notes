@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.natife.streaming.base.BaseViewHolder
 import com.natife.streaming.base.BaseViewModel
 import com.natife.streaming.data.Sport
+import com.natife.streaming.router.Router
 import com.natife.streaming.usecase.GetSportUseCase
 import com.natife.streaming.usecase.SaveSportUseCase
 
@@ -16,7 +17,8 @@ abstract class SportViewModel : BaseViewModel() {
 
 class SportViewModelImpl(
     private val getSportUseCase: GetSportUseCase,
-    private val saveSportUseCase: SaveSportUseCase
+    private val saveSportUseCase: SaveSportUseCase,
+    private val router: Router
 ) : SportViewModel() {
 
     override val title = MutableLiveData<String>()

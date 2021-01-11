@@ -3,6 +3,7 @@ package com.natife.streaming.ui.home.live
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.natife.streaming.base.BaseViewModel
+import com.natife.streaming.router.Router
 import com.natife.streaming.usecase.GetLiveUseCase
 import com.natife.streaming.usecase.SaveLiveUseCase
 
@@ -12,7 +13,9 @@ abstract class LiveViewModel : BaseViewModel() {
 
 class LiveViewModelImpl(
     private val getLiveUseCase: GetLiveUseCase,
-    private val saveLiveUseCase: SaveLiveUseCase): LiveViewModel() {
+    private val saveLiveUseCase: SaveLiveUseCase,
+    private val router: Router
+): LiveViewModel() {
     override val list = MutableLiveData<List<String>>()
 
     init {
