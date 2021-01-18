@@ -1,6 +1,7 @@
 package com.natife.streaming
 
 import android.content.Context
+import com.google.gson.GsonBuilder
 import com.natife.streaming.base.EmptyViewModel
 import com.natife.streaming.datasource.MatchDataSource
 import com.natife.streaming.datasource.MatchDataSourceFactory
@@ -11,6 +12,11 @@ import com.natife.streaming.mock.MockSportRepository
 import com.natife.streaming.preferenses.AuthPrefsImpl
 import com.natife.streaming.preferenses.AuthPrefs
 import com.natife.streaming.router.Router
+import com.ihsanbal.logging.Level
+import com.ihsanbal.logging.LoggingInterceptor
+import com.natife.streaming.api.MainApi
+import com.natife.streaming.api.interceptor.AuthInterceptor
+import com.natife.streaming.api.interceptor.ErrorInterceptor
 import com.natife.streaming.ui.account.AccountViewModel
 import com.natife.streaming.ui.account.AccountViewModelImpl
 import com.natife.streaming.ui.home.HomeViewModel
@@ -27,10 +33,15 @@ import com.natife.streaming.ui.login.LoginViewModelImpl
 import com.natife.streaming.ui.main.MainViewModel
 import com.natife.streaming.ui.tournament.TournamentViewModel
 import com.natife.streaming.usecase.*
+import okhttp3.OkHttpClient
+import okhttp3.internal.platform.Platform
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 val viewModelModule = module {
     viewModel { EmptyViewModel() }
@@ -63,7 +74,7 @@ val prefsModule = module {
 val useCaseModule = module {
     factory<LoginUseCase> { LoginUseCaseImpl(get(), get()) }
     factory<LogoutUseCase> { LogoutUseCaseImpl(get(), get()) }
-    factory<AccountUseCase> { AccountUseCaseImpl(get()) }
+    factory<AccountUseCase> { AccountUseCaseImpl(get(), get()) }
     factory<MatchUseCase> { MatchUseCaseImpl(get()) }
     factory<GetShowScoreUseCase> { GetShowScoreUseCaseImpl() }
     factory<SaveShowScoreUseCase> { SaveShowScoreUseCaseImpl() }
@@ -88,11 +99,46 @@ val routerModule = module {
 val dataSourceModule = module {
     factory { MatchDataSourceFactory(get()) }
 }
+
+val apiModule = module {
+    factory { GsonConverterFactory.create(GsonBuilder().setLenient().create()) }
+
+    factory { AuthInterceptor(get()) }
+    factory { ErrorInterceptor() }
+
+    factory {
+        LoggingInterceptor.Builder()
+            .setLevel(Level.BASIC)
+            .log(Platform.INFO)
+            .tag("MyRequests")
+            .build()
+    }
+
+    factory(named(MAIN_API_CLIENT_QUALIFIER)) {
+        OkHttpClient.Builder()
+            .addInterceptor(get<AuthInterceptor>())
+            .addInterceptor(get<ErrorInterceptor>())
+            .addInterceptor(get<LoggingInterceptor>())
+            .build()
+    }
+
+    single(named(MAIN_API_QUALIFIER)) {
+        Retrofit.Builder()
+            .baseUrl(BuildConfig.BASE_URL)
+            .addConverterFactory(get<GsonConverterFactory>())
+            .client(get(named(MAIN_API_CLIENT_QUALIFIER)))
+            .build()
+    }
+
+    single { get<Retrofit>(named(MAIN_API_QUALIFIER)).create(MainApi::class.java) }
+}
+
 val appModules = arrayListOf(
     viewModelModule,
     prefsModule,
     useCaseModule,
     mockModule,
     dataSourceModule,
-    routerModule
+    routerModule,
+    apiModule
 )

@@ -11,5 +11,8 @@ class LiveDialog: VariantDialog<LiveViewModel>() {
         super.onViewCreated(view, savedInstanceState)
 
         subscribe(viewModel.list,adapter::submitList)
+        adapter.onSelect ={
+            viewModel.saveType(it)
+        }
     }
 }

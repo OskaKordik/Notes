@@ -1,7 +1,12 @@
 package com.natife.streaming.usecase
 
+import com.natife.streaming.API_LOGIN
+import com.natife.streaming.api.MainApi
+import com.natife.streaming.data.request.BaseRequest
+import com.natife.streaming.data.request.RequestLogin
 import com.natife.streaming.mock.MockLoginRepository
 import com.natife.streaming.preferenses.AuthPrefs
+import timber.log.Timber
 
 /**
  * Выступает в роли интерфейса между ViewModel и Api.
@@ -17,7 +22,7 @@ interface LoginUseCase {
 }
 
 class LoginUseCaseImpl(
-    private val repository: MockLoginRepository,
+    private val api: MainApi,
     private val authPrefs: AuthPrefs
 ) : LoginUseCase {
     override suspend fun execute(
@@ -25,7 +30,17 @@ class LoginUseCaseImpl(
         password: String,
         onComplete: (com.natife.streaming.utils.Result<Unit>) -> Unit
     ) {
-        val login = repository.login(email, password)
+
+        val request = BaseRequest(
+            procedure = API_LOGIN,
+            params = RequestLogin(
+                email,
+                password
+            )
+        )
+
+        val login = api.login(request)
+        Timber.e("jkjdfkjf $login")
         if (login.status == 1) {
             authPrefs.saveAuthToken(login.token)
             onComplete(com.natife.streaming.utils.Result.success(Unit))

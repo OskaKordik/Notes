@@ -1,5 +1,6 @@
 package com.natife.streaming.ui.main
 
+import androidx.lifecycle.MutableLiveData
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseViewModel
 import com.natife.streaming.preferenses.AuthPrefs
@@ -9,7 +10,7 @@ class MainViewModel(
     private val authPrefs: AuthPrefs,
     private val router: Router
 ) : BaseViewModel() {
-
+    val name = MutableLiveData<String>()
     init {
         launch {
             val isLoggedIn = authPrefs.isLoggedIn()
@@ -18,6 +19,12 @@ class MainViewModel(
             } else {
                 router.navigate(R.id.action_global_nav_main)
             }
+        }
+        launch{
+           collect(authPrefs.getProfileFlow()){
+
+               name.value = "${it?.firstName?:""} ${it?.lastName?:""}"
+           }
         }
     }
 }

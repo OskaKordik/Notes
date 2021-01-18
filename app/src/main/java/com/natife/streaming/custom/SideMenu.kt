@@ -44,7 +44,9 @@ class SideMenu @JvmOverloads constructor(
         }
 
     }
-
+    fun setProfile(name :String){
+        accountText.text = name
+    }
     fun setRouter(router: Router?){
         this.router = router
         this.router?.addListener(navListener)

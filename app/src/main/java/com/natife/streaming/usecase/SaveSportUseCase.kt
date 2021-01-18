@@ -1,13 +1,15 @@
 package com.natife.streaming.usecase
 
+import com.natife.streaming.preferenses.SettingsPrefs
+
 interface SaveSportUseCase {
     suspend fun execute(sportId: Int)
 }
 
-class SaveSportUseCaseImpl : SaveSportUseCase {
+class SaveSportUseCaseImpl(private val settingsPrefs: SettingsPrefs) : SaveSportUseCase {
 
     override suspend fun execute(sportId: Int) {
-        //todo need repository
+        settingsPrefs.saveSport(sportId)
     }
 
 }
