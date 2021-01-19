@@ -16,7 +16,7 @@ import java.util.*
 
 class MatchViewHolder(view: View) : BaseViewHolder<Match>(view) {
     override fun onBind(data: Match) {
-        itemView.matchImage.url(data.image)
+        itemView.matchImage.url(data.image,data.placeholder)
         itemView.matchTitle.text = "${data.team1.name} - ${data.team2.name}"
         val span = SpannableStringBuilder()
         span.color(
@@ -27,7 +27,7 @@ class MatchViewHolder(view: View) : BaseViewHolder<Match>(view) {
         itemView.matchDescription.text = span
 
         if (!data.access) {
-           itemView.messageContainer.addView(Alert(itemView.context))
+          // itemView.messageContainer.addView(Alert(itemView.context))
         }
     }
 

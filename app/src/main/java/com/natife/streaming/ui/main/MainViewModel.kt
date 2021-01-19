@@ -5,6 +5,7 @@ import com.natife.streaming.R
 import com.natife.streaming.base.BaseViewModel
 import com.natife.streaming.preferenses.AuthPrefs
 import com.natife.streaming.router.Router
+import timber.log.Timber
 
 class MainViewModel(
     private val authPrefs: AuthPrefs,
@@ -14,10 +15,11 @@ class MainViewModel(
     init {
         launch {
             val isLoggedIn = authPrefs.isLoggedIn()
+            Timber.e("IS LIGGED IN $isLoggedIn")
             if (isLoggedIn) {
-                router.navigate(R.id.action_global_nav_auth)
-            } else {
                 router.navigate(R.id.action_global_nav_main)
+            } else {
+                router.navigate(R.id.action_global_nav_auth)
             }
         }
         launch{

@@ -1,6 +1,6 @@
 package com.natife.streaming.data.match
 
-data class Match (
+data class Match(
     val id: Int,
     val sportId: Int,
     val sportName: String,
@@ -14,6 +14,7 @@ data class Match (
     val storage: Boolean,
     val subscribed: Boolean,
     val access: Boolean,
-    val image: String
-        )
+    val image: String,
+    val placeholder: String
+)
 

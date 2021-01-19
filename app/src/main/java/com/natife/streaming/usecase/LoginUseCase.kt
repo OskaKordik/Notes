@@ -42,7 +42,6 @@ class LoginUseCaseImpl(
         val login = api.login(request)
         Timber.e("jkjdfkjf $login")
         if (login.status == 1) {
-            authPrefs.saveAuthToken(login.token)
             onComplete(com.natife.streaming.utils.Result.success(Unit))
         } else {
             when (login.status) {

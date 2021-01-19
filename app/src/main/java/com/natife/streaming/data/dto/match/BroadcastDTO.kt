@@ -1,9 +1,12 @@
 package com.natife.streaming.data.dto.match
 
+import com.google.gson.annotations.SerializedName
+
 data class BroadcastDTO(
     val access: Boolean,
     val date: String,
-    val has_video: Boolean,
+    @SerializedName("has_video")
+    val hasVideo: Boolean,
     val id: Int,
     val live: Boolean,
     val sport: Int,

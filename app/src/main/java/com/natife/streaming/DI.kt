@@ -77,11 +77,11 @@ val useCaseModule = module {
     factory<AccountUseCase> { AccountUseCaseImpl(get(), get()) }
     factory<MatchUseCase> { MatchUseCaseImpl(get()) }
     factory<GetShowScoreUseCase> { GetShowScoreUseCaseImpl() }
-    factory<SaveShowScoreUseCase> { SaveShowScoreUseCaseImpl() }
+    factory<SaveShowScoreUseCase> { SaveShowScoreUseCaseImpl(get()) }
     factory<GetSportUseCase> { GetSportUseCaseImpl(get()) }
-    factory<SaveSportUseCase> { SaveSportUseCaseImpl() }
+    factory<SaveSportUseCase> { SaveSportUseCaseImpl(get()) }
     factory<GetLiveUseCase> { GetLiveUseCaseImpl() }
-    factory<SaveLiveUseCase> { SaveLiveUseCaseImpl() }
+    factory<SaveLiveUseCase> { SaveLiveUseCaseImpl(get()) }
     factory { TournamentUseCase() }
 }
 

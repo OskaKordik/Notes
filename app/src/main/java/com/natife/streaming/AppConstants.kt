@@ -13,3 +13,6 @@ const val TOKEN_FIELD_NAME = "x-auth-token"
 
 const val  API_LOGIN =  "auth_user"
 const val  API_ACCOUNT =  "get_user_info"
+const val  API_MATCHES =  "get_matches"
+const val  API_SPORTS = "get_sport_list"
+const val  API_MATCH_PROFILE = "get_tournament_info"
