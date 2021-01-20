@@ -17,6 +17,8 @@ import com.ihsanbal.logging.LoggingInterceptor
 import com.natife.streaming.api.MainApi
 import com.natife.streaming.api.interceptor.AuthInterceptor
 import com.natife.streaming.api.interceptor.ErrorInterceptor
+import com.natife.streaming.preferenses.SettingsPrefs
+import com.natife.streaming.preferenses.SettingsPrefsImpl
 import com.natife.streaming.ui.account.AccountViewModel
 import com.natife.streaming.ui.account.AccountViewModelImpl
 import com.natife.streaming.ui.home.HomeViewModel
@@ -49,7 +51,7 @@ val viewModelModule = module {
     viewModel { MainViewModel(get(), get()) }
     viewModel<AccountViewModel> { AccountViewModelImpl(get(), get(), get()) }
     viewModel { TournamentViewModel(get(), get()) }
-    viewModel<HomeViewModel> { HomeViewModelImpl(get(), get()) }
+    viewModel<HomeViewModel> { HomeViewModelImpl(get(), get(),get()) }
     viewModel<ScoreViewModel> { ScoreViewModelImpl(get(), get(), get()) }
     viewModel<SportViewModel> { SportViewModelImpl(get(), get(), get()) }
     viewModel<LiveViewModel> { LiveViewModelImpl(get(), get(), get()) }
@@ -68,14 +70,21 @@ val prefsModule = module {
             Context.MODE_PRIVATE
         )
     }
+    single(named(PREFS_SETTINGS_QUALIFIER)) {
+        androidContext().getSharedPreferences(
+            PREFS_SETTINGS_NAME,
+            Context.MODE_PRIVATE
+        )
+    }
     single { AuthPrefsImpl(get(named(PREFS_AUTH_QUALIFIER))) as AuthPrefs }
+    single { SettingsPrefsImpl(get(named(PREFS_SETTINGS_QUALIFIER))) as SettingsPrefs }
 }
 
 val useCaseModule = module {
     factory<LoginUseCase> { LoginUseCaseImpl(get(), get()) }
     factory<LogoutUseCase> { LogoutUseCaseImpl(get(), get()) }
     factory<AccountUseCase> { AccountUseCaseImpl(get(), get()) }
-    factory<MatchUseCase> { MatchUseCaseImpl(get()) }
+    factory<MatchUseCase> { MatchUseCaseImpl(get(),get()) }
     factory<GetShowScoreUseCase> { GetShowScoreUseCaseImpl() }
     factory<SaveShowScoreUseCase> { SaveShowScoreUseCaseImpl(get()) }
     factory<GetSportUseCase> { GetSportUseCaseImpl(get()) }
@@ -103,7 +112,7 @@ val dataSourceModule = module {
 val apiModule = module {
     factory { GsonConverterFactory.create(GsonBuilder().setLenient().create()) }
 
-    factory { AuthInterceptor(get()) }
+    factory { AuthInterceptor(get(),get()) }
     factory { ErrorInterceptor() }
 
     factory {

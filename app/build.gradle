@@ -47,7 +47,7 @@ android {
 ext {
     koinVersion = '2.0.1'
     lifecycleVersion = '2.2.0'
-    paging_version = "3.0.0-alpha11"
+    paging_version = "3.0.0-alpha12"
     retrofitVersion = '2.6.1'
 }
 

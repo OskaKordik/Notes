@@ -50,7 +50,7 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
             viewModel.showSportDialog()
         }
         buttonTourney.setOnClickListener {
-            viewModel.showTourneyDialog(adapter.snapshot().items)
+            viewModel.showTourneyDialog(adapter.currentList)
         }
         buttonLive.setOnClickListener {
             viewModel.showLiveDialog()
@@ -59,8 +59,13 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
         homeRecycler.layoutManager = GridLayoutManager(context, 4)
         homeRecycler.adapter = adapter
 
+        adapter.onBind = {
+            viewModel.loadList()
+        }
+
         subscribe(viewModel.list) {
-            adapter.submitData(this.lifecycle, it)
+            Timber.e("submit")
+            adapter.submitList(it)
         }
 
     }

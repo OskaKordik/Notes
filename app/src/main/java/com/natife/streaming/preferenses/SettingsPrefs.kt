@@ -8,6 +8,7 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.sendBlocking
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import timber.log.Timber
 
 interface SettingsPrefs: BasePrefs {
     fun saveLive(type: LiveType): Boolean
@@ -50,6 +51,7 @@ class SettingsPrefsImpl(private val prefs: SharedPreferences): SettingsPrefs{
 
     override fun getLiveFlow(): Flow<LiveType> = callbackFlow {
         sendBlocking(getLive())
+
         val changeListener =
             SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
                 if (key == LIVE) {
@@ -74,8 +76,10 @@ class SettingsPrefsImpl(private val prefs: SharedPreferences): SettingsPrefs{
 
     override fun getSportFlow(): Flow<Int?> = callbackFlow {
         sendBlocking(getSport())
+
         val changeListener =
             SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
+                Timber.e("kkdjfdffd jljlkjlkkkkjkjjlkjlkjlkjlkj")
                 if (key == SPORT) {
                     sendBlocking(getSport())
                 }

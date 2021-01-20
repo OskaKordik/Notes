@@ -4,14 +4,24 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import com.natife.streaming.R
+import com.natife.streaming.base.BaseListAdapter
 import com.natife.streaming.base.BasePagedListAdapter
 import com.natife.streaming.data.match.Match
 
-class MatchAdapter: BasePagedListAdapter<Match, MatchViewHolder>(MatchDiffUtil()) {
+class MatchAdapter: BaseListAdapter<Match, MatchViewHolder>(MatchDiffUtil()) {
+
+    var onBind: ((Int)->Unit)? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MatchViewHolder {
         return MatchViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.item_match, parent, false)
         )
+    }
+
+    override fun onBindViewHolder(holder: MatchViewHolder, position: Int) {
+        super.onBindViewHolder(holder, position)
+        if (position> itemCount-20)
+        onBind?.invoke(position)
     }
 }
 class MatchDiffUtil: DiffUtil.ItemCallback<Match>() {

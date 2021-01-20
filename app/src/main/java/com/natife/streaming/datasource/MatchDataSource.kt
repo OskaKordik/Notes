@@ -1,5 +1,6 @@
 package com.natife.streaming.datasource
 
+import androidx.annotation.VisibleForTesting
 import androidx.paging.InvalidatingPagingSourceFactory
 import androidx.paging.PagingSource
 import com.natife.streaming.API_MATCHES
@@ -20,15 +21,42 @@ import kotlinx.coroutines.coroutineScope
 import timber.log.Timber
 import java.util.*
 
-class MatchDataSourceFactory(private val api: MainApi, var requestParams: MatchParams? = null) :
-    InvalidatingPagingSourceFactory<Int, Match>(
-        { MatchDataSource(api, requestParams) }) {
+class MatchDataSourceFactory(private val api: MainApi, @Volatile private var requestParams: MatchParams? = null,) :
+     () -> PagingSource<Int, Match> {
 
     fun refresh(requestParams: MatchParams) {
         this.requestParams = requestParams
+        Timber.e("kkdjfdffd refresh ${this.requestParams }")
         invalidate()
     }
 
+    @VisibleForTesting
+    internal val pagingSources = mutableListOf<PagingSource<Int, Match>>()
+
+    /**
+     * @return [PagingSource] which will be invalidated when this factory's [invalidate] method
+     * is called
+     */
+    final override fun invoke(): PagingSource<Int, Match> {
+        return pagingSourceFactory().also { pagingSources.add(it) }
+    }
+
+    /**
+     * Calls [PagingSource.invalidate] on each [PagingSource] that was produced by this
+     * [InvalidatingPagingSourceFactory]
+     */
+    fun invalidate() {
+        while (pagingSources.isNotEmpty()) {
+            pagingSources.removeFirst().also {
+                if (!it.invalid) {
+                    it.invalidate()
+                }
+            }
+        }
+    }
+    val pagingSourceFactory: (()->PagingSource<Int,Match >)=  { Timber.e("new match source $requestParams")
+
+        MatchDataSource(api, requestParams) }
 }
 
 
@@ -37,25 +65,28 @@ class MatchDataSource(
     private val requestParams: MatchParams?
 ) : PagingSource<Int, Match>() {
 
-
+    override val keyReuseSupported: Boolean = true
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Match> {
 
-        Timber.e("load ${params.key}")
-        try {
-            val nextPage = params.key ?: 1
+        Timber.e("load${params.key} ${requestParams}")
+        val nextPage = params.key ?: 1
 
-            val offset = nextPage - 1
+        val offset = nextPage - 1
+        Timber.e("load offset ${offset}")
+        try {
+            val params1 = MatchesRequest(
+                date = requestParams?.date?: Date().toRequest(),
+                limit = requestParams?.pageSize ?: 60,
+                offset = (requestParams?.pageSize ?: 60) * offset,
+                sport = requestParams?.sportId,
+                subOnly = requestParams?.subOnly ?: false,
+                tournamentId = requestParams?.tournamentId
+            )
+            Timber.e("load ${params1}")
             val matches = api.getMatches(
                 BaseRequest(
                     procedure = API_MATCHES,
-                    params = MatchesRequest(
-                        date = requestParams?.date?: Date().toRequest(),
-                        limit = requestParams?.pageSize ?: 60,
-                        offset = requestParams?.pageSize ?: 60 * offset,
-                        sport = requestParams?.sportId,
-                        subOnly = requestParams?.subOnly ?: false,
-                        tournamentId = requestParams?.tournamentId
-                    )
+                    params = params1
                 )
 
 
@@ -69,7 +100,7 @@ class MatchDataSource(
 
             Timber.e("load success")
             return LoadResult.Page(
-                data = matches.videoContent.broadcast.map { match ->
+                data = matches.videoContent.broadcast!!.map { match ->
                     coroutineScope {
                         val profile = async {
                             api.getMatchProfile(
@@ -120,6 +151,8 @@ class MatchDataSource(
             Timber.e("load error")
             e.printStackTrace()
             return LoadResult.Error(Throwable("Something went wrong"))
+
+
         }
 
 

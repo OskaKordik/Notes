@@ -10,14 +10,14 @@ import com.natife.streaming.preferenses.AuthPrefs
  * в нем же можно мапить данные.
  */
 interface LogoutUseCase {
-    suspend fun execute()
+    fun execute()
 }
 
 class LogoutUseCaseImpl(
     private val application: Application,
     private val authPrefs: AuthPrefs
 ) : LogoutUseCase {
-    override suspend fun execute() {
+    override fun execute() {
         authPrefs.clear()
         (application as? App)?.restartKoin()
     }
