@@ -17,8 +17,19 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
 
     val adapter: MatchAdapter by lazy { MatchAdapter() }
 
+    private fun applyAlpha(alpha: Float){
+        (activity as MainActivity).logo.alpha = alpha
+        buttonLive.alpha = 1 - alpha
+        buttonLock.alpha = 1 - alpha
+        buttonScore.alpha = 1 - alpha
+        buttonSport.alpha = 1 - alpha
+        buttonTourney.alpha = 1 - alpha
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //TODO hotfix, need more stable solution
+        applyAlpha(((activity as MainActivity).mainMotion as MotionLayout).progress)
 
         ((activity as MainActivity).mainMotion as MotionLayout).setTransitionListener(object :
             MotionLayout.TransitionListener {
@@ -27,12 +38,7 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
 
             override fun onTransitionChange(p0: MotionLayout?, p1: Int, p2: Int, p3: Float) {
                 Timber.e("p1 $p1 p2 $p2 p3 $p3")
-                (activity as MainActivity).logo.alpha = p3
-                buttonLive.alpha = 1 - p3
-                buttonLock.alpha = 1 - p3
-                buttonScore.alpha = 1 - p3
-                buttonSport.alpha = 1 - p3
-                buttonTourney.alpha = 1 - p3
+               applyAlpha(p3)
             }
 
             override fun onTransitionCompleted(p0: MotionLayout?, p1: Int) {
@@ -42,6 +48,10 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
             }
 
         })
+
+        subscribe(viewModel.subOnly){
+            //TODO change lock icon
+        }
 
         buttonScore.setOnClickListener {
             viewModel.showScoreDialog()
@@ -55,6 +65,11 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
         buttonLive.setOnClickListener {
             viewModel.showLiveDialog()
         }
+        buttonLock.setOnClickListener {
+            viewModel.subOnlyChange()
+        }
+
+
 
         homeRecycler.layoutManager = GridLayoutManager(context, 4)
         homeRecycler.adapter = adapter

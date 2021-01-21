@@ -15,41 +15,67 @@ interface SettingsPrefs: BasePrefs {
     fun saveScore(show: Boolean): Boolean
     fun saveSport(id: Int): Boolean
     fun saveTournament(id: Int): Boolean
+    fun saveSubOnly(show: Boolean): Boolean
 
     fun getLive(): LiveType?
     fun getScore(): Boolean?
     fun getSport(): Int?
     fun getTournament(): Int?
+    fun getSubOnly(): Boolean
 
     fun getLiveFlow(): Flow<LiveType?>
     fun getScoreFlow(): Flow<Boolean?>
     fun getSportFlow(): Flow<Int?>
     fun getTournamentFlow(): Flow<Int?>
+    fun getSubOnlyFlow(): Flow<Boolean>
 }
 
 private const val LIVE = "live"
 private const val SCORE = "score"
 private const val SPORT = "sport"
 private const val TOURNAMENT = "tournament"
+private const val SUB_ONLY = "sub_only"
 
 class SettingsPrefsImpl(private val prefs: SharedPreferences): SettingsPrefs{
     override fun saveLive(type: LiveType) : Boolean = prefs.edit().putString(LIVE, type.name).commit()
-
-
     override fun saveScore(show: Boolean) : Boolean = prefs.edit().putBoolean(SCORE, show).commit()
-
     override fun saveSport(id: Int): Boolean  = prefs.edit().putInt(SPORT, id).commit()
     override fun saveTournament(id: Int) : Boolean = prefs.edit().putInt(TOURNAMENT, id).commit()
+    override fun saveSubOnly(show: Boolean): Boolean = prefs.edit().putBoolean(SUB_ONLY, show).commit()
 
-    override fun getLive(): LiveType = LiveType.valueOf(prefs.getString(LIVE, null)?:"")
+    override fun getLive(): LiveType? {
+        val live = prefs.getString(LIVE, null)
+
+        return if (live.isNullOrEmpty()){
+            null
+        }else{
+            LiveType.valueOf(live)
+        }
+    }
 
     override fun getScore(): Boolean = prefs.getBoolean(SCORE,false)
 
-    override fun getSport(): Int = prefs.getInt(SPORT,-1)
+    override fun getSport(): Int? {
+        val sport = prefs.getInt(SPORT,-1)
+        return if (sport == -1){
+            null
+        }else{
+            sport
+        }
+    }
 
-    override fun getTournament(): Int  = prefs.getInt(TOURNAMENT, -1)
+    override fun getTournament(): Int?  {
+       val tour = prefs.getInt(TOURNAMENT, -1)
+        return if (tour == -1){
+            null
+        }else{
+            tour
+        }
+    }
 
-    override fun getLiveFlow(): Flow<LiveType> = callbackFlow {
+    override fun getSubOnly(): Boolean = prefs.getBoolean(SUB_ONLY,false)
+
+    override fun getLiveFlow(): Flow<LiveType?> = callbackFlow {
         sendBlocking(getLive())
 
         val changeListener =
@@ -99,6 +125,19 @@ class SettingsPrefsImpl(private val prefs: SharedPreferences): SettingsPrefs{
         prefs.registerOnSharedPreferenceChangeListener(changeListener)
         awaitClose { prefs.unregisterOnSharedPreferenceChangeListener(changeListener) }
     }
+
+    override fun getSubOnlyFlow(): Flow<Boolean> = callbackFlow {
+        sendBlocking(getSubOnly())
+        val changeListener =
+            SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
+                if (key == SUB_ONLY) {
+                    sendBlocking(getSubOnly())
+                }
+            }
+        prefs.registerOnSharedPreferenceChangeListener(changeListener)
+        awaitClose { prefs.unregisterOnSharedPreferenceChangeListener(changeListener) }
+    }
+
     override fun clear() = prefs.edit().clear().commit()
 
 }

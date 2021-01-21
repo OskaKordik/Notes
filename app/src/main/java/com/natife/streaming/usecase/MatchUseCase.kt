@@ -7,14 +7,12 @@ import androidx.paging.PagingSource
 import com.natife.streaming.API_MATCHES
 import com.natife.streaming.API_MATCH_PROFILE
 import com.natife.streaming.API_SPORTS
+import com.natife.streaming.API_TRANSLATE
 import com.natife.streaming.api.MainApi
 import com.natife.streaming.data.match.Match
 import com.natife.streaming.data.match.Team
 import com.natife.streaming.data.match.Tournament
-import com.natife.streaming.data.request.BaseRequest
-import com.natife.streaming.data.request.EmptyRequest
-import com.natife.streaming.data.request.MatchProfileRequest
-import com.natife.streaming.data.request.MatchesRequest
+import com.natife.streaming.data.request.*
 import com.natife.streaming.datasource.MatchDataSource
 import com.natife.streaming.datasource.MatchDataSourceFactory
 import com.natife.streaming.datasource.MatchParams
@@ -46,9 +44,9 @@ class MatchUseCaseImpl(
     override suspend fun prepare(
         params: MatchParams
     ) {
-        if (params != requestParams){
+        if (params != requestParams) {
             requestParams = params
-            page=0
+            page = 0
             gotEnd = false
             list = listOf()
         }
@@ -56,7 +54,6 @@ class MatchUseCaseImpl(
     }
 
     override suspend fun load(): List<Match> {
-
 
 
         if (!gotEnd) {
@@ -83,6 +80,15 @@ class MatchUseCaseImpl(
                     params = EmptyRequest()
                 )
             )
+            val sportTranslate = api.getTranslate(
+                BaseRequest(
+                    procedure = API_TRANSLATE,
+                    TranslateRequest(
+                        language = "ru", //todo remove hardcode
+                        params = sports.map { it.lexic }
+                    )
+                )
+            )
 
             val data = matches.videoContent.broadcast?.map { match ->
                 coroutineScope {
@@ -99,7 +105,7 @@ class MatchUseCaseImpl(
                     Match(
                         id = match.id,
                         sportId = match.sport,
-                        sportName = sports.find { it.id == match.sport }?.name ?: "",
+                        sportName = sportTranslate[sports.find { it.id == match.sport }?.lexic.toString()]?.text  ?: "",
                         date = match.date,
                         tournament = Tournament(
                             match.tournament.id,
@@ -115,7 +121,7 @@ class MatchUseCaseImpl(
                             match.team2.nameRus,
                             score = match.team2.score
                         ),
-                        info = "${profile.await().country} ${profile.await().nameRus}",
+                        info = "${profile.await().country.name_rus} ${profile.await().nameRus}",
                         access = match.access,
                         hasVideo = match.hasVideo,
                         image = ImageUrlBuilder.getUrl(
@@ -135,7 +141,7 @@ class MatchUseCaseImpl(
 
             val newList = mutableListOf<Match>()
             newList.addAll(this.list)
-            newList.addAll(data?: emptyList())
+            newList.addAll(data ?: emptyList())
             this.list = newList
 
             page++
@@ -145,6 +151,7 @@ class MatchUseCaseImpl(
 
     }
 
+    @Deprecated("Use method above")
     override fun executeFlow(pageSize: Int): Flow<PagingData<Match>> {
         return Pager(PagingConfig(pageSize = pageSize)) {
             matchDataSourceFactory.invoke()

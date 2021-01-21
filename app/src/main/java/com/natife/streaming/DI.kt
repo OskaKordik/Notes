@@ -58,6 +58,9 @@ val viewModelModule = module {
     viewModel<TournamentDialogViewModel> { (args: TournamentDialogArgs) ->
         TournamentDialogViewModelImpl(
             args.thournuments,
+            get(),
+            get(),
+            get(),
             get()
         )
     }
@@ -91,6 +94,8 @@ val useCaseModule = module {
     factory<SaveSportUseCase> { SaveSportUseCaseImpl(get()) }
     factory<GetLiveUseCase> { GetLiveUseCaseImpl() }
     factory<SaveLiveUseCase> { SaveLiveUseCaseImpl(get()) }
+    factory <GetTournamentUseCase>{ GetTournamentUseCaseImpl(get()) }
+    factory <SaveTournamentUseCase>{ SaveTournamentUseCaseImpl(get()) }
     factory { TournamentUseCase() }
 }
 

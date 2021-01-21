@@ -27,7 +27,7 @@ class MatchViewHolder(view: View) : BaseViewHolder<Match>(view) {
         itemView.matchDescription.text = span
 
         if (!data.access) {
-          // itemView.messageContainer.addView(Alert(itemView.context))
+           itemView.messageContainer.addView(Alert(itemView.context))
         }
     }
 

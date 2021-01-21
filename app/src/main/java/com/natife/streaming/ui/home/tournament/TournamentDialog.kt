@@ -17,7 +17,7 @@ class TournamentDialog: VariantDialog<TournamentDialogViewModel>() {
             adapter.submitList(it.map { it.name })
         }
         adapter.onSelect={
-
+            viewModel.select(it)
         }
     }
 

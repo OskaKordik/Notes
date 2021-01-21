@@ -1,6 +1,10 @@
 package com.natife.streaming.data.request
 
+import com.google.gson.annotations.SerializedName
+
 data class TranslateRequest(
-    val _p_lang : String,
-    val _p_param_arr : List<Int>
+    @SerializedName("_p_lang")
+    val language : String,
+    @SerializedName("_p_param_arr")
+    val params : List<Int>
 )
