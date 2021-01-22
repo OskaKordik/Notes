@@ -18,12 +18,12 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
     val adapter: MatchAdapter by lazy { MatchAdapter() }
 
     private fun applyAlpha(alpha: Float){
-        (activity as MainActivity).logo.alpha = alpha
-        buttonLive.alpha = 1 - alpha
-        buttonLock.alpha = 1 - alpha
-        buttonScore.alpha = 1 - alpha
-        buttonSport.alpha = 1 - alpha
-        buttonTourney.alpha = 1 - alpha
+        (activity as MainActivity).logo?.alpha = alpha
+        buttonLive?.alpha = 1 - alpha
+        buttonLock?.alpha = 1 - alpha
+        buttonScore?.alpha = 1 - alpha
+        buttonSport?.alpha = 1 - alpha
+        buttonTourney?.alpha = 1 - alpha
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

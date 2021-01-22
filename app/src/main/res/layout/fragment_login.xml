@@ -41,6 +41,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <View
+            android:id="@+id/emailUnderline"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/white" />
@@ -50,6 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:focusable="true"
+            android:nextFocusDown="@id/buttonLogin"
             android:textColorHint="@color/white"
             android:nextFocusRight="@id/text_input_end_icon"
             app:passwordToggleDrawable="@drawable/password_checkbox"
@@ -63,6 +65,7 @@
                 android:backgroundTint="@android:color/transparent"
                 android:focusable="false"
                 android:hint="Пароль"
+                android:nextFocusDown="@id/buttonLogin"
                 android:imeOptions="actionNext"
                 android:inputType="textPassword"
                 android:nextFocusRight="@id/text_input_end_icon"
@@ -74,20 +77,23 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <View
+            android:id="@+id/passwordUnderline"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/white" />
 
         <TextView
-            android:id="@+id/forgotPassword"
+            android:id="@+id/errorText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
+            android:visibility="gone"
             android:background="@drawable/text_state"
+            android:textSize="12sp"
             android:clickable="true"
             android:focusable="true"
-            android:text="Забыли пароль?"
-            android:textColor="@android:color/white"/>
+            tools:text="Забыли пароль?"
+            android:textColor="@android:color/holo_red_light"/>
 
 
         <com.google.android.material.button.MaterialButton
@@ -119,7 +125,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="64dp"
         android:layout_marginEnd="64dp"
-        android:focusable="true"
+        android:focusable="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/guideline"

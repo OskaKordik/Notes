@@ -36,6 +36,7 @@ class KeyboardView @JvmOverloads constructor(
 
     private var isNumeric = false
     private var isEnglish = true
+    private var isCaps = true
 
     private var currentFocus: EditText? = null
 
@@ -52,6 +53,9 @@ class KeyboardView @JvmOverloads constructor(
 
         inputTypeBtn.setOnCenterClicked {
             toggleInputType()
+        }
+        capsBtn.setOnCenterClicked {
+            toggleCaps()
         }
         languageBtn.setOnCenterClicked {
             toggleLanguage()
@@ -71,6 +75,18 @@ class KeyboardView @JvmOverloads constructor(
                 it.setText("")
             }
         }
+    }
+
+    private fun toggleCaps() {
+        isCaps = !isCaps
+        initButtons(
+            if (isEnglish) {
+                enAlphabet
+            } else {
+                localAlphabet
+            }
+        )
+        btnContainer[getSymbolsDefaultIndex()].requestFocus()
     }
 
     private fun toggleLanguage() {
@@ -96,9 +112,16 @@ class KeyboardView @JvmOverloads constructor(
     private fun initButtons(alphabet: Array<String>) {
         btnContainer.removeAllViews()
         alphabet.forEachIndexed { index, str ->
-            btnContainer.addView(
-                generateBtn(str.toUpperCase(), index, COLUMNS_BUTTONS)
-            )
+            if (isCaps){
+                btnContainer.addView(
+                    generateBtn(str.toUpperCase(), index, COLUMNS_BUTTONS)
+                )
+            }else{
+                btnContainer.addView(
+                    generateBtn(str, index, COLUMNS_BUTTONS)
+                )
+            }
+
         }
     }
 

@@ -117,8 +117,8 @@ val dataSourceModule = module {
 val apiModule = module {
     factory { GsonConverterFactory.create(GsonBuilder().setLenient().create()) }
 
-    factory { AuthInterceptor(get(),get()) }
-    factory { ErrorInterceptor() }
+    factory { AuthInterceptor(get()) }
+    factory { ErrorInterceptor(get()) }
 
     factory {
         LoggingInterceptor.Builder()

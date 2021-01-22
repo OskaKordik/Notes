@@ -12,7 +12,9 @@ import retrofit2.HttpException
 import timber.log.Timber
 import java.lang.Exception
 
-class AuthInterceptor(private val authPrefs: AuthPrefs,private val logoutUseCaseImpl: LogoutUseCase) : Interceptor, KoinComponent {
+class AuthInterceptor(
+    private val authPrefs: AuthPrefs
+) : Interceptor, KoinComponent {
     override fun intercept(chain: Interceptor.Chain): Response {
         synchronized(this) {
 
@@ -23,21 +25,15 @@ class AuthInterceptor(private val authPrefs: AuthPrefs,private val logoutUseCase
                 builder.addHeader(TOKEN_FIELD_NAME, token)
             }
 
-                val response = chain.proceed( builder.build())
-            Timber.e("nksjdlkjds ${response.code}")
-            if (response.code == 403){
+            val response = chain.proceed(builder.build())
 
-                logoutUseCaseImpl.execute()
+
+            Timber.e("resp = ${response.body?.charStream()?.readText()}")
+            response.header(TOKEN_FIELD_NAME)?.let {
+                authPrefs.saveAuthToken(it)
             }
-                response.header(TOKEN_FIELD_NAME)?.let{
-                    Timber.e("token $it")
-                    authPrefs.saveAuthToken(it)
-                }
 
-                return response
-
-
-
+            return response
 
 
         }

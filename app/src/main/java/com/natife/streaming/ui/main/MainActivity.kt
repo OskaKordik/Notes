@@ -7,6 +7,8 @@ import com.natife.streaming.R
 import com.natife.streaming.base.BaseActivity
 import com.natife.streaming.ext.subscribe
 import kotlinx.android.synthetic.main.activity_main.*
+import timber.log.Timber
+import java.lang.Exception
 
 class MainActivity : BaseActivity<MainViewModel>() {
 
@@ -29,6 +31,12 @@ class MainActivity : BaseActivity<MainViewModel>() {
         } else {
             (mainMotion as MotionLayout).transitionToStart()
         }
+        try {
+            Timber.e("JIUhhiu ${currentFocus?.id?.let { resources.getResourceName(it) }}")
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
+
         return super.dispatchKeyEvent(event)
     }
 }
