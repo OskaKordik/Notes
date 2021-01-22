@@ -60,6 +60,9 @@
                 app:popEnterAnim="@android:anim/slide_in_left"
                 app:popExitAnim="@android:anim/slide_out_right"
                 app:popUpTo="@id/homeFragment" />
+            <action
+                android:id="@+id/action_homeFragment_to_calendarFragment"
+                app:destination="@id/calendarFragment" />
         </fragment>
 
         <fragment
@@ -113,6 +116,11 @@
                 android:name="thournuments"
                 app:argType="com.natife.streaming.data.match.Tournament[]" />
         </dialog>
+        <fragment
+            android:id="@+id/calendarFragment"
+            android:name="com.natife.streaming.ui.calendar.CalendarFragment"
+            android:label="CalendarFragment"
+            tools:layout="@layout/fragment_calendar"/>
 
     </navigation>
 

@@ -28,7 +28,6 @@ class AuthInterceptor(
             val response = chain.proceed(builder.build())
 
 
-            Timber.e("resp = ${response.body?.charStream()?.readText()}")
             response.header(TOKEN_FIELD_NAME)?.let {
                 authPrefs.saveAuthToken(it)
             }

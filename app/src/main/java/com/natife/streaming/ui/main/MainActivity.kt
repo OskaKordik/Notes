@@ -31,11 +31,6 @@ class MainActivity : BaseActivity<MainViewModel>() {
         } else {
             (mainMotion as MotionLayout).transitionToStart()
         }
-        try {
-            Timber.e("JIUhhiu ${currentFocus?.id?.let { resources.getResourceName(it) }}")
-        }catch (e:Exception){
-            e.printStackTrace()
-        }
 
         return super.dispatchKeyEvent(event)
     }

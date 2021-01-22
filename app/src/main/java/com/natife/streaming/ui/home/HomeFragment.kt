@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseFragment
 import com.natife.streaming.ext.subscribe
+import com.natife.streaming.ext.toDisplay
 import com.natife.streaming.ui.main.MainActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -53,6 +54,10 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
             //TODO change lock icon
         }
 
+        subscribe(viewModel.date){
+            dateText.text = it.toDisplay().toUpperCase()
+        }
+
         buttonScore.setOnClickListener {
             viewModel.showScoreDialog()
         }
@@ -67,6 +72,9 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
         }
         buttonLock.setOnClickListener {
             viewModel.subOnlyChange()
+        }
+        dateText.setOnClickListener {
+            viewModel.toCalendar()
         }
 
 

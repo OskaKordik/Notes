@@ -26,8 +26,11 @@ abstract class HomeViewModel : BaseViewModel() {
     abstract fun showLiveDialog()
     abstract fun subOnlyChange()
     abstract fun loadList()
+    abstract fun toCalendar()
+
     abstract val list: LiveData<List<Match>>
     abstract val subOnly: LiveData<Boolean>
+    abstract val date: LiveData<Date>
 }
 
 class HomeViewModelImpl(
@@ -39,6 +42,8 @@ class HomeViewModelImpl(
 
     override val list = MutableLiveData<List<Match>>()
     override val subOnly = MutableLiveData<Boolean>()
+    override val date = MutableLiveData<Date>()
+
 
     private var process: Job? = null
 
@@ -73,6 +78,10 @@ class HomeViewModelImpl(
         }
     }
 
+    override fun toCalendar() {
+        router.navigate(R.id.action_homeFragment_to_calendarFragment)
+    }
+
 
     private var params = MatchParams(
         date = Date().toRequest(),
@@ -98,10 +107,30 @@ class HomeViewModelImpl(
         val tournament = settingsPrefs.getTournament()
         val live = settingsPrefs.getLive()
         val subOnly = settingsPrefs.getSubOnly()
+        val date = settingsPrefs.getDate()
+
+        if (date == null){
+            this.date.value = Date()
+        }else{
+            this.date.value = Date(date)
+        }
 
         this.subOnly.value = subOnly
 
-        params = params.copy(sportId = sport, tournamentId = tournament, subOnly = subOnly)
+        params = params.copy(sportId = sport, tournamentId = tournament, subOnly = subOnly, date = (this.date.value ?: Date()).toRequest())
+        launchCatching {
+            withContext(Dispatchers.IO) {
+                collect(settingsPrefs.getDateFlow()) {
+                    it?.let {
+                        params = params.copy(
+                            date =Date(it).toRequest()
+                        )
+
+                        prepareAndLoad()
+                    }
+                }
+            }
+        }
 
         launchCatching {
             withContext(Dispatchers.IO) {
@@ -109,7 +138,6 @@ class HomeViewModelImpl(
                     params = params.copy(
                         sportId = it
                     )
-                    Timber.e("kkdjfdffd $params")
                     prepareAndLoad()
                 }
             }
@@ -120,7 +148,6 @@ class HomeViewModelImpl(
                     params = params.copy(
                         tournamentId = it
                     )
-                    Timber.e("kkdjfdffd $params")
                     prepareAndLoad()
                 }
             }
@@ -131,11 +158,12 @@ class HomeViewModelImpl(
                     params = params.copy(
                         subOnly = it
                     )
-                    Timber.e("kkdjfdffd $params")
                     prepareAndLoad()
                 }
             }
         }
+
+
 
 
         launch {
@@ -145,10 +173,6 @@ class HomeViewModelImpl(
             }
 
         }
-
-
-
-        Timber.e("after collect ")
     }
 
 

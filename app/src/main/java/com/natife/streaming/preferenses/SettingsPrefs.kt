@@ -16,18 +16,22 @@ interface SettingsPrefs: BasePrefs {
     fun saveSport(id: Int): Boolean
     fun saveTournament(id: Int): Boolean
     fun saveSubOnly(show: Boolean): Boolean
+    fun saveDate(time:Long): Boolean
 
     fun getLive(): LiveType?
     fun getScore(): Boolean?
     fun getSport(): Int?
     fun getTournament(): Int?
     fun getSubOnly(): Boolean
+    fun getDate():Long?
 
     fun getLiveFlow(): Flow<LiveType?>
     fun getScoreFlow(): Flow<Boolean?>
     fun getSportFlow(): Flow<Int?>
     fun getTournamentFlow(): Flow<Int?>
     fun getSubOnlyFlow(): Flow<Boolean>
+    fun getDateFlow(): Flow<Long?>
+
 }
 
 private const val LIVE = "live"
@@ -35,6 +39,8 @@ private const val SCORE = "score"
 private const val SPORT = "sport"
 private const val TOURNAMENT = "tournament"
 private const val SUB_ONLY = "sub_only"
+private const val DATE= "date"
+
 
 class SettingsPrefsImpl(private val prefs: SharedPreferences): SettingsPrefs{
     override fun saveLive(type: LiveType) : Boolean = prefs.edit().putString(LIVE, type.name).commit()
@@ -42,6 +48,7 @@ class SettingsPrefsImpl(private val prefs: SharedPreferences): SettingsPrefs{
     override fun saveSport(id: Int): Boolean  = prefs.edit().putInt(SPORT, id).commit()
     override fun saveTournament(id: Int) : Boolean = prefs.edit().putInt(TOURNAMENT, id).commit()
     override fun saveSubOnly(show: Boolean): Boolean = prefs.edit().putBoolean(SUB_ONLY, show).commit()
+    override fun saveDate(time: Long): Boolean =prefs.edit().putLong(DATE,time).commit()
 
     override fun getLive(): LiveType? {
         val live = prefs.getString(LIVE, null)
@@ -74,6 +81,14 @@ class SettingsPrefsImpl(private val prefs: SharedPreferences): SettingsPrefs{
     }
 
     override fun getSubOnly(): Boolean = prefs.getBoolean(SUB_ONLY,false)
+    override fun getDate(): Long?{
+        val date = prefs.getLong(DATE,0)
+        return if (date != 0L){
+            date
+        }else{
+            return null
+        }
+    }
 
     override fun getLiveFlow(): Flow<LiveType?> = callbackFlow {
         sendBlocking(getLive())
@@ -132,6 +147,18 @@ class SettingsPrefsImpl(private val prefs: SharedPreferences): SettingsPrefs{
             SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
                 if (key == SUB_ONLY) {
                     sendBlocking(getSubOnly())
+                }
+            }
+        prefs.registerOnSharedPreferenceChangeListener(changeListener)
+        awaitClose { prefs.unregisterOnSharedPreferenceChangeListener(changeListener) }
+    }
+
+    override fun getDateFlow(): Flow<Long?> = callbackFlow {
+        sendBlocking(getDate())
+        val changeListener =
+            SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
+                if (key == DATE) {
+                    sendBlocking(getDate())
                 }
             }
         prefs.registerOnSharedPreferenceChangeListener(changeListener)
