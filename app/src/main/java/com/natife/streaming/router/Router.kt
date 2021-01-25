@@ -73,7 +73,7 @@ class Router : KoinComponent {
     }
 
     fun toLogin() {
-
+        navigate(R.id.action_global_nav_auth)
     }
 
     fun toFavorites() {

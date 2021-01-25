@@ -11,6 +11,7 @@ import com.natife.streaming.usecase.SaveLiveUseCase
 abstract class LiveViewModel : BaseViewModel() {
     abstract val list: LiveData<List<String>>
     abstract fun saveType(selected: Int)
+    abstract fun onSelect(it: Int)
 }
 
 class LiveViewModelImpl(
@@ -22,6 +23,16 @@ class LiveViewModelImpl(
     override fun saveType(selected: Int) {
 
         saveLiveUseCase.execute(LiveType.values()[selected])
+    }
+
+    override fun onSelect(it: Int) {
+        when(it){
+            0-> saveLiveUseCase.execute(LiveType.LIVE)
+            1-> saveLiveUseCase.execute(LiveType.FINISHED)
+            2-> saveLiveUseCase.execute(LiveType.SOON)
+        }
+        router.navigateUp()
+
     }
 
     init {

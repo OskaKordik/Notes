@@ -7,8 +7,10 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseViewModel
+import com.natife.streaming.data.LiveType
 import com.natife.streaming.data.match.Match
 import com.natife.streaming.datasource.MatchParams
+import com.natife.streaming.ext.fromResponse
 import com.natife.streaming.ext.toRequest
 import com.natife.streaming.preferenses.SettingsPrefs
 import com.natife.streaming.router.Router
@@ -41,6 +43,7 @@ class HomeViewModelImpl(
     override val subOnly = MutableLiveData<Boolean>()
 
     private var process: Job? = null
+    var live = LiveType.NONE
 
     override fun showScoreDialog() {
         router?.navigate(R.id.action_homeFragment_to_scoreDialog)
@@ -69,10 +72,19 @@ class HomeViewModelImpl(
         process?.cancel()
         process = launch {
             val data = matchUseCase.load()
-            list.value = data
+            val filtered = filterLive(data)
+            list.value = filtered
         }
     }
 
+    private fun filterLive(data: List<Match>): List<Match> {
+        return when (live) {
+            LiveType.LIVE -> data.filter { it.live }
+            LiveType.SOON -> data.filter { Date().time - it.date.fromResponse().time in 0..1000 * 60 * 60 }
+            LiveType.FINISHED -> data.filter { Date().time - it.date.fromResponse().time < 0 || it.storage || it.hasVideo }
+            else -> data
+        }
+    }
 
     private var params = MatchParams(
         date = Date().toRequest(),
@@ -96,7 +108,7 @@ class HomeViewModelImpl(
 
         val sport = settingsPrefs.getSport()
         val tournament = settingsPrefs.getTournament()
-        val live = settingsPrefs.getLive()
+        live = settingsPrefs.getLive() ?: LiveType.NONE
         val subOnly = settingsPrefs.getSubOnly()
 
         this.subOnly.value = subOnly
@@ -109,8 +121,16 @@ class HomeViewModelImpl(
                     params = params.copy(
                         sportId = it
                     )
-                    Timber.e("kkdjfdffd $params")
                     prepareAndLoad()
+                }
+            }
+        }
+        launchCatching {
+            withContext(Dispatchers.IO) {
+                collect(settingsPrefs.getLiveFlow()) {
+                    list.value?.let {
+                        list.value = filterLive(it)
+                    }
                 }
             }
         }
@@ -120,7 +140,6 @@ class HomeViewModelImpl(
                     params = params.copy(
                         tournamentId = it
                     )
-                    Timber.e("kkdjfdffd $params")
                     prepareAndLoad()
                 }
             }
@@ -131,11 +150,11 @@ class HomeViewModelImpl(
                     params = params.copy(
                         subOnly = it
                     )
-                    Timber.e("kkdjfdffd $params")
                     prepareAndLoad()
                 }
             }
         }
+
 
 
         launch {
