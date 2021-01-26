@@ -9,19 +9,22 @@
         android:id="@+id/yearLeft"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:rotation="180"
-        android:focusable="true"
+        android:layout_marginTop="20dp"
         android:clickable="true"
-        app:tint="@color/button_background_state"
+        android:focusable="true"
+        android:rotation="180"
         android:src="@drawable/ic_back"
         app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/button_background_state" />
 
     <TextView
         android:id="@+id/yearText"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
+        android:gravity="center"
+        android:textSize="35sp"
         app:layout_constraintBottom_toBottomOf="@+id/yearLeft"
         app:layout_constraintEnd_toStartOf="@+id/yearRight"
         app:layout_constraintStart_toEndOf="@+id/yearLeft"
@@ -32,47 +35,54 @@
         android:id="@+id/yearRight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:tint="@color/button_background_state"
-        android:focusable="true"
         android:clickable="true"
+        android:focusable="true"
         android:src="@drawable/ic_back"
+        app:layout_constraintBottom_toBottomOf="@+id/yearLeft"
         app:layout_constraintEnd_toStartOf="@+id/guideline3"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/yearLeft"
+        app:tint="@color/button_background_state" />
 
 
     <ImageView
         android:id="@+id/monthLeft"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:clickable="true"
+        android:focusable="true"
         android:rotation="180"
         android:src="@drawable/ic_back"
-        android:focusable="true"
-        android:clickable="true"
-        app:tint="@color/button_background_state"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
-        app:layout_constraintTop_toBottomOf="@+id/yearLeft" />
+        app:layout_constraintTop_toBottomOf="@+id/yearLeft"
+        app:tint="@color/button_background_state" />
 
     <TextView
         android:id="@+id/monthText"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:textColor="@color/white"
+        android:textSize="35sp"
         app:layout_constraintBottom_toBottomOf="@+id/monthLeft"
         app:layout_constraintEnd_toStartOf="@+id/monthRight"
         app:layout_constraintStart_toEndOf="@+id/monthLeft"
-        app:layout_constraintTop_toBottomOf="@+id/yearLeft"
+        app:layout_constraintTop_toTopOf="@+id/monthLeft"
         tools:text="Сентябрь" />
 
     <ImageView
         android:id="@+id/monthRight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:tint="@color/button_background_state"
-        android:src="@drawable/ic_back"
-        android:focusable="true"
         android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/ic_back"
+        app:layout_constraintBottom_toBottomOf="@+id/monthLeft"
         app:layout_constraintEnd_toStartOf="@+id/guideline3"
-        app:layout_constraintTop_toBottomOf="@+id/yearRight" />
+        app:layout_constraintTop_toTopOf="@+id/monthLeft"
+        app:tint="@color/button_background_state" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineLeft"

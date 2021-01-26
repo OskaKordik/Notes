@@ -6,18 +6,18 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/yearLeft"
+        android:id="@+id/dateLeft"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="12dp"
-        app:tint="@color/button_background_state"
         android:clickable="true"
         android:focusable="true"
         android:rotation="180"
         android:src="@drawable/ic_back"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonLock"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/buttonLock"
+        app:tint="@color/button_background_state" />
 
     <TextView
         android:id="@+id/dateText"
@@ -27,14 +27,16 @@
         android:textColor="@color/white"
         android:focusable="true"
         android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="@+id/yearLeft"
-        app:layout_constraintEnd_toStartOf="@+id/yearRight"
-        app:layout_constraintStart_toEndOf="@+id/yearLeft"
-        app:layout_constraintTop_toTopOf="@+id/yearLeft"
+        android:textSize="18dp"
+        android:background="@drawable/text_selector"
+        app:layout_constraintBottom_toBottomOf="@+id/dateLeft"
+        app:layout_constraintEnd_toStartOf="@+id/dateRight"
+        app:layout_constraintStart_toEndOf="@+id/dateLeft"
+        app:layout_constraintTop_toTopOf="@+id/dateLeft"
         tools:text="2020" />
 
     <ImageView
-        android:id="@+id/yearRight"
+        android:id="@+id/dateRight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -42,9 +44,9 @@
         android:clickable="true"
         android:focusable="true"
         android:src="@drawable/ic_back"
-        app:layout_constraintBottom_toBottomOf="@+id/yearLeft"
+        app:layout_constraintBottom_toBottomOf="@+id/dateLeft"
         app:layout_constraintStart_toEndOf="@+id/dateText"
-        app:layout_constraintTop_toTopOf="@+id/yearLeft" />
+        app:layout_constraintTop_toTopOf="@+id/dateLeft" />
 
 
     <com.google.android.material.button.MaterialButton

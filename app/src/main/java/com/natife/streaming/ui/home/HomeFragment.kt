@@ -76,6 +76,13 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
         dateText.setOnClickListener {
             viewModel.toCalendar()
         }
+        dateLeft.setOnClickListener {
+            viewModel.previusDay()
+        }
+        dateRight.setOnClickListener {
+            viewModel.nextDay()
+        }
+
 
 
 

@@ -9,6 +9,7 @@ import com.natife.streaming.R
 import com.natife.streaming.base.BaseViewModel
 import com.natife.streaming.data.match.Match
 import com.natife.streaming.datasource.MatchParams
+import com.natife.streaming.ext.toDate
 import com.natife.streaming.ext.toRequest
 import com.natife.streaming.preferenses.SettingsPrefs
 import com.natife.streaming.router.Router
@@ -27,6 +28,8 @@ abstract class HomeViewModel : BaseViewModel() {
     abstract fun subOnlyChange()
     abstract fun loadList()
     abstract fun toCalendar()
+    abstract fun nextDay()
+    abstract fun previusDay()
 
     abstract val list: LiveData<List<Match>>
     abstract val subOnly: LiveData<Boolean>
@@ -82,6 +85,20 @@ class HomeViewModelImpl(
         router.navigate(R.id.action_homeFragment_to_calendarFragment)
     }
 
+    override fun nextDay() {
+        val calendar = Calendar.getInstance()
+        calendar.time = settingsPrefs.getDate()?.toDate() ?: Date()
+        calendar.add(Calendar.DAY_OF_YEAR, 1)
+        settingsPrefs.saveDate(calendar.time.time)
+    }
+
+    override fun previusDay() {
+        val calendar = Calendar.getInstance()
+        calendar.time = settingsPrefs.getDate()?.toDate() ?: Date()
+        calendar.add(Calendar.DAY_OF_YEAR, -1)
+        settingsPrefs.saveDate(calendar.time.time)
+    }
+
 
     private var params = MatchParams(
         date = Date().toRequest(),
@@ -109,23 +126,28 @@ class HomeViewModelImpl(
         val subOnly = settingsPrefs.getSubOnly()
         val date = settingsPrefs.getDate()
 
-        if (date == null){
+        if (date == null) {
             this.date.value = Date()
-        }else{
+        } else {
             this.date.value = Date(date)
         }
 
         this.subOnly.value = subOnly
 
-        params = params.copy(sportId = sport, tournamentId = tournament, subOnly = subOnly, date = (this.date.value ?: Date()).toRequest())
+        params = params.copy(
+            sportId = sport,
+            tournamentId = tournament,
+            subOnly = subOnly,
+            date = (this.date.value ?: Date()).toRequest()
+        )
         launchCatching {
             withContext(Dispatchers.IO) {
                 collect(settingsPrefs.getDateFlow()) {
                     it?.let {
                         params = params.copy(
-                            date =Date(it).toRequest()
+                            date = Date(it).toRequest()
                         )
-
+                        this@HomeViewModelImpl.date.value = Date(it)
                         prepareAndLoad()
                     }
                 }

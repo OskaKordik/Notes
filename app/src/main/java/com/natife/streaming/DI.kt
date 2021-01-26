@@ -21,6 +21,8 @@ import com.natife.streaming.preferenses.SettingsPrefs
 import com.natife.streaming.preferenses.SettingsPrefsImpl
 import com.natife.streaming.ui.account.AccountViewModel
 import com.natife.streaming.ui.account.AccountViewModelImpl
+import com.natife.streaming.ui.calendar.CalendarViewModel
+import com.natife.streaming.ui.calendar.CalendarViewModelImpl
 import com.natife.streaming.ui.home.HomeViewModel
 import com.natife.streaming.ui.home.HomeViewModelImpl
 import com.natife.streaming.ui.home.live.LiveViewModel
@@ -64,6 +66,7 @@ val viewModelModule = module {
             get()
         )
     }
+    viewModel<CalendarViewModel> { CalendarViewModelImpl(get()) }
 }
 
 val prefsModule = module {

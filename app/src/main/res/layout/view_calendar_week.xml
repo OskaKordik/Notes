@@ -1,72 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/headerRoot"
     android:layout_width="match_parent"
-    android:orientation="horizontal"
-    android:divider="@drawable/divider"
-    android:showDividers="middle"
-    android:layout_height="wrap_content">
+
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
     <TextView
         android:id="@+id/legendText1"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:layout_weight="1"
         android:background="@drawable/day_background"
-        android:textColor="@color/black"
         android:padding="2dp"
         android:text="Пн"
-        android:layout_weight="1"/>
+        android:textColor="@color/black"
+        android:textSize="18sp" />
+
     <TextView
         android:id="@+id/legendText2"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:layout_weight="1"
         android:background="@drawable/day_background"
-        android:textColor="@color/black"
         android:padding="2dp"
         android:text="Вт"
-        android:layout_weight="1"/>
+        android:textColor="@color/black"
+        android:textSize="18sp" />
+
     <TextView
         android:id="@+id/legendText3"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:layout_weight="1"
         android:background="@drawable/day_background"
-        android:textColor="@color/black"
         android:padding="2dp"
         android:text="Ср"
-        android:layout_weight="1"/>
+
+        android:textColor="@color/black"
+        android:textSize="18sp" />
+
     <TextView
         android:id="@+id/legendText4"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:layout_weight="1"
         android:background="@drawable/day_background"
-        android:textColor="@color/black"
         android:padding="2dp"
         android:text="Чт"
-        android:layout_weight="1"/>
+
+        android:textColor="@color/black"
+        android:textSize="18sp" />
+
     <TextView
         android:id="@+id/legendText5"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:layout_weight="1"
         android:background="@drawable/day_background"
-        android:textColor="@color/black"
         android:padding="2dp"
         android:text="Пт"
-        android:layout_weight="1"/>
+
+        android:textColor="@color/black"
+        android:textSize="18sp" />
+
     <TextView
         android:id="@+id/legendText6"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:layout_weight="1"
         android:background="@drawable/day_background"
-        android:textColor="@color/black"
+
         android:padding="2dp"
         android:text="Сб"
-        android:layout_weight="1"/>
+        android:textColor="@color/black"
+        android:textSize="18sp" />
+
     <TextView
         android:id="@+id/legendText7"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:layout_weight="1"
         android:background="@drawable/day_background"
-        android:textColor="@color/black"
         android:padding="2dp"
         android:text="Вс"
-        android:layout_weight="1"/>
+
+        android:textColor="@color/black"
+        android:textSize="18sp" />
 </LinearLayout>
