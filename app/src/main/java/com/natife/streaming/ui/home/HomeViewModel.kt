@@ -28,7 +28,7 @@ abstract class HomeViewModel : BaseViewModel() {
     abstract fun loadList()
     abstract fun toCalendar()
     abstract fun nextDay()
-    abstract fun previusDay()
+    abstract fun previousDay()
 
     abstract val list: LiveData<List<Match>>
     abstract val subOnly: LiveData<Boolean>
@@ -105,7 +105,7 @@ class HomeViewModelImpl(
         settingsPrefs.saveDate(calendar.time.time)
     }
 
-    override fun previusDay() {
+    override fun previousDay() {
         val calendar = Calendar.getInstance()
         calendar.time = settingsPrefs.getDate()?.toDate() ?: Date()
         calendar.add(Calendar.DAY_OF_YEAR, -1)
