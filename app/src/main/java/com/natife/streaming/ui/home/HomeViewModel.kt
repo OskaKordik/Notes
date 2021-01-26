@@ -2,13 +2,12 @@ package com.natife.streaming.ui.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
-import androidx.paging.PagingData
-import androidx.paging.cachedIn
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseViewModel
+import com.natife.streaming.data.LiveType
 import com.natife.streaming.data.match.Match
 import com.natife.streaming.datasource.MatchParams
+import com.natife.streaming.ext.fromResponse
 import com.natife.streaming.ext.toDate
 import com.natife.streaming.ext.toRequest
 import com.natife.streaming.preferenses.SettingsPrefs
@@ -46,9 +45,10 @@ class HomeViewModelImpl(
     override val list = MutableLiveData<List<Match>>()
     override val subOnly = MutableLiveData<Boolean>()
     override val date = MutableLiveData<Date>()
-
+    private var dataSource: List<Match> = listOf()
 
     private var process: Job? = null
+    var live = LiveType.ALL
 
     override fun showScoreDialog() {
         router?.navigate(R.id.action_homeFragment_to_scoreDialog)
@@ -76,11 +76,24 @@ class HomeViewModelImpl(
     override fun loadList() {
         process?.cancel()
         process = launch {
-            val data = matchUseCase.load()
-            list.value = data
+            dataSource = matchUseCase.load()
+            val filtered = filterLive(dataSource)
+            list.value = filtered
         }
     }
 
+    private fun filterLive(data: List<Match>): List<Match> {
+        data.forEach {
+            Timber.e("HOIHOIH $live ${Date().time - it.date.fromResponse().time}")
+        }
+
+        return when (live) {
+            LiveType.LIVE -> data.filter { it.live }
+            LiveType.SOON -> data.filter { Date().time - it.date.fromResponse().time in 0..1000 * 60 * 60 }
+            LiveType.FINISHED -> data.filter { Date().time - it.date.fromResponse().time > 0 || it.storage || it.hasVideo }
+            else -> data
+        }
+    }
     override fun toCalendar() {
         router.navigate(R.id.action_homeFragment_to_calendarFragment)
     }
@@ -122,7 +135,7 @@ class HomeViewModelImpl(
 
         val sport = settingsPrefs.getSport()
         val tournament = settingsPrefs.getTournament()
-        val live = settingsPrefs.getLive()
+        live = settingsPrefs.getLive() ?: LiveType.ALL
         val subOnly = settingsPrefs.getSubOnly()
         val date = settingsPrefs.getDate()
 
@@ -166,6 +179,16 @@ class HomeViewModelImpl(
         }
         launchCatching {
             withContext(Dispatchers.IO) {
+                collect(settingsPrefs.getLiveFlow()) {
+                    live = it ?: LiveType.ALL
+                    list.value?.let {
+                        list.value = filterLive(dataSource)
+                    }
+                }
+            }
+        }
+        launchCatching {
+            withContext(Dispatchers.IO) {
                 collect(settingsPrefs.getTournamentFlow()) {
                     params = params.copy(
                         tournamentId = it
@@ -184,7 +207,6 @@ class HomeViewModelImpl(
                 }
             }
         }
-
 
 
 

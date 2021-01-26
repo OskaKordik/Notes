@@ -14,5 +14,8 @@ class LiveDialog: VariantDialog<LiveViewModel>() {
         adapter.onSelect ={
             viewModel.saveType(it)
         }
+        adapter.onSelect={
+            viewModel.onSelect(it)
+        }
     }
 }

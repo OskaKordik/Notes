@@ -6,7 +6,7 @@ interface GetLiveUseCase {
 
 class GetLiveUseCaseImpl : GetLiveUseCase {
     override suspend fun execute(): List<String> {
-        return listOf("Live", "Finished", "Soon")
+        return listOf("Live", "Finished", "Soon", "All")
     }
 }
 
