@@ -58,6 +58,10 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
             dateText.text = it.toDisplay().toUpperCase()
         }
 
+        adapter.onClick={
+            viewModel.toMatchProfile(it)
+        }
+
         buttonScore.setOnClickListener {
             viewModel.showScoreDialog()
         }

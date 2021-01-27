@@ -29,6 +29,7 @@ abstract class HomeViewModel : BaseViewModel() {
     abstract fun toCalendar()
     abstract fun nextDay()
     abstract fun previousDay()
+    abstract fun toMatchProfile(match: Match)
 
     abstract val list: LiveData<List<Match>>
     abstract val subOnly: LiveData<Boolean>
@@ -110,6 +111,10 @@ class HomeViewModelImpl(
         calendar.time = settingsPrefs.getDate()?.toDate() ?: Date()
         calendar.add(Calendar.DAY_OF_YEAR, -1)
         settingsPrefs.saveDate(calendar.time.time)
+    }
+
+    override fun toMatchProfile(match: Match) {
+        router.navigate(R.id.action_homeFragment_to_matchProfileFragment)
     }
 
 

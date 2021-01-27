@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:focusable="true"
+    android:padding="10dp"
     android:background="@drawable/timed_button_background"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -11,14 +12,15 @@
         android:id="@+id/timedButtonText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:textSize="18sp"
-        android:textColor="@color/button_text_state"
-        tools:text="Полный матч"
         android:duplicateParentState="true"
+        android:textColor="@color/button_text_state"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/timedButtonTime"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Полный матч" />
 
     <TextView
         android:id="@+id/timedButtonTime"

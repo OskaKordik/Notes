@@ -63,6 +63,9 @@
             <action
                 android:id="@+id/action_homeFragment_to_calendarFragment"
                 app:destination="@id/calendarFragment" />
+            <action
+                android:id="@+id/action_homeFragment_to_matchProfileFragment"
+                app:destination="@id/matchProfileFragment" />
         </fragment>
 
         <fragment
@@ -121,6 +124,16 @@
             android:name="com.natife.streaming.ui.calendar.CalendarFragment"
             android:label="CalendarFragment"
             tools:layout="@layout/fragment_calendar"/>
+        <fragment
+            android:id="@+id/matchProfileFragment"
+            android:name="com.natife.streaming.ui.matchprofile.MatchProfileFragment"
+            android:label="MatchProfileFragment"
+            tools:layout="@layout/fragment_match_profile">
+            <argument
+                android:name="match"
+                app:argType="com.natife.streaming.data.match.Match"
+                 />
+        </fragment>
 
     </navigation>
 

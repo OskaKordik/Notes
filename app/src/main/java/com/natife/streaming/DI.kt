@@ -35,6 +35,9 @@ import com.natife.streaming.ui.home.tournament.*
 import com.natife.streaming.ui.login.LoginViewModel
 import com.natife.streaming.ui.login.LoginViewModelImpl
 import com.natife.streaming.ui.main.MainViewModel
+import com.natife.streaming.ui.matchprofile.MatchProfileFragmentArgs
+import com.natife.streaming.ui.matchprofile.MatchProfileViewModel
+import com.natife.streaming.ui.matchprofile.MatchProfileViewModelImpl
 import com.natife.streaming.ui.tournament.TournamentViewModel
 import com.natife.streaming.usecase.*
 import okhttp3.OkHttpClient
@@ -67,6 +70,7 @@ val viewModelModule = module {
         )
     }
     viewModel<CalendarViewModel> { CalendarViewModelImpl(get()) }
+    viewModel <MatchProfileViewModel>{(args: MatchProfileFragmentArgs) -> MatchProfileViewModelImpl(args.match) }
 }
 
 val prefsModule = module {
