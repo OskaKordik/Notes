@@ -20,3 +20,11 @@ fun ImageView.url(url: String,placeholder: String) {
         .error(Glide.with(this).load(placeholder).override(this.width, this.height))
         .into(this)
 }
+fun ImageView.urlCircled(url: String,placeholder: String) {
+    Glide.with(this)
+        .load(url)
+        .override(this.width, this.height)
+        .circleCrop()
+        .error(Glide.with(this).load(placeholder).circleCrop().override(this.width, this.height))
+        .into(this)
+}

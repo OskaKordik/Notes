@@ -28,7 +28,10 @@ class SideMenu @JvmOverloads constructor(
 
     private val navListener = NavController.OnDestinationChangedListener { controller, destination, arguments ->
         Timber.e("destination ${resources.getResourceName(destination.id)}")
-       this.isVisible = destination.id !=R.id.loginFragment
+       this.isVisible = when(destination.id ){
+            R.id.loginFragment, R.id.matchProfileFragment->false
+           else -> true
+       }
     }
 
     init {

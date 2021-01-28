@@ -5,136 +5,157 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/matchTitle"
+    <ImageView
+        android:id="@+id/buttonBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="12dp"
+        android:focusable="true"
+        android:clickable="true"
+        android:rotation="180"
+        android:src="@drawable/ic_back"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Спартак 2:1 Динамо" />
+        app:tint="@color/button_background_state" />
 
-    <TextView
-        android:id="@+id/matchLeague"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/matchTitle"
-        tools:text="Российская Премьер Лига" />
-
-    <com.natife.streaming.custom.TimedButton
-        android:id="@+id/buttonFullMatch"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/buttonReview"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/matchLeague"
-        app:layout_constraintWidth_percent="0.27"
-        tools:text="Полный матч"
-        tools:time="1:25:17" />
-
-    <com.natife.streaming.custom.TimedButton
-        android:id="@+id/buttonReview"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="12dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/buttonFullMatch"
-        app:layout_constraintTop_toBottomOf="@+id/matchLeague"
-        app:layout_constraintWidth_percent="0.27"
-        tools:text="Полный матч"
-        tools:time="1:25:17" />
+        app:layout_constraintStart_toEndOf="@+id/buttonBack">
 
-    <com.natife.streaming.custom.TimedButton
-        android:id="@+id/buttonCleanTime"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/buttonGoals"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonFullMatch"
-        app:layout_constraintWidth_percent="0.27"
-        tools:text="Полный матч"
-        tools:time="1:25:17" />
+        <TextView
+            android:id="@+id/matchTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Спартак 2:1 Динамо" />
 
-    <com.natife.streaming.custom.TimedButton
-        android:id="@+id/buttonGoals"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toEndOf="@+id/buttonCleanTime"
-        app:layout_constraintTop_toBottomOf="@+id/buttonFullMatch"
-        app:layout_constraintWidth_percent="0.27"
-        tools:text="Полный матч"
-        tools:time="1:25:17" />
+        <TextView
+            android:id="@+id/matchLeague"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/matchTitle"
+            tools:text="Российская Премьер Лига" />
 
-    <TextView
-        android:id="@+id/titleInterview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonCleanTime"
-        tools:text="Интервью" />
+        <com.natife.streaming.custom.TimedButton
+            android:id="@+id/buttonFullMatch"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/buttonReview"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/matchLeague"
+            app:layout_constraintWidth_percent="0.27"
+            tools:text="Полный матч"
+            tools:time="1:25:17" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/videoRecycler"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleInterview"
-        tools:itemCount="1"
-        tools:listitem="@layout/item_match" />
+        <com.natife.streaming.custom.TimedButton
+            android:id="@+id/buttonReview"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/buttonFullMatch"
+            app:layout_constraintTop_toBottomOf="@+id/matchLeague"
+            app:layout_constraintWidth_percent="0.27"
+            tools:text="Полный матч"
+            tools:time="1:25:17" />
 
-    <TextView
-        android:id="@+id/teamsRecycler"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/videoRecycler"
-        tools:text="Нарезки по действиям игроков" />
+        <com.natife.streaming.custom.TimedButton
+            android:id="@+id/buttonCleanTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/buttonGoals"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/buttonFullMatch"
+            app:layout_constraintWidth_percent="0.27"
+            tools:text="Полный матч"
+            tools:time="1:25:17" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/firstTeamRecycler"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        tools:listitem="@layout/item_player"
-        app:layout_constraintEnd_toStartOf="@+id/secondTeamRecycler"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/teamsRecycler" />
+        <com.natife.streaming.custom.TimedButton
+            android:id="@+id/buttonGoals"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@+id/buttonCleanTime"
+            app:layout_constraintTop_toBottomOf="@+id/buttonFullMatch"
+            app:layout_constraintWidth_percent="0.27"
+            tools:text="Полный матч"
+            tools:time="1:25:17" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/secondTeamRecycler"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        tools:listitem="@layout/item_player"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/firstTeamRecycler"
-        app:layout_constraintTop_toBottomOf="@+id/teamsRecycler" />
+        <TextView
+            android:id="@+id/titleInterview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/buttonCleanTime"
+            tools:text="Интервью" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/videoRecycler"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/titleInterview"
+            tools:itemCount="1"
+            tools:listitem="@layout/item_match" />
+
+        <TextView
+            android:id="@+id/teamsRecyclerTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/videoRecycler"
+            tools:text="Нарезки по действиям игроков" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/firstTeamRecycler"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@+id/secondTeamRecycler"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/teamsRecyclerTitle"
+            tools:listitem="@layout/item_player" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/secondTeamRecycler"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/firstTeamRecycler"
+            app:layout_constraintTop_toBottomOf="@+id/teamsRecyclerTitle"
+            tools:listitem="@layout/item_player" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

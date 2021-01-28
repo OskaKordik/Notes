@@ -95,6 +95,7 @@ class HomeViewModelImpl(
             else -> data
         }
     }
+
     override fun toCalendar() {
         router.navigate(R.id.action_homeFragment_to_calendarFragment)
     }
@@ -114,7 +115,7 @@ class HomeViewModelImpl(
     }
 
     override fun toMatchProfile(match: Match) {
-        router.navigate(R.id.action_homeFragment_to_matchProfileFragment)
+        router.navigate(HomeFragmentDirections.actionHomeFragmentToMatchProfileFragment(match))
     }
 
 

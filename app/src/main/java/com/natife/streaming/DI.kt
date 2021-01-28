@@ -56,7 +56,7 @@ val viewModelModule = module {
     viewModel { MainViewModel(get(), get()) }
     viewModel<AccountViewModel> { AccountViewModelImpl(get(), get(), get()) }
     viewModel { TournamentViewModel(get(), get()) }
-    viewModel<HomeViewModel> { HomeViewModelImpl(get(), get(),get()) }
+    viewModel<HomeViewModel> { HomeViewModelImpl(get(), get(), get()) }
     viewModel<ScoreViewModel> { ScoreViewModelImpl(get(), get(), get()) }
     viewModel<SportViewModel> { SportViewModelImpl(get(), get(), get()) }
     viewModel<LiveViewModel> { LiveViewModelImpl(get(), get(), get()) }
@@ -70,7 +70,14 @@ val viewModelModule = module {
         )
     }
     viewModel<CalendarViewModel> { CalendarViewModelImpl(get()) }
-    viewModel <MatchProfileViewModel>{(args: MatchProfileFragmentArgs) -> MatchProfileViewModelImpl(args.match) }
+    viewModel<MatchProfileViewModel> { (args: MatchProfileFragmentArgs) ->
+        MatchProfileViewModelImpl(
+            args.match,
+            get(),
+            get(),
+            get()
+        )
+    }
 }
 
 val prefsModule = module {
@@ -92,18 +99,20 @@ val prefsModule = module {
 
 val useCaseModule = module {
     factory<LoginUseCase> { LoginUseCaseImpl(get(), get()) }
-    factory<LogoutUseCase> { LogoutUseCaseImpl(get(), get(),get()) }
+    factory<LogoutUseCase> { LogoutUseCaseImpl(get(), get(), get()) }
     factory<AccountUseCase> { AccountUseCaseImpl(get(), get()) }
-    factory<MatchUseCase> { MatchUseCaseImpl(get(),get()) }
+    factory<MatchUseCase> { MatchUseCaseImpl(get(), get()) }
     factory<GetShowScoreUseCase> { GetShowScoreUseCaseImpl() }
     factory<SaveShowScoreUseCase> { SaveShowScoreUseCaseImpl(get()) }
     factory<GetSportUseCase> { GetSportUseCaseImpl(get()) }
     factory<SaveSportUseCase> { SaveSportUseCaseImpl(get()) }
     factory<GetLiveUseCase> { GetLiveUseCaseImpl() }
     factory<SaveLiveUseCase> { SaveLiveUseCaseImpl(get()) }
-    factory <GetTournamentUseCase>{ GetTournamentUseCaseImpl(get()) }
-    factory <SaveTournamentUseCase>{ SaveTournamentUseCaseImpl(get()) }
+    factory<GetTournamentUseCase> { GetTournamentUseCaseImpl(get()) }
+    factory<SaveTournamentUseCase> { SaveTournamentUseCaseImpl(get()) }
     factory { TournamentUseCase() }
+    factory<MatchProfileUseCase> { MatchProfileUseCaseImpl(get()) }
+    factory<GetThumbnailUseCase> { GetThumbnailUseCaseImpl(get()) }
 }
 
 val mockModule = module {

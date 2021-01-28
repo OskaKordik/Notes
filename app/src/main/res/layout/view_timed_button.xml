@@ -15,6 +15,7 @@
         android:duplicateParentState="true"
         android:textColor="@color/button_text_state"
         android:textSize="18sp"
+        android:textAllCaps="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/timedButtonTime"
         app:layout_constraintHorizontal_bias="0.0"
