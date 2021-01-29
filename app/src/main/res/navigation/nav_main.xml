@@ -69,7 +69,14 @@
             android:id="@+id/tournamentFragment"
             android:name="com.natife.streaming.ui.tournament.TournamentFragment"
             android:label="TournamentFragment"
-            tools:layout="@layout/fragment_tournament" />
+            tools:layout="@layout/fragment_tournament" >
+            <argument
+                android:name="sportId"
+                app:argType="integer" />
+            <argument
+                android:name="tournamentId"
+                app:argType="integer" />
+        </fragment>
 
         <fragment
             android:id="@+id/accountFragment"

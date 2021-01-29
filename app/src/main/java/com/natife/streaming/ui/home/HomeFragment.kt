@@ -8,15 +8,20 @@ import com.natife.streaming.R
 import com.natife.streaming.base.BaseFragment
 import com.natife.streaming.ext.subscribe
 import com.natife.streaming.ext.toDisplay
+import com.natife.streaming.router.Router
 import com.natife.streaming.ui.main.MainActivity
+import com.natife.streaming.ui.tournament.TournamentFragmentDirections
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
+import org.koin.android.ext.android.inject
 import timber.log.Timber
 
 class HomeFragment : BaseFragment<HomeViewModel>() {
     override fun getLayoutRes() = R.layout.fragment_home
 
     val adapter: MatchAdapter by lazy { MatchAdapter() }
+
+    private val router: Router by inject()
 
     private fun applyAlpha(alpha: Float){
         (activity as MainActivity).logo?.alpha = alpha
@@ -94,6 +99,12 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
         }
 
         subscribe(viewModel.list) {
+            (activity as MainActivity).mainMenu?.prefered={
+                it.firstOrNull()?.let {
+                    router.navigate(TournamentFragmentDirections.actionMainTournamentFragment(it.sportId,it.tournament.id))
+                }
+
+            }
             Timber.e("submit")
             adapter.submitList(it)
         }

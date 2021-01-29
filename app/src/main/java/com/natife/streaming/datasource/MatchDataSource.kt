@@ -106,20 +106,20 @@ class MatchDataSource(
                             api.getMatchProfile(
                                 BaseRequest(
                                     procedure = API_MATCH_PROFILE, params = MatchProfileRequest(
-                                        sportId = match.sport,
-                                        tournament = match.tournament.id
+                                        sportId = match.sport?: requestParams?.sportId?:0,
+                                        tournament = match.tournament?.id ?: requestParams?.tournamentId ?:0
                                     )
                                 )
                             )
                         }
                         Match(
                             id = match.id,
-                            sportId = match.sport,
+                            sportId = match.sport?: requestParams?.sportId?:0,
                             sportName = sports.find { it.id == match.sport }?.name ?: "",
                             date = match.date,
                             tournament = Tournament(
-                                match.tournament.id,
-                                match.tournament.nameRus
+                                match.tournament?.id ?: requestParams?.tournamentId ?:0,
+                                match.tournament?.nameRus?:""
                             ),// todo multilang
                             team1 = Team(
                                 match.team1.id,
@@ -134,8 +134,8 @@ class MatchDataSource(
                             info = "${profile.await().country} ${profile.await().nameRus}",
                             access = match.access,
                             hasVideo = match.hasVideo,
-                            image = ImageUrlBuilder.getUrl(match.sport,ImageUrlBuilder.Companion.Type.TOURNAMENT,match.tournament.id),//todo image module
-                            placeholder =ImageUrlBuilder.getPlaceholder(match.sport,ImageUrlBuilder.Companion.Type.TOURNAMENT) ,
+                            image = ImageUrlBuilder.getUrl(match.sport?: requestParams?.sportId?:0,ImageUrlBuilder.Companion.Type.TOURNAMENT, match.tournament?.id ?: requestParams?.tournamentId ?:0),//todo image module
+                            placeholder =ImageUrlBuilder.getPlaceholder(match.sport?: requestParams?.sportId?:0,ImageUrlBuilder.Companion.Type.TOURNAMENT) ,
                             live = match.live,
                             storage = match.storage,
                             subscribed = match.sub
@@ -161,7 +161,7 @@ class MatchDataSource(
 }
 
 data class MatchParams(
-    val date: String ,
+    val date: String? ,
     val sportId: Int?,
     val subOnly: Boolean,
     val tournamentId: Int?,

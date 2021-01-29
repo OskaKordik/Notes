@@ -14,7 +14,7 @@ import com.natife.streaming.ext.url
 import kotlinx.android.synthetic.main.item_match.view.*
 import java.util.*
 
-class MatchViewHolder(view: View) : BaseViewHolder<Match>(view) {
+open class MatchViewHolder(view: View) : BaseViewHolder<Match>(view) {
     override fun onBind(data: Match) {
         itemView.matchImage.url(data.image,data.placeholder)
         itemView.matchTitle.text = "${data.team1.name} - ${data.team2.name}"

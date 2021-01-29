@@ -35,6 +35,7 @@ import com.natife.streaming.ui.home.tournament.*
 import com.natife.streaming.ui.login.LoginViewModel
 import com.natife.streaming.ui.login.LoginViewModelImpl
 import com.natife.streaming.ui.main.MainViewModel
+import com.natife.streaming.ui.tournament.TournamentFragmentArgs
 import com.natife.streaming.ui.tournament.TournamentViewModel
 import com.natife.streaming.usecase.*
 import okhttp3.OkHttpClient
@@ -52,8 +53,16 @@ val viewModelModule = module {
     viewModel<LoginViewModel> { LoginViewModelImpl(get(), get()) }
     viewModel { MainViewModel(get(), get()) }
     viewModel<AccountViewModel> { AccountViewModelImpl(get(), get(), get()) }
-    viewModel { TournamentViewModel(get(), get()) }
-    viewModel<HomeViewModel> { HomeViewModelImpl(get(), get(),get()) }
+    viewModel { (args: TournamentFragmentArgs) ->
+        TournamentViewModel(
+            args.sportId,
+            args.tournamentId,
+            get(),
+            get(),
+            get()
+        )
+    }
+    viewModel<HomeViewModel> { HomeViewModelImpl(get(), get(), get()) }
     viewModel<ScoreViewModel> { ScoreViewModelImpl(get(), get(), get()) }
     viewModel<SportViewModel> { SportViewModelImpl(get(), get(), get()) }
     viewModel<LiveViewModel> { LiveViewModelImpl(get(), get(), get()) }
@@ -88,18 +97,18 @@ val prefsModule = module {
 
 val useCaseModule = module {
     factory<LoginUseCase> { LoginUseCaseImpl(get(), get()) }
-    factory<LogoutUseCase> { LogoutUseCaseImpl(get(), get(),get()) }
+    factory<LogoutUseCase> { LogoutUseCaseImpl(get(), get(), get()) }
     factory<AccountUseCase> { AccountUseCaseImpl(get(), get()) }
-    factory<MatchUseCase> { MatchUseCaseImpl(get(),get()) }
+    factory<MatchUseCase> { MatchUseCaseImpl(get(), get()) }
     factory<GetShowScoreUseCase> { GetShowScoreUseCaseImpl() }
     factory<SaveShowScoreUseCase> { SaveShowScoreUseCaseImpl(get()) }
     factory<GetSportUseCase> { GetSportUseCaseImpl(get()) }
     factory<SaveSportUseCase> { SaveSportUseCaseImpl(get()) }
     factory<GetLiveUseCase> { GetLiveUseCaseImpl() }
     factory<SaveLiveUseCase> { SaveLiveUseCaseImpl(get()) }
-    factory <GetTournamentUseCase>{ GetTournamentUseCaseImpl(get()) }
-    factory <SaveTournamentUseCase>{ SaveTournamentUseCaseImpl(get()) }
-    factory { TournamentUseCase() }
+    factory<GetTournamentUseCase> { GetTournamentUseCaseImpl(get()) }
+    factory<SaveTournamentUseCase> { SaveTournamentUseCaseImpl(get()) }
+    factory<TournamentUseCase> { TournamentUseCaseImpl(get()) }
 }
 
 val mockModule = module {

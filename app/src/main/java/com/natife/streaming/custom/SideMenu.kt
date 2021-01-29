@@ -7,6 +7,7 @@ import android.widget.FrameLayout
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import com.natife.streaming.R
+import com.natife.streaming.data.match.Match
 import com.natife.streaming.preferenses.AuthPrefs
 import com.natife.streaming.router.Router
 import kotlinx.android.synthetic.main.view_side_menu.view.*
@@ -25,6 +26,7 @@ class SideMenu @JvmOverloads constructor(
 
     private var router: Router? = null
     private val authPrefs: AuthPrefs by inject()
+    var prefered :(()->Unit)? = null
 
     private val navListener = NavController.OnDestinationChangedListener { controller, destination, arguments ->
         Timber.e("destination ${resources.getResourceName(destination.id)}")
@@ -56,7 +58,8 @@ class SideMenu @JvmOverloads constructor(
             router?.toHome()
         }
         menuFavorites.setOnClickListener {
-            router?.navigate(R.id.action_main_tournamentFragment)
+            prefered?.invoke()
+           //router?.navigate(R.id.action_main_tournamentFragment)
         }
         menuSettings.setOnClickListener {
 

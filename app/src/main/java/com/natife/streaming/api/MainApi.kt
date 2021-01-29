@@ -3,9 +3,11 @@ package com.natife.streaming.api
 import com.natife.streaming.data.dto.LoginDTO
 import com.natife.streaming.data.dto.account.AccountDTO
 import com.natife.streaming.data.dto.match.MatchesDTO
+import com.natife.streaming.data.dto.match.TournamentDTO
 import com.natife.streaming.data.dto.matchprofile.MatchProfileDTO
 import com.natife.streaming.data.dto.sports.SportsDTO
 import com.natife.streaming.data.dto.tournament.TournamentListDTO
+import com.natife.streaming.data.dto.tournamentprofile.TournamentProfileDTO
 import com.natife.streaming.data.dto.translate.TranslatesDTO
 import com.natife.streaming.data.request.*
 import retrofit2.http.Body
@@ -27,6 +29,6 @@ interface MainApi {
     suspend fun getTournamentList(@Body body: BaseRequest<TournamentsRequest>): TournamentListDTO
     @POST("data")
     suspend fun getTranslate(@Body body: BaseRequest<TranslateRequest>): TranslatesDTO
-
-
+    @POST("data")
+    suspend fun getTournamentProfile(@Body body: BaseRequest<TournamentProfileRequest>): TournamentProfileDTO
 }

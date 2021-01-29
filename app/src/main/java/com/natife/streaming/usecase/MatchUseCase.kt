@@ -4,10 +4,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.PagingSource
-import com.natife.streaming.API_MATCHES
-import com.natife.streaming.API_MATCH_PROFILE
-import com.natife.streaming.API_SPORTS
-import com.natife.streaming.API_TRANSLATE
+import com.natife.streaming.*
 import com.natife.streaming.api.MainApi
 import com.natife.streaming.data.match.Match
 import com.natife.streaming.data.match.Team
@@ -27,8 +24,12 @@ import java.util.*
 
 interface MatchUseCase {
     suspend fun prepare(params: MatchParams)
-    suspend fun load(): List<Match>
+    suspend fun load(type: Type = Type.SIMPLE): List<Match>
     fun executeFlow(pageSize: Int = 60): Flow<PagingData<Match>>
+    enum class Type{
+        SIMPLE,
+        TOURNAMENT
+    }
 }
 
 class MatchUseCaseImpl(
@@ -53,12 +54,12 @@ class MatchUseCaseImpl(
         Timber.e("prepared")
     }
 
-    override suspend fun load(): List<Match> {
+    override suspend fun load(type: MatchUseCase.Type ): List<Match> {
 
 
         if (!gotEnd) {
             val mPrams = MatchesRequest(
-                date = requestParams?.date ?: Date().toRequest(),
+                date = requestParams?.date ,
                 limit = requestParams?.pageSize ?: 60,
                 offset = (requestParams?.pageSize ?: 60) * page,
                 sport = requestParams?.sportId,
@@ -68,7 +69,10 @@ class MatchUseCaseImpl(
 
             val matches = api.getMatches(
                 BaseRequest(
-                    procedure = API_MATCHES,
+                    procedure = when(type){
+                        MatchUseCase.Type.SIMPLE->API_MATCHES
+                        MatchUseCase.Type.TOURNAMENT -> API_TOURNAMENT_MATCHES
+                    } ,
                     params = mPrams
                 )
 
@@ -93,23 +97,26 @@ class MatchUseCaseImpl(
             val data = matches.videoContent.broadcast?.map { match ->
                 coroutineScope {
                     val profile = async {
-                        api.getMatchProfile(
-                            BaseRequest(
-                                procedure = API_MATCH_PROFILE, params = MatchProfileRequest(
-                                    sportId = match.sport,
-                                    tournament = match.tournament.id
+
+                            api.getMatchProfile(
+                                BaseRequest(
+                                    procedure = API_MATCH_PROFILE, params = MatchProfileRequest(
+                                        sportId = match.sport ?: requestParams?.sportId?:0,
+                                        tournament = match.tournament?.id ?: requestParams?.tournamentId?:0
+                                    )
                                 )
                             )
-                        )
+
+
                     }
                     Match(
                         id = match.id,
-                        sportId = match.sport,
+                        sportId = match.sport?: requestParams?.sportId?:0,
                         sportName = sportTranslate[sports.find { it.id == match.sport }?.lexic.toString()]?.text  ?: "",
                         date = match.date,
                         tournament = Tournament(
-                            match.tournament.id,
-                            match.tournament.nameRus
+                            match.tournament?.id?:-1,
+                            match.tournament?.nameRus?:""
                         ),// todo multilang
                         team1 = Team(
                             match.team1.id,
@@ -121,15 +128,15 @@ class MatchUseCaseImpl(
                             match.team2.nameRus,
                             score = match.team2.score
                         ),
-                        info = "${profile.await().country.name_rus} ${profile.await().nameRus}",
+                        info = "${profile.await()?.country?.name_rus} ${profile.await()?.nameRus}",
                         access = match.access,
                         hasVideo = match.hasVideo,
                         image = ImageUrlBuilder.getUrl(
-                            match.sport,
-                            ImageUrlBuilder.Companion.Type.TOURNAMENT, match.tournament.id
+                            match.sport?: requestParams?.sportId?:0,
+                            ImageUrlBuilder.Companion.Type.TOURNAMENT, match.tournament?.id?:-1
                         ),
                         placeholder = ImageUrlBuilder.getPlaceholder(
-                            match.sport,
+                            match.sport?: requestParams?.sportId?:0,
                             ImageUrlBuilder.Companion.Type.TOURNAMENT
                         ),
                         live = match.live,
@@ -151,11 +158,14 @@ class MatchUseCaseImpl(
 
     }
 
+
+
     @Deprecated("Use method above")
     override fun executeFlow(pageSize: Int): Flow<PagingData<Match>> {
         return Pager(PagingConfig(pageSize = pageSize)) {
             matchDataSourceFactory.invoke()
         }.flow
     }
+
 }
 

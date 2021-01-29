@@ -6,7 +6,7 @@ import java.util.*
 
 data class MatchesRequest(
     @SerializedName( "_p_date")
-    val date: String = Date().toRequest(),
+    val date: String? = null,
     @SerializedName( "_p_limit")
     val limit: Int = 60,
     @SerializedName( "_p_offset")
