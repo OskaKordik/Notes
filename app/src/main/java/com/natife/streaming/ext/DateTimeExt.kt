@@ -13,7 +13,7 @@ fun Date.toRequest(): String {
 }
 
 fun String.fromResponse(): Date {
-    val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+    val sdf = SimpleDateFormat("yyyy-MM-ddHH:mm:ss'Z'", Locale.getDefault())
     return sdf.parse(this)
 }
 

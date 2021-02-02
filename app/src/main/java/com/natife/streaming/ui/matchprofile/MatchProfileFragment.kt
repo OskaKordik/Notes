@@ -25,9 +25,9 @@ class MatchProfileFragment: BaseFragment<MatchProfileViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        firstTeamRecycler.layoutManager = GridLayoutManager(context,2,GridLayoutManager.HORIZONTAL,true)
+        firstTeamRecycler.layoutManager = GridLayoutManager(context,5,GridLayoutManager.VERTICAL,false)
         firstTeamRecycler.adapter = teamAdapter1
-        secondTeamRecycler.layoutManager = GridLayoutManager(context,2,GridLayoutManager.HORIZONTAL,false)
+        secondTeamRecycler.layoutManager = GridLayoutManager(context,5,GridLayoutManager.VERTICAL,false)
         secondTeamRecycler.adapter = teamAdapter2
         videoRecycler.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
         videoRecycler.adapter = episodeAdapter
@@ -60,7 +60,11 @@ class MatchProfileFragment: BaseFragment<MatchProfileViewModel>() {
         buttonBack.setOnClickListener {
             viewModel.back()
         }
+        buttonSettings.setOnClickListener {
+            viewModel.goToSettings()
+        }
     }
+
 
     override fun getParameters(): ParametersDefinition = {
         parametersOf(MatchProfileFragmentArgs.fromBundle(requireArguments()))

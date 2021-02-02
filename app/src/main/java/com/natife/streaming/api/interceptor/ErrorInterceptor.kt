@@ -4,6 +4,7 @@ import com.natife.streaming.api.exception.ApiException
 import com.natife.streaming.usecase.LogoutUseCase
 import okhttp3.Interceptor
 import okhttp3.Response
+import timber.log.Timber
 
 class ErrorInterceptor( private val logoutUseCaseImpl: LogoutUseCase): Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {

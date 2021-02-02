@@ -9,6 +9,7 @@ import com.natife.streaming.data.matchprofile.toEpisode
 import com.natife.streaming.data.request.BaseRequest
 import com.natife.streaming.data.request.MatchInfoRequest
 import com.natife.streaming.data.request.TranslateRequest
+import com.natife.streaming.usecase.MatchProfileUseCase.Companion.getPath
 import com.natife.streaming.utils.ImageUrlBuilder
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -16,6 +17,16 @@ import timber.log.Timber
 
 interface MatchProfileUseCase {
     suspend fun getMatchInfo(matchId: Int, sportId: Int): MatchInfo
+    companion object{
+        fun getPath(sportId: Int): String{
+            return when(sportId){
+                1->"football"
+                2->"hockey"
+                3->"basketball"
+                else->""
+            }
+        }
+    }
 }
 
 class MatchProfileUseCaseImpl(private val api: MainApi) : MatchProfileUseCase {
@@ -80,12 +91,7 @@ class MatchProfileUseCaseImpl(private val api: MainApi) : MatchProfileUseCase {
 
     }
 
-    fun getPath(sportId: Int): String{
-        return when(sportId){
-            1->"football"
-            2->"hockey"
-            3->"basketball"
-            else->""
-        }
-    }
+
+
+
 }

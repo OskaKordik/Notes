@@ -7,11 +7,11 @@ import com.natife.streaming.R
 import com.natife.streaming.base.BaseListAdapter
 import com.natife.streaming.data.matchprofile.Player
 
-class PlayerAdapter : BaseListAdapter<Player, PlayerViewHolder>(PlayerDiffCallback()) {
+class PlayerAdapter () : BaseListAdapter<Player, PlayerViewHolder>(PlayerDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlayerViewHolder {
         return PlayerViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.item_player, parent, false).apply {
-                layoutParams = ViewGroup.LayoutParams(parent.width/6,ViewGroup.LayoutParams.WRAP_CONTENT)
+                //layoutParams = ViewGroup.LayoutParams(itemWidth,ViewGroup.LayoutParams.WRAP_CONTENT)
             }
         )
     }

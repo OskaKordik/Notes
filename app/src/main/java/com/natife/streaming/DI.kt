@@ -1,6 +1,7 @@
 package com.natife.streaming
 
 import android.content.Context
+import androidx.room.Room
 import com.google.gson.GsonBuilder
 import com.natife.streaming.base.EmptyViewModel
 import com.natife.streaming.datasource.MatchDataSource
@@ -9,16 +10,14 @@ import com.natife.streaming.mock.MockAccountRepository
 import com.natife.streaming.mock.MockLoginRepository
 import com.natife.streaming.mock.MockMatchRepository
 import com.natife.streaming.mock.MockSportRepository
-import com.natife.streaming.preferenses.AuthPrefsImpl
-import com.natife.streaming.preferenses.AuthPrefs
 import com.natife.streaming.router.Router
 import com.ihsanbal.logging.Level
 import com.ihsanbal.logging.LoggingInterceptor
 import com.natife.streaming.api.MainApi
 import com.natife.streaming.api.interceptor.AuthInterceptor
 import com.natife.streaming.api.interceptor.ErrorInterceptor
-import com.natife.streaming.preferenses.SettingsPrefs
-import com.natife.streaming.preferenses.SettingsPrefsImpl
+import com.natife.streaming.db.AppDatabase
+import com.natife.streaming.preferenses.*
 import com.natife.streaming.ui.account.AccountViewModel
 import com.natife.streaming.ui.account.AccountViewModelImpl
 import com.natife.streaming.ui.calendar.CalendarViewModel
@@ -35,11 +34,10 @@ import com.natife.streaming.ui.home.tournament.*
 import com.natife.streaming.ui.login.LoginViewModel
 import com.natife.streaming.ui.login.LoginViewModelImpl
 import com.natife.streaming.ui.main.MainViewModel
-import com.natife.streaming.ui.matchprofile.MatchProfileFragmentArgs
-import com.natife.streaming.ui.matchprofile.MatchProfileViewModel
-import com.natife.streaming.ui.matchprofile.MatchProfileViewModelImpl
+import com.natife.streaming.ui.matchprofile.*
 import com.natife.streaming.ui.tournament.TournamentViewModel
 import com.natife.streaming.usecase.*
+import com.natife.streaming.utils.OneTimeScope
 import okhttp3.OkHttpClient
 import okhttp3.internal.platform.Platform
 import org.koin.android.ext.koin.androidContext
@@ -78,6 +76,11 @@ val viewModelModule = module {
             get()
         )
     }
+    viewModel <MatchSettingsViewModel>{(args: MatchSettingsFragmentArgs)->
+        MatchSettingsViewModelImpl(args.match,args.sportId,
+        get(), get(),get())
+    }
+    viewModel <WatchViewModel>{(args: WatchFragmentArgs)-> WatchViewModelImpl(args.match,get()) }
 }
 
 val prefsModule = module {
@@ -93,8 +96,15 @@ val prefsModule = module {
             Context.MODE_PRIVATE
         )
     }
+    single(named(PREFS_MATCH_SETTINGS_QUALIFIER)) {
+        androidContext().getSharedPreferences(
+            PREFS_MATCH_SETTINGS_NAME,
+            Context.MODE_PRIVATE
+        )
+    }
     single { AuthPrefsImpl(get(named(PREFS_AUTH_QUALIFIER))) as AuthPrefs }
     single { SettingsPrefsImpl(get(named(PREFS_SETTINGS_QUALIFIER))) as SettingsPrefs }
+    single { MatchSettingsPrefsImpl(get(named(PREFS_MATCH_SETTINGS_QUALIFIER))) as MatchSettingsPrefs }
 }
 
 val useCaseModule = module {
@@ -113,6 +123,7 @@ val useCaseModule = module {
     factory { TournamentUseCase() }
     factory<MatchProfileUseCase> { MatchProfileUseCaseImpl(get()) }
     factory<GetThumbnailUseCase> { GetThumbnailUseCaseImpl(get()) }
+    factory<ActionsUseCase> { ActionsUseCaseImpl(get(),get()) }
 }
 
 val mockModule = module {
@@ -163,6 +174,18 @@ val apiModule = module {
     single { get<Retrofit>(named(MAIN_API_QUALIFIER)).create(MainApi::class.java) }
 }
 
+val databaseModule = module {
+    single {
+        Room.databaseBuilder(androidContext(), AppDatabase::class.java, DATABASE_NAME)
+            .fallbackToDestructiveMigration()
+            .build()
+    }
+    single { get<AppDatabase>().actionDao() }
+}
+val utilModule = module {
+    factory { OneTimeScope() }
+}
+
 val appModules = arrayListOf(
     viewModelModule,
     prefsModule,
@@ -170,5 +193,7 @@ val appModules = arrayListOf(
     mockModule,
     dataSourceModule,
     routerModule,
-    apiModule
+    apiModule,
+    databaseModule,
+    utilModule
 )

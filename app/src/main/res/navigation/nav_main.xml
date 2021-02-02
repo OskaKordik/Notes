@@ -133,6 +133,33 @@
                 android:name="match"
                 app:argType="com.natife.streaming.data.match.Match"
                  />
+            <action
+                android:id="@+id/action_matchProfileFragment_to_matchSettingsFragment"
+                app:destination="@id/matchSettingsFragment" />
+        </fragment>
+        <fragment
+            android:id="@+id/matchSettingsFragment"
+            android:name="com.natife.streaming.ui.matchprofile.MatchSettingsFragment"
+            android:label="MatchSettingsFragment"
+            tools:layout="@layout/fragment_match_profile_settings">
+            <argument
+                android:name="sportId"
+                app:argType="integer" />
+            <action
+                android:id="@+id/action_matchSettingsFragment_to_watchFragment"
+                app:destination="@id/watchFragment" />
+            <argument
+                android:name="match"
+                app:argType="com.natife.streaming.data.match.Match" />
+        </fragment>
+        <fragment
+            android:id="@+id/watchFragment"
+            android:name="com.natife.streaming.ui.matchprofile.WatchFragment"
+            android:label="WatchFragment"
+            tools:layout="@layout/fragment_match_prewatch">
+            <argument
+                android:name="match"
+                app:argType="com.natife.streaming.data.match.Match" />
         </fragment>
 
     </navigation>

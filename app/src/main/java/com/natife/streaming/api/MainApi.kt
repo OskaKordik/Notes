@@ -3,6 +3,7 @@ package com.natife.streaming.api
 import com.natife.streaming.data.dto.LoginDTO
 import com.natife.streaming.data.dto.VideoDTO
 import com.natife.streaming.data.dto.account.AccountDTO
+import com.natife.streaming.data.dto.actions.ActionsDTO
 import com.natife.streaming.data.dto.match.MatchesDTO
 import com.natife.streaming.data.dto.matchprofile.MatchInfoDTO
 import com.natife.streaming.data.dto.matchprofile.MatchInfoDataDTO
@@ -40,4 +41,6 @@ interface MainApi {
     //@POST("video/stream")
     //suspend fun getVideoStream(@Body body: BaseRequest<VideoRequest>): ???
 
+    @POST("data/{sport}")
+    suspend fun getActions(@Body body: BaseRequest<BaseParams>,@Path("sport") sport: String): ActionsDTO
 }
