@@ -63,6 +63,10 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
             dateText.text = it.toDisplay().toUpperCase()
         }
 
+        adapter.onClick={
+            viewModel.toMatchProfile(it)
+        }
+
         buttonScore.setOnClickListener {
             viewModel.showScoreDialog()
         }
@@ -82,7 +86,7 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
             viewModel.toCalendar()
         }
         dateLeft.setOnClickListener {
-            viewModel.previusDay()
+            viewModel.previousDay()
         }
         dateRight.setOnClickListener {
             viewModel.nextDay()

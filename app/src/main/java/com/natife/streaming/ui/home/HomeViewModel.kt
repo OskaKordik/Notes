@@ -28,7 +28,8 @@ abstract class HomeViewModel : BaseViewModel() {
     abstract fun loadList()
     abstract fun toCalendar()
     abstract fun nextDay()
-    abstract fun previusDay()
+    abstract fun previousDay()
+    abstract fun toMatchProfile(match: Match)
 
     abstract val list: LiveData<List<Match>>
     abstract val subOnly: LiveData<Boolean>
@@ -94,6 +95,7 @@ class HomeViewModelImpl(
             else -> data
         }
     }
+
     override fun toCalendar() {
         router.navigate(R.id.action_homeFragment_to_calendarFragment)
     }
@@ -105,11 +107,15 @@ class HomeViewModelImpl(
         settingsPrefs.saveDate(calendar.time.time)
     }
 
-    override fun previusDay() {
+    override fun previousDay() {
         val calendar = Calendar.getInstance()
         calendar.time = settingsPrefs.getDate()?.toDate() ?: Date()
         calendar.add(Calendar.DAY_OF_YEAR, -1)
         settingsPrefs.saveDate(calendar.time.time)
+    }
+
+    override fun toMatchProfile(match: Match) {
+        router.navigate(HomeFragmentDirections.actionHomeFragmentToMatchProfileFragment(match))
     }
 
 

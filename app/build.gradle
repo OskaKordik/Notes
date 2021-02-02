@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-android-extensions'
     id 'androidx.navigation.safeargs.kotlin'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -51,6 +52,7 @@ ext {
     lifecycleVersion = '2.2.0'
     paging_version = "3.0.0-alpha12"
     retrofitVersion = '2.9.0'
+    room_version = "2.2.6"
 }
 
 dependencies {
@@ -98,4 +100,8 @@ dependencies {
 
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.1'
     implementation 'com.github.kizitonwose:CalendarView:1.0.0'
+
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
 }

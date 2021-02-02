@@ -1,5 +1,9 @@
 package com.natife.streaming.data.match
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class Match(
     val id: Int,
     val sportId: Int,
@@ -16,5 +20,5 @@ data class Match(
     val access: Boolean,
     val image: String,
     val placeholder: String
-)
+): Parcelable
 

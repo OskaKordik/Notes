@@ -11,6 +11,7 @@ import com.natife.streaming.data.match.Match
 class MatchAdapter: BaseListAdapter<Match, MatchViewHolder>(MatchDiffUtil()) {
 
     var onBind: ((Int)->Unit)? = null
+    var onClick: ((Match)->Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MatchViewHolder {
         return MatchViewHolder(
@@ -22,6 +23,9 @@ class MatchAdapter: BaseListAdapter<Match, MatchViewHolder>(MatchDiffUtil()) {
         super.onBindViewHolder(holder, position)
         if (position> itemCount-20)
         onBind?.invoke(position)
+        holder.itemView.setOnClickListener {
+            onClick?.invoke(currentList[position])
+        }
     }
 }
 class MatchDiffUtil: DiffUtil.ItemCallback<Match>() {

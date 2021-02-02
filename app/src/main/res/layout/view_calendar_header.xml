@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/white"
         android:gravity="center"
-        android:textSize="35sp"
+        android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="@+id/yearLeft"
         app:layout_constraintEnd_toStartOf="@+id/yearRight"
         app:layout_constraintStart_toEndOf="@+id/yearLeft"
@@ -65,7 +65,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textColor="@color/white"
-        android:textSize="35sp"
+        android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="@+id/monthLeft"
         app:layout_constraintEnd_toStartOf="@+id/monthRight"
         app:layout_constraintStart_toEndOf="@+id/monthLeft"
@@ -89,13 +89,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="400dp" />
+        app:layout_constraintGuide_begin="300dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintGuide_end="400dp"
+        app:layout_constraintGuide_end="300dp"
         android:orientation="vertical"
         />
 

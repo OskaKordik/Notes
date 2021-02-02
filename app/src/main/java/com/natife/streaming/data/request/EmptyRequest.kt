@@ -1,3 +1,3 @@
 package com.natife.streaming.data.request
 
-class EmptyRequest()
+class EmptyRequest(): BaseParams
