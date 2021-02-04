@@ -115,7 +115,7 @@ class HomeViewModelImpl(
     }
 
     override fun toMatchProfile(match: Match) {
-        router.navigate(HomeFragmentDirections.actionHomeFragmentToMatchProfileFragment(match))
+        router.navigate(HomeFragmentDirections.actionHomeFragmentToMatchProfileFragment(match.sportId,match.id))
     }
 
 

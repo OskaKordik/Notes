@@ -11,6 +11,7 @@
         android:id="@+id/dialogTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
         android:padding="25dp"
         android:textColor="@color/white"
         android:textSize="14sp"

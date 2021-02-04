@@ -83,7 +83,9 @@ class Router : KoinComponent {
     fun toSettings() {
 
     }
-
+    fun toSearch() {
+        navigate(R.id.action_main_searchFragment)
+    }
     fun addListener(navListener: NavController.OnDestinationChangedListener) {
         val activity = activity ?: return
         val navHostId = navHostId ?: return
@@ -100,4 +102,6 @@ class Router : KoinComponent {
         val activity = activity ?: return
         toast(activity.getString(res))
     }
+
+
 }

@@ -55,7 +55,7 @@ class SideMenu @JvmOverloads constructor(
             router?.toAccount()
         }
         menuSearch.setOnClickListener {
-
+            router?.toSearch()
         }
         menuHome.setOnClickListener {
             router?.toHome()

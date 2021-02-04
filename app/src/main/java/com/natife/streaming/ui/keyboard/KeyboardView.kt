@@ -19,6 +19,7 @@ import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.textfield.TextInputLayout
 import com.natife.streaming.R
 import kotlinx.android.synthetic.main.keyboard.view.*
+import timber.log.Timber
 import java.util.*
 
 class KeyboardView @JvmOverloads constructor(
@@ -161,6 +162,7 @@ class KeyboardView @JvmOverloads constructor(
                 )
             )
             setOnCenterClicked {
+
                 currentFocus?.also {
                     it.setText(it.text.toString() + str)
                 }
@@ -192,6 +194,24 @@ class KeyboardView @JvmOverloads constructor(
                 }
             }
         }
+    }
+
+    fun attachInput( input: EditText) {
+        //input.forEach {
+            //it.setOnFocusChangeListener { view, hasFocus ->
+                currentFocus = input //(view as EditText)
+
+          //  }
+        input.isFocusable = false
+        input.isFocusableInTouchMode = false
+        input.setOnCenterClicked {
+                if (isNumeric) {
+                    numContainer[getNumDefaultIndex()].requestFocus()
+                } else {
+                    btnContainer[getSymbolsDefaultIndex()].requestFocus()
+                }
+            }
+       // }
     }
 
     fun enableSearch(enable: Boolean) {
@@ -244,8 +264,11 @@ class KeyboardView @JvmOverloads constructor(
 }
 
 private fun View.setOnCenterClicked(block: () -> Unit) {
-    setOnKeyListener { _, keyCode, event ->
+
+    this.setOnKeyListener { _, keyCode, event ->
+
         if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER && event.action == KeyEvent.ACTION_DOWN) {
+            Timber.e("click $keyCode")
             block()
         }
         false

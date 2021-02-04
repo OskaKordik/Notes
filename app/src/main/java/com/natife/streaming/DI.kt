@@ -36,6 +36,12 @@ import com.natife.streaming.ui.login.LoginViewModelImpl
 import com.natife.streaming.ui.main.MainViewModel
 import com.natife.streaming.ui.tournament.TournamentFragmentArgs
 import com.natife.streaming.ui.matchprofile.*
+import com.natife.streaming.ui.search.SearchViewModel
+import com.natife.streaming.ui.search.SearchViewModelImpl
+import com.natife.streaming.ui.search.gender.GenderViewModel
+import com.natife.streaming.ui.search.gender.GenderViewModelImpl
+import com.natife.streaming.ui.search.type.TypeDialogViewModel
+import com.natife.streaming.ui.search.type.TypeDialogViewModelImpl
 import com.natife.streaming.ui.tournament.TournamentViewModel
 import com.natife.streaming.usecase.*
 import com.natife.streaming.utils.OneTimeScope
@@ -79,7 +85,9 @@ val viewModelModule = module {
     viewModel<CalendarViewModel> { CalendarViewModelImpl(get()) }
     viewModel<MatchProfileViewModel> { (args: MatchProfileFragmentArgs) ->
         MatchProfileViewModelImpl(
-            args.match,
+            args.sportId,
+            args.matchId,
+            get(),
             get(),
             get(),
             get()
@@ -90,6 +98,10 @@ val viewModelModule = module {
         get(), get(),get())
     }
     viewModel <WatchViewModel>{(args: WatchFragmentArgs)-> WatchViewModelImpl(args.match,get()) }
+    viewModel <SearchViewModel>{ SearchViewModelImpl(get(),get(),get(),get(),get(),get()) }
+    viewModel <com.natife.streaming.ui.search.sport.SportViewModel>{ com.natife.streaming.ui.search.sport.SportViewModelImpl(get(),get(),get()) }
+    viewModel <TypeDialogViewModel>{ TypeDialogViewModelImpl(get(),get(),get()) }
+    viewModel <GenderViewModel>{ GenderViewModelImpl(get(),get(),get()) }
 }
 
 val prefsModule = module {
@@ -111,9 +123,16 @@ val prefsModule = module {
             Context.MODE_PRIVATE
         )
     }
+    single(named(PREFS_SEARCH_QUALIFIER)) {
+        androidContext().getSharedPreferences(
+            PREFS_SEARCH_NAME,
+            Context.MODE_PRIVATE
+        )
+    }
     single { AuthPrefsImpl(get(named(PREFS_AUTH_QUALIFIER))) as AuthPrefs }
     single { SettingsPrefsImpl(get(named(PREFS_SETTINGS_QUALIFIER))) as SettingsPrefs }
     single { MatchSettingsPrefsImpl(get(named(PREFS_MATCH_SETTINGS_QUALIFIER))) as MatchSettingsPrefs }
+    single { SearchPrefsImpl(get(named(PREFS_SEARCH_QUALIFIER))) as SearchPrefs }
 }
 
 val useCaseModule = module {
@@ -133,6 +152,12 @@ val useCaseModule = module {
     factory<GetTournamentUseCase> { GetTournamentUseCaseImpl(get()) }
     factory<SaveTournamentUseCase> { SaveTournamentUseCaseImpl(get()) }
     factory<TournamentUseCase> { TournamentUseCaseImpl(get()) }
+    factory<SearchUseCase> { SearchUseCaseImpl(get(),get()) }
+    factory <GenderUseCase>{ GenderUseCaseImpl()}
+    factory <SearchTypeUseCase>{ SearchTypeUseCaseImpl()}
+    factory <MatchInfoUseCase>{ MatchInfoUseCaseImpl(get())}
+
+
 }
 
 val mockModule = module {
@@ -190,6 +215,7 @@ val databaseModule = module {
             .build()
     }
     single { get<AppDatabase>().actionDao() }
+    single { get<AppDatabase>().searchDao() }
 }
 val utilModule = module {
     factory { OneTimeScope() }

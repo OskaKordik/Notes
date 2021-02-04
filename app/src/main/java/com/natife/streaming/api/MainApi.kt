@@ -4,11 +4,13 @@ import com.natife.streaming.data.dto.LoginDTO
 import com.natife.streaming.data.dto.VideoDTO
 import com.natife.streaming.data.dto.account.AccountDTO
 import com.natife.streaming.data.dto.actions.ActionsDTO
+import com.natife.streaming.data.dto.match.BroadcastDTO
 import com.natife.streaming.data.dto.match.MatchesDTO
 import com.natife.streaming.data.dto.matchprofile.MatchInfoDTO
 import com.natife.streaming.data.dto.matchprofile.MatchInfoDataDTO
 import com.natife.streaming.data.dto.match.TournamentDTO
 import com.natife.streaming.data.dto.matchprofile.MatchProfileDTO
+import com.natife.streaming.data.dto.search.SearchResultDTO
 import com.natife.streaming.data.dto.sports.SportsDTO
 import com.natife.streaming.data.dto.tournament.TournamentListDTO
 import com.natife.streaming.data.dto.tournamentprofile.TournamentProfileDTO
@@ -47,4 +49,10 @@ interface MainApi {
     suspend fun getActions(@Body body: BaseRequest<BaseParams>,@Path("sport") sport: String): ActionsDTO
     @POST("data")
     suspend fun getTournamentProfile(@Body body: BaseRequest<TournamentProfileRequest>): TournamentProfileDTO
+
+    @POST("data")
+    suspend fun search(@Body body: BaseRequest<SearchRequest>): SearchResultDTO
+
+    @POST("data")
+    suspend fun getMatchInfoGlobal(@Body body: BaseRequest<MatchInfo>): BroadcastDTO
 }

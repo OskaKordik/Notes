@@ -10,6 +10,7 @@ import com.natife.streaming.data.matchprofile.MatchInfo
 import com.natife.streaming.data.matchprofile.Player
 import com.natife.streaming.router.Router
 import com.natife.streaming.usecase.GetThumbnailUseCase
+import com.natife.streaming.usecase.MatchInfoUseCase
 import com.natife.streaming.usecase.MatchProfileUseCase
 import timber.log.Timber
 
@@ -26,17 +27,22 @@ abstract class MatchProfileViewModel : BaseViewModel() {
 }
 
 class MatchProfileViewModelImpl(
-    private val match: Match,
+    private val sport: Int,
+    private val matchId: Int,
     private val matchProfileUseCase: MatchProfileUseCase,
+    private val matchInfoUseCase: MatchInfoUseCase,
     private val router: Router,
     private val getThumbnailUseCase: GetThumbnailUseCase
 ) : MatchProfileViewModel() {
     override fun back() {
         router.navigateUp()
     }
-
+    private var match: Match?= null
     override fun goToSettings() {
-        router.navigate(MatchProfileFragmentDirections.actionMatchProfileFragmentToMatchSettingsFragment(sportId = match.sportId,match = match))
+        if (match!=null){
+            router.navigate(MatchProfileFragmentDirections.actionMatchProfileFragmentToMatchSettingsFragment(sportId = match!!.sportId,match = match!!))
+        }
+
     }
 
     override val team1 = MutableLiveData<List<Player>>()
@@ -47,11 +53,13 @@ class MatchProfileViewModelImpl(
     override val thumbnails = MutableLiveData<List<Bitmap?>>()
 
 
-    init {
 
+    init {
+        launch {
+            val match = matchInfoUseCase.execute(sport,matchId)
         title.value =  "${match.team1.name} ${match.team1.score}:${match.team2.score} ${match.team2.name}"
         league.value = match.info
-        launch {
+
             val matchInfo = matchProfileUseCase.getMatchInfo(match.id, match.sportId)
             Timber.e(matchInfo.toString())
             info.value = matchInfo

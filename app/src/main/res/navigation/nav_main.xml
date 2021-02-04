@@ -86,7 +86,9 @@
             android:name="com.natife.streaming.ui.account.AccountFragment"
             android:label="AccountFragment"
             tools:layout="@layout/fragment_account" />
-
+        <action
+            android:id="@+id/action_main_searchFragment"
+            app:destination="@id/searchFragment" />
         <action
             android:id="@+id/action_main_accountFragment"
             app:destination="@id/accountFragment" />
@@ -136,13 +138,15 @@
             android:name="com.natife.streaming.ui.matchprofile.MatchProfileFragment"
             android:label="MatchProfileFragment"
             tools:layout="@layout/fragment_match_profile">
-            <argument
-                android:name="match"
-                app:argType="com.natife.streaming.data.match.Match"
-                 />
             <action
                 android:id="@+id/action_matchProfileFragment_to_matchSettingsFragment"
                 app:destination="@id/matchSettingsFragment" />
+            <argument
+                android:name="matchId"
+                app:argType="integer" />
+            <argument
+                android:name="sportId"
+                app:argType="integer" />
         </fragment>
         <fragment
             android:id="@+id/matchSettingsFragment"
@@ -168,6 +172,36 @@
                 android:name="match"
                 app:argType="com.natife.streaming.data.match.Match" />
         </fragment>
+        <fragment
+            android:id="@+id/searchFragment"
+            android:name="com.natife.streaming.ui.search.SearchFragment"
+            android:label="SearchFragment"
+            tools:layout="@layout/fragment_search">
+            <action
+                android:id="@+id/action_searchFragment_to_sportDialog2"
+                app:destination="@id/sportDialog2" />
+            <action
+                android:id="@+id/action_searchFragment_to_genderDialog"
+                app:destination="@id/genderDialog" />
+            <action
+                android:id="@+id/action_searchFragment_to_typeDialog"
+                app:destination="@id/typeDialog" />
+            <action
+                android:id="@+id/action_searchFragment_to_tournamentFragment"
+                app:destination="@id/tournamentFragment" />
+        </fragment>
+        <dialog
+            android:id="@+id/sportDialog2"
+            android:name="com.natife.streaming.ui.search.sport.SportDialog"
+            android:label="SportDialog" />
+        <dialog
+            android:id="@+id/genderDialog"
+            android:name="com.natife.streaming.ui.search.gender.GenderDialog"
+            android:label="GenderDialog" />
+        <dialog
+            android:id="@+id/typeDialog"
+            android:name="com.natife.streaming.ui.search.type.TypeDialog"
+            android:label="TypeDialog" />
 
     </navigation>
 

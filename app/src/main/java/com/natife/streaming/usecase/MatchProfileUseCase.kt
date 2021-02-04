@@ -1,6 +1,6 @@
 package com.natife.streaming.usecase
 
-import com.natife.streaming.API_MATCH_INFO
+import com.natife.streaming.API_MATCH_POPUP
 import com.natife.streaming.API_TRANSLATE
 import com.natife.streaming.api.MainApi
 import com.natife.streaming.data.matchprofile.MatchInfo
@@ -11,8 +11,6 @@ import com.natife.streaming.data.request.MatchInfoRequest
 import com.natife.streaming.data.request.TranslateRequest
 import com.natife.streaming.usecase.MatchProfileUseCase.Companion.getPath
 import com.natife.streaming.utils.ImageUrlBuilder
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
 import timber.log.Timber
 
 interface MatchProfileUseCase {
@@ -33,7 +31,7 @@ class MatchProfileUseCaseImpl(private val api: MainApi) : MatchProfileUseCase {
     override suspend fun getMatchInfo(matchId: Int, sportId: Int): MatchInfo {
         val infoDto = api.getMatchInfo(
             BaseRequest(
-                procedure = API_MATCH_INFO,
+                procedure = API_MATCH_POPUP,
                 params = MatchInfoRequest(matchId),
             ),
             getPath(sportId)
