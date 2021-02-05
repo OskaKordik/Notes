@@ -1,6 +1,8 @@
 package com.natife.streaming.api
 
 import com.natife.streaming.data.dto.LoginDTO
+import com.natife.streaming.data.dto.PreviewDTO
+import com.natife.streaming.data.dto.SecondDTO
 import com.natife.streaming.data.dto.VideoDTO
 import com.natife.streaming.data.dto.account.AccountDTO
 import com.natife.streaming.data.dto.actions.ActionsDTO
@@ -19,6 +21,7 @@ import com.natife.streaming.data.request.*
 import retrofit2.http.Body
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Url
 
 interface MainApi {
 
@@ -55,4 +58,10 @@ interface MainApi {
 
     @POST("data")
     suspend fun getMatchInfoGlobal(@Body body: BaseRequest<MatchInfo>): BroadcastDTO
+
+    @POST
+    suspend fun getMatchPreview(@Url url: String = "https://api-staging.instat.tv/videoapi/preview",@Body body: PreviewRequest): PreviewDTO
+
+    @POST("data")
+    suspend fun getSecond(@Body body: BaseRequest<MatchInfo>): SecondDTO
 }

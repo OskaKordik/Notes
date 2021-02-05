@@ -6,6 +6,7 @@ import com.natife.streaming.R
 import com.natife.streaming.base.BaseFragment
 import com.natife.streaming.base.EmptyViewModel
 import com.natife.streaming.ext.subscribe
+import com.natife.streaming.ext.toDisplayTime
 import kotlinx.android.synthetic.main.fragment_match_prewatch.*
 
 import org.koin.core.parameter.ParametersDefinition
@@ -19,6 +20,9 @@ class WatchFragment: BaseFragment<WatchViewModel>() {
         subscribe(viewModel.title,title::setText)
         buttonBack.setOnClickListener {
             viewModel.back()
+        }
+        subscribe(viewModel.startFrom){
+            watchFromMoment.text = "Смотреть с ${it.toDisplayTime()}"//TODO multilang
         }
     }
     override fun getParameters(): ParametersDefinition = {

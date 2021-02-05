@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseViewModel
+import com.natife.streaming.data.Video
 import com.natife.streaming.data.actions.Action
 import com.natife.streaming.data.match.Match
 import com.natife.streaming.preferenses.MatchSettingsPrefs
@@ -41,6 +42,7 @@ abstract class MatchSettingsViewModel: BaseViewModel() {
 class MatchSettingsViewModelImpl(
     private val match: Match,
     private val sportId: Int,
+    private val videos: Array<Video>,
     private val actionsUseCase: ActionsUseCase,
     private val matchSettingsPrefs: MatchSettingsPrefs,
     private val router: Router): MatchSettingsViewModel(), KoinComponent {
@@ -95,7 +97,7 @@ class MatchSettingsViewModelImpl(
 
     override fun getSelectedBefore(): Int = matchSettingsPrefs.getSelectedSecBefore()
     override fun goToPrewatch() {
-        router.navigate(MatchSettingsFragmentDirections.actionMatchSettingsFragmentToWatchFragment(match=match))
+        router.navigate(MatchSettingsFragmentDirections.actionMatchSettingsFragmentToWatchFragment(match=match,video = videos))
     }
 
     override fun goBack() {

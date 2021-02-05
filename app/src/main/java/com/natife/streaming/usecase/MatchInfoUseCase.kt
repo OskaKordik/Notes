@@ -19,7 +19,7 @@ class MatchInfoUseCaseImpl(private val api: MainApi): MatchInfoUseCase{
     override suspend fun execute(sportId: Int, matchId: Int): Match {
        val match = api.getMatchInfoGlobal(BaseRequest(
            procedure = API_MATCH_INFO,
-           params = MatchInfo(sportId, matchId)
+           params = MatchInfo(sportId = sportId, matchId=matchId)
        ))
 
         val sports = api.getSports(

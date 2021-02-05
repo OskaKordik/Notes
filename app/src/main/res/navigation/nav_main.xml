@@ -72,7 +72,7 @@
             android:id="@+id/tournamentFragment"
             android:name="com.natife.streaming.ui.tournament.TournamentFragment"
             android:label="TournamentFragment"
-            tools:layout="@layout/fragment_tournament" >
+            tools:layout="@layout/fragment_tournament">
             <argument
                 android:name="sportId"
                 app:argType="integer" />
@@ -132,7 +132,7 @@
             android:id="@+id/calendarFragment"
             android:name="com.natife.streaming.ui.calendar.CalendarFragment"
             android:label="CalendarFragment"
-            tools:layout="@layout/fragment_calendar"/>
+            tools:layout="@layout/fragment_calendar" />
         <fragment
             android:id="@+id/matchProfileFragment"
             android:name="com.natife.streaming.ui.matchprofile.MatchProfileFragment"
@@ -162,12 +162,19 @@
             <argument
                 android:name="match"
                 app:argType="com.natife.streaming.data.match.Match" />
+            <argument
+                android:name="videos"
+                app:argType="com.natife.streaming.data.Video[]" />
+
         </fragment>
         <fragment
             android:id="@+id/watchFragment"
             android:name="com.natife.streaming.ui.matchprofile.WatchFragment"
             android:label="WatchFragment"
             tools:layout="@layout/fragment_match_prewatch">
+            <argument
+                android:name="video"
+                app:argType="com.natife.streaming.data.Video[]" />
             <argument
                 android:name="match"
                 app:argType="com.natife.streaming.data.match.Match" />
@@ -216,7 +223,6 @@
         app:destination="@id/nav_main"
         app:launchSingleTop="true"
         app:popUpTo="@id/nav_global" />
-
 
 
 </navigation>

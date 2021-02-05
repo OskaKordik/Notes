@@ -56,7 +56,7 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
         })
 
         subscribe(viewModel.subOnly){
-            //TODO change lock icon
+            buttonLock.setImageResource(if (it){R.drawable.ic_lock2}else{R.drawable.ic_lock})
         }
 
         subscribe(viewModel.date){

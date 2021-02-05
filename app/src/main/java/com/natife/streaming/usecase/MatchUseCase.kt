@@ -92,7 +92,17 @@ class MatchUseCaseImpl(
                 )
             )
 
-            val data = matches.videoContent.broadcast?.map { match ->
+            val previews = if(!matches.videoContent.broadcast.isNullOrEmpty()){
+                api.getMatchPreview(body = PreviewRequest().apply {
+                    matches.videoContent.broadcast?.map{PreviewRequestItem(it.id,it.sport!!)}?.let {
+                        addAll(
+                            it
+                        )
+                    }
+                })
+            }else{null}
+
+        val data = matches.videoContent.broadcast?.map { match ->
                 coroutineScope {
                     val profile = async {
 
@@ -107,6 +117,19 @@ class MatchUseCaseImpl(
 
 
                     }
+
+                    val image = if (!match.hasVideo){
+                        ImageUrlBuilder.getUrl(
+                            match.sport?: requestParams?.sportId?:0,
+                            ImageUrlBuilder.Companion.Type.TOURNAMENT, match.tournament?.id?:-1
+                        )
+                    }else{
+                        previews?.find { it.matchId == match.id }?.preview ?: ImageUrlBuilder.getUrl(
+                            match.sport ?: requestParams?.sportId?:0,
+                            ImageUrlBuilder.Companion.Type.TOURNAMENT, match.tournament?.id?:-1
+                        )
+                    }
+
                     Match(
                         id = match.id,
                         sportId = match.sport?: requestParams?.sportId?:0,
@@ -129,10 +152,7 @@ class MatchUseCaseImpl(
                         info = "${profile.await()?.country?.name_rus} ${profile.await()?.nameRus}",
                         access = match.access,
                         hasVideo = match.hasVideo,
-                        image = ImageUrlBuilder.getUrl(
-                            match.sport?: requestParams?.sportId?:0,
-                            ImageUrlBuilder.Companion.Type.TOURNAMENT, match.tournament?.id?:-1
-                        ),
+                        image = image,
                         placeholder = ImageUrlBuilder.getPlaceholder(
                             match.sport?: requestParams?.sportId?:0,
                             ImageUrlBuilder.Companion.Type.TOURNAMENT

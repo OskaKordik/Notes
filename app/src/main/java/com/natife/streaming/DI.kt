@@ -90,14 +90,14 @@ val viewModelModule = module {
             get(),
             get(),
             get(),
-            get()
-        )
+            get(),
+            get())
     }
     viewModel <MatchSettingsViewModel>{(args: MatchSettingsFragmentArgs)->
-        MatchSettingsViewModelImpl(args.match,args.sportId,
+        MatchSettingsViewModelImpl(args.match,args.sportId,args.videos,
         get(), get(),get())
     }
-    viewModel <WatchViewModel>{(args: WatchFragmentArgs)-> WatchViewModelImpl(args.match,get()) }
+    viewModel <WatchViewModel>{(args: WatchFragmentArgs)-> WatchViewModelImpl(args.match,args.video,get(),get()) }
     viewModel <SearchViewModel>{ SearchViewModelImpl(get(),get(),get(),get(),get(),get()) }
     viewModel <com.natife.streaming.ui.search.sport.SportViewModel>{ com.natife.streaming.ui.search.sport.SportViewModelImpl(get(),get(),get()) }
     viewModel <TypeDialogViewModel>{ TypeDialogViewModelImpl(get(),get(),get()) }
@@ -132,7 +132,7 @@ val prefsModule = module {
     single { AuthPrefsImpl(get(named(PREFS_AUTH_QUALIFIER))) as AuthPrefs }
     single { SettingsPrefsImpl(get(named(PREFS_SETTINGS_QUALIFIER))) as SettingsPrefs }
     single { MatchSettingsPrefsImpl(get(named(PREFS_MATCH_SETTINGS_QUALIFIER))) as MatchSettingsPrefs }
-    single { SearchPrefsImpl(get(named(PREFS_SEARCH_QUALIFIER))) as SearchPrefs }
+    single { SearchPrefsImpl(get(named(PREFS_SEARCH_QUALIFIER))) }
 }
 
 val useCaseModule = module {
@@ -156,7 +156,8 @@ val useCaseModule = module {
     factory <GenderUseCase>{ GenderUseCaseImpl()}
     factory <SearchTypeUseCase>{ SearchTypeUseCaseImpl()}
     factory <MatchInfoUseCase>{ MatchInfoUseCaseImpl(get())}
-
+    factory <VideoUseCase>{ VideoUseCaseImpl(get())}
+    factory <SecondUseCase>{ SecondUseCaseImpl(get())}
 
 }
 

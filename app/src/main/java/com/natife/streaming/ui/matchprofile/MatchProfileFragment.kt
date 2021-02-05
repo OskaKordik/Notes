@@ -39,7 +39,7 @@ class MatchProfileFragment: BaseFragment<MatchProfileViewModel>() {
             teamsRecyclerTitle.text = it.translates.playersTranslate
 
             buttonFullMatch.setText(it.translates.fullGameTranslate)
-            //buttonFullMatch.setTime()
+            buttonFullMatch.setText(it.translates.fullGameTranslate)
 
             buttonCleanTime.setText(it.translates.ballInPlayTranslate)
             buttonCleanTime.setTime(it.ballInPlayDuration.toDisplayTime())
@@ -50,6 +50,9 @@ class MatchProfileFragment: BaseFragment<MatchProfileViewModel>() {
             buttonGoals.setText(it.translates.goalsTranslate)
             buttonGoals.setTime(it.goalsDuration.toDisplayTime())
 
+        }
+        subscribe(viewModel.fullVideoDuration){
+            buttonFullMatch.setTime(it.toDisplayTime())
         }
         subscribe(viewModel.title,matchTitle::setText)
         subscribe(viewModel.league,matchLeague::setText)

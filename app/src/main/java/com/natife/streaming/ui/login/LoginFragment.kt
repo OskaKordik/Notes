@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.PatternMatcher
 import android.text.Editable
 import android.text.TextWatcher
+import android.text.method.LinkMovementMethod
 import android.util.Patterns
 import android.view.View
 import androidx.core.view.isVisible
@@ -38,7 +39,10 @@ class LoginFragment : BaseFragment<LoginViewModel>() {
         }
 
         keyboardView.attachInput(emailTextInput, passwordTextInput)
+
+        goToSiteText.movementMethod = LinkMovementMethod.getInstance()
     }
+
 
     private val textWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
