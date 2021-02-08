@@ -6,11 +6,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseFragment
-import com.natife.streaming.base.EmptyViewModel
 import com.natife.streaming.ext.subscribe
 import com.natife.streaming.ext.toDisplayTime
-import com.natife.streaming.ui.home.tournament.TournamentDialogArgs
 import kotlinx.android.synthetic.main.fragment_match_profile.*
+import kotlinx.android.synthetic.main.fragment_match_profile.buttonBack
+import kotlinx.android.synthetic.main.fragment_match_profile_settings.*
 import org.koin.core.parameter.ParametersDefinition
 import org.koin.core.parameter.parametersOf
 
@@ -58,13 +58,32 @@ class MatchProfileFragment: BaseFragment<MatchProfileViewModel>() {
         subscribe(viewModel.league,matchLeague::setText)
         subscribe(viewModel.team1,teamAdapter1::submitList)
         subscribe(viewModel.team2,teamAdapter2::submitList)
-        subscribe(viewModel.thumbnails,episodeAdapter::submitList)
+        subscribe(viewModel.episodes,episodeAdapter::submitList)
+
+        teamAdapter1.onClick ={
+            viewModel.player(it)
+        }
+        teamAdapter2.onClick ={
+            viewModel.player(it)
+        }
 
         buttonBack.setOnClickListener {
             viewModel.back()
         }
         buttonSettings.setOnClickListener {
             viewModel.goToSettings()
+        }
+        buttonGoals.setOnClickListener {
+            viewModel.goals()
+        }
+        buttonReview.setOnClickListener {
+            viewModel.review()
+        }
+        buttonFullMatch.setOnClickListener {
+            viewModel.fullMatch()
+        }
+        buttonCleanTime.setOnClickListener {
+            viewModel.ballInPlay()
         }
     }
 

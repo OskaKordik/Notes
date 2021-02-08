@@ -18,4 +18,7 @@ interface ActionDao {
 
     @Query("SELECT* FROM `action` WHERE sportId == :sportId")
     suspend fun getActions(sportId: Int): List<ActionEntity>
+
+    @Query("SELECT* FROM `action` WHERE sportId == :sportId AND selected = 1")
+    suspend fun getSelectedActions(sportId: Int): List<ActionEntity>
 }

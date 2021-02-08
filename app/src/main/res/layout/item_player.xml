@@ -7,6 +7,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <ImageView
+        android:duplicateParentState="true"
         android:id="@+id/playerImage"
         android:layout_width="50dp"
         android:layout_height="50dp"

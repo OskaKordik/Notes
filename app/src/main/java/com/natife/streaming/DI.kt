@@ -91,7 +91,8 @@ val viewModelModule = module {
             get(),
             get(),
             get(),
-            get())
+            get(),
+        get())
     }
     viewModel <MatchSettingsViewModel>{(args: MatchSettingsFragmentArgs)->
         MatchSettingsViewModelImpl(args.match,args.sportId,args.videos,
@@ -158,6 +159,8 @@ val useCaseModule = module {
     factory <MatchInfoUseCase>{ MatchInfoUseCaseImpl(get())}
     factory <VideoUseCase>{ VideoUseCaseImpl(get())}
     factory <SecondUseCase>{ SecondUseCaseImpl(get())}
+    factory <PlayerActionUseCase>{ PlayerActionUseCaseImpl(get(),get(),get())}
+
 
 }
 

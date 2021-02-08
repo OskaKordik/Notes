@@ -8,6 +8,7 @@ import com.natife.streaming.base.BaseListAdapter
 import com.natife.streaming.data.matchprofile.Player
 
 class PlayerAdapter () : BaseListAdapter<Player, PlayerViewHolder>(PlayerDiffCallback()) {
+    var onClick: ((Player)->Unit)? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlayerViewHolder {
         return PlayerViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.item_player, parent, false).apply {
@@ -15,7 +16,15 @@ class PlayerAdapter () : BaseListAdapter<Player, PlayerViewHolder>(PlayerDiffCal
             }
         )
     }
+
+    override fun onBindViewHolder(holder: PlayerViewHolder, position: Int) {
+        super.onBindViewHolder(holder, position)
+        holder.itemView.setOnClickListener {
+            onClick?.invoke(currentList[position])
+        }
+    }
 }
+
 
 class PlayerDiffCallback : DiffUtil.ItemCallback<Player>() {
     override fun areItemsTheSame(oldItem: Player, newItem: Player): Boolean {

@@ -26,6 +26,13 @@ class MainActivity : BaseActivity<MainViewModel>() {
     }
 
     override fun dispatchKeyEvent(event: KeyEvent?): Boolean {
+
+        try {
+
+            Timber.e(resources.getResourceName(currentFocus?.id?:0))
+        }catch (e: Exception){
+
+        }
         if (mainMenu.hasFocus()) {
             (mainMotion as MotionLayout).transitionToEnd()
         } else {

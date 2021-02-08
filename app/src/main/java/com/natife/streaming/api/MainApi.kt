@@ -1,17 +1,13 @@
 package com.natife.streaming.api
 
-import com.natife.streaming.data.dto.LoginDTO
-import com.natife.streaming.data.dto.PreviewDTO
-import com.natife.streaming.data.dto.SecondDTO
-import com.natife.streaming.data.dto.VideoDTO
+import com.natife.streaming.data.dto.*
 import com.natife.streaming.data.dto.account.AccountDTO
 import com.natife.streaming.data.dto.actions.ActionsDTO
 import com.natife.streaming.data.dto.match.BroadcastDTO
 import com.natife.streaming.data.dto.match.MatchesDTO
 import com.natife.streaming.data.dto.matchprofile.MatchInfoDTO
-import com.natife.streaming.data.dto.matchprofile.MatchInfoDataDTO
-import com.natife.streaming.data.dto.match.TournamentDTO
 import com.natife.streaming.data.dto.matchprofile.MatchProfileDTO
+import com.natife.streaming.data.dto.player.PlayerDTO
 import com.natife.streaming.data.dto.search.SearchResultDTO
 import com.natife.streaming.data.dto.sports.SportsDTO
 import com.natife.streaming.data.dto.tournament.TournamentListDTO
@@ -64,4 +60,10 @@ interface MainApi {
 
     @POST("data")
     suspend fun getSecond(@Body body: BaseRequest<MatchInfo>): SecondDTO
+
+    @POST("data/{sport}")
+    suspend fun getPlayerActions(@Body body: BaseRequest<PlayerActionsRequest>,@Path("sport") sport: String): PlayerEpisodesDTO
+
+    @POST("data")
+    suspend fun getPlayerInfo(@Body body: BaseRequest<PlayerInfoRequest>): PlayerDTO
 }

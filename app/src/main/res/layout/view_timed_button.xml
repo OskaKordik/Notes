@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:focusable="true"
     android:padding="10dp"
+    android:duplicateParentState="true"
     android:background="@drawable/timed_button_background"
     xmlns:tools="http://schemas.android.com/tools">
 
