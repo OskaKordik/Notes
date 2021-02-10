@@ -1,11 +1,9 @@
 package com.natife.streaming.usecase
 
 import android.app.Application
-import android.content.Intent
 import com.natife.streaming.App
 import com.natife.streaming.preferenses.AuthPrefs
-import com.natife.streaming.ui.splash.SplashActivity
-import com.natife.streaming.utils.Result
+import com.natife.streaming.router.Router
 
 /**
  * Выступает в роли интерфейса между ViewModel и Api.
@@ -13,18 +11,17 @@ import com.natife.streaming.utils.Result
  * в нем же можно мапить данные.
  */
 interface LogoutUseCase {
-    suspend fun execute()
+    fun execute()
 }
 
 class LogoutUseCaseImpl(
     private val application: Application,
-    private val authPrefs: AuthPrefs
+    private val authPrefs: AuthPrefs,
+    private val router: Router
 ) : LogoutUseCase {
-    override suspend fun execute() {
+    override fun execute() {
         authPrefs.clear()
         (application as? App)?.restartKoin()
-        application.startActivity(Intent(application, SplashActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-        })
+        router.toLogin()
     }
 }

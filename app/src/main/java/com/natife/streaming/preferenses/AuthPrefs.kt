@@ -2,6 +2,8 @@ package com.natife.streaming.preferenses
 
 import android.annotation.SuppressLint
 import android.content.SharedPreferences
+import com.google.gson.Gson
+import com.natife.streaming.data.Profile
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.sendBlocking
 import kotlinx.coroutines.flow.Flow
@@ -13,13 +15,14 @@ interface AuthPrefs : BasePrefs {
     fun getRefreshAuthToken(): String?
     fun saveRefreshAuthToken(refToken: String?): Boolean
     fun isLoggedIn(): Boolean
-//    fun saveProfile(profile: Profile?): Boolean
-//    fun getProfile(): Profile?
-//    fun getProfileFlow(): Flow<Profile?>
+    fun saveProfile(profile: Profile?): Boolean
+    fun getProfile(): Profile?
+    fun getProfileFlow(): Flow<Profile?>
 }
 
 private const val AUTH_TOKEN = "AUTH_TOKEN"
 private const val REFRESH_TOKEN = "REFRESH_TOKEN"
+private const val PROFILE = "PROFILE"
 
 @SuppressLint("ApplySharedPref")
 class AuthPrefsImpl(private val pref: SharedPreferences) : AuthPrefs {
@@ -34,6 +37,20 @@ class AuthPrefsImpl(private val pref: SharedPreferences) : AuthPrefs {
 
     override fun isLoggedIn() = pref.getString(AUTH_TOKEN, null) != null
 
+    override fun saveProfile(profile: Profile?) = pref.edit().putString(PROFILE, Gson().toJson(profile)).commit()
+    override fun getProfile(): Profile? = Gson().fromJson(pref.getString(PROFILE, null), Profile::class.java)
+
+    override fun getProfileFlow(): Flow<Profile?> = callbackFlow {
+        sendBlocking(getProfile())
+        val changeListener =
+            SharedPreferences.OnSharedPreferenceChangeListener { sharedPreferences, key ->
+                if (key == PROFILE) {
+                    sendBlocking(getProfile())
+                }
+            }
+        pref.registerOnSharedPreferenceChangeListener(changeListener)
+        awaitClose { pref.unregisterOnSharedPreferenceChangeListener(changeListener) }
+    }
 
     override fun clear() = pref.edit().clear().commit()
 }

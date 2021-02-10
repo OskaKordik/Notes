@@ -1,6 +1,5 @@
 package com.natife.streaming.mock
 
-import com.natife.streaming.data.Login
 import com.natife.streaming.data.Profile
 import kotlinx.coroutines.delay
 

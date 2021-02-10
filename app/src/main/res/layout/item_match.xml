@@ -2,25 +2,25 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="230dp"
-    android:layout_height="210dp"
+    android:layout_width="match_parent"
     android:focusable="true"
-    android:background="@drawable/item_background"
-    android:layout_marginEnd="8dp"
-    android:layout_marginBottom="8dp"
+    android:layout_height="210dp"
     android:padding="5dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="4dp">
+        android:background="@drawable/item_background"
+        android:padding="2dp"
+        android:duplicateParentState="true"
+        android:focusable="true">
 
         <ImageView
             android:id="@+id/matchImage"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginBottom="8dp"
-            android:scaleType="centerCrop"
+
             app:layout_constraintBottom_toTopOf="@+id/matchTitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -83,6 +83,15 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/matchImage" />
+
+        <ImageView
+            android:id="@+id/imageBought"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_dollar"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/matchImage"
+            app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

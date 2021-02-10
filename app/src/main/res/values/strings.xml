@@ -2,8 +2,13 @@
     <string name="app_name">Streaming</string>
     <string name="login">Login</string>
     <string name="e_mail">E-mail</string>
-    <string name="instat_tv">Если у Вас нет логина и пароля, то пройдите на сайт <a href="http://www.google.com">instat.tv</a> и зарегистрируйтесь</string>
+    <string name="instat_tv">Если у Вас нет логина и пароля, то пройдите на сайт <a href="https://staging.instat.tv/login">instat.tv</a> и зарегистрируйтесь</string>
     <string name="instat">Instat</string>
+    <string name="score">Счет</string>
+    <string name="add_to_favorite">Добавить в избранное</string>
+    <string name="whitespace">Пробел</string>
+    <string name="clear">Очистить</string>
+    <string name="search">Поиск</string>
 
     <string name="test_mp4">https://storage.googleapis.com/exoplayer-test-media-0/BigBuckBunny_320x180.mp4</string>
     <string name="text_slash">\u0020/\u0020</string>

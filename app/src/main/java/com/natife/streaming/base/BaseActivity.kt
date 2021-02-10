@@ -1,41 +1,40 @@
 package com.natife.streaming.base
 
 import android.os.Bundle
+import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import com.natife.streaming.ext.showToast
 import com.natife.streaming.ext.subscribe
 import com.natife.streaming.router.Router
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import java.lang.reflect.ParameterizedType
 import kotlin.reflect.KClass
 
 abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity() {
 
-    var router: Router? = null
+    val router by inject<Router>()
 
     protected lateinit var viewModel: VM
 
-
     abstract fun getLayoutRes(): Int?
 
+    @IdRes
+    abstract fun getNavHostId(): Int
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        router.attach(this, getNavHostId())
         super.onCreate(savedInstanceState)
-//        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         getLayoutRes()?.also {
             setContentView(it)
         }
 
         viewModel = getViewModel(clazz = getViewModelKClass())
-        router = onCreateRouter()
-        viewModel.router = router
-
 
         subscribe(viewModel.defaultErrorLiveData) {
             onError(it)
         }
     }
-
-    abstract fun onCreateRouter(): Router?
 
     protected open fun onError(throwable: Throwable) {
         throwable.localizedMessage?.let {
@@ -49,6 +48,4 @@ abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity() {
             (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[0] as Class<VM>
         return actualClass.kotlin
     }
-
-
 }

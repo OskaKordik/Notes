@@ -1,23 +1,33 @@
 package com.natife.streaming.ui.player
 
+import android.animation.ValueAnimator
+import android.graphics.Color
+import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
 import androidx.core.view.isVisible
+import androidx.leanback.widget.BrowseFrameLayout
+import androidx.leanback.widget.BrowseFrameLayout.OnChildFocusListener
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.exoplayer2.MediaItem
-import com.google.android.exoplayer2.Renderer
-import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.util.Util
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseFragment
+import com.natife.streaming.ext.dp
 import com.natife.streaming.ext.subscribe
 import com.natife.streaming.ui.home.MatchAdapter
+import com.natife.streaming.ui.matchprofile.MatchProfileFragmentArgs
 import kotlinx.android.synthetic.main.custom_playback_control.*
 import kotlinx.android.synthetic.main.fragment_player.*
+import org.koin.core.parameter.ParametersDefinition
+import org.koin.core.parameter.parametersOf
+import timber.log.Timber
 
 
 class PlayerFragment : BaseFragment<PlayerViewModel>() {
@@ -27,41 +37,21 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
 
     private var bottomSheetBehavior: BottomSheetBehavior<*>? = null
 
-    private var playWhenReady = true
+    private var playWhenReady = false
     private var currentWindow = 0
     private var playbackPosition: Long = 0
+    var animation: ValueAnimator? = null
 
-    private val matchAdapter by lazy {
-        MatchAdapter { match ->
-            match?.let { it -> viewModel.onMatchClicked(it) }
-        }
-    }
+//    private val matchAdapter by lazy {
+//        MatchAdapter { match ->
+//            match?.let { it -> viewModel.onMatchClicked(it) }
+//        }
+//    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         subscribeViewModels()
-
-        bottomSheetBehavior = BottomSheetBehavior.from(recyclerViewVideos)
-
-        //For showing/hiding player controls
-        bottomSheetBehavior?.addBottomSheetCallback(object :
-            BottomSheetBehavior.BottomSheetCallback() {
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-                when (newState) {
-                    BottomSheetBehavior.STATE_HALF_EXPANDED -> showControls(false)
-                    else -> showControls(true)
-                }
-            }
-
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {}
-        })
-
-        with(recyclerViewVideos) {
-            layoutManager = LinearLayoutManager(requireContext(),  RecyclerView.HORIZONTAL, false)
-            setHasFixedSize(true)
-            adapter = matchAdapter
-        }
 
         //Focus for progress
         exo_progress.setOnFocusChangeListener { v, _ ->
@@ -74,50 +64,122 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
             }
         }
 
-        //For hiding video list
-        bottomSheetHelperView.setOnFocusChangeListener { v, isFocused ->
-            if (isFocused) {
-                bottomSheetBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED
-                exo_progress.requestFocus()
-                v.isFocusable = false
+
+
+        var isShow = false
+        parentLayout.onChildFocusListener = object :OnChildFocusListener{
+            override fun onRequestFocusInDescendants(
+                direction: Int,
+                previouslyFocusedRect: Rect?
+            ): Boolean {
+                Timber.e(" jidjofjodifjofidfijdfoi ${direction}")
+               return false
             }
-        }
 
-        //Focus for list of videos
-        recyclerViewVideos.setOnFocusChangeListener { v, _ ->
-            if (v.isFocused) {
+            override fun onRequestChildFocus(child: View?, focused: View?) {
+                try {
+                    Timber.e(" jidjofjodifjofidfijdfoi ${resources.getResourceName(child!!.id)}")
+                    if (child.id ==  recyclerViewVideos.id) {
+                        if (!isShow){
+                            animation?.cancel()
+                            animation = getShowAnimation()
+                            animation!!.start()
+                            isShow = true
+                        }
 
-                bottomSheetBehavior?.state = BottomSheetBehavior.STATE_HALF_EXPANDED
+                    }
+                    else{
+                        if(isShow){
 
-                recyclerViewVideos.getChildAt(0).requestFocus()
+                        animation?.cancel()
+                        animation = getHideAnimation()
+                        animation!!.start()
+                            isShow = false
+                        }
+                    }
+                }catch (e:Exception){
 
-                playerView.controllerShowTimeoutMs = 0
-
-                v.nextFocusUpId = R.id.exo_progress
-
-                bottomSheetHelperView.isFocusable = true
-
-            } else {
-
-                bottomSheetHelperView.isFocusable = false
-
-                bottomSheetBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED
+                }
             }
+
         }
     }
 
+    fun getShowAnimation():ValueAnimator{
+
+        return ValueAnimator.ofInt(recyclerViewVideos.height, requireActivity().windowManager.defaultDisplay.height/2).apply {
+            addUpdateListener { animator->
+            val lp = recyclerViewVideos.layoutParams
+            recyclerViewVideos.layoutParams = lp.apply { height = animator.animatedValue as Int}
+        }
+            duration = 500}
+
+    }
+    fun getHideAnimation():ValueAnimator{
+        return ValueAnimator.ofInt(recyclerViewVideos.height,80.dp).apply {
+            addUpdateListener { animator->
+                val lp = recyclerViewVideos.layoutParams
+                recyclerViewVideos.layoutParams = lp.apply { height = animator.animatedValue as Int}
+            }
+            duration = 500}
+
+    }
+
+
     private fun subscribeViewModels() {
         subscribe(viewModel.videoLiveData) { videoUrl ->
+            Timber.e("jodifjoifjdoif $videoUrl")
             initializePlayer(videoUrl)
+            subscribe(viewModel.currentEpisode){
+                Timber.e("jodifjoifjdoif $it")
+                if (it.start >0){
+                    simpleExoPlayer?.seekTo((it.half-1).toInt(),it.start*1000)
+                }
+
+                simpleExoPlayer?.playWhenReady = true
+            }
+
         }
 
-        subscribe(viewModel.matchesLiveData) { match ->
-            matchAdapter.submitData(this.lifecycle, match)
+        subscribe(viewModel.sourceLiveData) { source ->
+            playlistsContainer.removeAllViews()
+            source.toList().forEach { pair ->
+                val title = TextView(context).apply {
+                    layoutParams = ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT
+                    )
+                    setTextColor(Color.WHITE)
+                    text = pair.first
+                }
+                context?.let {
+                    val recycler = RecyclerView(it).apply {
+                        layoutParams = ViewGroup.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT
+                        )
+                        layoutManager =
+                            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                        adapter = PlaylistAdapter(){
+                            viewModel.play(it)
+                        }.apply {
+                            submitList(pair.second.sortedBy { it.start })
+                        }
+                        isFocusable = true
+
+
+
+                    }
+
+                    playlistsContainer.addView(title)
+                    playlistsContainer.addView(recycler)
+                }
+            }
         }
 
         subscribe(viewModel.matchInfoLiveData) { matchInfo ->
-            smallGameTitle.text = matchInfo.tournamentNameRus
-            bigGameTitle.text = "${matchInfo.teamName1} : ${matchInfo.teamName2}"
+            smallGameTitle.text = matchInfo.info
+            bigGameTitle.text = "${matchInfo.team1.name} : ${matchInfo.team2.name}"
         }
     }
 
@@ -136,7 +198,7 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
         menuPlayer.isVisible = show
     }
 
-    private fun initializePlayer(videoUrl: String) {
+    private fun initializePlayer(list: List<String>) {
         if (simpleExoPlayer != null) {
             simpleExoPlayer?.release()
             simpleExoPlayer = null
@@ -144,10 +206,9 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
 
         simpleExoPlayer = SimpleExoPlayer.Builder(requireContext()).build()
 
-        val mediaItem = MediaItem.fromUri(videoUrl)
-        simpleExoPlayer?.setMediaItem(mediaItem)
+        simpleExoPlayer?.setMediaItems(list.map { MediaItem.fromUri(it) })
 
-        recyclerViewVideos.scrollToPosition(0)
+        //recyclerViewVideos.scrollToPosition(0)
 
         playerView.player = simpleExoPlayer
 
@@ -162,11 +223,22 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
 
         simpleExoPlayer?.videoScalingMode = Renderer.VIDEO_SCALING_MODE_SCALE_TO_FIT
         simpleExoPlayer?.playWhenReady = playWhenReady
-        simpleExoPlayer?.seekTo(currentWindow, playbackPosition)
+//        Timber.e("jodifjoifjdoif $videoUrl, $start")
+//        simpleExoPlayer?.seekTo(start)
+//        simpleExoPlayer?.addListener(object : Player.EventListener{
+//            override fun onPlaybackStateChanged(state: Int) {
+//                if (simpleExoPlayer?.currentPosition!! >end){
+//                    simpleExoPlayer?.stop()
+//                }
+//                super.onPlaybackStateChanged(state)
+//            }
+//        })
         simpleExoPlayer?.prepare()
 
         playerView.hideController()
     }
+
+
 
     override fun onPause() {
         super.onPause()
@@ -192,5 +264,9 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
             simpleExoPlayer?.release()
             simpleExoPlayer = null
         }
+    }
+
+    override fun getParameters(): ParametersDefinition = {
+        parametersOf(PlayerFragmentArgs.fromBundle(requireArguments()))
     }
 }

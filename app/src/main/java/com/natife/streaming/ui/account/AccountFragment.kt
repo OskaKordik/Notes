@@ -24,5 +24,6 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
 
         subscribe(viewModel.nameLiveData, name::setText)
         subscribe(viewModel.emailLiveData, email::setText)
+
     }
 }

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center"
+    android:padding="12dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/alert_background">
+
+    <TextView
+        android:id="@+id/alertTitle"
+        android:text="Недоступно"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="@color/white"
+        />
+    <TextView
+        android:id="@+id/alertDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="К сожалению, данный матч \nнедоступен в вашей стране"
+        android:textSize="10sp"
+        android:textColor="@color/white"
+        />
+
+
+</LinearLayout>

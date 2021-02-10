@@ -1,10 +1,12 @@
 package com.natife.streaming.data.match
 
-import com.google.gson.annotations.SerializedName
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class Tournament(
-    @SerializedName("id") val id: Int,
-    @SerializedName("name_rus") val nameRus: String,
-    @SerializedName("name_eng") val nameEng: String
-)
+    val id: Int,
+    val name: String
+) : Parcelable
+
 

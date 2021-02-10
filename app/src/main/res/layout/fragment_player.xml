@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.leanback.widget.BrowseFrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parentLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <!--<androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+    android:layout_height="match_parent">-->
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/playerContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -40,24 +47,31 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <View
-        android:id="@+id/bottomSheetHelperView"
-        android:layout_width="match_parent"
-        android:background="@android:color/transparent"
-        android:focusable="false"
-        android:layout_height="20dp"
-        android:layout_gravity="center" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewVideos"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="36dp"
-        android:layout_marginEnd="36dp"
-        android:background="@android:color/transparent"
-        android:descendantFocusability="beforeDescendants"
-        android:focusable="true"
-        app:behavior_peekHeight="70dp"
-        app:layout_behavior="@string/bottom_sheet_behavior" />
+       <androidx.core.widget.NestedScrollView
+           android:id="@+id/recyclerViewVideos"
+           android:layout_width="match_parent"
+           android:layout_height="80dp"
+           android:background="@android:color/transparent"
+           android:descendantFocusability="beforeDescendants"
+           android:layout_gravity="bottom"
+           android:focusable="false"
+            app:layout_constraintHeight_percent="0"
+           app:behavior_peekHeight="70dp"
+           app:layout_behavior="@string/bottom_sheet_behavior"
+           app:layout_constraintBottom_toBottomOf="parent"
+           app:layout_constraintEnd_toEndOf="parent"
+           app:layout_constraintStart_toStartOf="parent"
+           app:layout_constraintTop_toTopOf="parent"
+           app:layout_constraintVertical_bias="1.0">
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+           <LinearLayout
+               android:id="@+id/playlistsContainer"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="vertical" />
+       </androidx.core.widget.NestedScrollView>
+
+
+<!--</androidx.coordinatorlayout.widget.CoordinatorLayout>-->
+</androidx.leanback.widget.BrowseFrameLayout>

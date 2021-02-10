@@ -1,7 +1,12 @@
 package com.natife.streaming.usecase
 
+import com.natife.streaming.API_ACCOUNT
+import com.natife.streaming.api.MainApi
 import com.natife.streaming.data.Profile
+import com.natife.streaming.data.request.BaseRequest
+import com.natife.streaming.data.request.EmptyRequest
 import com.natife.streaming.mock.MockAccountRepository
+import com.natife.streaming.preferenses.AuthPrefs
 
 
 /**
@@ -13,8 +18,18 @@ interface AccountUseCase {
     suspend fun getProfile(): Profile
 }
 
-class AccountUseCaseImpl(private val accountRepository: MockAccountRepository) : AccountUseCase {
+class AccountUseCaseImpl(private val api: MainApi, private val authPrefs: AuthPrefs) :
+    AccountUseCase {
     override suspend fun getProfile(): Profile {
-        return accountRepository.getProfile()
+        val profileDTO =
+            api.getProfile(BaseRequest(procedure = API_ACCOUNT, params = EmptyRequest()))
+        val profile = Profile(
+            firstName = profileDTO.firstname ?: "",
+            lastName = profileDTO.lastname ?: "",
+            email = profileDTO.email ?: ""
+        )
+        authPrefs.saveProfile(profile)
+        return profile
     }
+
 }

@@ -12,7 +12,6 @@ import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 
 abstract class BaseViewModel : ViewModel() {
-    var router: Router? = null
 
     private val _defaultErrorLiveData = SingleLiveEvent<Throwable>()
     val defaultErrorLiveData: LiveData<Throwable> = _defaultErrorLiveData
