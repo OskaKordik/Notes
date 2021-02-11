@@ -100,7 +100,7 @@ class MatchProfileViewModelImpl(
                 Episode(
                     start = 0,
                     end = -1,
-                    half = -1,
+                    half = 1,
                     title = "${it.info}",
                     image = it.image,
                     placeholder = it.placeholder
@@ -164,12 +164,10 @@ class MatchProfileViewModelImpl(
             videos = video
             Timber.e(
                 "juidfdnffd ${
-                    video.groupBy { it.quality }.values.toList()
-                        .map { it.map { "${it.name} ${it.period} ${it.quality}" } }
-                }"
+                    video.groupBy { it.quality }?.entries?.maxByOrNull { it.key.toInt() }!!.value}"
             )
             fullVideoDuration.value =
-                video.groupBy { it.quality }.values.toList()[0].map { it.duration }.sum()
+                video.groupBy { it.quality }?.entries?.maxByOrNull { it.key.toInt() }!!.value.map { (it.duration/1000) }.sum()
         }
 
 

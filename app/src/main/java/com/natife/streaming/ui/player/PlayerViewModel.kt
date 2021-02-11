@@ -23,7 +23,7 @@ abstract class PlayerViewModel : BaseViewModel() {
     abstract fun onMatchClicked(match: Match)
     abstract fun play(it: Episode)
 
-    abstract val videoLiveData: LiveData<List<String>>
+    abstract val videoLiveData: LiveData<List<Pair<String,Long>>>
     abstract val matchInfoLiveData: LiveData<Match>
     abstract val sourceLiveData: LiveData<Map<String,List<Episode>>>
     abstract val currentEpisode: LiveData<Episode>
@@ -33,7 +33,7 @@ class PlayerViewModelImpl(
     private val setup: PlayerSetup
 ) : PlayerViewModel() {
 
-    override val videoLiveData = MutableLiveData<List<String>>()
+    override val videoLiveData = MutableLiveData<List<Pair<String,Long>>>()
     override val matchInfoLiveData = MutableLiveData<Match>()
     override val sourceLiveData = MutableLiveData<Map<String,List<Episode>>>()
     override val currentEpisode = MutableLiveData<Episode>()
@@ -41,7 +41,7 @@ class PlayerViewModelImpl(
     init {
 
         sourceLiveData.value = setup.playlist
-        videoLiveData.value = setup.video?.groupBy { it.quality }?.entries?.maxByOrNull { it.key.toInt() }!!.value.map { it.url }
+        videoLiveData.value = setup.video?.groupBy { it.quality }?.entries?.maxByOrNull { it.key.toInt() }!!.value.map { it.url to it.duration }
         currentEpisode.value = setup.currentEpisode
         matchInfoLiveData.value = setup.match
 

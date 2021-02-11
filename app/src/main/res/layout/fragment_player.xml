@@ -20,6 +20,7 @@
             android:id="@+id/playerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            
             android:focusable="true"
             app:use_controller="true"
             app:controller_layout_id="@layout/custom_playback_control" />

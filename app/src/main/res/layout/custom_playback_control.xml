@@ -41,39 +41,66 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_menu_player"
             android:focusable="false"
-            android:nextFocusDown="@id/exo_progress"
+            android:nextFocusDown="@+id/progress"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.exoplayer2.ui.DefaultTimeBar
-            android:id="@id/exo_progress"
+            android:id="@+id/exo_progress"
             android:layout_width="match_parent"
             android:layout_height="26dp"
             android:layout_weight="1"
             android:focusable="true"
+            android:progressTint="#EACB6F"
             android:nextFocusUp="@+id/menuPlayer"
+            android:thumbTint="@color/white"
+            app:layout_constraintTop_toBottomOf="@+id/menuPlayer" />
+
+        <SeekBar
+            android:id="@+id/progress"
+            android:layout_width="match_parent"
+            android:layout_height="26dp"
+            android:layout_weight="1"
+            android:focusable="true"
+            android:progressTint="#EACB6F"
+            android:nextFocusUp="@+id/menuPlayer"
+            android:thumbTint="@color/white"
             app:layout_constraintTop_toBottomOf="@+id/menuPlayer" />
 
         <TextView
-            android:id="@id/exo_position"
+            android:id="@+id/position"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             app:layout_constraintEnd_toStartOf="@+id/slashTextView"
             app:layout_constraintTop_toTopOf="@+id/slashTextView"
             tools:text="00:00" />
-
+        <TextView
+            android:id="@+id/exo_position"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toStartOf="@+id/slashTextView1"
+            app:layout_constraintTop_toTopOf="@+id/slashTextView1"
+            tools:text="00:00" />
         <TextView
             android:id="@+id/slashTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/text_slash"
             android:textColor="@color/white"
+            app:layout_constraintEnd_toStartOf="@+id/duration"
+            app:layout_constraintTop_toTopOf="@+id/duration" />
+        <TextView
+            android:id="@+id/slashTextView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_slash"
+            android:textColor="@color/white"
             app:layout_constraintEnd_toStartOf="@+id/exo_duration"
             app:layout_constraintTop_toTopOf="@+id/exo_duration" />
-
         <TextView
-            android:id="@id/exo_duration"
+            android:id="@+id/exo_duration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -83,6 +110,27 @@
             app:layout_constraintTop_toTopOf="@id/menuPlayer"
             tools:text="00:00" />
 
+        <TextView
+            android:id="@+id/duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/menuPlayer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/menuPlayer"
+            tools:text="00:00" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/groupFragments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="slashTextView,position,progress,duration"/>
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/groupFull"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="slashTextView1,exo_position,exo_progress,exo_duration"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
