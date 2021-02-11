@@ -51,6 +51,7 @@
             android:layout_height="26dp"
             android:layout_weight="1"
             android:focusable="true"
+            app:played_color="#EACB6F"
             android:progressTint="#EACB6F"
             android:nextFocusUp="@+id/menuPlayer"
             android:thumbTint="@color/white"

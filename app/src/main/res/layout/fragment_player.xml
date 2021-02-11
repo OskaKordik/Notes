@@ -56,6 +56,7 @@
            android:background="@android:color/transparent"
            android:descendantFocusability="beforeDescendants"
            android:layout_gravity="bottom"
+           android:layout_marginHorizontal="40dp"
            android:focusable="false"
             app:layout_constraintHeight_percent="0"
            app:behavior_peekHeight="70dp"

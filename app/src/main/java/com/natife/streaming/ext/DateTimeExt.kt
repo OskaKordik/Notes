@@ -37,7 +37,7 @@ fun Long.toDisplayTime(): String {
     val sdf2 = SimpleDateFormat("mm:ss", Locale.getDefault())
     val sdf3 = SimpleDateFormat("ss", Locale.getDefault())
     return when {
-        miliss < 1000 * 60 -> sdf3.format(Date(miliss))
+        miliss < 1000 * 60 -> sdf2.format(Date(miliss))
         miliss in 1000 * 60..1000 * 60 * 60 -> sdf2.format(Date(miliss))
         else -> sdf1.format(Date(miliss))
     }

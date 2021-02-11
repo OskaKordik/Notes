@@ -67,6 +67,7 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
                 bottomSheetBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED
             }
         }
+        //Focus for progress full match
         exo_progress.setOnFocusChangeListener { v, _ ->
             v.nextFocusDownId = R.id.recyclerViewVideos
             v.nextFocusUpId = R.id.menuPlayer
@@ -77,7 +78,7 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
             }
         }
 
-
+        //Seek for progress
         progress.setOnKeyListener { v, keyCode, event ->
             if (end<=0){
                 if (event.action == KeyEvent.ACTION_DOWN){
@@ -125,14 +126,12 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
                 direction: Int,
                 previouslyFocusedRect: Rect?
             ): Boolean {
-                Timber.e(" jidjofjodifjofidfijdfoi ${direction}")
                 return false
             }
 
             override fun onRequestChildFocus(child: View?, focused: View?) {
                 try {
-                    Timber.e(" jidjofjodifjofidfijdfoi ${resources.getResourceName(child!!.id)}")
-                    if (child.id == recyclerViewVideos.id) {
+                    if (child?.id == recyclerViewVideos.id) {
                         if (!isShow) {
                             animation?.cancel()
                             animation = getShowAnimation()
@@ -188,10 +187,8 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
 
     private fun subscribeViewModels() {
         subscribe(viewModel.videoLiveData) { videoUrl ->
-            Timber.e("jodifjoifjdoif $videoUrl")
             initializePlayer(videoUrl)
             subscribe(viewModel.currentEpisode) {
-                Timber.e("jodifjoifjdoif $it")
                 if (it.start > 0) {
                     groupFragments.isVisible = true
                     groupFull.isVisible = false
@@ -210,6 +207,7 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
                     groupFull.isVisible = true
                     val max = simpleExoPlayer!!.duration
                     start = it.start
+                    end = it.end
                     Timber.e("jodifjoifjdoif $max")
                    // progress.max = max.toInt()
                     simpleExoPlayer?.seekTo((it.half - 1).toInt(), it.start * 1000)
@@ -221,7 +219,7 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
             }
 
         }
-
+        // bottom playlist
         subscribe(viewModel.sourceLiveData) { source ->
             playlistsContainer.removeAllViews()
             source.toList().forEach { pair ->
@@ -278,9 +276,9 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
         menuPlayer.isVisible = show
     }
 
+    // Timer for episode seekbar
     private val timerRunnable: Runnable = object : Runnable {
         override fun run() {
-            Timber.e("kjnodifjodi ${simpleExoPlayer?.contentPosition} $start")
             if (end>0){
                 progress.progress =
                     ((simpleExoPlayer?.contentPosition?.div(1000))?.minus(start))?.toInt() ?: 0
@@ -297,7 +295,6 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
                 progress.max = max.toInt()
                 progress.incrementProgressBy(100)
                 duration.text = max.toDisplayTime()
-                Timber.d("kodkfpo $max")
                 progress.progress =
                     ((simpleExoPlayer?.contentPosition?.div(1000))?.minus(start))?.toInt() ?: 0
                 position.text =
@@ -316,15 +313,20 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
         }
 
         simpleExoPlayer = SimpleExoPlayer.Builder(requireContext()).build()
+        //hack for full playlist duration
         val concatenatedSource = ConcatenatingMediaSource()
         list.forEach {
-            concatenatedSource.addMediaSource(ClippingMediaSource(ProgressiveMediaSource.Factory(DefaultDataSourceFactory(requireContext())).createMediaSource(
+            concatenatedSource.addMediaSource(
+                ClippingMediaSource(
+                    ProgressiveMediaSource.Factory(
+                        DefaultDataSourceFactory(requireContext()
+                        )
+                    ).createMediaSource(
                 MediaItem.fromUri(it.first)),it.second*1000))
         }
 
         simpleExoPlayer?.setMediaSource(concatenatedSource)
 
-        //recyclerViewVideos.scrollToPosition(0)
 
         playerView.player = simpleExoPlayer
 
@@ -342,7 +344,6 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
 
         simpleExoPlayer?.addListener(object : Player.EventListener {
             override fun onPlayWhenReadyChanged(playWhenReady: Boolean, reason: Int) {
-                Timber.e("kpodkpof play")
                 if (playWhenReady && simpleExoPlayer!!.currentPosition / 1000 >= end) {
                     simpleExoPlayer!!.seekTo(start * 1000)
                     handler.removeCallbacks(timerRunnable)

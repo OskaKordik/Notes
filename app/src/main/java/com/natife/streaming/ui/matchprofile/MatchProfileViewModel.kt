@@ -132,7 +132,17 @@ class MatchProfileViewModelImpl(
                     mutableMapOf<String, List<Episode>>(
                         matchInfo!!.translates.ballInPlayTranslate to matchInfo!!.ballInPlay,
                         matchInfo!!.translates.highlightsTranslate to matchInfo!!.highlights,
-                        matchInfo!!.translates.goalsTranslate to matchInfo!!.goals
+                        matchInfo!!.translates.goalsTranslate to matchInfo!!.goals,
+                        matchInfo!!.translates.fullGameTranslate to listOf(
+                            Episode(
+                                start = 0,
+                                end = -1,
+                                half = 1,
+                                title = "${match?.info}",
+                                image = match?.image ?: "",
+                                placeholder = match?.placeholder?: ""
+                            )
+                        )
                     ),
                     video = videos,
                     currentEpisode = episode,
@@ -146,7 +156,7 @@ class MatchProfileViewModelImpl(
         launch {
 
             match = matchInfoUseCase.execute(sportId = sport, matchId = matchId)
-            Timber.e("IJDOIJDOI $match")
+
             title.value =
                 "${match!!.team1.name} ${match!!.team1.score}:${match!!.team2.score} ${match!!.team2.name}"
             league.value = match!!.info
@@ -162,12 +172,7 @@ class MatchProfileViewModelImpl(
         launch {
             val video = videoUseCase.execute(matchId, sport)
             videos = video
-            Timber.e(
-                "juidfdnffd ${
-                    video.groupBy { it.quality }?.entries?.maxByOrNull { it.key.toInt() }!!.value}"
-            )
-            fullVideoDuration.value =
-                video.groupBy { it.quality }?.entries?.maxByOrNull { it.key.toInt() }!!.value.map { (it.duration/1000) }.sum()
+            fullVideoDuration.value = video.groupBy { it.quality }?.entries?.maxByOrNull { it.key.toInt() }!!.value.map { (it.duration/1000) }.sum()
         }
 
 
