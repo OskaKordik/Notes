@@ -77,7 +77,7 @@ class Router : KoinComponent {
     }
 
     fun toFavorites() {
-
+        navigate(R.id.action_main_favoriteFragment)
     }
 
     fun toSettings() {

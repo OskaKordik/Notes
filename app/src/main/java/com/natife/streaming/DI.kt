@@ -22,6 +22,8 @@ import com.natife.streaming.ui.account.AccountViewModel
 import com.natife.streaming.ui.account.AccountViewModelImpl
 import com.natife.streaming.ui.calendar.CalendarViewModel
 import com.natife.streaming.ui.calendar.CalendarViewModelImpl
+import com.natife.streaming.ui.favorites.FavoriteViewModel
+import com.natife.streaming.ui.favorites.FavoriteViewModelImpl
 import com.natife.streaming.ui.home.HomeViewModel
 import com.natife.streaming.ui.home.HomeViewModelImpl
 import com.natife.streaming.ui.home.live.LiveViewModel
@@ -69,8 +71,8 @@ val viewModelModule = module {
             args.tournamentId,
             get(),
             get(),
-            get()
-        )
+            get(),
+            get())
     }
     viewModel<HomeViewModel> { HomeViewModelImpl(get(), get(), get()) }
     viewModel<ScoreViewModel> { ScoreViewModelImpl(get(), get(), get()) }
@@ -107,6 +109,7 @@ val viewModelModule = module {
     viewModel <TypeDialogViewModel>{ TypeDialogViewModelImpl(get(),get(),get()) }
     viewModel <GenderViewModel>{ GenderViewModelImpl(get(),get(),get()) }
     viewModel <PlayerViewModel>{(args: PlayerFragmentArgs) -> PlayerViewModelImpl(args.setup) }
+    viewModel <FavoriteViewModel>{ FavoriteViewModelImpl(get()) }
 }
 
 val prefsModule = module {
@@ -137,7 +140,7 @@ val prefsModule = module {
     single { AuthPrefsImpl(get(named(PREFS_AUTH_QUALIFIER))) as AuthPrefs }
     single { SettingsPrefsImpl(get(named(PREFS_SETTINGS_QUALIFIER))) as SettingsPrefs }
     single { MatchSettingsPrefsImpl(get(named(PREFS_MATCH_SETTINGS_QUALIFIER))) as MatchSettingsPrefs }
-    single { SearchPrefsImpl(get(named(PREFS_SEARCH_QUALIFIER))) }
+    single { SearchPrefsImpl(get(named(PREFS_SEARCH_QUALIFIER))) as SearchPrefs }
 }
 
 val useCaseModule = module {
@@ -164,7 +167,8 @@ val useCaseModule = module {
     factory <VideoUseCase>{ VideoUseCaseImpl(get())}
     factory <SecondUseCase>{ SecondUseCaseImpl(get())}
     factory <PlayerActionUseCase>{ PlayerActionUseCaseImpl(get(),get(),get())}
-
+    factory <SaveDeleteFavoriteUseCase>{ SaveDeleteFavoriteUseCaseImpl(get())}
+    factory <FavoritesUseCase>{ FavoritesUseCaseImpl(get())}
 
 }
 
