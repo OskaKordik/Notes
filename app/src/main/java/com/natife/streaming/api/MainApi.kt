@@ -3,6 +3,8 @@ package com.natife.streaming.api
 import com.natife.streaming.data.dto.*
 import com.natife.streaming.data.dto.account.AccountDTO
 import com.natife.streaming.data.dto.actions.ActionsDTO
+import com.natife.streaming.data.dto.favorites.FavoritesDTO
+import com.natife.streaming.data.dto.favorites.savedelete.SaveDeleteDTO
 import com.natife.streaming.data.dto.match.BroadcastDTO
 import com.natife.streaming.data.dto.match.MatchesDTO
 import com.natife.streaming.data.dto.matchprofile.MatchInfoDTO
@@ -26,7 +28,7 @@ interface MainApi {
     @POST("data")
     suspend fun getProfile(@Body body: BaseRequest<EmptyRequest>): AccountDTO
     @POST("data")
-    suspend fun getMatches(@Body body: BaseRequest<MatchesRequest>): MatchesDTO
+    suspend fun getMatches(@Body body: BaseRequest<MatchRequest>): MatchesDTO
     @POST("data")
     suspend fun getSports(@Body body: BaseRequest<EmptyRequest>): SportsDTO
     @POST("data")
@@ -66,4 +68,10 @@ interface MainApi {
 
     @POST("data")
     suspend fun getPlayerInfo(@Body body: BaseRequest<PlayerInfoRequest>): PlayerDTO
+
+    @POST("data")
+    suspend fun getSaveDeleteFavorite(@Body body: BaseRequest<SaveDeleteFavoriteRequest>): SaveDeleteDTO
+
+    @POST("data")
+    suspend fun getFavorite(@Body body: BaseRequest<EmptyRequest>): FavoritesDTO
 }

@@ -61,7 +61,7 @@ class SideMenu @JvmOverloads constructor(
             router?.toHome()
         }
         menuFavorites.setOnClickListener {
-            prefered?.invoke()
+            router?.toFavorites()
            //router?.navigate(R.id.action_main_tournamentFragment)
         }
         menuSettings.setOnClickListener {

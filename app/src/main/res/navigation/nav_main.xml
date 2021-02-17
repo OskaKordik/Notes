@@ -109,6 +109,10 @@
             app:destination="@id/homeFragment"
             app:launchSingleTop="true" />
         <action
+            android:id="@+id/action_main_favoriteFragment"
+            app:destination="@id/favoritesFragment"
+            app:launchSingleTop="true" />
+        <action
             android:id="@+id/action_main_settingsFragment"
             app:destination="@id/settingsFragment"
             app:launchSingleTop="true" />
@@ -257,6 +261,15 @@
                 android:name="subscriptions"
                 app:argType="com.natife.streaming.data.Subscription[]" />
         </dialog>
+        <fragment
+            android:id="@+id/favoritesFragment"
+            android:name="com.natife.streaming.ui.favorites.FavoritesFragment"
+            android:label="FavoritesFragment"
+             tools:layout="@layout/fragment_favorites">
+            <action
+                android:id="@+id/action_favoritesFragment_to_matchProfileFragment"
+                app:destination="@id/matchProfileFragment" />
+        </fragment>
 
     </navigation>
 

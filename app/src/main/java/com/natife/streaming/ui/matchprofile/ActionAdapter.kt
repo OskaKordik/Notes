@@ -7,7 +7,6 @@ import com.natife.streaming.R
 import com.natife.streaming.base.BaseListAdapter
 import com.natife.streaming.data.actions.Action
 import kotlinx.android.synthetic.main.item_action.view.*
-import timber.log.Timber
 
 class ActionAdapter(private val onCheck: ((Action) -> Unit),private val isUncheckable: Boolean = true,private val onlyClickable: Boolean = false ) : BaseListAdapter<Action, ActionViewHolder>(ActionDiffUtil()) {
 

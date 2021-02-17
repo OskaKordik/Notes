@@ -124,7 +124,7 @@ class HomeViewModelImpl(
         pageSize = 60,
         sportId = null,
         subOnly = false,
-        tournamentId = null
+        additionalId = null
     )
 
     private fun prepareAndLoad() {
@@ -155,7 +155,7 @@ class HomeViewModelImpl(
 
         params = params.copy(
             sportId = sport,
-            tournamentId = tournament,
+            additionalId = tournament,
             subOnly = subOnly,
             date = (this.date.value ?: Date()).toRequest()
         )
@@ -197,7 +197,7 @@ class HomeViewModelImpl(
             withContext(Dispatchers.IO) {
                 collect(settingsPrefs.getTournamentFlow()) {
                     params = params.copy(
-                        tournamentId = it
+                        additionalId = it
                     )
                     prepareAndLoad()
                 }

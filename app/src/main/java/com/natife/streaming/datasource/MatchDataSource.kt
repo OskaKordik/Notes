@@ -13,7 +13,7 @@ import com.natife.streaming.data.match.Tournament
 import com.natife.streaming.data.request.BaseRequest
 import com.natife.streaming.data.request.EmptyRequest
 import com.natife.streaming.data.request.MatchProfileRequest
-import com.natife.streaming.data.request.MatchesRequest
+import com.natife.streaming.data.request.MatchesRequestSimpleTournament
 import com.natife.streaming.ext.toRequest
 import com.natife.streaming.utils.ImageUrlBuilder
 import kotlinx.coroutines.async
@@ -74,13 +74,13 @@ class MatchDataSource(
         val offset = nextPage - 1
         Timber.e("load offset ${offset}")
         try {
-            val params1 = MatchesRequest(
+            val params1 = MatchesRequestSimpleTournament(
                 date = requestParams?.date?: Date().toRequest(),
                 limit = requestParams?.pageSize ?: 60,
                 offset = (requestParams?.pageSize ?: 60) * offset,
                 sport = requestParams?.sportId,
                 subOnly = requestParams?.subOnly ?: false,
-                tournamentId = requestParams?.tournamentId
+                tournamentId = requestParams?.additionalId
             )
             Timber.e("load ${params1}")
             val matches = api.getMatches(
@@ -107,7 +107,7 @@ class MatchDataSource(
                                 BaseRequest(
                                     procedure = API_MATCH_PROFILE, params = MatchProfileRequest(
                                         sportId = match.sport?: requestParams?.sportId?:0,
-                                        tournament = match.tournament?.id ?: requestParams?.tournamentId ?:0
+                                        tournament = match.tournament?.id ?: requestParams?.additionalId ?:0
                                     )
                                 )
                             )
@@ -118,7 +118,7 @@ class MatchDataSource(
                             sportName = sports.find { it.id == match.sport }?.name ?: "",
                             date = match.date,
                             tournament = Tournament(
-                                match.tournament?.id ?: requestParams?.tournamentId ?:0,
+                                match.tournament?.id ?: requestParams?.additionalId ?:0,
                                 match.tournament?.nameRus?:""
                             ),// todo multilang
                             team1 = Team(
@@ -134,7 +134,7 @@ class MatchDataSource(
                             info = "${profile.await().country} ${profile.await().nameRus}",
                             access = match.access,
                             hasVideo = match.hasVideo,
-                            image = ImageUrlBuilder.getUrl(match.sport?: requestParams?.sportId?:0,ImageUrlBuilder.Companion.Type.TOURNAMENT, match.tournament?.id ?: requestParams?.tournamentId ?:0),//todo image module
+                            image = ImageUrlBuilder.getUrl(match.sport?: requestParams?.sportId?:0,ImageUrlBuilder.Companion.Type.TOURNAMENT, match.tournament?.id ?: requestParams?.additionalId ?:0),//todo image module
                             placeholder =ImageUrlBuilder.getPlaceholder(match.sport?: requestParams?.sportId?:0,ImageUrlBuilder.Companion.Type.TOURNAMENT) ,
                             live = match.live,
                             storage = match.storage,
@@ -161,9 +161,9 @@ class MatchDataSource(
 }
 
 data class MatchParams(
-    val date: String? ,
+    val date: String?,
     val sportId: Int?,
     val subOnly: Boolean,
-    val tournamentId: Int?,
+    val additionalId: Int?,
     val pageSize: Int
 )

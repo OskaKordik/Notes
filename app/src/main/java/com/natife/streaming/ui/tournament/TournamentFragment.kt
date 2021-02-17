@@ -7,7 +7,6 @@ import com.natife.streaming.R
 import com.natife.streaming.base.BaseFragment
 import com.natife.streaming.ext.subscribe
 import com.natife.streaming.ext.url
-import com.natife.streaming.ui.home.tournament.TournamentDialogArgs
 import kotlinx.android.synthetic.main.fragment_tournament.*
 import org.koin.core.parameter.ParametersDefinition
 import org.koin.core.parameter.parametersOf
@@ -22,9 +21,6 @@ class TournamentFragment: BaseFragment<TournamentViewModel>() {
             viewModel.onScoreClicked()
         }
 
-        addToFavoriteBtn.setOnClickListener {
-            viewModel.addToFavorite()
-        }
 
 
 
@@ -36,6 +32,10 @@ class TournamentFragment: BaseFragment<TournamentViewModel>() {
             }else{//TODO multilang
                 "Добавить в избранное"
             }
+            addToFavoriteBtn.setOnClickListener {v->
+                viewModel.addToFavorite(it)
+            }
+
         }
         tournamentRecycler.layoutManager = GridLayoutManager(context, 4)
         tournamentRecycler.adapter = adapter
