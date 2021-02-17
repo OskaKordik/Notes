@@ -34,7 +34,7 @@ class TournamentViewModel(
         pageSize = 60,
         sportId = null,
         subOnly = false,
-        tournamentId = null
+        additionalId = null
     )
     fun loadList() {
         process?.cancel()
@@ -46,7 +46,7 @@ class TournamentViewModel(
     }
 
     init {
-        params = params.copy(tournamentId = tournamentId,sportId = sportId)
+        params = params.copy(additionalId = tournamentId,sportId = sportId)
 
         launch {
             _tournament.value = tournamentUseCase.execute(sportId,tournamentId)

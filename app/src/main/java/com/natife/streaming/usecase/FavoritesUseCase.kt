@@ -20,15 +20,27 @@ class FavoritesUseCaseImpl(private val api:MainApi): FavoritesUseCase{
             SearchResult(
                 id = it.id,
                 name = it.info.nameRus, // TODO multilang
-                type = SearchResult.Type.TEAM,
+                type = when(it.type){
+                                    1 ->SearchResult.Type.TOURNAMENT
+                                    2 -> SearchResult.Type.TEAM
+                    else->SearchResult.Type.PLAYER
+                                    },
                 image = ImageUrlBuilder.getUrl(
                     it.sport,
-                    ImageUrlBuilder.Companion.Type.TEAM,
+                    when(it.type){
+                        1 -> ImageUrlBuilder.Companion.Type.TOURNAMENT
+                        2 -> ImageUrlBuilder.Companion.Type.TEAM
+                        else->ImageUrlBuilder.Companion.Type.PLAYER
+                    },
                     it.id
                 ),
                 placeholder = ImageUrlBuilder.getPlaceholder(
                     it.sport,
-                    ImageUrlBuilder.Companion.Type.TEAM
+                    when(it.type){
+                        1 ->ImageUrlBuilder.Companion.Type.TOURNAMENT
+                        2 -> ImageUrlBuilder.Companion.Type.TEAM
+                        else->ImageUrlBuilder.Companion.Type.PLAYER
+                    }
                 ),
                 gender = 1,
                 sport = it.sport

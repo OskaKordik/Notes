@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:backgroundTint="@color/list_background"
+    android:background="@drawable/menu_item_state"
     android:focusable="true"
     android:gravity="center"
     android:orientation="horizontal"
@@ -22,6 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:duplicateParentState="true"
+
         android:ellipsize="end"
         android:lines="1"
         android:singleLine="true"

@@ -28,7 +28,7 @@ interface MainApi {
     @POST("data")
     suspend fun getProfile(@Body body: BaseRequest<EmptyRequest>): AccountDTO
     @POST("data")
-    suspend fun getMatches(@Body body: BaseRequest<MatchesRequest>): MatchesDTO
+    suspend fun getMatches(@Body body: BaseRequest<MatchRequest>): MatchesDTO
     @POST("data")
     suspend fun getSports(@Body body: BaseRequest<EmptyRequest>): SportsDTO
     @POST("data")

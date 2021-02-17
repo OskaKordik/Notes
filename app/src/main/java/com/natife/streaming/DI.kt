@@ -109,7 +109,7 @@ val viewModelModule = module {
     viewModel <TypeDialogViewModel>{ TypeDialogViewModelImpl(get(),get(),get()) }
     viewModel <GenderViewModel>{ GenderViewModelImpl(get(),get(),get()) }
     viewModel <PlayerViewModel>{(args: PlayerFragmentArgs) -> PlayerViewModelImpl(args.setup) }
-    viewModel <FavoriteViewModel>{ FavoriteViewModelImpl(get()) }
+    viewModel <FavoriteViewModel>{ FavoriteViewModelImpl(get(),get(),get()) }
 }
 
 val prefsModule = module {

@@ -231,7 +231,11 @@
             android:id="@+id/favoritesFragment"
             android:name="com.natife.streaming.ui.favorites.FavoritesFragment"
             android:label="FavoritesFragment"
-             tools:layout="@layout/fragment_favorites"/>
+             tools:layout="@layout/fragment_favorites">
+            <action
+                android:id="@+id/action_favoritesFragment_to_matchProfileFragment"
+                app:destination="@id/matchProfileFragment" />
+        </fragment>
 
     </navigation>
 

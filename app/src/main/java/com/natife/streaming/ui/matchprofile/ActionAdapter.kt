@@ -8,6 +8,7 @@ import com.natife.streaming.R
 import com.natife.streaming.base.BaseListAdapter
 import com.natife.streaming.data.actions.Action
 import kotlinx.android.synthetic.main.item_action.view.*
+import timber.log.Timber
 
 class ActionAdapter(private val onCheck: ((Action) -> Unit)? = null) : BaseListAdapter<Action, ActionViewHolder>(ActionDiffUtil()) {
 
@@ -16,6 +17,7 @@ class ActionAdapter(private val onCheck: ((Action) -> Unit)? = null) : BaseListA
             LayoutInflater.from(parent.context).inflate(R.layout.item_action, parent, false)
         ).apply {
             itemView.chackbox.setOnCheckedChangeListener { _, isChecked ->
+                Timber.e("HJIOUHSOIHJOID ${currentList[bindingAdapterPosition]}")
                 onCheck?.invoke(currentList[bindingAdapterPosition].copy(selected = isChecked))
             }
         }

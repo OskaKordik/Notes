@@ -11,6 +11,8 @@
     android:textSize="14dp"
     android:button="@null"
     android:padding="8dp"
+    android:ellipsize="end"
+    android:lines="1"
     android:checked="true"
     android:textStyle="bold"
     android:background="@drawable/action_chackbox_background"
