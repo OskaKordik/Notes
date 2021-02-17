@@ -21,9 +21,9 @@ class MatchSettingsFragment: BaseFragment<MatchSettingsViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = ActionAdapter {
+        adapter = ActionAdapter(onCheck ={
             viewModel.select(it)
-        }
+        } )
         actionRecycler.layoutManager = GridLayoutManager(context,3)
         actionRecycler.adapter = adapter
 

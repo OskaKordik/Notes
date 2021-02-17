@@ -45,11 +45,14 @@ import com.natife.streaming.ui.search.gender.GenderViewModel
 import com.natife.streaming.ui.search.gender.GenderViewModelImpl
 import com.natife.streaming.ui.search.type.TypeDialogViewModel
 import com.natife.streaming.ui.search.type.TypeDialogViewModelImpl
+import com.natife.streaming.ui.settings.SettingsViewModel
+import com.natife.streaming.ui.settings.SettingsViewModelImpl
 import com.natife.streaming.ui.tournament.TournamentViewModel
 import com.natife.streaming.usecase.*
 import com.natife.streaming.utils.OneTimeScope
 import okhttp3.OkHttpClient
 import okhttp3.internal.platform.Platform
+import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
@@ -95,18 +98,36 @@ val viewModelModule = module {
             get(),
             get(),
             get(),
-        get())
+            get()
+        )
     }
-    viewModel <MatchSettingsViewModel>{(args: MatchSettingsFragmentArgs)->
-        MatchSettingsViewModelImpl(args.match,args.sportId,args.videos,
-        get(), get(),get())
+    viewModel<MatchSettingsViewModel> { (args: MatchSettingsFragmentArgs) ->
+        MatchSettingsViewModelImpl(
+            args.match, args.sportId, args.videos,
+            get(), get(), get()
+        )
     }
-    viewModel <WatchViewModel>{(args: WatchFragmentArgs)-> WatchViewModelImpl(args.match,args.video,get(),get(),get()) }
-    viewModel <SearchViewModel>{ SearchViewModelImpl(get(),get(),get(),get(),get(),get()) }
-    viewModel <com.natife.streaming.ui.search.sport.SportViewModel>{ com.natife.streaming.ui.search.sport.SportViewModelImpl(get(),get(),get()) }
-    viewModel <TypeDialogViewModel>{ TypeDialogViewModelImpl(get(),get(),get()) }
-    viewModel <GenderViewModel>{ GenderViewModelImpl(get(),get(),get()) }
-    viewModel <PlayerViewModel>{(args: PlayerFragmentArgs) -> PlayerViewModelImpl(args.setup) }
+    viewModel<WatchViewModel> { (args: WatchFragmentArgs) ->
+        WatchViewModelImpl(
+            args.match,
+            args.video,
+            get(),
+            get(),
+            get()
+        )
+    }
+    viewModel<SearchViewModel> { SearchViewModelImpl(get(), get(), get(), get(), get(), get()) }
+    viewModel<com.natife.streaming.ui.search.sport.SportViewModel> {
+        com.natife.streaming.ui.search.sport.SportViewModelImpl(
+            get(),
+            get(),
+            get()
+        )
+    }
+    viewModel<TypeDialogViewModel> { TypeDialogViewModelImpl(get(), get(), get()) }
+    viewModel<GenderViewModel> { GenderViewModelImpl(get(), get(), get()) }
+    viewModel<PlayerViewModel> { (args: PlayerFragmentArgs) -> PlayerViewModelImpl(args.setup) }
+    viewModel<SettingsViewModel> { SettingsViewModelImpl(get(), get(), get(), get(), get(),get()) }
 }
 
 val prefsModule = module {
@@ -147,24 +168,26 @@ val useCaseModule = module {
     factory<MatchUseCase> { MatchUseCaseImpl(get(), get()) }
     factory<GetShowScoreUseCase> { GetShowScoreUseCaseImpl() }
     factory<SaveShowScoreUseCase> { SaveShowScoreUseCaseImpl(get()) }
-    factory<GetSportUseCase> { GetSportUseCaseImpl(get()) }
+    factory<GetSportUseCase> { GetSportUseCaseImpl(get(), get()) }
     factory<SaveSportUseCase> { SaveSportUseCaseImpl(get()) }
     factory<GetLiveUseCase> { GetLiveUseCaseImpl() }
     factory<SaveLiveUseCase> { SaveLiveUseCaseImpl(get()) }
     factory<MatchProfileUseCase> { MatchProfileUseCaseImpl(get()) }
     factory<GetThumbnailUseCase> { GetThumbnailUseCaseImpl(get()) }
-    factory<ActionsUseCase> { ActionsUseCaseImpl(get(),get()) }
+    factory<ActionsUseCase> { ActionsUseCaseImpl(get(), get()) }
     factory<GetTournamentUseCase> { GetTournamentUseCaseImpl(get()) }
     factory<SaveTournamentUseCase> { SaveTournamentUseCaseImpl(get()) }
     factory<TournamentUseCase> { TournamentUseCaseImpl(get()) }
-    factory<SearchUseCase> { SearchUseCaseImpl(get(),get()) }
-    factory <GenderUseCase>{ GenderUseCaseImpl()}
-    factory <SearchTypeUseCase>{ SearchTypeUseCaseImpl()}
-    factory <MatchInfoUseCase>{ MatchInfoUseCaseImpl(get())}
-    factory <VideoUseCase>{ VideoUseCaseImpl(get())}
-    factory <SecondUseCase>{ SecondUseCaseImpl(get())}
-    factory <PlayerActionUseCase>{ PlayerActionUseCaseImpl(get(),get(),get())}
-
+    factory<SearchUseCase> { SearchUseCaseImpl(get(), get()) }
+    factory<GenderUseCase> { GenderUseCaseImpl() }
+    factory<SearchTypeUseCase> { SearchTypeUseCaseImpl() }
+    factory<MatchInfoUseCase> { MatchInfoUseCaseImpl(get()) }
+    factory<VideoUseCase> { VideoUseCaseImpl(get()) }
+    factory<SecondUseCase> { SecondUseCaseImpl(get()) }
+    factory<PlayerActionUseCase> { PlayerActionUseCaseImpl(get(), get(), get()) }
+    factory<LexisUseCase> { LexisUseCaseImpl(get(), get(), get(), androidApplication()) }
+    factory<CardUseCase> { CardUseCaseImpl() }
+    factory<SubscriptionUseCase> { SubscriptionUseCaseImpl() }
 
 }
 
@@ -224,6 +247,7 @@ val databaseModule = module {
     }
     single { get<AppDatabase>().actionDao() }
     single { get<AppDatabase>().searchDao() }
+    single { get<AppDatabase>().lexicDao() }
 }
 val utilModule = module {
     factory { OneTimeScope() }

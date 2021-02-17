@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    //Lexics
+    <integer name="sport">12993</integer>//спорт
+    <integer name="payment">13015</integer>//оплата
+    <integer name="choose_subscription">13563</integer>//выберите подписку
+    <integer name="country">835</integer>//страна
+    <integer name="choose_language">1005</integer>//Выбор языка
+    <integer name="subscriptions">13016</integer>//Подписки
+    <integer name="basic">13327</integer>//Базовая
+    <integer name="selection_language">1005</integer>//Выбор языка
+
+
+</resources>

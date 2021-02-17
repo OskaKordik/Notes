@@ -13,7 +13,7 @@ import timber.log.Timber
 
 open class VariantDialog<VM : BaseViewModel> : BaseDialog<VM>() {
     override fun getLayoutRes() = R.layout.dialog_variant
-    protected val adapter: VariantAdapter by lazy { VariantAdapter() }
+    protected open val adapter: VariantAdapter by lazy { VariantAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

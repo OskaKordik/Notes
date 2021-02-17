@@ -10,6 +10,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.annotation.CallSuper
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LifecycleOwner
 import com.natife.streaming.ext.showToast
 import com.natife.streaming.ext.subscribe
 import com.natife.streaming.router.Router
@@ -29,6 +30,8 @@ abstract class BaseFragment<VM : BaseViewModel> : Fragment() {
 
     abstract fun getLayoutRes(): Int
 
+    protected open val viewModelLifecycleOwner: LifecycleOwner = this
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -41,7 +44,7 @@ abstract class BaseFragment<VM : BaseViewModel> : Fragment() {
         viewModel = getKoin().getViewModel(
             ViewModelParameters(
                 clazz = getViewModelKClass(),
-                owner = this,
+                owner = viewModelLifecycleOwner,
                 parameters = getParameters()
             )
         )
@@ -97,8 +100,7 @@ abstract class BaseFragment<VM : BaseViewModel> : Fragment() {
 
     @Suppress("UNCHECKED_CAST")
     protected fun getViewModelKClass(): KClass<VM> {
-        val actualClass =
-            (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[0] as Class<VM>
+        val actualClass = (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[0] as Class<VM>
         return actualClass.kotlin
     }
 

@@ -65,7 +65,7 @@ class SideMenu @JvmOverloads constructor(
            //router?.navigate(R.id.action_main_tournamentFragment)
         }
         menuSettings.setOnClickListener {
-
+            router?.toSettings()
         }
 
     }

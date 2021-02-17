@@ -81,7 +81,7 @@ class Router : KoinComponent {
     }
 
     fun toSettings() {
-
+        navigate(R.id.action_main_settingsFragment)
     }
     fun toSearch() {
         navigate(R.id.action_main_searchFragment)

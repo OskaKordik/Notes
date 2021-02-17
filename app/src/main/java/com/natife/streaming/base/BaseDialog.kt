@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.LifecycleOwner
 import com.natife.streaming.router.Router
 import org.koin.android.ext.android.getKoin
 import org.koin.androidx.viewmodel.ViewModelParameters
@@ -25,6 +26,7 @@ abstract class BaseDialog<VM : BaseViewModel>: DialogFragment() {
     protected lateinit var baseActivity: BaseActivity<*>
 
     protected lateinit var viewModel: VM
+    protected open val viewModelLifecycleOwner: LifecycleOwner = this
 
     abstract fun getLayoutRes(): Int
 
@@ -49,7 +51,7 @@ abstract class BaseDialog<VM : BaseViewModel>: DialogFragment() {
         viewModel = getKoin().getViewModel(
             ViewModelParameters(
                 clazz = getViewModelKClass(),
-                owner = this,
+                owner = viewModelLifecycleOwner,
                 parameters = getParameters()
             )
         )

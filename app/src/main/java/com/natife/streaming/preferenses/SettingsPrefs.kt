@@ -17,6 +17,10 @@ interface SettingsPrefs: BasePrefs {
     fun saveTournament(id: Int): Boolean
     fun saveSubOnly(show: Boolean): Boolean
     fun saveDate(time:Long): Boolean
+    fun saveLanguage(lang: String): Boolean
+    fun saveCard(id: Int): Boolean
+    fun saveSubscription(id: Int): Boolean
+    fun saveCountry(country: String): Boolean
 
     fun getLive(): LiveType?
     fun getScore(): Boolean?
@@ -24,6 +28,10 @@ interface SettingsPrefs: BasePrefs {
     fun getTournament(): Int?
     fun getSubOnly(): Boolean
     fun getDate():Long?
+    fun getLanguage(): String
+    fun getCard(): Int?
+    fun getSubscription(): Int?
+    fun getCountry(): String
 
     fun getLiveFlow(): Flow<LiveType?>
     fun getScoreFlow(): Flow<Boolean?>
@@ -31,6 +39,11 @@ interface SettingsPrefs: BasePrefs {
     fun getTournamentFlow(): Flow<Int?>
     fun getSubOnlyFlow(): Flow<Boolean>
     fun getDateFlow(): Flow<Long?>
+    fun getLanguageFlow(): Flow<String>
+    fun getCardFlow(): Flow<Int?>
+    fun getSubscriptionFlow(): Flow<Int?>
+    fun getCountryFlow(): Flow<String>
+
 
 }
 
@@ -40,6 +53,10 @@ private const val SPORT = "sport"
 private const val TOURNAMENT = "tournament"
 private const val SUB_ONLY = "sub_only"
 private const val DATE= "date"
+private const val LANG= "lang"
+private const val CARD= "card"
+private const val SUB= "sub"
+private const val COUNTRY= "country"
 
 
 class SettingsPrefsImpl(private val prefs: SharedPreferences): SettingsPrefs{
@@ -49,6 +66,10 @@ class SettingsPrefsImpl(private val prefs: SharedPreferences): SettingsPrefs{
     override fun saveTournament(id: Int) : Boolean = prefs.edit().putInt(TOURNAMENT, id).commit()
     override fun saveSubOnly(show: Boolean): Boolean = prefs.edit().putBoolean(SUB_ONLY, show).commit()
     override fun saveDate(time: Long): Boolean =prefs.edit().putLong(DATE,time).commit()
+    override fun saveLanguage(lang: String) = prefs.edit().putString(LANG,lang).commit()
+    override fun saveCard(id: Int) = prefs.edit().putInt(CARD,id).commit()
+    override fun saveSubscription(id: Int) = prefs.edit().putInt(SUB,id).commit()
+    override fun saveCountry(country: String) = prefs.edit().putString(COUNTRY,country).commit()
 
     override fun getLive(): LiveType? {
         val live = prefs.getString(LIVE, null)
@@ -89,6 +110,27 @@ class SettingsPrefsImpl(private val prefs: SharedPreferences): SettingsPrefs{
             return null
         }
     }
+
+    override fun getLanguage(): String = prefs.getString(LANG,"ru")?:"ru"
+    override fun getCard(): Int?  {
+        val card = prefs.getInt(CARD, -1)
+        return if (card == -1){
+            null
+        }else{
+            card
+        }
+    }
+
+    override fun getSubscription(): Int?  {
+        val card = prefs.getInt(SUB, -1)
+        return if (card == -1){
+            null
+        }else{
+            card
+        }
+    }
+
+    override fun getCountry(): String = prefs.getString(COUNTRY,"RU")?:"RU"
 
     override fun getLiveFlow(): Flow<LiveType?> = callbackFlow {
         sendBlocking(getLive())
@@ -164,6 +206,55 @@ class SettingsPrefsImpl(private val prefs: SharedPreferences): SettingsPrefs{
         prefs.registerOnSharedPreferenceChangeListener(changeListener)
         awaitClose { prefs.unregisterOnSharedPreferenceChangeListener(changeListener) }
     }
+
+    override fun getLanguageFlow(): Flow<String> = callbackFlow {
+        sendBlocking(getLanguage())
+        val changeListener =
+            SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
+                if (key == LANG) {
+                    sendBlocking(getLanguage())
+                }
+            }
+        prefs.registerOnSharedPreferenceChangeListener(changeListener)
+        awaitClose { prefs.unregisterOnSharedPreferenceChangeListener(changeListener) }
+    }
+
+    override fun getCardFlow(): Flow<Int?> = callbackFlow {
+        sendBlocking(getCard())
+        val changeListener =
+            SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
+                if (key == CARD) {
+                    sendBlocking(getCard())
+                }
+            }
+        prefs.registerOnSharedPreferenceChangeListener(changeListener)
+        awaitClose { prefs.unregisterOnSharedPreferenceChangeListener(changeListener) }
+    }
+
+    override fun getSubscriptionFlow(): Flow<Int?> = callbackFlow {
+        sendBlocking(getSubscription())
+        val changeListener =
+            SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
+                if (key == SUB) {
+                    sendBlocking(getSubscription())
+                }
+            }
+        prefs.registerOnSharedPreferenceChangeListener(changeListener)
+        awaitClose { prefs.unregisterOnSharedPreferenceChangeListener(changeListener) }
+    }
+
+    override fun getCountryFlow(): Flow<String> = callbackFlow {
+        sendBlocking(getCountry())
+        val changeListener =
+            SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
+                if (key == COUNTRY) {
+                    sendBlocking(getCountry())
+                }
+            }
+        prefs.registerOnSharedPreferenceChangeListener(changeListener)
+        awaitClose { prefs.unregisterOnSharedPreferenceChangeListener(changeListener) }
+    }
+
 
     override fun clear() = prefs.edit().clear().commit()
 
