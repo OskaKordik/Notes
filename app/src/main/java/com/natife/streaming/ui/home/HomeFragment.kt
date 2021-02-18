@@ -56,7 +56,7 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
         })
 
         subscribe(viewModel.subOnly){
-            buttonLock.setImageResource(if (it){R.drawable.ic_lock2}else{R.drawable.ic_lock})
+            buttonLock.setImageResource(if (it){R.drawable.button_lock_red}else{R.drawable.button_lock})
         }
 
         subscribe(viewModel.date){

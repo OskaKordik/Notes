@@ -34,7 +34,7 @@ class AccountViewModelImpl(
 
     override fun logout() {
         launch {
-            logoutUseCase.execute()
+            logoutUseCase.execute(true)
             router.navigate(R.id.action_global_nav_auth)
         }
     }

@@ -51,7 +51,7 @@ class ActionDiffUtil() : DiffUtil.ItemCallback<Action>() {
     }
 
     override fun getChangePayload(oldItem: Action, newItem: Action): Any? {
-        Timber.e("kmdfmdfmdfmfkdm $oldItem $newItem")
+
         val payloads = mutableListOf<Any>()
         if (oldItem.selected != newItem.selected){
             payloads.add(SELECTED_CHANGED_PAYLOAD)

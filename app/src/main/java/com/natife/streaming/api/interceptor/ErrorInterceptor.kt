@@ -12,7 +12,7 @@ class ErrorInterceptor( private val logoutUseCaseImpl: LogoutUseCase): Intercept
         val response = chain.proceed(builder.build())
 
         if (response.code == 403 || response.code == 401) {
-            logoutUseCaseImpl.execute()
+            logoutUseCaseImpl.execute(false)
         }
         if (response.code == 400) {
             throw ApiException("400",response.body?.string())

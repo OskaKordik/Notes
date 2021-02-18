@@ -1,10 +1,15 @@
 package com.natife.streaming.custom
 
+import android.app.Activity
 import android.content.Context
+import android.graphics.Rect
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.FrameLayout
 import androidx.core.view.isVisible
+import androidx.leanback.widget.BrowseFrameLayout
 import androidx.navigation.NavController
 import com.natife.streaming.R
 import com.natife.streaming.data.match.Match
@@ -22,14 +27,15 @@ class SideMenu @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : FrameLayout(context, attrs, defStyleAttr), KoinComponent {
+) : BrowseFrameLayout(context, attrs, defStyleAttr), KoinComponent {
 
     private var router: Router? = null
     private val authPrefs: AuthPrefs by inject()
+    var activity: Activity?= null
     var prefered :(()->Unit)? = null
 
     private val navListener = NavController.OnDestinationChangedListener { controller, destination, arguments ->
-        Timber.e("destination ${resources.getResourceName(destination.id)}")
+
        this.isVisible = when(destination.id ){
             R.id.loginFragment, R.id.matchProfileFragment, R.id.matchSettingsFragment, R.id.watchFragment, R.id.playerFragment->false
            else -> true
@@ -42,6 +48,7 @@ class SideMenu @JvmOverloads constructor(
         authPrefs.getProfile()?.let {
             accountText.text = it.firstName+" "+it.lastName
         }
+
 
         GlobalScope.launch {
             authPrefs.getProfileFlow().collect {
@@ -76,4 +83,11 @@ class SideMenu @JvmOverloads constructor(
         this.router = router
         this.router?.addListener(navListener)
     }
+
+    override fun onFocusChanged(gainFocus: Boolean, direction: Int, previouslyFocusedRect: Rect?) {
+        Timber.e(" onFocusChangeListener $gainFocus")
+        super.onFocusChanged(gainFocus, direction, previouslyFocusedRect)
+    }
+
+
 }

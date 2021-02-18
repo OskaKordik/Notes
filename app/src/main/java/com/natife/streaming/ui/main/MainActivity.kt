@@ -1,12 +1,18 @@
 package com.natife.streaming.ui.main
 
+import android.animation.ValueAnimator
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.KeyEvent
+import android.view.View
 import androidx.constraintlayout.motion.widget.MotionLayout
+import androidx.leanback.widget.BrowseFrameLayout
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseActivity
+import com.natife.streaming.ext.dp
 import com.natife.streaming.ext.subscribe
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_player.*
 import timber.log.Timber
 import java.lang.Exception
 
@@ -19,25 +25,52 @@ class MainActivity : BaseActivity<MainViewModel>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mainMenu.setRouter(router)
-
+        mainMenu.activity = this
         subscribe(viewModel.name){
             mainMenu.setProfile(it)
+        }
+
+        mainMenu.onChildFocusListener = object : BrowseFrameLayout.OnChildFocusListener{
+            override fun onRequestFocusInDescendants(
+                direction: Int,
+                previouslyFocusedRect: Rect?
+            ): Boolean {
+                return false
+            }
+
+            override fun onRequestChildFocus(child: View?, focused: View?) {
+                (mainMotion as MotionLayout).transitionToEnd()
+            }
+
+        }
+        contentBrowse.onChildFocusListener = object : BrowseFrameLayout.OnChildFocusListener{
+            override fun onRequestFocusInDescendants(
+                direction: Int,
+                previouslyFocusedRect: Rect?
+            ): Boolean {
+                return false
+            }
+
+            override fun onRequestChildFocus(child: View?, focused: View?) {
+                (mainMotion as MotionLayout).transitionToStart()
+            }
+
         }
     }
 
     override fun dispatchKeyEvent(event: KeyEvent?): Boolean {
 
-        try {
-
-            Timber.e(resources.getResourceName(currentFocus?.id?:0))
-        }catch (e: Exception){
-
-        }
-        if (mainMenu.hasFocus()) {
-            (mainMotion as MotionLayout).transitionToEnd()
-        } else {
-            (mainMotion as MotionLayout).transitionToStart()
-        }
+//        try {
+//
+//            Timber.e(resources.getResourceName(currentFocus?.id?:0))
+//        }catch (e: Exception){
+//
+//        }
+//        if (mainMenu.hasFocus()) {
+//            (mainMotion as MotionLayout).transitionToEnd()
+//        } else {
+//            (mainMotion as MotionLayout).transitionToStart()
+//        }
 
         return super.dispatchKeyEvent(event)
     }
