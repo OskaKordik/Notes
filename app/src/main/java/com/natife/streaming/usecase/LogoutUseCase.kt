@@ -33,7 +33,7 @@ class LogoutUseCaseImpl(
             settingsPrefs.clear()
             prefs.clear()
         }
-        (application as? App)?.restartKoin()
+       // (application as? App)?.restartKoin()
         scope.launch {
             withContext(Dispatchers.Main) {
                 router.toLogin()

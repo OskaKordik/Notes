@@ -20,8 +20,9 @@ class LoginViewModelImpl(
     override fun login(email: String, password: String, onError: ((String?) -> Unit)) {
         launch {
             loginUseCase.execute(email, password) { result ->
-                Timber.e("jkjdfkjf $result")
+                Timber.e("jkjdfkjf ${result.status}")
                 if (result.status == Result.Status.SUCCESS) {
+                    Timber.e("jkjdfkjf !!!")
                     router.navigate(R.id.action_global_nav_main)
                 } else {
                     onError.invoke(result.message)

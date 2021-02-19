@@ -166,7 +166,7 @@ val prefsModule = module {
 
 val useCaseModule = module {
     factory<LoginUseCase> { LoginUseCaseImpl(get(), get()) }
-    factory<LogoutUseCase> { LogoutUseCaseImpl(get(), get(), get()) }
+    factory<LogoutUseCase> { LogoutUseCaseImpl(get(), get(), get(),get(),get()) }
     factory<AccountUseCase> { AccountUseCaseImpl(get(), get()) }
     factory<MatchUseCase> { MatchUseCaseImpl(get(), get()) }
     factory<GetShowScoreUseCase> { GetShowScoreUseCaseImpl() }

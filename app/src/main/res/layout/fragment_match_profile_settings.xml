@@ -35,7 +35,7 @@
             android:layout_marginTop="20dp"
             android:text="Настройки плейлистов"
             android:textColor="@color/white"
-            android:textSize="25sp"
+            android:textSize="23sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -46,7 +46,7 @@
             android:layout_marginTop="20dp"
             android:text="Формат просмотра нарезок по игроку"
             android:textColor="@color/white"
-            android:textSize="18sp"
+            android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title" />
 
@@ -54,55 +54,57 @@
             android:id="@+id/radioGroup"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView"
-            app:layout_constraintWidth_percent="0.3">
+            app:layout_constraintWidth_percent="0.4">
+
             <RadioButton
                 android:id="@+id/buttonAllTime"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_marginTop="3dp"
                 android:background="@drawable/background_radio"
+                android:button="@null"
                 android:clickable="true"
                 android:focusable="true"
-                android:padding="8dp"
-                android:button="@null"
+                android:textSize="12sp"
+                android:paddingHorizontal="20dp"
                 android:text="Все игровое время игрока"
                 android:textColor="@color/radio_button_state"
-                android:textStyle="bold"
-                 />
+                android:textStyle="bold" />
 
             <RadioButton
                 android:id="@+id/buttonAllActions"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_marginTop="3dp"
                 android:background="@drawable/background_radio"
+                android:button="@null"
                 android:clickable="true"
                 android:focusable="true"
-                android:padding="8dp"
-                android:button="@null"
+                android:paddingHorizontal="20dp"
+                android:textSize="12sp"
                 android:text="Все действия игрока"
                 android:textColor="@color/radio_button_state"
-                android:textStyle="bold"
-                 />
+                android:textStyle="bold" />
 
             <RadioButton
                 android:id="@+id/buttonSelectedTime"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_marginTop="3dp"
                 android:background="@drawable/background_radio"
+                android:button="@null"
                 android:clickable="true"
                 android:focusable="true"
-                android:padding="8dp"
-                android:button="@null"
+                android:textSize="12sp"
+                android:paddingHorizontal="20dp"
                 android:text="Выбранные действия игрока"
                 android:textColor="@color/radio_button_state"
-                android:textStyle="bold"
-                 />
+                android:textStyle="bold" />
 
         </RadioGroup>
 
@@ -122,7 +124,7 @@
             android:layout_height="wrap_content"
             android:text="Длительность показа каждого эпизода"
             android:textColor="@color/white"
-            android:textSize="18sp"
+            android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@+id/guideline4"
             app:layout_constraintTop_toTopOf="@+id/textView" />
 
@@ -130,6 +132,7 @@
             android:id="@+id/interval"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             app:layout_constraintStart_toEndOf="@+id/guideline4"
             app:layout_constraintTop_toBottomOf="@+id/textView1" />
 
@@ -154,7 +157,7 @@
             android:layout_height="wrap_content"
             android:text="Формат просмотра нарезок по игроку"
             android:textColor="@color/white"
-            android:textSize="18sp"
+            android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/guideline2" />
 
@@ -162,8 +165,10 @@
             android:id="@+id/actionRecycler"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/textView1"
+            app:layout_constraintEnd_toEndOf="@+id/interval"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView6" />
         <androidx.constraintlayout.widget.Group

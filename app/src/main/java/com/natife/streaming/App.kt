@@ -8,6 +8,8 @@ import timber.log.Timber
 
 class App : Application() {
 
+    var onKoinRestart: (()->Unit)? = null
+
     override fun onCreate() {
         super.onCreate()
         Timber.plant(Timber.DebugTree())
@@ -25,5 +27,6 @@ class App : Application() {
     fun restartKoin() {
         stopKoin()
         initKoin()
+        onKoinRestart?.invoke()
     }
 }

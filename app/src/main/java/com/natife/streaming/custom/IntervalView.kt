@@ -58,7 +58,7 @@ class IntervalView @JvmOverloads constructor(
         keyboard.children.forEach {
             it.setOnClickListener {
                 if(it is TextView){
-                    currentView.text =  if (currentView.text.trim() != "0"){
+                    currentView.text =  if (currentView.text.trim().toString().toInt() != 0){
                         currentView.text.toString()+(it as TextView).text.toString()
                     }else{
                         (it as TextView).text.toString()

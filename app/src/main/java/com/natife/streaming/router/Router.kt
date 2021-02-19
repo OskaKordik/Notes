@@ -21,7 +21,6 @@ import timber.log.Timber
 class Router : KoinComponent {
 
     private var activity: AppCompatActivity? = null
-
     @IdRes
     private var navHostId: Int? = null
 
@@ -39,10 +38,12 @@ class Router : KoinComponent {
     }
 
     fun navigate(@IdRes resId: Int) {
+        Timber.e(" ${activity} $navHostId ")
         try {
             val activity = activity ?: return
             val navHostId = navHostId ?: return
             val navController = activity.findNavController(navHostId)
+
             if (navController.currentDestination?.id != resId) {
                 navController.navigate(resId)
             }

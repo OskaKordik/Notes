@@ -10,6 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:alpha=".5"
+        android:textSize="12sp"
         android:text="Sec before"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/secBefore"
@@ -23,9 +24,9 @@
         android:layout_marginStart="8dp"
         android:maxLength="2"
         android:text="0"
-        android:paddingHorizontal="8dp"
+        android:paddingHorizontal="16dp"
         android:textColor="@color/white"
-        android:textSize="25sp"
+        android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/textView4"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -35,6 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:alpha=".5"
+        android:textSize="12sp"
         android:text="Sec after"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/secBefore"
@@ -48,9 +50,9 @@
         android:layout_marginStart="8dp"
         android:maxLength="2"
         android:text="0"
-        android:paddingHorizontal="8dp"
+        android:paddingHorizontal="16dp"
         android:textColor="@color/white"
-        android:textSize="25sp"
+        android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/textView5"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -72,7 +74,7 @@
             android:gravity="center"
             android:text="1"
             android:textColor="@color/small_key"
-            android:textSize="25sp" />
+            android:textSize="20sp"  />
 
         <TextView
             android:layout_width="30dp"
@@ -83,7 +85,7 @@
             android:gravity="center"
             android:text="2"
             android:textColor="@color/small_key"
-            android:textSize="25sp" />
+            android:textSize="20sp"  />
 
         <TextView
             android:layout_width="30dp"
@@ -94,7 +96,7 @@
             android:gravity="center"
             android:text="3"
             android:textColor="@color/small_key"
-            android:textSize="25sp" />
+            android:textSize="20sp"  />
 
         <TextView
             android:layout_width="30dp"
@@ -105,7 +107,7 @@
             android:gravity="center"
             android:text="4"
             android:textColor="@color/small_key"
-            android:textSize="25sp" />
+            android:textSize="20sp"  />
 
         <TextView
             android:layout_width="25dp"
@@ -114,7 +116,7 @@
             android:gravity="center"
             android:text="5"
             android:textColor="@color/small_key"
-            android:textSize="25sp" />
+            android:textSize="20sp" />
 
         <TextView
             android:layout_width="30dp"
@@ -125,7 +127,7 @@
             android:gravity="center"
             android:text="6"
             android:textColor="@color/small_key"
-            android:textSize="25sp" />
+            android:textSize="20sp"  />
 
         <TextView
             android:layout_width="30dp"
@@ -136,7 +138,7 @@
             android:gravity="center"
             android:text="7"
             android:textColor="@color/small_key"
-            android:textSize="25sp" />
+            android:textSize="20sp"  />
 
         <TextView
             android:layout_width="30dp"
@@ -147,7 +149,7 @@
             android:gravity="center"
             android:text="8"
             android:textColor="@color/small_key"
-            android:textSize="25sp" />
+            android:textSize="20sp"  />
 
         <TextView
             android:layout_width="30dp"
@@ -158,7 +160,7 @@
             android:gravity="center"
             android:text="9"
             android:textColor="@color/small_key"
-            android:textSize="25sp" />
+            android:textSize="20sp" />
 
         <TextView
             android:layout_width="30dp"
@@ -168,9 +170,8 @@
             android:focusable="true"
             android:gravity="center"
             android:text="0"
-
             android:textColor="@color/small_key"
-            android:textSize="25sp" />
+            android:textSize="20sp"  />
 
         <ImageView
             android:layout_width="30dp"
