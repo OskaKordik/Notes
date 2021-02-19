@@ -4,18 +4,31 @@
 
     <ConstraintSet android:id="@+id/start">
         <Constraint
-            android:id="@+id/mainMenu"
+            android:id="@id/mainMenu"
             android:layout_width="58dp"
             android:layout_height="match_parent"
             app:visibilityMode="ignore"
             app:layout_constraintStart_toStartOf="parent" />
+
         <Constraint
-            android:id="@+id/linearLayout"
-            android:layout_width="0dp"
+            android:id="@id/textView3"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            app:visibilityMode="ignore"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+             />
+        <Constraint
+            android:layout_height="wrap_content"
+            app:visibilityMode="ignore"
+            app:layout_constraintBottom_toTopOf="@+id/textView3"
+            app:layout_constraintEnd_toEndOf="@+id/textView3"
+            app:layout_constraintStart_toStartOf="@+id/textView3"
+            android:layout_width="0dp"
+            android:id="@+id/backButton" />
+
 
     </ConstraintSet>
 
@@ -30,12 +43,32 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintWidth_percent="0.20" />
         <Constraint
-            android:id="@+id/contentBrowse"
+            android:id="@id/contentBrowse"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/mainMenu"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.95"
             />
+        <Constraint
+            android:id="@id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            app:visibilityMode="ignore"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+        <Constraint
+            android:layout_height="wrap_content"
+            app:visibilityMode="ignore"
+            app:layout_constraintBottom_toTopOf="@+id/textView3"
+            app:layout_constraintEnd_toEndOf="@+id/textView3"
+            app:layout_constraintStart_toStartOf="@+id/textView3"
+            android:layout_width="0dp"
+            android:id="@id/backButton" />
+
+
 
     </ConstraintSet>
 

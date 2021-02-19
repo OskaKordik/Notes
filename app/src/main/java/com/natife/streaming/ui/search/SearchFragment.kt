@@ -8,6 +8,7 @@ import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import android.view.KeyEvent
 import android.view.View
+import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,7 +18,11 @@ import com.natife.streaming.ext.doOnResult
 import com.natife.streaming.ext.showToast
 import com.natife.streaming.ext.subscribe
 import com.natife.streaming.ext.withAllPermissions
+import com.natife.streaming.ui.main.MainActivity
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_search.*
+import kotlinx.android.synthetic.main.fragment_search.buttonSport
 import kotlinx.android.synthetic.main.keyboard.view.*
 import kotlinx.android.synthetic.main.view_interval.*
 import timber.log.Timber
@@ -36,11 +41,42 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
         //putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale("RU"))
     }
 
+    private fun applyAlpha(alpha: Float){
+        (activity as MainActivity).logo?.alpha = alpha
+        buttonType?.alpha = 1 - alpha
+        buttonSport?.alpha = 1 - alpha
+        buttonGender?.alpha = 1 - alpha
+    }
+    private val transitionListener = object :
+        MotionLayout.TransitionListener {
+        override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {
+        }
+
+        override fun onTransitionChange(p0: MotionLayout?, p1: Int, p2: Int, p3: Float) {
+            applyAlpha(p3)
+        }
+
+        override fun onTransitionCompleted(p0: MotionLayout?, p1: Int) {
+        }
+
+        override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {
+        }
+
+    }
 
     override fun getLayoutRes(): Int = R.layout.fragment_search
 
+    override fun onResume() {
+        ((activity as MainActivity).mainMotion as MotionLayout).addTransitionListener(transitionListener)
+        super.onResume()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        applyAlpha(((activity as MainActivity).mainMotion as MotionLayout).progress)
+
+
 
         searchRecycler.layoutManager = LinearLayoutManager(context)
         searchRecycler.adapter = adapter
@@ -115,14 +151,19 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
         buttonSport.setOnClickListener {
             viewModel.showSportDialog()
         }
-        backButton.setOnClickListener {
-            viewModel.back()
-        }
+
 
     }
 
+    override fun onPause() {
+        ((activity as MainActivity).mainMotion as MotionLayout).removeTransitionListener(transitionListener)
+        super.onPause()
+    }
+
+
     override fun onDestroy() {
         speechRecognizer.stopListening()
+
         super.onDestroy()
     }
 

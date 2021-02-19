@@ -38,6 +38,7 @@ class SideMenu @JvmOverloads constructor(
 
        this.isVisible = when(destination.id ){
             R.id.loginFragment, R.id.matchProfileFragment, R.id.matchSettingsFragment, R.id.watchFragment, R.id.playerFragment->false
+
            else -> true
        }
     }

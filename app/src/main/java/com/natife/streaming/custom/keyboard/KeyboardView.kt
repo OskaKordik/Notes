@@ -1,4 +1,4 @@
-package com.natife.streaming.ui.keyboard
+package com.natife.streaming.custom.keyboard
 
 import android.content.Context
 import android.content.res.ColorStateList
@@ -133,8 +133,10 @@ class KeyboardView @JvmOverloads constructor(
         languageBtn.isVisible = !isNumeric
 
         if (isNumeric) {
+            inputTypeBtn.text = "ABC"
             numContainer[getNumDefaultIndex()].requestFocus()
         } else {
+            inputTypeBtn.text = "&123"
             btnContainer[getSymbolsDefaultIndex()].requestFocus()
         }
     }

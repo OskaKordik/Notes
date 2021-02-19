@@ -76,7 +76,7 @@ private val prefs: SearchPrefs): SearchViewModel() {
         collectCatching(prefs.getSportFlow()){sportId->
             sport = sportId
             launch {
-                sportLiveDate.value = sportUseCase.execute().find { it.id == sportId }?.name
+                sportLiveDate.value = sportUseCase.execute(reload = false).find { it.id == sportId }?.name
             }
             launchCatching {
                 withContext(Dispatchers.Main){

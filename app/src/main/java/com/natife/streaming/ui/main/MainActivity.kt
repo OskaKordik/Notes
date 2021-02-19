@@ -6,7 +6,11 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
 import androidx.constraintlayout.motion.widget.MotionLayout
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.leanback.widget.BrowseFrameLayout
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseActivity
 import com.natife.streaming.ext.dp
@@ -56,22 +60,19 @@ class MainActivity : BaseActivity<MainViewModel>() {
             }
 
         }
+
+        router.addListener { controller, destination, arguments ->
+            //Timber.e("mlkmldkmslkd ${resources.getResourceName(destination.id)} ${destination.id ==  R.id.accountFragment || destination.id ==   R.id.searchFragment} ${backGroup.isVisible }")
+          backButton.isVisible = destination.id ==  R.id.accountFragment || destination.id == R.id.searchFragment
+            textView3.isVisible = destination.id ==  R.id.accountFragment || destination.id == R.id.searchFragment
+
+          // Timber.e("mlkmldkmslkd  ${backGroup.isVisible }")
+        }
+
+        backButton.setOnClickListener {
+            viewModel.back()
+        }
     }
 
-    override fun dispatchKeyEvent(event: KeyEvent?): Boolean {
 
-//        try {
-//
-//            Timber.e(resources.getResourceName(currentFocus?.id?:0))
-//        }catch (e: Exception){
-//
-//        }
-//        if (mainMenu.hasFocus()) {
-//            (mainMotion as MotionLayout).transitionToEnd()
-//        } else {
-//            (mainMotion as MotionLayout).transitionToStart()
-//        }
-
-        return super.dispatchKeyEvent(event)
-    }
 }

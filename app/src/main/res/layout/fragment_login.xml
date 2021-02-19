@@ -56,7 +56,7 @@
             android:nextFocusRight="@id/text_input_end_icon"
             app:passwordToggleDrawable="@drawable/password_checkbox"
             app:passwordToggleEnabled="true"
-            app:passwordToggleTint="@android:color/white">
+            app:passwordToggleTint="@color/white">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/passwordText"
@@ -119,7 +119,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.natife.streaming.ui.keyboard.KeyboardView
+    <com.natife.streaming.custom.keyboard.KeyboardView
         android:id="@+id/keyboardView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

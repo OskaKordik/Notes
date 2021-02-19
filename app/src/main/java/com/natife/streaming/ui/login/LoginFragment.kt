@@ -11,6 +11,8 @@ import androidx.core.view.isVisible
 import com.natife.streaming.BuildConfig
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseFragment
+import com.natife.streaming.ui.main.MainActivity
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_login.*
 import timber.log.Timber
 
@@ -20,6 +22,7 @@ class LoginFragment : BaseFragment<LoginViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        (activity as MainActivity).logo.isVisible = true
         if (BuildConfig.DEBUG) {
             emailText.setText("tv2@test.com")
             passwordText.setText("tv2")

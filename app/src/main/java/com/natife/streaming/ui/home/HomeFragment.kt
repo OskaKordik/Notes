@@ -32,28 +32,34 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
         buttonTourney?.alpha = 1 - alpha
     }
 
+    private val transitionListener = object :
+        MotionLayout.TransitionListener {
+        override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {
+        }
+
+        override fun onTransitionChange(p0: MotionLayout?, p1: Int, p2: Int, p3: Float) {
+            Timber.e("kdpsokdpdks фзздн")
+            applyAlpha(p3)
+        }
+
+        override fun onTransitionCompleted(p0: MotionLayout?, p1: Int) {
+        }
+
+        override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {
+        }
+
+    }
+
+    override fun onResume() {
+        ((activity as MainActivity).mainMotion as MotionLayout).addTransitionListener(transitionListener)
+        super.onResume()
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //TODO hotfix, need more stable solution
         applyAlpha(((activity as MainActivity).mainMotion as MotionLayout).progress)
 
-        ((activity as MainActivity).mainMotion as MotionLayout).setTransitionListener(object :
-            MotionLayout.TransitionListener {
-            override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {
-            }
 
-            override fun onTransitionChange(p0: MotionLayout?, p1: Int, p2: Int, p3: Float) {
-                Timber.e("p1 $p1 p2 $p2 p3 $p3")
-               applyAlpha(p3)
-            }
-
-            override fun onTransitionCompleted(p0: MotionLayout?, p1: Int) {
-            }
-
-            override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {
-            }
-
-        })
 
         subscribe(viewModel.subOnly){
             buttonLock.setImageResource(if (it){R.drawable.button_lock_red}else{R.drawable.button_lock})
@@ -109,9 +115,15 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
                 }
 
             }
-            Timber.e("submit")
             adapter.submitList(it)
         }
 
     }
+
+    override fun onPause() {
+        Timber.e("kdpsokdpdks stop")
+        ((activity as MainActivity).mainMotion as MotionLayout).removeTransitionListener(transitionListener)
+        super.onPause()
+    }
+
 }

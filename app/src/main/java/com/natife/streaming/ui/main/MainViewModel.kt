@@ -12,6 +12,9 @@ class MainViewModel(
     private val router: Router
 ) : BaseViewModel() {
     val name = MutableLiveData<String>()
+    fun back(){
+        router.navigateUp()
+    }
     init {
         launch {
             val isLoggedIn = authPrefs.isLoggedIn()
@@ -28,5 +31,7 @@ class MainViewModel(
                name.value = "${it?.firstName?:""} ${it?.lastName?:""}"
            }
         }
+
+
     }
 }
