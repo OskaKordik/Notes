@@ -52,6 +52,7 @@
             android:layout_weight="1"
             android:focusable="true"
             app:played_color="#EACB6F"
+            app:scrubber_drawable="@drawable/player_seekbar_thumb"
             android:progressTint="#EACB6F"
             android:nextFocusUp="@+id/menuPlayer"
             android:thumbTint="@color/white"
@@ -63,9 +64,9 @@
             android:layout_height="26dp"
             android:layout_weight="1"
             android:focusable="true"
+            android:thumb="@drawable/player_seekbar_thumb"
             android:progressTint="#EACB6F"
             android:nextFocusUp="@+id/menuPlayer"
-            android:thumbTint="@color/white"
             app:layout_constraintTop_toBottomOf="@+id/menuPlayer" />
 
         <TextView

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseFragment
 import com.natife.streaming.ext.subscribe
@@ -38,7 +39,6 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
         }
 
         override fun onTransitionChange(p0: MotionLayout?, p1: Int, p2: Int, p3: Float) {
-            Timber.e("kdpsokdpdks фзздн")
             applyAlpha(p3)
         }
 
@@ -100,9 +100,10 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
 
 
 
-
-        homeRecycler.layoutManager = GridLayoutManager(context, 4)
+        homeRecycler.isFocusable = false
+     //   homeRecycler.layoutManager =GridLayoutManager(context, 4)
         homeRecycler.adapter = adapter
+        homeRecycler.setNumColumns(4)
 
         adapter.onBind = {
             viewModel.loadList()

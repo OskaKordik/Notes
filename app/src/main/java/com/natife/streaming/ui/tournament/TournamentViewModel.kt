@@ -13,7 +13,11 @@ import com.natife.streaming.usecase.SaveDeleteFavoriteUseCase
 import com.natife.streaming.usecase.TournamentUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
+import timber.log.Timber
+import java.util.concurrent.atomic.AtomicBoolean
 
 class TournamentViewModel(
     private val sportId:Int,
@@ -36,12 +40,28 @@ class TournamentViewModel(
         subOnly = false,
         additionalId = null
     )
-    fun loadList() {
-        process?.cancel()
-        process = launch {
+
+    private val mutex = Mutex()
+    private var isLoading = AtomicBoolean(false)
+     fun loadList() {
+        launch {
+            mutex.withLock {
+                Timber.e("JHDIDND ${System.currentTimeMillis()} load ${list.value?.size}")
+                if (isLoading.get()) {
+                    return@launch
+                }
+
+            }
+
+            isLoading.set(true)
+
             val dataSource = matchUseCase.load(MatchUseCase.Type.TOURNAMENT)
 
             _list.value = dataSource
+
+            Timber.e("JHDIDND 2 ${System.currentTimeMillis()} loaded ${list.value?.size}")
+            isLoading.set(false)
+
         }
     }
 

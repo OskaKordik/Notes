@@ -59,7 +59,7 @@ class WatchViewModelImpl(
     }
 
     init {
-        title.value = "${match.team1.name} - ${match.team2.name}"
+        title.value = "${match.team1.name} \u2014 ${match.team2.name}"
         launch {
             matchInfo = matchProfileUseCase.getMatchInfo(match.id, match.sportId)
             secondUseCase.execute(matchId = match.id, sportId = match.sportId)?.let { second ->

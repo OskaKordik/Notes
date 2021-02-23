@@ -1,15 +1,18 @@
 package com.natife.streaming.usecase
 
+import android.content.Context
 import com.google.gson.Gson
 import com.natife.streaming.API_LOGIN
+import com.natife.streaming.API_TRANSLATE
+import com.natife.streaming.R
 import com.natife.streaming.api.MainApi
 import com.natife.streaming.api.exception.ApiException
 import com.natife.streaming.data.dto.LoginDTO
 import com.natife.streaming.data.request.BaseRequest
 import com.natife.streaming.data.request.RequestLogin
-import com.natife.streaming.mock.MockLoginRepository
+import com.natife.streaming.data.request.TranslateRequest
 import com.natife.streaming.preferenses.AuthPrefs
-import retrofit2.HttpException
+import com.natife.streaming.preferenses.SettingsPrefs
 import timber.log.Timber
 import java.lang.Exception
 
@@ -28,7 +31,9 @@ interface LoginUseCase {
 
 class LoginUseCaseImpl(
     private val api: MainApi,
-    private val authPrefs: AuthPrefs
+    private val authPrefs: AuthPrefs,
+    private val settingsPrefs: SettingsPrefs,
+    private val context: Context
 ) : LoginUseCase {
     override suspend fun execute(
         email: String,
@@ -45,6 +50,7 @@ class LoginUseCaseImpl(
         )
         Timber.e("jkjdfkjf jodijoijdofi")
         try {
+            Timber.e("jkjdfkjf before")
             val login = api.login(request)
             Timber.e("jkjdfkjf $login")
             if (login.status == 1) {
@@ -56,9 +62,16 @@ class LoginUseCaseImpl(
                 val body = Gson().fromJson(e.body,LoginDTO::class.java)
                 Timber.e("jkjdfkjf ${body}")
                 when (body.status) {
-                    2 -> onComplete(com.natife.streaming.utils.Result.error<String>("Email не найден"))
-                    3 -> onComplete(com.natife.streaming.utils.Result.error<String>("Неверный email или пароль"))
-                    4 -> onComplete(com.natife.streaming.utils.Result.error<String>("Аккаунт удален или заблокирован"))
+                    2 ,3 -> {
+                        val answer = api.getTranslate(BaseRequest(procedure = API_TRANSLATE,params = TranslateRequest(language = settingsPrefs.getLanguage(),
+                            listOf(context.resources.getInteger(R.integer.wrong_login_or_password)))))
+                        onComplete(com.natife.streaming.utils.Result.error<String>(answer[0]?.text))
+                    }
+                    4 ->{
+                        val answer = api.getTranslate(BaseRequest(procedure = API_TRANSLATE,params = TranslateRequest(language = settingsPrefs.getLanguage(),
+                            listOf(context.resources.getInteger(R.integer.email_is_blocked)))))
+                        onComplete(com.natife.streaming.utils.Result.error<String>(answer[0]?.text))
+                    }
                     5 -> onComplete(com.natife.streaming.utils.Result.error<String>("Аккаунт истек"))
                 }
             }catch (e: Exception){

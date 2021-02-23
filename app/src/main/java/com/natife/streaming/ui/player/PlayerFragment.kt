@@ -79,32 +79,36 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
         }
 
         //Seek for progress
-        progress.setOnKeyListener { v, keyCode, event ->
-            if (end<=0){
-                if (event.action == KeyEvent.ACTION_DOWN){
-                    if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT){
-                        handler.removeCallbacks(timerRunnable)
-                        progress.progress = progress.progress - progress.max/(progress.max/10)
-                        simpleExoPlayer?.seekTo((progress.progress * 1000).toLong())
-                        handler.postDelayed(timerRunnable, 1000)
-                        return@setOnKeyListener true
-                    }
-                    if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT){
-                        handler.removeCallbacks(timerRunnable)
-                        progress.progress = progress.progress + progress.max/(progress.max/10)
-                        simpleExoPlayer?.seekTo((progress.progress * 1000).toLong())
-                        handler.postDelayed(timerRunnable, 1000)
-                        return@setOnKeyListener true
-                    }
-                }
-            }
-
-            return@setOnKeyListener false
-        }
+//        progress.setOnKeyListener { v, keyCode, event ->
+//         //   Timber.e("PROGRESS $end")
+//            if (end>=0){
+//                if (event.action == KeyEvent.ACTION_DOWN){
+//                    if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT){
+//                        handler.removeCallbacks(timerRunnable)
+//                        progress.progress = progress.progress - progress.max/(progress.max/10)
+//                        simpleExoPlayer?.seekTo((progress.progress * 1000).toLong())
+//                        handler.postDelayed(timerRunnable, 1000)
+//                      //  Timber.e("PROGRESS ${progress.progress}")
+//                        return@setOnKeyListener true
+//                    }
+//                    if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT){
+//                        handler.removeCallbacks(timerRunnable)
+//                        progress.progress = progress.progress + progress.max/(progress.max/10)
+//                       // Timber.e("PROGRESS ${progress.progress}")
+//                        simpleExoPlayer?.seekTo((progress.progress * 1000).toLong())
+//                        handler.postDelayed(timerRunnable, 1000)
+//                        return@setOnKeyListener true
+//                    }
+//                }
+//            }
+//
+//            return@setOnKeyListener false
+//        }
 
         progress.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if (fromUser) {
+                    Timber.e("PROGRESSwww $progress")
                     simpleExoPlayer?.seekTo((start + progress) * 1000)
                 }
             }
@@ -196,21 +200,22 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
                     end = it.end
                     currentWindow = it.half
                     val max = (it.end - it.start)
+                    Timber.e("PROGRESSwww max $max ${it.half}")
                     progress.max = max.toInt()
                     duration.text = max.toDisplayTime()
-                    simpleExoPlayer?.seekTo((it.half - 1).toInt(), it.start * 1000)
+                    simpleExoPlayer?.seekTo((it.half -1 ).toInt(), it.start * 1000)
                     handler.removeCallbacks(timerRunnable)
                     handler.postDelayed(timerRunnable, 1000)
                 }
                 else{
                     groupFragments.isVisible = false
                     groupFull.isVisible = true
-                    val max = simpleExoPlayer!!.duration
+                  //  val max = simpleExoPlayer!!.duration
                     start = it.start
                     end = it.end
-                    Timber.e("jodifjoifjdoif $max")
+
                    // progress.max = max.toInt()
-                    simpleExoPlayer?.seekTo((it.half - 1).toInt(), it.start * 1000)
+                    simpleExoPlayer?.seekTo((it.half ).toInt(), it.start * 1000)
                     handler.removeCallbacks(timerRunnable)
                     handler.postDelayed(timerRunnable, 1000)
                 }
@@ -239,8 +244,10 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
                         )
                         layoutManager =
                             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+
+
                         adapter = PlaylistAdapter() {
-                            viewModel.play(it)
+                            viewModel.play(it,(adapter as PlaylistAdapter).currentList)
                         }.apply {
                             submitList(pair.second.sortedBy { it.start })
                         }
@@ -286,20 +293,10 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
                     (((simpleExoPlayer?.contentPosition?.div(1000))?.minus(start)) ?: 0).toDisplayTime()
                 if (simpleExoPlayer?.contentPosition?.div(1000)!! >= end) {
                     simpleExoPlayer?.playWhenReady = false
+                    viewModel.toNextEpisode()
                 } else {
                     handler.postDelayed(this, 1000)
                 }
-            }
-            else{
-                val max = (simpleExoPlayer!!.duration/1000)
-                progress.max = max.toInt()
-                progress.incrementProgressBy(100)
-                duration.text = max.toDisplayTime()
-                progress.progress =
-                    ((simpleExoPlayer?.contentPosition?.div(1000))?.minus(start))?.toInt() ?: 0
-                position.text =
-                    (((simpleExoPlayer?.contentPosition?.div(1000))?.minus(start)) ?: 0).toDisplayTime()
-                handler.postDelayed(this, 1000)
             }
 
         }
@@ -345,7 +342,9 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
         simpleExoPlayer?.addListener(object : Player.EventListener {
             override fun onPlayWhenReadyChanged(playWhenReady: Boolean, reason: Int) {
                 if (playWhenReady && simpleExoPlayer!!.currentPosition / 1000 >= end) {
-                    simpleExoPlayer!!.seekTo(start * 1000)
+                    if (viewModel.isLastEpisode()){
+                        simpleExoPlayer!!.seekTo(start * 1000)
+                    }
                     handler.removeCallbacks(timerRunnable)
                     handler.postDelayed(timerRunnable, 1000)
                 }

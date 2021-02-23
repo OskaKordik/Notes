@@ -37,4 +37,14 @@
         app:layout_constraintStart_toEndOf="@+id/favoritesRecycler"
         app:layout_constraintTop_toTopOf="@+id/favoritesRecycler" />
 
+    <ProgressBar
+        android:id="@+id/favoritesProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/white"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/favoritesMatchRecycler"
+        app:layout_constraintEnd_toEndOf="@+id/favoritesMatchRecycler"
+        app:layout_constraintStart_toEndOf="@+id/favoritesRecycler"
+        app:layout_constraintTop_toTopOf="@+id/favoritesMatchRecycler" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -80,6 +80,7 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
 
         searchRecycler.layoutManager = LinearLayoutManager(context)
         searchRecycler.adapter = adapter
+        searchRecycler.isFocusable = false
         adapter.onClick = {
             viewModel.select(it)
         }

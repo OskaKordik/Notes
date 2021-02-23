@@ -33,7 +33,7 @@ abstract class MatchProfileViewModel : BaseViewModel() {
     abstract fun ballInPlay()
     abstract fun fullMatch()
     abstract fun player(player: Player)
-    abstract fun play(episode: Episode)
+    abstract fun play(episode: Episode?= null, playList: List<Episode>? = null)
 }
 
 class MatchProfileViewModelImpl(
@@ -44,7 +44,6 @@ class MatchProfileViewModelImpl(
     private val router: Router,
     private val videoUseCase: VideoUseCase,
     private val playerUseCase: PlayerActionUseCase,
-    private val getThumbnailUseCase: GetThumbnailUseCase
 ) : MatchProfileViewModel() {
     override fun back() {
         router.navigateUp()
@@ -78,34 +77,46 @@ class MatchProfileViewModelImpl(
     private var playerJob: Job? = null
     override fun goals() {
         matchInfo?.let {
-            episodes.value = it.goals
+            play(playList = it.goals)
+            //episodes.value = it.goals
         }
     }
 
     override fun review() {
         matchInfo?.let {
-            episodes.value = it.highlights
+            //episodes.value = it.highlights
+            play(playList = it.highlights)
         }
     }
 
     override fun ballInPlay() {
         matchInfo?.let {
-            episodes.value = it.ballInPlay
+            //episodes.value = it.ballInPlay
+            play(playList = it.ballInPlay)
+
         }
     }
 
     override fun fullMatch() {
         match?.let {
-            episodes.value = listOf(
-                Episode(
-                    start = 0,
-                    end = -1,
-                    half = 1,
-                    title = "${it.info}",
-                    image = it.image,
-                    placeholder = it.placeholder
-                )
-            )
+            play(episode = Episode(
+                start = 0,
+                end = -1,
+                half = 0,
+                title = "${it.info}",
+                image = it.image,
+                placeholder = it.placeholder
+            ))
+//            episodes.value = listOf(
+//                Episode(
+//                    start = 0,
+//                    end = -1,
+//                    half = 1,
+//                    title = "${it.info}",
+//                    image = it.image,
+//                    placeholder = it.placeholder
+//                )
+//            )
         }
 
     }
@@ -124,7 +135,7 @@ class MatchProfileViewModelImpl(
 
     }
 
-    override fun play(episode: Episode) {
+    override fun play(episode: Episode?, playList: List<Episode>?) {
         router.navigate(
             MatchProfileFragmentDirections.actionMatchProfileFragmentToPlayerFragment(
                 PlayerSetup(
@@ -137,7 +148,7 @@ class MatchProfileViewModelImpl(
                             Episode(
                                 start = 0,
                                 end = -1,
-                                half = 1,
+                                half = 0,
                                 title = "${match?.info}",
                                 image = match?.image ?: "",
                                 placeholder = match?.placeholder?: ""
@@ -146,6 +157,7 @@ class MatchProfileViewModelImpl(
                     ),
                     video = videos,
                     currentEpisode = episode,
+                    currentPlaylist = playList,
                     match = match
                 )
             )

@@ -33,7 +33,7 @@ class WatchFragment: BaseFragment<WatchViewModel>() {
         }
         watchFromStart.setOnClickListener {
             viewModel.toPlayer(Episode(
-                half = 1,
+                half = 0,
                 start = -1,
                 end = -1
             ))

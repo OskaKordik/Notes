@@ -10,7 +10,10 @@ import com.natife.streaming.router.Router
 import com.natife.streaming.usecase.FavoritesUseCase
 import com.natife.streaming.usecase.MatchUseCase
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import timber.log.Timber
+import java.util.concurrent.atomic.AtomicBoolean
 
 abstract class FavoriteViewModel: BaseViewModel() {
 
@@ -31,7 +34,7 @@ class FavoriteViewModelImpl(private val favoritesUseCase: FavoritesUseCase, priv
 
     override fun onFavoriteSelected(searchResult: SearchResult) {
         Timber.e("$searchResult")
-        launch {
+        launchCatching {
             matchUseCase.prepare(MatchParams(date = null,
             sportId = searchResult.sport,
             pageSize = 60,
@@ -42,16 +45,31 @@ class FavoriteViewModelImpl(private val favoritesUseCase: FavoritesUseCase, priv
         }
     }
 
+    private val mutex = Mutex()
+    private var isLoading = AtomicBoolean(false)
     override fun loadNext() {
-        process?.cancel()
-        process = launch {
+
+        launch {
+            mutex.withLock {
+
+                if (isLoading.get()) {
+                    return@launch
+                }
+
+            }
+
+            isLoading.set(true)
             matches.value = matchUseCase.load(when(selected!!.type){
                 SearchResult.Type.PLAYER -> MatchUseCase.Type.PLAYER
                 SearchResult.Type.TEAM -> MatchUseCase.Type.TEAM
                 SearchResult.Type.TOURNAMENT -> MatchUseCase.Type.TOURNAMENT
                 SearchResult.Type.NON -> MatchUseCase.Type.SIMPLE
             })
+
+            isLoading.set(false)
+
         }
+
 
     }
 
@@ -60,7 +78,7 @@ class FavoriteViewModelImpl(private val favoritesUseCase: FavoritesUseCase, priv
     }
 
     init {
-        launch {
+        launchCatching {
             val _favorites = favoritesUseCase.execute()
             val groups = _favorites.groupBy { it.type }
             val list = mutableListOf<FavoritesAdapter.Favorite>()

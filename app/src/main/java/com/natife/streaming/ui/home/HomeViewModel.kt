@@ -15,9 +15,12 @@ import com.natife.streaming.router.Router
 import com.natife.streaming.usecase.MatchUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.util.*
+import java.util.concurrent.atomic.AtomicBoolean
 
 abstract class HomeViewModel : BaseViewModel() {
     abstract fun showScoreDialog()
@@ -74,12 +77,26 @@ class HomeViewModelImpl(
         subOnly.value = !sub
     }
 
+    private val mutex = Mutex()
+    private var isLoading = AtomicBoolean(false)
     override fun loadList() {
-        process?.cancel()
-        process = launch {
+        launch {
+            mutex.withLock {
+                Timber.e("JHDIDND ${System.currentTimeMillis()} load ${list.value?.size}")
+                if (isLoading.get()) {
+                    return@launch
+                }
+
+            }
+
+            isLoading.set(true)
+
             dataSource = matchUseCase.load()
             val filtered = filterLive(dataSource)
             list.value = filtered
+            Timber.e("JHDIDND 2 ${System.currentTimeMillis()} loaded ${list.value?.size}")
+            isLoading.set(false)
+
         }
     }
 

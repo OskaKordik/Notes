@@ -2,6 +2,7 @@ package com.natife.streaming.ui.favorites
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.natife.streaming.R
@@ -29,6 +30,11 @@ class FavoritesFragment : BaseFragment<FavoriteViewModel>() {
 
         favoritesMatchRecycler.layoutManager = GridLayoutManager(context,3)
         favoritesMatchRecycler.adapter = matchAdapter
+
+
+        subscribe(viewModel.defaultLoadingLiveData){
+            favoritesProgress.isVisible = it
+        }
 
         matchAdapter.onClick={
             viewModel.goToProfile(it)

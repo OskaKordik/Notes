@@ -9,6 +9,12 @@
     <integer name="subscriptions">13016</integer>//Подписки
     <integer name="basic">13327</integer>//Базовая
     <integer name="selection_language">1005</integer>//Выбор языка
-
-
+    <integer name="enter_email">2498</integer>//Введите ваш e-mail
+    <integer name="enter_password">2499</integer>//Введите ваш пароль
+    <integer name="wrong_login_or_password">2502</integer>//Неверный логин или пароль!
+    <integer name="email_is_wrong">12908</integer>//Некорректный формат почтового адреса
+    <integer name="email_is_blocked">12908</integer>//Данный почтовый адрес заблокирован
+    <integer name="enter">13404</integer>//Войти
+    <integer name="password">751</integer>//Пароль
+    <integer name="email">499</integer>//E-mail
 </resources>

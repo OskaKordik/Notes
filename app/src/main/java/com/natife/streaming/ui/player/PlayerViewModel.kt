@@ -1,32 +1,26 @@
 package com.natife.streaming.ui.player
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
-import androidx.paging.PagingData
-import androidx.paging.cachedIn
 import com.natife.streaming.base.BaseViewModel
 import com.natife.streaming.data.match.Match
 import com.natife.streaming.data.matchprofile.Episode
-import com.natife.streaming.data.model.MatchInfo
 import com.natife.streaming.data.player.PlayerSetup
-import com.natife.streaming.usecase.GetMatchInfoUseCase
-import com.natife.streaming.usecase.GetVideosUseCase
-import com.natife.streaming.usecase.MatchUseCase
-import timber.log.Timber
 
 abstract class PlayerViewModel : BaseViewModel() {
     abstract fun showMatchInfo()
     abstract fun showVideo()
     abstract fun showMatches()
     abstract fun onMatchClicked(match: Match)
-    abstract fun play(it: Episode)
+    abstract fun play(it: Episode, playlist: MutableList<Episode>? = null)
+    abstract fun toNextEpisode()
+    abstract fun isLastEpisode():Boolean
 
     abstract val videoLiveData: LiveData<List<Pair<String,Long>>>
     abstract val matchInfoLiveData: LiveData<Match>
     abstract val sourceLiveData: LiveData<Map<String,List<Episode>>>
     abstract val currentEpisode: LiveData<Episode>
+    abstract val currentPlaylist: LiveData<List<Episode>>
 }
 
 class PlayerViewModelImpl(
@@ -37,13 +31,16 @@ class PlayerViewModelImpl(
     override val matchInfoLiveData = MutableLiveData<Match>()
     override val sourceLiveData = MutableLiveData<Map<String,List<Episode>>>()
     override val currentEpisode = MutableLiveData<Episode>()
+    override val currentPlaylist = MutableLiveData<List<Episode>>()
+
 
     init {
 
         sourceLiveData.value = setup.playlist
         videoLiveData.value = setup.video?.groupBy { it.quality }?.entries?.maxByOrNull { it.key.toInt() }!!.value.map { it.url to it.duration }
-        currentEpisode.value = setup.currentEpisode
+        currentEpisode.value = setup.currentEpisode ?: setup.currentPlaylist?.get(0)
         matchInfoLiveData.value = setup.match
+        currentPlaylist.value = setup.currentPlaylist
 
         showVideo()
         showMatches()
@@ -75,7 +72,27 @@ class PlayerViewModelImpl(
         }
     }
 
-    override fun play(it: Episode) {
+    override fun play(it: Episode, playlist: MutableList<Episode>? ) {
         currentEpisode.value = it
+        currentPlaylist.value = playlist
+    }
+
+    override fun toNextEpisode() {
+        currentPlaylist.value?.let {
+           val currentIndex =  it.indexOf(currentEpisode.value)
+            if (it.size> currentIndex+1){
+                currentEpisode.value = it[currentIndex+1]
+            }
+        }
+    }
+
+    override fun isLastEpisode(): Boolean {
+        currentPlaylist.value?.let {
+            val currentIndex =  it.indexOf(currentEpisode.value)
+            if (it.size> currentIndex+1){
+                return false
+            }
+        }
+        return true
     }
 }
