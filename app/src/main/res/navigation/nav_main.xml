@@ -66,6 +66,9 @@
             <action
                 android:id="@+id/action_homeFragment_to_matchProfileFragment"
                 app:destination="@id/matchProfileFragment" />
+            <action
+                android:id="@+id/action_homeFragment_to_watchFragment"
+                app:destination="@id/watchFragment" />
         </fragment>
         <fragment
             android:id="@+id/playerFragment"

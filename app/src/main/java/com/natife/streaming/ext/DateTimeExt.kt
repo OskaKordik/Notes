@@ -21,6 +21,10 @@ fun Date.toDisplay(): String {
     val sdf = SimpleDateFormat("dd MMMM yyyy", Locale("RU"))//TODO multilang
     return sdf.format(this)
 }
+fun Date.toDisplay2(): String {
+    val sdf = SimpleDateFormat("dd.MM.yyyy hh:mm", Locale("RU"))//TODO multilang
+    return sdf.format(this)
+}
 
 fun LocalDate.fromCalendar(): Date? {
     val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())

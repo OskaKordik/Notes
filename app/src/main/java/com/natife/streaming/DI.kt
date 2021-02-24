@@ -186,7 +186,7 @@ val useCaseModule = module {
     factory<MatchInfoUseCase> { MatchInfoUseCaseImpl(get()) }
     factory<VideoUseCase> { VideoUseCaseImpl(get()) }
     factory<SecondUseCase> { SecondUseCaseImpl(get()) }
-    factory<PlayerActionUseCase> { PlayerActionUseCaseImpl(get(), get(), get()) }
+    factory<PlayerActionUseCase> { PlayerActionUseCaseImpl(get(), get(), get() ) }
     factory<LexisUseCase> { LexisUseCaseImpl(get(), get(), get(), androidApplication()) }
     factory<CardUseCase> { CardUseCaseImpl() }
     factory<SubscriptionUseCase> { SubscriptionUseCaseImpl() }

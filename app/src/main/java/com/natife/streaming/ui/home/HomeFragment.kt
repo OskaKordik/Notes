@@ -3,6 +3,7 @@ package com.natife.streaming.ui.home
 import android.os.Bundle
 import android.view.View
 import androidx.constraintlayout.motion.widget.MotionLayout
+import androidx.core.view.doOnLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.natife.streaming.R
@@ -22,7 +23,6 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
 
     val adapter: MatchAdapter by lazy { MatchAdapter ()}
 
-    private val router: Router by inject()
 
     private fun applyAlpha(alpha: Float){
         (activity as MainActivity).logo?.alpha = alpha
@@ -56,7 +56,6 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //TODO hotfix, need more stable solution
         applyAlpha(((activity as MainActivity).mainMotion as MotionLayout).progress)
 
 
@@ -105,18 +104,14 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
         homeRecycler.adapter = adapter
         homeRecycler.setNumColumns(4)
 
+
         adapter.onBind = {
             viewModel.loadList()
         }
 
         subscribe(viewModel.list) {
-            (activity as MainActivity).mainMenu?.prefered={
-                it.firstOrNull()?.let {
-                    router.navigate(TournamentFragmentDirections.actionMainTournamentFragment(it.sportId,it.tournament.id))
-                }
-
-            }
             adapter.submitList(it)
+            homeRecycler.requestFocus()
         }
 
     }

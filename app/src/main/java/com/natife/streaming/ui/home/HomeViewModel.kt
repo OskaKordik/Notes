@@ -79,14 +79,13 @@ class HomeViewModelImpl(
 
     private val mutex = Mutex()
     private var isLoading = AtomicBoolean(false)
+
     override fun loadList() {
         launch {
             mutex.withLock {
-                Timber.e("JHDIDND ${System.currentTimeMillis()} load ${list.value?.size}")
                 if (isLoading.get()) {
                     return@launch
                 }
-
             }
 
             isLoading.set(true)
@@ -94,20 +93,16 @@ class HomeViewModelImpl(
             dataSource = matchUseCase.load()
             val filtered = filterLive(dataSource)
             list.value = filtered
-            Timber.e("JHDIDND 2 ${System.currentTimeMillis()} loaded ${list.value?.size}")
             isLoading.set(false)
 
         }
     }
 
     private fun filterLive(data: List<Match>): List<Match> {
-        data.forEach {
-            Timber.e("HOIHOIH $live ${Date().time - it.date.fromResponse().time}")
-        }
 
         return when (live) {
             LiveType.LIVE -> data.filter { it.live }
-            LiveType.SOON -> data.filter { Date().time - it.date.fromResponse().time in 0..1000 * 60 * 60 }
+            LiveType.SOON -> data.filter { it.date.fromResponse().time - Date().time in 0..(1000 * 60 * 60) }
             LiveType.FINISHED -> data.filter { Date().time - it.date.fromResponse().time > 0 || it.storage || it.hasVideo }
             else -> data
         }
@@ -132,7 +127,15 @@ class HomeViewModelImpl(
     }
 
     override fun toMatchProfile(match: Match) {
-        router.navigate(HomeFragmentDirections.actionHomeFragmentToMatchProfileFragment(sportId = match.sportId,matchId = match.id))
+        if (match.hasVideo) {
+            router.navigate(
+                HomeFragmentDirections.actionHomeFragmentToMatchProfileFragment(
+                    sportId = match.sportId,
+                    matchId = match.id
+                )
+            )
+        }
+
     }
 
 

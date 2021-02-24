@@ -128,6 +128,7 @@ class MatchProfileViewModelImpl(
                 val episs = playerUseCase.execute(matchId, sport, player.id)
                 withContext(Dispatchers.Main) {
                     episodes.value = episs
+                    play(playList = episs)
                 }
 
             }
@@ -186,8 +187,6 @@ class MatchProfileViewModelImpl(
             videos = video
             fullVideoDuration.value = video.groupBy { it.quality }?.entries?.maxByOrNull { it.key.toInt() }!!.value.map { (it.duration/1000) }.sum()
         }
-
-
     }
 
 
