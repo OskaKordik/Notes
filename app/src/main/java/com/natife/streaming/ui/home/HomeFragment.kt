@@ -100,7 +100,7 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
 
 
         homeRecycler.isFocusable = false
-     //   homeRecycler.layoutManager =GridLayoutManager(context, 4)
+
         homeRecycler.adapter = adapter
         homeRecycler.setNumColumns(4)
 
@@ -117,7 +117,7 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
     }
 
     override fun onPause() {
-        Timber.e("kdpsokdpdks stop")
+
         ((activity as MainActivity).mainMotion as MotionLayout).removeTransitionListener(transitionListener)
         super.onPause()
     }

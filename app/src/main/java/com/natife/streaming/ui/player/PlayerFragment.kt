@@ -47,11 +47,6 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
     var animation: ValueAnimator? = null
     private val handler = Handler(Looper.getMainLooper())
 
-//    private val matchAdapter by lazy {
-//        MatchAdapter { match ->
-//            match?.let { it -> viewModel.onMatchClicked(it) }
-//        }
-//    }
 
     override fun onResume() {
         activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
@@ -116,33 +111,7 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
             }
             return@setOnKeyListener false
         }
-            //Seek for progress
 
-//        progress.setOnKeyListener { v, keyCode, event ->
-//         //   Timber.e("PROGRESS $end")
-//            if (end>=0){
-//                if (event.action == KeyEvent.ACTION_DOWN){
-//                    if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT){
-//                        handler.removeCallbacks(timerRunnable)
-//                        progress.progress = progress.progress - progress.max/(progress.max/10)
-//                        simpleExoPlayer?.seekTo((progress.progress * 1000).toLong())
-//                        handler.postDelayed(timerRunnable, 1000)
-//                      //  Timber.e("PROGRESS ${progress.progress}")
-//                        return@setOnKeyListener true
-//                    }
-//                    if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT){
-//                        handler.removeCallbacks(timerRunnable)
-//                        progress.progress = progress.progress + progress.max/(progress.max/10)
-//                       // Timber.e("PROGRESS ${progress.progress}")
-//                        simpleExoPlayer?.seekTo((progress.progress * 1000).toLong())
-//                        handler.postDelayed(timerRunnable, 1000)
-//                        return@setOnKeyListener true
-//                    }
-//                }
-//            }
-//
-//            return@setOnKeyListener false
-//        }
 
             progress.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(
@@ -151,7 +120,7 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
                     fromUser: Boolean
                 ) {
                     if (fromUser) {
-                        Timber.e("PROGRESSwww $progress")
+                      
                         simpleExoPlayer?.seekTo((start + progress) * 1000)
                     }
                 }
