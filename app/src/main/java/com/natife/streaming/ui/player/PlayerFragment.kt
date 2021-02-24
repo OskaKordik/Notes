@@ -120,7 +120,7 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
                     fromUser: Boolean
                 ) {
                     if (fromUser) {
-                      
+
                         simpleExoPlayer?.seekTo((start + progress) * 1000)
                     }
                 }
