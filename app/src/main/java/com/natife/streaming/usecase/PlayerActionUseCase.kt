@@ -65,6 +65,6 @@ class PlayerActionUseCaseImpl(private val api: MainApi, private val prefs: Match
                 ),
                 title = "${player.firstnameRus} ${player.lastnameRus}"
             )
-        }
+        }.sortedBy { it.start }
     }
 }

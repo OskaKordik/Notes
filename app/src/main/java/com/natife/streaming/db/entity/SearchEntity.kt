@@ -4,10 +4,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.natife.streaming.data.search.SearchResult
 
-@Entity(tableName = "search_result")
+@Entity(tableName = "search_result",primaryKeys = ["id","type","sport"])
 data class SearchEntity(
-    @PrimaryKey(autoGenerate = true)
-    val bdId: Long = 0,
     val id: Int,
     val name: String,
     val type: String,

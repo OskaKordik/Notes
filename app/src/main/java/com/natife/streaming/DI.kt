@@ -72,10 +72,14 @@ val viewModelModule = module {
         TournamentViewModel(
             args.sportId,
             args.tournamentId,
+            args.type,
             get(),
             get(),
             get(),
-            get())
+            get(),
+            get(),
+            get()
+        )
     }
     viewModel<HomeViewModel> { HomeViewModelImpl(get(), get(), get()) }
     viewModel<ScoreViewModel> { ScoreViewModelImpl(get(), get(), get()) }
@@ -128,8 +132,8 @@ val viewModelModule = module {
     viewModel<TypeDialogViewModel> { TypeDialogViewModelImpl(get(), get(), get()) }
     viewModel<GenderViewModel> { GenderViewModelImpl(get(), get(), get()) }
     viewModel<PlayerViewModel> { (args: PlayerFragmentArgs) -> PlayerViewModelImpl(args.setup) }
-    viewModel<SettingsViewModel> { SettingsViewModelImpl(get(), get(), get(), get(), get(),get()) }
-    viewModel <FavoriteViewModel>{ FavoriteViewModelImpl(get(),get(),get()) }
+    viewModel<SettingsViewModel> { SettingsViewModelImpl(get(), get(), get(), get(), get(), get()) }
+    viewModel<FavoriteViewModel> { FavoriteViewModelImpl(get(), get(), get()) }
 }
 
 val prefsModule = module {
@@ -164,8 +168,8 @@ val prefsModule = module {
 }
 
 val useCaseModule = module {
-    factory<LoginUseCase> { LoginUseCaseImpl(get(), get(),get(),get()) }
-    factory<LogoutUseCase> { LogoutUseCaseImpl(get(), get(), get(),get(),get()) }
+    factory<LoginUseCase> { LoginUseCaseImpl(get(), get(), get(), get()) }
+    factory<LogoutUseCase> { LogoutUseCaseImpl(get(), get(), get(), get(), get()) }
     factory<AccountUseCase> { AccountUseCaseImpl(get(), get()) }
     factory<MatchUseCase> { MatchUseCaseImpl(get(), get()) }
     factory<GetShowScoreUseCase> { GetShowScoreUseCaseImpl() }
@@ -186,12 +190,14 @@ val useCaseModule = module {
     factory<MatchInfoUseCase> { MatchInfoUseCaseImpl(get()) }
     factory<VideoUseCase> { VideoUseCaseImpl(get()) }
     factory<SecondUseCase> { SecondUseCaseImpl(get()) }
-    factory<PlayerActionUseCase> { PlayerActionUseCaseImpl(get(), get(), get() ) }
+    factory<PlayerActionUseCase> { PlayerActionUseCaseImpl(get(), get(), get()) }
     factory<LexisUseCase> { LexisUseCaseImpl(get(), get(), get(), androidApplication()) }
     factory<CardUseCase> { CardUseCaseImpl() }
     factory<SubscriptionUseCase> { SubscriptionUseCaseImpl() }
-    factory <SaveDeleteFavoriteUseCase>{ SaveDeleteFavoriteUseCaseImpl(get())}
-    factory <FavoritesUseCase>{ FavoritesUseCaseImpl(get())}
+    factory<SaveDeleteFavoriteUseCase> { SaveDeleteFavoriteUseCaseImpl(get()) }
+    factory<FavoritesUseCase> { FavoritesUseCaseImpl(get()) }
+    factory<TeamUseCase> { TeamUseCaseImpl(get(),get()) }
+    factory<PlayerUseCase> { PlayerUseCaseImpl(get(),get()) }
 
 }
 

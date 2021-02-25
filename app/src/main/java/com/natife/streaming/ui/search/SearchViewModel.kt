@@ -161,9 +161,8 @@ private val prefs: SearchPrefs): SearchViewModel() {
         launchCatching {
             searchUseCase.execute(result)
         }
-        if (result.type == SearchResult.Type.TOURNAMENT){
-            router.navigate(SearchFragmentDirections.actionSearchFragmentToTournamentFragment(result.sport,tournamentId = result.id))
-        }
+            router.navigate(SearchFragmentDirections.actionSearchFragmentToTournamentFragment(result.sport,tournamentId = result.id,type =  result.type))
+
 
     }
 }

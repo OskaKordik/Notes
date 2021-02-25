@@ -90,6 +90,12 @@
             <argument
                 android:name="tournamentId"
                 app:argType="integer" />
+            <argument
+                android:name="type"
+                app:argType="com.natife.streaming.data.search.SearchResult$Type" />
+            <action
+                android:id="@+id/action_tournamentFragment_to_matchProfileFragment"
+                app:destination="@id/matchProfileFragment" />
         </fragment>
 
         <fragment

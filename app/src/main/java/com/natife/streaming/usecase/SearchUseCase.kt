@@ -8,6 +8,7 @@ import com.natife.streaming.data.search.SearchResult
 import com.natife.streaming.db.dao.SearchDao
 import com.natife.streaming.db.entity.SearchEntity
 import com.natife.streaming.utils.ImageUrlBuilder
+import timber.log.Timber
 
 interface SearchUseCase {
     suspend fun execute(name: String, local: Boolean = false): List<SearchResult>
@@ -30,7 +31,7 @@ class SearchUseCaseImpl(private val api: MainApi, private val dao: SearchDao) : 
                 sport = it.sport,
                 name =it.name
             ) })
-
+        Timber.e("JNOXNONS $fromDb")
         }else{
             val response = api.search(
                 BaseRequest(

@@ -8,6 +8,7 @@ data class Player(
     val name: String,
     val image: String,
     val imagePlaceholder: String,
-    val number: String
+    val number: String,
+    val isFavorite: Boolean = false
 )
 

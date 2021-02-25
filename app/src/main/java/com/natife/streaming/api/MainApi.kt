@@ -12,6 +12,7 @@ import com.natife.streaming.data.dto.matchprofile.MatchProfileDTO
 import com.natife.streaming.data.dto.player.PlayerDTO
 import com.natife.streaming.data.dto.search.SearchResultDTO
 import com.natife.streaming.data.dto.sports.SportsDTO
+import com.natife.streaming.data.dto.team.TeamDTO
 import com.natife.streaming.data.dto.tournament.TournamentListDTO
 import com.natife.streaming.data.dto.tournamentprofile.TournamentProfileDTO
 import com.natife.streaming.data.dto.translate.TranslatesDTO
@@ -74,4 +75,7 @@ interface MainApi {
 
     @POST("data")
     suspend fun getFavorite(@Body body: BaseRequest<EmptyRequest>): FavoritesDTO
+
+    @POST("data")
+    suspend fun getTeamInfo(@Body body: BaseRequest<TeamRequest>): TeamDTO
 }

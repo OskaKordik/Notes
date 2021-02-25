@@ -13,7 +13,9 @@ import org.koin.core.parameter.parametersOf
 
 class TournamentFragment: BaseFragment<TournamentViewModel>() {
 
-    private val adapter : TournamentAdapter by lazy { TournamentAdapter() }
+    private val adapter : TournamentAdapter by lazy { TournamentAdapter(){
+        viewModel.toProfile(it)
+    } }
     override fun getLayoutRes() = R.layout.fragment_tournament
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -37,11 +39,38 @@ class TournamentFragment: BaseFragment<TournamentViewModel>() {
             }
 
         }
+
+        subscribe(viewModel.team){
+            tournamentTitle.text = it.name
+            icon.url(it.image,it.placeholder)
+            addToFavoriteBtn.text = if (it.isFavorite){
+                "В избранном"
+            }else{//TODO multilang
+                "Добавить в избранное"
+            }
+            addToFavoriteBtn.setOnClickListener {v->
+                viewModel.addToFavorite(it)
+            }
+        }
+        subscribe(viewModel.player){
+            tournamentTitle.text = it.name
+            icon.url(it.image,it.imagePlaceholder)
+            addToFavoriteBtn.text = if (it.isFavorite){
+                "В избранном"
+            }else{//TODO multilang
+                "Добавить в избранное"
+            }
+            addToFavoriteBtn.setOnClickListener {v->
+                viewModel.addToFavorite(it)
+            }
+        }
+
         tournamentRecycler.layoutManager = GridLayoutManager(context, 4)
         tournamentRecycler.adapter = adapter
         adapter.onBind = {
             viewModel.loadList()
         }
+
 
         subscribe(viewModel.list,adapter::submitList)
     }

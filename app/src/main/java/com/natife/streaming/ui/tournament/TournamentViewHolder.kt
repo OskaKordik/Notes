@@ -12,10 +12,13 @@ import com.natife.streaming.ext.url
 import com.natife.streaming.ui.home.MatchViewHolder
 import kotlinx.android.synthetic.main.item_match.view.*
 
-class TournamentViewHolder(view: View): MatchViewHolder(view){
+class TournamentViewHolder(view: View,private val onClick :((Match)->Unit)): MatchViewHolder(view){
     override fun onBind(data: Match) {
         super.onBind(data)
         itemView.imageBought.isVisible = data.subscribed
+        itemView.setOnClickListener {
+            onClick.invoke(data)
+        }
     }
 
 }

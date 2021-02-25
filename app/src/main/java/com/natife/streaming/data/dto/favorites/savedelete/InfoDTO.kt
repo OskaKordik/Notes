@@ -6,7 +6,15 @@ import com.natife.streaming.data.dto.tournament.CountryDTO
 data class InfoDTO(
     val country: CountryDTO,
     @SerializedName("name_eng")
-    val nameEng: String,
+    val nameEng: String?,
     @SerializedName("name_rus")
-    val nameRus: String
+    val nameRus: String?,
+    @SerializedName("lastname_eng")
+    val lastnameEng: String?,
+    @SerializedName("lastname_rus")
+    val lastnameRus: String?,
+    @SerializedName("firstname_eng")
+    val firstnameEng: String?,
+    @SerializedName("firstname_rus")
+    val firstnameRus: String?
 )

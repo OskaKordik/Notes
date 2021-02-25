@@ -19,7 +19,7 @@ class FavoritesUseCaseImpl(private val api:MainApi): FavoritesUseCase{
         return response.map {
             SearchResult(
                 id = it.id,
-                name = it.info.nameRus, // TODO multilang
+                name = it.info.nameRus ?: "${it.info.firstnameRus} ${it.info.lastnameRus}", // TODO multilang
                 type = when(it.type){
                                     1 ->SearchResult.Type.TOURNAMENT
                                     2 -> SearchResult.Type.TEAM
@@ -43,7 +43,8 @@ class FavoritesUseCaseImpl(private val api:MainApi): FavoritesUseCase{
                     }
                 ),
                 gender = 1,
-                sport = it.sport
+                sport = it.sport,
+                isFavorite = true
             )
         }
     }

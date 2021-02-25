@@ -84,12 +84,16 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
             if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
                 if (end >= 0) {
                     progress.requestFocus()
+                }else{
+                    exo_progress.requestFocus()
                 }
                 return@setOnKeyListener true
                 }
             if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
                 if (end >= 0) {
                     progress.requestFocus()
+                }else{
+                    exo_progress.requestFocus()
                 }
                 return@setOnKeyListener true
             }
@@ -100,12 +104,16 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
             if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
                 if (end >= 0) {
                     progress.requestFocus()
+                }else{
+                    exo_progress.requestFocus()
                 }
                 return@setOnKeyListener true
             }
             if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
                 if (end >= 0) {
                     progress.requestFocus()
+                }else{
+                    exo_progress.requestFocus()
                 }
                 return@setOnKeyListener true
             }
@@ -359,7 +367,7 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
             simpleExoPlayer?.addListener(object : Player.EventListener {
                 override fun onPlayWhenReadyChanged(playWhenReady: Boolean, reason: Int) {
                     if (playWhenReady && simpleExoPlayer!!.currentPosition / 1000 >= end) {
-                        if (viewModel.isLastEpisode()) {
+                        if (viewModel.isLastEpisode() && end>0) {
                             simpleExoPlayer!!.seekTo(start * 1000)
                         }
                         handler.removeCallbacks(timerRunnable)

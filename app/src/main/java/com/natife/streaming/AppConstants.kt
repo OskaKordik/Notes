@@ -37,5 +37,5 @@ const val API_GET_FAVORITES = "get_user_favorites"
 const val  API_TOURNAMENT_MATCHES = "get_tournament_matches"
 const val  API_PLAYER_MATCHES = "get_player_matches"
 const val  API_TEAM_MATCHES = "get_team_matches"
-
+const val  API_TEAM_INFO = "get_team_info"
 

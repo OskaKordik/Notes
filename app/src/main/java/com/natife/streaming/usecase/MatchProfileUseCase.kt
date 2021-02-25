@@ -94,7 +94,7 @@ class MatchProfileUseCaseImpl(private val api: MainApi) : MatchProfileUseCase {
                     ),
                     title = "${match.team1.nameRus} - ${match.team2.nameRus}"
                 )
-            },
+            }.sortedBy { it.start },
             ballInPlayDuration = infoDto.data.ballInPlay.dur,
             highlights = infoDto.data.highlights.data.map {
                 it.toEpisode().copy(
@@ -104,7 +104,7 @@ class MatchProfileUseCaseImpl(private val api: MainApi) : MatchProfileUseCase {
                     ),
                     title = "${match.team1.nameRus} - ${match.team2.nameRus}"
                 )
-            },
+            }.sortedBy { it.start },
             highlightsDuration = infoDto.data.highlights.dur,
             goals = infoDto.data.goals.data.map {
                 it.toEpisode().copy(
@@ -114,7 +114,7 @@ class MatchProfileUseCaseImpl(private val api: MainApi) : MatchProfileUseCase {
                     ),
                     title = "${match.team1.nameRus} - ${match.team2.nameRus}"
                 )
-            },
+            }.sortedBy { it.start },
             goalsDuration = infoDto.data.goals.dur,
             players1 = infoDto.data.players1.map {
                 Player(

@@ -13,7 +13,7 @@ import com.natife.streaming.db.entity.SearchEntity
     entities = [ActionEntity::class,
         SearchEntity::class,
         LexicEntity::class],
-    version = 3
+    version = 4
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun actionDao(): ActionDao

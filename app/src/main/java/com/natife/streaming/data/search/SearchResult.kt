@@ -9,7 +9,8 @@ data class SearchResult (
         val image: String,
         val placeholder: String,
         val sport: Int,
-        val gender: Int
+        val gender: Int,
+        val isFavorite: Boolean = false
         ): FavoritesAdapter.Favorite {
     enum class Type{
         PLAYER,
