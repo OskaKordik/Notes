@@ -75,6 +75,14 @@ private val prefs: SearchPrefs): SearchViewModel() {
         }
         collectCatching(prefs.getSportFlow()){sportId->
             sport = sportId
+
+            if (sportId <0 ){
+
+                launchCatching {
+                    sportLiveDate.value = "Любой"//TODO fast solution, multilang
+                }
+
+            }
             launch {
                 sportLiveDate.value = sportUseCase.execute(reload = false).find { it.id == sportId }?.name
             }

@@ -26,7 +26,8 @@ open class MatchViewHolder(view: View) : BaseViewHolder<Match>(view) {
         val span = SpannableStringBuilder()
         span.color(
             itemView.resources.getColor(R.color.text_accent, null)
-        ) { append(data.sportName.toUpperCase()) }
+        ) {
+            append(data.sportName.toUpperCase()) }
         span.append(" ")
         span.color(itemView.resources.getColor(R.color.text_gray, null)) { append(data.info) }
         itemView.matchDescription.text = span
@@ -35,7 +36,7 @@ open class MatchViewHolder(view: View) : BaseViewHolder<Match>(view) {
 
         val timeBeforeStart = (data.date.fromResponse().time - Date().time)
 
-        itemView.matchAlert.isVisible = !data.hasVideo  &&  timeBeforeStart > 0 &&  timeBeforeStart <1000*60*60
+        //itemView.matchAlert.isVisible = !data.hasVideo  &&  timeBeforeStart > 0 &&  timeBeforeStart <1000*60*60
         itemView.matchAlert.text = data.date.fromResponse().toDisplay2()
         if (!data.access) {
            itemView.messageContainer.addView(Alert(itemView.context))

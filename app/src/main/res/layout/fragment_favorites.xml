@@ -9,18 +9,18 @@
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="30dp"
         android:text="Избранное"
         android:textColor="@color/white"
-        android:textSize="20sp"
+        android:textSize="17sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
+    <androidx.leanback.widget.VerticalGridView
         android:id="@+id/favoritesRecycler"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -28,7 +28,16 @@
         app:layout_constraintTop_toBottomOf="@+id/textView7"
         app:layout_constraintWidth_percent="0.25" />
 
-    <androidx.recyclerview.widget.RecyclerView
+    <View
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:alpha="0.3"
+        android:background="@color/white"
+        app:layout_constraintStart_toEndOf="@id/favoritesRecycler"
+        app:layout_constraintBottom_toBottomOf="@id/favoritesRecycler"
+        app:layout_constraintTop_toTopOf="@id/favoritesRecycler" />
+
+    <androidx.leanback.widget.VerticalGridView
         android:id="@+id/favoritesMatchRecycler"
         android:layout_width="0dp"
         android:layout_height="0dp"

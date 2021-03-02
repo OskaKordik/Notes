@@ -12,6 +12,7 @@
         android:layout_marginStart="12dp"
         android:clickable="true"
         android:focusable="true"
+        android:focusedByDefault="false"
         android:rotation="180"
         android:src="@drawable/ic_back"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -59,13 +60,15 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView"
-            app:layout_constraintWidth_percent="0.4">
+            app:layout_constraintWidth_percent="0.35">
 
             <RadioButton
                 android:id="@+id/buttonAllTime"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="35dp"
                 android:layout_marginTop="3dp"
+                android:nextFocusUp="@id/buttonAllTime"
+                android:focusedByDefault="true"
                 android:background="@drawable/background_radio"
                 android:button="@null"
                 android:clickable="true"
@@ -79,8 +82,8 @@
             <RadioButton
                 android:id="@+id/buttonAllActions"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="3dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="5dp"
                 android:background="@drawable/background_radio"
                 android:button="@null"
                 android:clickable="true"
@@ -94,14 +97,15 @@
             <RadioButton
                 android:id="@+id/buttonSelectedTime"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="3dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="5dp"
                 android:background="@drawable/background_radio"
                 android:button="@null"
                 android:clickable="true"
                 android:focusable="true"
                 android:textSize="12sp"
                 android:paddingHorizontal="20dp"
+                android:nextFocusDown="@id/buttonSelectedTime"
                 android:text="Выбранные действия игрока"
                 android:textColor="@color/radio_button_state"
                 android:textStyle="bold" />

@@ -8,8 +8,9 @@ import java.time.temporal.WeekFields
 import java.util.*
 
 fun Date.toRequest(): String {
+    val sdf0 = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
     val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault())
-    return sdf.format(this)
+    return sdf.format(sdf0.parse(sdf0.format(this)))
 }
 
 fun String.fromResponse(): Date {

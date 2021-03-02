@@ -1,9 +1,11 @@
 package com.natife.streaming.ui.home
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.view.doOnLayout
+import androidx.leanback.widget.BaseGridView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.natife.streaming.R
@@ -14,6 +16,7 @@ import com.natife.streaming.router.Router
 import com.natife.streaming.ui.main.MainActivity
 import com.natife.streaming.ui.tournament.TournamentFragmentDirections
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_favorites.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.koin.android.ext.android.inject
 import timber.log.Timber
@@ -31,6 +34,9 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
         buttonScore?.alpha = 1 - alpha
         buttonSport?.alpha = 1 - alpha
         buttonTourney?.alpha = 1 - alpha
+        dateRight?.alpha = 1 - alpha
+        dateLeft?.alpha = 1 - alpha
+        dateText?.alpha = 1 - alpha
     }
 
     private val transitionListener = object :
@@ -54,6 +60,7 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
         ((activity as MainActivity).mainMotion as MotionLayout).addTransitionListener(transitionListener)
         super.onResume()
     }
+    @SuppressLint("RestrictedApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         applyAlpha(((activity as MainActivity).mainMotion as MotionLayout).progress)
@@ -103,6 +110,7 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
 
         homeRecycler.adapter = adapter
         homeRecycler.setNumColumns(4)
+        homeRecycler.focusScrollStrategy = BaseGridView.FOCUS_SCROLL_ITEM
 
 
         adapter.onBind = {

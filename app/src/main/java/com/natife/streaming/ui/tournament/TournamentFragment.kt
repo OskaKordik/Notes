@@ -1,12 +1,15 @@
 package com.natife.streaming.ui.tournament
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import androidx.leanback.widget.BaseGridView
 import androidx.recyclerview.widget.GridLayoutManager
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseFragment
 import com.natife.streaming.ext.subscribe
 import com.natife.streaming.ext.url
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_tournament.*
 import org.koin.core.parameter.ParametersDefinition
 import org.koin.core.parameter.parametersOf
@@ -18,6 +21,7 @@ class TournamentFragment: BaseFragment<TournamentViewModel>() {
     } }
     override fun getLayoutRes() = R.layout.fragment_tournament
 
+    @SuppressLint("RestrictedApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         scoreBtn.setOnClickListener {
             viewModel.onScoreClicked()
@@ -65,7 +69,8 @@ class TournamentFragment: BaseFragment<TournamentViewModel>() {
             }
         }
 
-        tournamentRecycler.layoutManager = GridLayoutManager(context, 4)
+        tournamentRecycler.focusScrollStrategy = BaseGridView.FOCUS_SCROLL_ITEM
+        tournamentRecycler.setNumColumns(4)
         tournamentRecycler.adapter = adapter
         adapter.onBind = {
             viewModel.loadList()

@@ -278,6 +278,9 @@
             <action
                 android:id="@+id/action_favoritesFragment_to_matchProfileFragment"
                 app:destination="@id/matchProfileFragment" />
+            <action
+                android:id="@+id/action_favoritesFragment_to_tournamentFragment"
+                app:destination="@id/tournamentFragment" />
         </fragment>
 
     </navigation>

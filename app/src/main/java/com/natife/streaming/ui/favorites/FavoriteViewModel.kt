@@ -34,14 +34,20 @@ class FavoriteViewModelImpl(private val favoritesUseCase: FavoritesUseCase, priv
 
     override fun onFavoriteSelected(searchResult: SearchResult) {
         Timber.e("$searchResult")
+
+        if (searchResult.id>0){
+            router.navigate(FavoritesFragmentDirections.actionFavoritesFragmentToTournamentFragment(searchResult.sport,searchResult.id,searchResult.type))
+        }
+
+
         launchCatching {
-            matchUseCase.prepare(MatchParams(date = null,
-            sportId = searchResult.sport,
-            pageSize = 60,
-            subOnly = false,
-            additionalId =searchResult.id))
+//            matchUseCase.prepare(MatchParams(date = null,
+//            sportId = searchResult.sport,
+//            pageSize = 60,
+//            subOnly = false,
+//            additionalId =searchResult.id))
             selected = searchResult
-            loadNext()
+         //   loadNext()
         }
     }
 
@@ -59,12 +65,7 @@ class FavoriteViewModelImpl(private val favoritesUseCase: FavoritesUseCase, priv
             }
 
             isLoading.set(true)
-            matches.value = matchUseCase.load(when(selected!!.type){
-                SearchResult.Type.PLAYER -> MatchUseCase.Type.PLAYER
-                SearchResult.Type.TEAM -> MatchUseCase.Type.TEAM
-                SearchResult.Type.TOURNAMENT -> MatchUseCase.Type.TOURNAMENT
-                SearchResult.Type.NON -> MatchUseCase.Type.SIMPLE
-            })
+             matchUseCase.load( MatchUseCase.Type.SIMPLE)
 
             isLoading.set(false)
 
@@ -78,7 +79,15 @@ class FavoriteViewModelImpl(private val favoritesUseCase: FavoritesUseCase, priv
     }
 
     init {
+
         launchCatching {
+            collect(matchUseCase.list){
+                matches.value = it
+            }
+        }
+
+        launchCatching {
+            loadNext()
             val _favorites = favoritesUseCase.execute()
             val groups = _favorites.groupBy { it.type }
             val list = mutableListOf<FavoritesAdapter.Favorite>()

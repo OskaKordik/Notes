@@ -30,6 +30,7 @@ class MatchSettingsFragment: BaseFragment<MatchSettingsViewModel>() {
         buttonBack.setOnClickListener {
             viewModel.goBack()
         }
+        buttonAllTime.requestFocus()
 
         subscribe(viewModel.actions,adapter::submitList)
         buttonAllTime.setOnClickListener {
@@ -37,8 +38,17 @@ class MatchSettingsFragment: BaseFragment<MatchSettingsViewModel>() {
         }
         radioGroup.setOnCheckedChangeListener { _, checkedId ->
             when(checkedId){
-                buttonAllActions.id -> setupAll()
-                buttonSelectedTime.id -> setupSelected()
+                buttonAllActions.id -> {
+                    buttonSelectedTime.nextFocusDownId = buttonSelectedTime.id
+                    setupAll()
+                }
+                buttonSelectedTime.id ->{
+                    setupSelected()
+                    buttonSelectedTime.nextFocusDownId = actionRecycler.id
+                }
+                else->{
+                    buttonSelectedTime.nextFocusDownId = buttonSelectedTime.id
+                }
 
             }
         }

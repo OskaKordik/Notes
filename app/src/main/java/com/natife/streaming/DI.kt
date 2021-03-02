@@ -65,7 +65,7 @@ import java.util.concurrent.TimeUnit
 
 val viewModelModule = module {
     viewModel { EmptyViewModel() }
-    viewModel<LoginViewModel> { LoginViewModelImpl(get(), get()) }
+    viewModel<LoginViewModel> { LoginViewModelImpl(get(), get(), get()) }
     viewModel { MainViewModel(get(), get()) }
     viewModel<AccountViewModel> { AccountViewModelImpl(get(), get(), get()) }
     viewModel { (args: TournamentFragmentArgs) ->
@@ -171,7 +171,7 @@ val useCaseModule = module {
     factory<LoginUseCase> { LoginUseCaseImpl(get(), get(), get(), get()) }
     factory<LogoutUseCase> { LogoutUseCaseImpl(get(), get(), get(), get(), get()) }
     factory<AccountUseCase> { AccountUseCaseImpl(get(), get()) }
-    factory<MatchUseCase> { MatchUseCaseImpl(get(), get()) }
+    single<MatchUseCase> { MatchUseCaseImpl(get(), get()) }
     factory<GetShowScoreUseCase> { GetShowScoreUseCaseImpl() }
     factory<SaveShowScoreUseCase> { SaveShowScoreUseCaseImpl(get()) }
     single<GetSportUseCase> { GetSportUseCaseImpl(get(), get()) }
@@ -198,6 +198,7 @@ val useCaseModule = module {
     factory<FavoritesUseCase> { FavoritesUseCaseImpl(get()) }
     factory<TeamUseCase> { TeamUseCaseImpl(get(),get()) }
     factory<PlayerUseCase> { PlayerUseCaseImpl(get(),get()) }
+    factory<ProfileUseCase> { ProfileUseCaseImpl(get(),get()) }
 
 }
 

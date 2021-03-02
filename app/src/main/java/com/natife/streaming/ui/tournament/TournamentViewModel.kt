@@ -28,7 +28,7 @@ class TournamentViewModel(
     private val tournamentUseCase: TournamentUseCase,
     private val teamUseCase: TeamUseCase,
     private val playerUseCase: PlayerUseCase,
-    private val matchUseCase: MatchUseCase,
+    private val matchUseCase: ProfileUseCase,
     private val saveDeleteFavoriteUseCase: SaveDeleteFavoriteUseCase
 ) : BaseViewModel() {
 
@@ -61,14 +61,13 @@ class TournamentViewModel(
 
             isLoading.set(true)
 
-            val dataSource =when(type){
-                SearchResult.Type.PLAYER ->matchUseCase.load(MatchUseCase.Type.PLAYER)
-                SearchResult.Type.TEAM -> matchUseCase.load(MatchUseCase.Type.TEAM)
-                SearchResult.Type.TOURNAMENT ->matchUseCase.load(MatchUseCase.Type.TOURNAMENT)
-                SearchResult.Type.NON -> matchUseCase.load(MatchUseCase.Type.TOURNAMENT)
+            when(type){
+                SearchResult.Type.PLAYER ->matchUseCase.load(ProfileUseCase.Type.PLAYER)
+                SearchResult.Type.TEAM -> matchUseCase.load(ProfileUseCase.Type.TEAM)
+                SearchResult.Type.TOURNAMENT ->matchUseCase.load(ProfileUseCase.Type.TOURNAMENT)
+                SearchResult.Type.NON -> matchUseCase.load(ProfileUseCase.Type.TOURNAMENT)
             }
 
-            _list.value = dataSource
 
             Timber.e("JHDIDND 2 ${System.currentTimeMillis()} loaded ${list.value?.size}")
             isLoading.set(false)
@@ -77,6 +76,12 @@ class TournamentViewModel(
     }
 
     init {
+
+        launchCatching {
+            collect(matchUseCase.list){
+                _list.value = it
+            }
+        }
         params = params.copy(additionalId = additionalId,sportId = sportId)
         Timber.e("komdkmfkdfmlfkmdlkfmf $type")
         when(type){

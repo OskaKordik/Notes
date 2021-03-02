@@ -65,12 +65,12 @@ class LoginUseCaseImpl(
                     2 ,3 -> {
                         val answer = api.getTranslate(BaseRequest(procedure = API_TRANSLATE,params = TranslateRequest(language = settingsPrefs.getLanguage(),
                             listOf(context.resources.getInteger(R.integer.wrong_login_or_password)))))
-                        onComplete(com.natife.streaming.utils.Result.error<String>(answer[0]?.text))
+                        onComplete(com.natife.streaming.utils.Result.error<String>(answer[context.resources.getInteger(R.integer.wrong_login_or_password).toString()]?.text))
                     }
                     4 ->{
                         val answer = api.getTranslate(BaseRequest(procedure = API_TRANSLATE,params = TranslateRequest(language = settingsPrefs.getLanguage(),
                             listOf(context.resources.getInteger(R.integer.email_is_blocked)))))
-                        onComplete(com.natife.streaming.utils.Result.error<String>(answer[0]?.text))
+                        onComplete(com.natife.streaming.utils.Result.error<String>(answer[context.resources.getInteger(R.integer.email_is_blocked).toString()]?.text))
                     }
                     5 -> onComplete(com.natife.streaming.utils.Result.error<String>("Аккаунт истек"))
                 }

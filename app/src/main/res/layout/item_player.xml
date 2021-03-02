@@ -3,14 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:padding="4dp"
     android:gravity="center"
     xmlns:tools="http://schemas.android.com/tools">
 
     <ImageView
         android:duplicateParentState="true"
         android:id="@+id/playerImage"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:background="@drawable/player_first_background"
         tools:src="@drawable/button_lock"/>
     <TextView

@@ -24,8 +24,8 @@ class LoginFragment : BaseFragment<LoginViewModel>() {
 
         (activity as MainActivity).logo.isVisible = true
         if (BuildConfig.DEBUG) {
-            emailText.setText("tv2@test.com")
-            passwordText.setText("tv2")
+            emailText.setText("stanislav.kolchin@instatsport.com")
+            passwordText.setText("123")
         }
 
         emailText.addTextChangedListener(textWatcher)

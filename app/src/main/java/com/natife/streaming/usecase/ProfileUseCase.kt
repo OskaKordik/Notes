@@ -16,10 +16,13 @@ import com.natife.streaming.utils.ImageUrlBuilder
 import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.first
 import timber.log.Timber
 
-interface MatchUseCase {
+interface ProfileUseCase {
     suspend fun prepare(params: MatchParams)
     suspend fun load(type: Type = Type.SIMPLE)
     abstract val list: SharedFlow<List<Match>>
@@ -32,10 +35,10 @@ interface MatchUseCase {
     }
 }
 
-class MatchUseCaseImpl(
+class ProfileUseCaseImpl(
     private val matchDataSourceFactory: MatchDataSourceFactory,
     private val api: MainApi
-) : MatchUseCase {
+) : ProfileUseCase {
 
     private val _list =  MutableSharedFlow<List<Match>>(replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
     override val list: SharedFlow<List<Match>> = _list
@@ -46,24 +49,22 @@ class MatchUseCaseImpl(
     override suspend fun prepare(
         params: MatchParams
     ) {
-        Timber.e("prepared ${params == requestParams}")
-        Timber.e("prepared ${params}")
-        Timber.e("prepared ${requestParams}")
         if (params != requestParams) {
             requestParams = params
             page = 0
             gotEnd = false
             _list.emit(listOf())
         }
-
+        Timber.e("prepared")
     }
 
-    override suspend fun load(type: MatchUseCase.Type){
+
+    override suspend fun load(type: ProfileUseCase.Type){
 
         Timber.e("list $list")
         if (!gotEnd) {
             val mPrams = when (type) {
-                MatchUseCase.Type.TOURNAMENT, MatchUseCase.Type.SIMPLE -> MatchesRequestSimpleTournament(
+                ProfileUseCase.Type.TOURNAMENT, ProfileUseCase.Type.SIMPLE -> MatchesRequestSimpleTournament(
                     date = requestParams?.date,
                     limit = requestParams?.pageSize ?: 60,
                     offset = (requestParams?.pageSize ?: 60) * page,
@@ -71,7 +72,7 @@ class MatchUseCaseImpl(
                     subOnly = requestParams?.subOnly ?: false,
                     tournamentId = requestParams?.additionalId
                 )
-                MatchUseCase.Type.TEAM -> TeamMatchesRequest(
+                ProfileUseCase.Type.TEAM -> TeamMatchesRequest(
                     date = requestParams?.date,
                     limit = requestParams?.pageSize ?: 60,
                     offset = (requestParams?.pageSize ?: 60) * page,
@@ -79,7 +80,7 @@ class MatchUseCaseImpl(
                     subOnly = requestParams?.subOnly ?: false,
                     teamId = requestParams?.additionalId
                 )
-                MatchUseCase.Type.PLAYER -> PlayerMatchesRequest(
+                ProfileUseCase.Type.PLAYER -> PlayerMatchesRequest(
                     date = requestParams?.date,
                     limit = requestParams?.pageSize ?: 60,
                     offset = (requestParams?.pageSize ?: 60) * page,
@@ -92,10 +93,10 @@ class MatchUseCaseImpl(
             val matches = api.getMatches(
                 BaseRequest(
                     procedure = when (type) {
-                        MatchUseCase.Type.SIMPLE -> API_MATCHES
-                        MatchUseCase.Type.TOURNAMENT -> API_TOURNAMENT_MATCHES
-                        MatchUseCase.Type.TEAM -> API_TEAM_MATCHES
-                        MatchUseCase.Type.PLAYER -> API_PLAYER_MATCHES
+                        ProfileUseCase.Type.SIMPLE -> API_MATCHES
+                        ProfileUseCase.Type.TOURNAMENT -> API_TOURNAMENT_MATCHES
+                        ProfileUseCase.Type.TEAM -> API_TEAM_MATCHES
+                        ProfileUseCase.Type.PLAYER -> API_PLAYER_MATCHES
                     },
                     params = mPrams
                 )
@@ -107,7 +108,7 @@ class MatchUseCaseImpl(
 
             page++
         }
-       // return list
+        // return list
     }
 
     private suspend fun loadInfo(matches: MatchesDTO): List<Match>? {
@@ -220,4 +221,3 @@ class MatchUseCaseImpl(
     }
 
 }
-

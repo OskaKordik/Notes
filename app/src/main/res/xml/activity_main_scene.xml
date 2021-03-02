@@ -41,7 +41,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintWidth_percent="0.20" />
+            app:layout_constraintWidth_percent="0.24" />
         <Constraint
             android:id="@id/contentBrowse"
             app:layout_constraintBottom_toBottomOf="parent"

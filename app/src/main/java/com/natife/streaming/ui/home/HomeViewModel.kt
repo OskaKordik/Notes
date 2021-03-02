@@ -90,9 +90,8 @@ class HomeViewModelImpl(
 
             isLoading.set(true)
 
-            dataSource = matchUseCase.load()
-            val filtered = filterLive(dataSource)
-            list.value = filtered
+           matchUseCase.load()
+
             isLoading.set(false)
 
         }
@@ -159,6 +158,13 @@ class HomeViewModelImpl(
 
     init {
 
+        launchCatching {
+            collect(matchUseCase.list){
+                dataSource = it
+                val filtered = filterLive(dataSource)
+                list.value = filtered
+            }
+        }
         val sport = settingsPrefs.getSport()
         val tournament = settingsPrefs.getTournament()
         live = settingsPrefs.getLive() ?: LiveType.ALL

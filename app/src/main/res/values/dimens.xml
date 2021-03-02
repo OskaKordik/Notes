@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="big_menu_icon_size">30dp</dimen>
+    <dimen name="big_menu_icon_size">32dp</dimen>
     <dimen name="small_menu_icon_size">15dp</dimen>
     <dimen name="dp_16">16dp</dimen>
     <dimen name="dp_36">36dp</dimen>
