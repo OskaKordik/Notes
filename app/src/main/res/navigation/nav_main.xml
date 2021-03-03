@@ -105,9 +105,12 @@
             tools:layout="@layout/fragment_account" />
         <action
             android:id="@+id/action_main_searchFragment"
+            app:popUpToInclusive="true"
             app:destination="@id/searchFragment" />
         <action
             android:id="@+id/action_main_accountFragment"
+            app:popUpTo="@id/nav_main"
+            app:popUpToInclusive="true"
             app:destination="@id/accountFragment" />
         <action
             android:id="@+id/action_main_loginFragment"
@@ -116,19 +119,22 @@
         <action
             android:id="@+id/action_main_homeFragment"
             app:destination="@id/homeFragment"
+            app:popUpTo="@id/nav_main"
+            app:popUpToInclusive="true"
             app:launchSingleTop="true" />
         <action
             android:id="@+id/action_main_favoriteFragment"
             app:destination="@id/favoritesFragment"
+            app:popUpTo="@id/nav_main"
+            app:popUpToInclusive="true"
             app:launchSingleTop="true" />
         <action
             android:id="@+id/action_main_settingsFragment"
             app:destination="@id/settingsFragment"
+            app:popUpTo="@id/nav_main"
+            app:popUpToInclusive="true"
             app:launchSingleTop="true" />
-        <action
-            android:id="@+id/action_main_tournamentFragment"
-            app:destination="@id/tournamentFragment"
-            app:launchSingleTop="true" />
+
         <dialog
             android:id="@+id/scoreDialog"
             android:name="com.natife.streaming.ui.home.score.ScoreDialog"

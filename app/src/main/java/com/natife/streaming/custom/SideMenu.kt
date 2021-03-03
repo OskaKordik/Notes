@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.ImageView
 import androidx.core.view.isVisible
 import androidx.leanback.widget.BrowseFrameLayout
 import androidx.navigation.NavController
@@ -33,7 +34,7 @@ class SideMenu @JvmOverloads constructor(
     private val authPrefs: AuthPrefs by inject()
     var activity: Activity?= null
     var prefered :(()->Unit)? = null
-
+    private  var currentSelected: View? = null
     private val navListener = NavController.OnDestinationChangedListener { controller, destination, arguments ->
 
        this.isVisible = when(destination.id ){
@@ -41,6 +42,22 @@ class SideMenu @JvmOverloads constructor(
 
            else -> true
        }
+        when(destination.id ){
+            R.id.homeFragment -> select(iconHome)
+            R.id.accountFragment -> select(accountIcon)
+            R.id.searchFragment-> select(iconSearch)
+            R.id.favoritesFragment-> select(iconFavorites)
+            R.id.settingsFragment-> select(iconSettings)
+        }
+    }
+
+    fun select(view:ImageView){
+        accountIcon.imageTintList = resources.getColorStateList(R.color.menu_item_state_icon,null)
+        iconSearch.imageTintList = resources.getColorStateList(R.color.menu_item_state_icon,null)
+        iconHome.imageTintList = resources.getColorStateList(R.color.menu_item_state_icon,null)
+        iconFavorites.imageTintList = resources.getColorStateList(R.color.menu_item_state_icon,null)
+        iconSettings.imageTintList = resources.getColorStateList(R.color.menu_item_state_icon,null)
+        view.imageTintList = resources.getColorStateList(R.color.menu_item_state_icon_selected,null)
     }
 
     init {

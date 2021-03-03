@@ -37,7 +37,7 @@ class PlayerViewModelImpl(
     init {
 
         sourceLiveData.value = setup.playlist
-        videoLiveData.value = setup.video?.groupBy { it.quality }?.entries?.maxByOrNull { it.key.toInt() }!!.value.map { it.url to it.duration }
+        videoLiveData.value = setup.video?.groupBy { it.quality }!!["720"]/*maxByOrNull { it.key.toInt() }*/?.map { it.url to it.duration }
         currentEpisode.value = setup.currentEpisode ?: setup.currentPlaylist?.get(0)
         matchInfoLiveData.value = setup.match
         currentPlaylist.value = setup.currentPlaylist

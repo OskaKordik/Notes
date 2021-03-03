@@ -89,6 +89,7 @@ class MatchUseCaseImpl(
                 )
             }
 
+
             val matches = api.getMatches(
                 BaseRequest(
                     procedure = when (type) {
@@ -100,10 +101,63 @@ class MatchUseCaseImpl(
                     params = mPrams
                 )
             )
+
             val newList = mutableListOf<Match>()
+
             newList.addAll(this._list.first())
-            newList.addAll(loadInfo(matches) ?: emptyList())
-            this._list.emit(newList)
+
+            val preload = matches.videoContent.broadcast?.map { match ->
+
+                Match(
+                    id = match.id,
+                    sportId = match.sport ?: requestParams?.sportId ?: 0,
+                    sportName = ""
+                        ?: "",
+                    date = match.date,
+                    tournament = Tournament(
+                        match.tournament?.id ?: -1,
+                        match.tournament?.nameRus ?: ""
+                    ),// todo multilang
+                    team1 = Team(
+                        match.team1.id,
+                        match.team1.nameRus,
+                        score = match.team1.score
+                    ),
+                    team2 = Team(
+                        match.team2.id,
+                        match.team2.nameRus,
+                        score = match.team2.score
+                    ),
+                    info = "",
+                    access = match.access,
+                    hasVideo = match.hasVideo,
+                    image = "",
+                    placeholder = ImageUrlBuilder.getPlaceholder(
+                        match.sport ?: requestParams?.sportId ?: 0,
+                        ImageUrlBuilder.Companion.Type.TOURNAMENT
+                    ),
+                    live = match.live,
+                    storage = match.storage,
+                    subscribed = match.sub
+                )
+            }
+            newList.addAll(preload?.toList() ?: emptyList() )
+            this._list.emit(newList.toList())
+
+            val compl = loadInfo(matches) ?: emptyList()
+            val start = ((newList.size -1) - ((preload?.size ?: 0)-1) )
+            val end =  newList.size - 1
+            Timber.e("JIDUHDIUDHIUD $start $end ${newList.size} ${preload?.size}")
+            if (start in 0 until end){
+                 newList.removeAll(preload?: emptyList())
+                newList.addAll(compl)
+            }
+
+
+            val finalList = mutableListOf<Match>()
+            finalList.addAll(newList)
+
+            this._list.emit(finalList.toList())
 
             page++
         }
@@ -117,17 +171,42 @@ class MatchUseCaseImpl(
                 params = EmptyRequest()
             )
         )
-        val sportTranslate = api.getTranslate(
-            BaseRequest(
-                procedure = API_TRANSLATE,
-                TranslateRequest(
-                    language = "ru", //todo remove hardcode
-                    params = sports.map { it.lexic }
+//        val sportTranslate = api.getTranslate(
+//            BaseRequest(
+//                procedure = API_TRANSLATE,
+//                TranslateRequest(
+//                    language = "ru", //todo remove hardcode
+//                    params = sports.map { it.lexic }
+//                )
+//            )
+//        )
+//
+//        val previews = if (!matches.videoContent.broadcast.isNullOrEmpty()) {
+//            api.getMatchPreview(body = PreviewRequest().apply {
+//                matches.videoContent.broadcast?.map {
+//                    PreviewRequestItem(it.id, it.sport ?: requestParams?.sportId ?: 1)
+//                }?.let {
+//                    addAll(
+//                        it
+//                    )
+//                }
+//            })
+//        } else {
+//            null
+//        }
+
+        return coroutineScope {
+        val (sportTranslate, previews) = Pair(async {
+            api.getTranslate(
+                BaseRequest(
+                    procedure = API_TRANSLATE,
+                    TranslateRequest(
+                        language = "ru", //todo remove hardcode
+                        params = sports.map { it.lexic }
+                    )
                 )
             )
-        )
-
-        val previews = if (!matches.videoContent.broadcast.isNullOrEmpty()) {
+        }.await(), async { if (!matches.videoContent.broadcast.isNullOrEmpty()) {
             api.getMatchPreview(body = PreviewRequest().apply {
                 matches.videoContent.broadcast?.map {
                     PreviewRequestItem(it.id, it.sport ?: requestParams?.sportId ?: 1)
@@ -139,10 +218,10 @@ class MatchUseCaseImpl(
             })
         } else {
             null
-        }
+        } }.await())
 
         val data = matches.videoContent.broadcast?.map { match ->
-            coroutineScope {
+
                 val profile = async {
 
                     api.getMatchProfile(
@@ -154,7 +233,6 @@ class MatchUseCaseImpl(
                             )
                         )
                     )
-
 
                 }
 
@@ -203,10 +281,9 @@ class MatchUseCaseImpl(
                     subscribed = match.sub
                 )
             }
+            data
         }
 
-
-        return data
 
 
     }

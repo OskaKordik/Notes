@@ -162,6 +162,8 @@ class HomeViewModelImpl(
             collect(matchUseCase.list){
                 dataSource = it
                 val filtered = filterLive(dataSource)
+                Timber.e("HKUHIUH ${list.value}")
+                Timber.e("HKUHIUH1 ${filtered}")
                 list.value = filtered
             }
         }

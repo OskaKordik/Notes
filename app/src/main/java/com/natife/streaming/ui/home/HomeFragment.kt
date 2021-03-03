@@ -118,6 +118,7 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
         }
 
         subscribe(viewModel.list) {
+
             adapter.submitList(it)
             homeRecycler.requestFocus()
         }

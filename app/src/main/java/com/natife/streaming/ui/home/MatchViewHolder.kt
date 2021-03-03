@@ -1,5 +1,6 @@
 package com.natife.streaming.ui.home
 
+import android.graphics.Color
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.BackgroundColorSpan
@@ -40,6 +41,30 @@ open class MatchViewHolder(view: View) : BaseViewHolder<Match>(view) {
         itemView.matchAlert.text = data.date.fromResponse().toDisplay2()
         if (!data.access) {
            itemView.messageContainer.addView(Alert(itemView.context))
+        }
+    }
+
+    override fun onBind(data: Match, payloads: List<Any>) {
+        super.onBind(data, payloads)
+        payloads.forEach {
+            (it as List<Any>).forEach {
+
+                if (it is MatchDiffUtil.IMAGE_PAYLOAD){
+                    itemView.matchImage.url(data.image,data.placeholder)
+                }
+                if(it is MatchDiffUtil.INFO_PAYLOAD || it is MatchDiffUtil.SPORT_PAYLOAD){
+                    val span = SpannableStringBuilder()
+                    span.color(
+                        itemView.resources.getColor(R.color.text_accent, null)
+                    ) {
+                        append(data.sportName.toUpperCase()) }
+                    span.append(" ")
+                    span.color(itemView.resources.getColor(R.color.text_gray, null)) { append(data.info) }
+                    itemView.matchDescription.text = span
+                }
+            }
+
+
         }
     }
 
