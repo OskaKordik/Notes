@@ -13,7 +13,7 @@ class MatchAdapter: BaseListAdapter<Match, MatchViewHolder>(MatchDiffUtil()) {
 
     var onBind: ((Int)->Unit)? = null
     var onClick: ((Match)->Unit)? = null
-
+    private var FOCUSE_FIRST_TIME = true
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MatchViewHolder {
         return MatchViewHolder(
@@ -23,6 +23,10 @@ class MatchAdapter: BaseListAdapter<Match, MatchViewHolder>(MatchDiffUtil()) {
 
     override fun onBindViewHolder(holder: MatchViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
+        if (FOCUSE_FIRST_TIME && position == 0){
+            holder.itemView.requestFocus()
+            FOCUSE_FIRST_TIME = false
+        }
         if (position> itemCount-20)
         onBind?.invoke(position)
         holder.itemView.setOnClickListener {
@@ -32,12 +36,10 @@ class MatchAdapter: BaseListAdapter<Match, MatchViewHolder>(MatchDiffUtil()) {
 }
 class MatchDiffUtil: DiffUtil.ItemCallback<Match>() {
     override fun areItemsTheSame(oldItem: Match, newItem: Match): Boolean {
-        Timber.e("JNONOIDNODN item ${oldItem.id == newItem.id}")
         return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(oldItem: Match, newItem: Match): Boolean {
-        Timber.e("JNONOIDNODN item1 ${oldItem == newItem}")
         return oldItem == newItem
     }
 
@@ -45,15 +47,12 @@ class MatchDiffUtil: DiffUtil.ItemCallback<Match>() {
 
         val payloads = mutableListOf<Any>()
         if (oldItem.image != newItem.image){
-            Timber.e("JNONOIDNODN pay image")
             payloads.add(IMAGE_PAYLOAD)
         }
         if (oldItem.info != oldItem.info){
-            Timber.e("JNONOIDNODN pay info")
             payloads.add(INFO_PAYLOAD)
         }
         if (oldItem.sportName != newItem.sportName){
-            Timber.e("JNONOIDNODN pay sportName")
             payloads.add(SPORT_PAYLOAD)
         }
 

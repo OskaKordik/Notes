@@ -77,7 +77,10 @@ class MatchProfileViewModelImpl(
     private var playerJob: Job? = null
     override fun goals() {
         matchInfo?.let {
-            play(playList = it.goals)
+            if (!it.goals.isNullOrEmpty()){
+                play(playList = it.goals)
+            }
+
             //episodes.value = it.goals
         }
     }
@@ -85,14 +88,20 @@ class MatchProfileViewModelImpl(
     override fun review() {
         matchInfo?.let {
             //episodes.value = it.highlights
-            play(playList = it.highlights)
+            if (!it.highlights.isNullOrEmpty()){
+                play(playList = it.highlights)
+            }
+
         }
     }
 
     override fun ballInPlay() {
         matchInfo?.let {
             //episodes.value = it.ballInPlay
-            play(playList = it.ballInPlay)
+            if (!it.ballInPlay.isNullOrEmpty()){
+                play(playList = it.ballInPlay)
+            }
+
 
         }
     }
@@ -185,7 +194,9 @@ class MatchProfileViewModelImpl(
         launch {
             val video = videoUseCase.execute(matchId, sport)
             videos = video
-            fullVideoDuration.value = video.groupBy { it.quality }?.entries?.maxByOrNull { it.key.toInt() }!!.value.map { (it.duration/1000) }.sum()
+            Timber.e("KMOKFMOFKF ${video.filter { it.abc == "0" }.groupBy { it.quality }?.entries?.maxByOrNull { it.key.toInt() }}")
+            Timber.e("KMOKFMOFKF ${video.filter { it.abc == "0" }.groupBy { it.quality }?.entries?.maxByOrNull { it.key.toInt() }!!.value.map { (it.duration/1000) }.sum()}")
+            fullVideoDuration.value = video.filter { it.abc == "0" }.groupBy { it.quality }?.entries?.maxByOrNull { it.key.toInt() }!!.value.map { (it.duration/1000) }.sum()
         }
     }
 

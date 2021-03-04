@@ -19,11 +19,11 @@ fun String.fromResponse(): Date {
 }
 
 fun Date.toDisplay(): String {
-    val sdf = SimpleDateFormat("dd MMMM yyyy", Locale("RU"))//TODO multilang
+    val sdf = SimpleDateFormat("dd MMMM yyyy", Locale("ru"))//TODO multilang
     return sdf.format(this)
 }
 fun Date.toDisplay2(): String {
-    val sdf = SimpleDateFormat("dd.MM.yyyy hh:mm", Locale("RU"))//TODO multilang
+    val sdf = SimpleDateFormat("dd.MM.yyyy HH:mm", Locale("ru"))//TODO multilang
     return sdf.format(this)
 }
 
@@ -38,7 +38,7 @@ fun Long.toDate(): Date {
 
 fun Long.toDisplayTime(): String {
     val miliss = this*1000
-    val sdf1 = SimpleDateFormat("hh:mm:ss", Locale.getDefault())
+    val sdf1 = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
     val sdf2 = SimpleDateFormat("mm:ss", Locale.getDefault())
     val sdf3 = SimpleDateFormat("ss", Locale.getDefault())
     return when {
@@ -51,7 +51,7 @@ fun Long.toDisplayTime(): String {
 }
 
 fun daysOfWeekFromLocale(): Array<DayOfWeek> {
-    val firstDayOfWeek = WeekFields.of(Locale("RU")).firstDayOfWeek
+    val firstDayOfWeek = WeekFields.of(Locale("ru")).firstDayOfWeek
     var daysOfWeek = DayOfWeek.values()
     // Order `daysOfWeek` array so that firstDayOfWeek is at index 0.
     // Only necessary if firstDayOfWeek != DayOfWeek.MONDAY which has ordinal 0.

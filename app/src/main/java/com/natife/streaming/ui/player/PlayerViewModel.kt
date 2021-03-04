@@ -12,7 +12,7 @@ abstract class PlayerViewModel : BaseViewModel() {
     abstract fun showVideo()
     abstract fun showMatches()
     abstract fun onMatchClicked(match: Match)
-    abstract fun play(it: Episode, playlist: MutableList<Episode>? = null)
+    abstract fun play(it: Episode, playlist: List<Episode>? = null)
     abstract fun toNextEpisode()
     abstract fun isLastEpisode():Boolean
 
@@ -37,7 +37,7 @@ class PlayerViewModelImpl(
     init {
 
         sourceLiveData.value = setup.playlist
-        videoLiveData.value = setup.video?.groupBy { it.quality }!!["720"]/*maxByOrNull { it.key.toInt() }*/?.map { it.url to it.duration }
+        videoLiveData.value = setup.video?.filter { it.abc == "0" }?.groupBy { it.quality }!!["720"]/*maxByOrNull { it.key.toInt() }*/?.map { it.url to it.duration }
         currentEpisode.value = setup.currentEpisode ?: setup.currentPlaylist?.get(0)
         matchInfoLiveData.value = setup.match
         currentPlaylist.value = setup.currentPlaylist
@@ -72,7 +72,7 @@ class PlayerViewModelImpl(
         }
     }
 
-    override fun play(it: Episode, playlist: MutableList<Episode>? ) {
+    override fun play(it: Episode, playlist: List<Episode>? ) {
         currentEpisode.value = it
         currentPlaylist.value = playlist
     }

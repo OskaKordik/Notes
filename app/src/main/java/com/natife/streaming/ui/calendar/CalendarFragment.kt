@@ -39,7 +39,7 @@ class CalendarFragment : BaseFragment<CalendarViewModel>() {
     private var currentMonth: YearMonth = YearMonth.now()
     private var firstMonth = currentMonth.minusMonths(0)
     private var lastMonth = currentMonth.plusMonths(0)
-    private var firstDayOfWeek = WeekFields.of(Locale("RU_RU")).firstDayOfWeek
+    private var firstDayOfWeek = WeekFields.of(Locale("ru_RU")).firstDayOfWeek
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -94,12 +94,12 @@ class CalendarFragment : BaseFragment<CalendarViewModel>() {
             override fun create(view: View) = MonthViewContainer(view)
             override fun bind(container: MonthViewContainer, month: CalendarMonth) {
 
-                monthText.text = Month.of(month.yearMonth.month.value).getDisplayName(TextStyle.FULL_STANDALONE , Locale("ru")).capitalize() //TODO multilang
+                monthText.text = Month.of(month.yearMonth.month.value).getDisplayName(TextStyle.FULL_STANDALONE , Locale("ru")).capitalize(Locale.ROOT) //TODO multilang
                 yearText.text = month.year.toString()
 
                 (container.view.legendLayout as LinearLayout).children.map { it as TextView }
                     .forEachIndexed { index, tv ->
-                        tv.text = daysOfWeek[index].getDisplayName(TextStyle.SHORT, Locale("RU"))// TODO multilang
+                        tv.text = daysOfWeek[index].getDisplayName(TextStyle.SHORT, Locale("ru"))// TODO multilang
                             .capitalize()
                     }
 

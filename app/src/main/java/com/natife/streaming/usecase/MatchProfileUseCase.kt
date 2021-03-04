@@ -61,6 +61,7 @@ class MatchProfileUseCaseImpl(private val api: MainApi) : MatchProfileUseCase {
             add(PreviewRequestItem(matchId, sportId))
         })
 
+
         val image = if (previews.isNotEmpty()) {
             previews[0].preview
         } else {
@@ -70,7 +71,6 @@ class MatchProfileUseCaseImpl(private val api: MainApi) : MatchProfileUseCase {
             )
         }
 
-        Timber.e("Translate $translates")
         return MatchInfo(
             translates = MatchInfo.Translates(
                 ballInPlayTranslate = translates.get(infoDto.data.lexics.ballInPlay.toString())?.text
@@ -85,7 +85,7 @@ class MatchProfileUseCaseImpl(private val api: MainApi) : MatchProfileUseCase {
                 playersTranslate = translates.get(infoDto.data.lexics.players.toString())?.text
                     ?: "",
             ),
-            ballInPlay = infoDto.data.ballInPlay.data.map {
+            ballInPlay = infoDto.data.ballInPlay.data?.map {
                 it.toEpisode().copy(
                     image = image,
                     placeholder = ImageUrlBuilder.getPlaceholder(
@@ -94,9 +94,9 @@ class MatchProfileUseCaseImpl(private val api: MainApi) : MatchProfileUseCase {
                     ),
                     title = "${match.team1.nameRus} - ${match.team2.nameRus}"
                 )
-            }.sortedBy { it.start },
+            }?.sortedBy { it.start }?: emptyList(),
             ballInPlayDuration = infoDto.data.ballInPlay.dur,
-            highlights = infoDto.data.highlights.data.map {
+            highlights = infoDto.data.highlights.data?.map {
                 it.toEpisode().copy(
                     image = image, placeholder = ImageUrlBuilder.getPlaceholder(
                         sportId,
@@ -104,9 +104,9 @@ class MatchProfileUseCaseImpl(private val api: MainApi) : MatchProfileUseCase {
                     ),
                     title = "${match.team1.nameRus} - ${match.team2.nameRus}"
                 )
-            }.sortedBy { it.start },
+            }?.sortedBy { it.start }?: emptyList(),
             highlightsDuration = infoDto.data.highlights.dur,
-            goals = infoDto.data.goals.data.map {
+            goals = infoDto.data.goals.data?.map {
                 it.toEpisode().copy(
                     image = image, placeholder = ImageUrlBuilder.getPlaceholder(
                         sportId,
@@ -114,7 +114,7 @@ class MatchProfileUseCaseImpl(private val api: MainApi) : MatchProfileUseCase {
                     ),
                     title = "${match.team1.nameRus} - ${match.team2.nameRus}"
                 )
-            }.sortedBy { it.start },
+            }?.sortedBy { it.start }?: emptyList(),
             goalsDuration = infoDto.data.goals.dur,
             players1 = infoDto.data.players1.map {
                 Player(

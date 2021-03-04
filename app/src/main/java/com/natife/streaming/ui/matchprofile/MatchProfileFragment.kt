@@ -12,6 +12,7 @@ import kotlinx.android.synthetic.main.fragment_match_profile.*
 import kotlinx.android.synthetic.main.fragment_match_profile.buttonBack
 import org.koin.core.parameter.ParametersDefinition
 import org.koin.core.parameter.parametersOf
+import timber.log.Timber
 
 class MatchProfileFragment: BaseFragment<MatchProfileViewModel>() {
 
@@ -40,7 +41,6 @@ class MatchProfileFragment: BaseFragment<MatchProfileViewModel>() {
             titleInterview.text = it.translates.interviewTranslate
             teamsRecyclerTitle.text = it.translates.playersTranslate
 
-            buttonFullMatch.setText(it.translates.fullGameTranslate)
             buttonFullMatch.setText(it.translates.fullGameTranslate)
 
             buttonCleanTime.setText(it.translates.ballInPlayTranslate)

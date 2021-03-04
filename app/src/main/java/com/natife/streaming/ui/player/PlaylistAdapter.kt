@@ -8,7 +8,7 @@ import com.natife.streaming.R
 import com.natife.streaming.base.BaseListAdapter
 import com.natife.streaming.data.matchprofile.Episode
 
-class PlaylistAdapter(inline val onClick:((Episode)->Unit)): BaseListAdapter<Episode, PlaylistViewHolder>(PlaylistDiffUtils()) {
+class PlaylistAdapter(private val onClick:((Episode,List<Episode>)->Unit)): BaseListAdapter<Episode, PlaylistViewHolder>(PlaylistDiffUtils()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlaylistViewHolder {
         return PlaylistViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_episode,parent,false))
     }
@@ -16,7 +16,7 @@ class PlaylistAdapter(inline val onClick:((Episode)->Unit)): BaseListAdapter<Epi
     override fun onBindViewHolder(holder: PlaylistViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
         holder.itemView.setOnClickListener {
-            onClick.invoke(currentList[position])
+            onClick.invoke(currentList[position],currentList)
         }
     }
 }

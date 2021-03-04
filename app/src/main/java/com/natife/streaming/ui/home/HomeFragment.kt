@@ -120,7 +120,11 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
         subscribe(viewModel.list) {
 
             adapter.submitList(it)
-            homeRecycler.requestFocus()
+            //if (FOCUSE_FIRST_TIME && !it.isEmpty()){
+              //  homeRecycler.requestFocus()
+              //  FOCUSE_FIRST_TIME = false
+            //}
+
         }
 
     }
