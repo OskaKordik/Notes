@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class MatchInfoDataDTO(
     @SerializedName("ball_in_play")
-    val ballInPlay: BallInPlayDTO,
+    val ballInPlay: BallInPlayDTO?,
     val goals: GoalsDTO,
     val highlights: HighlightsDTO,
     val lexics: MatchInfoLexicsDTO,

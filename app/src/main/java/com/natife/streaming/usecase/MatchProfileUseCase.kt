@@ -42,18 +42,19 @@ class MatchProfileUseCaseImpl(private val api: MainApi) : MatchProfileUseCase {
                 params = MatchInfo(sportId, matchId)
             )
         )
+
         val translates = api.getTranslate(
             BaseRequest(
                 procedure = API_TRANSLATE,
                 params = TranslateRequest(
                     "ru", listOf(
-                        infoDto.data.lexics.ballInPlay,
-                        infoDto.data.lexics.fullGame,
-                        infoDto.data.lexics.goals,
-                        infoDto.data.lexics.highlights,
-                        infoDto.data.lexics.interview,
-                        infoDto.data.lexics.players
-                    )
+                        infoDto.data?.lexics?.ballInPlay?:0,
+                        infoDto.data?.lexics?.fullGame?:0,
+                        infoDto.data?.lexics?.goals?:0,
+                        infoDto.data?.lexics?.highlights?:0,
+                        infoDto.data?.lexics?.interview?:0,
+                        infoDto.data?.lexics?.players?:0
+                    )?: emptyList<Int>()
                 )
             )
         )
@@ -73,20 +74,20 @@ class MatchProfileUseCaseImpl(private val api: MainApi) : MatchProfileUseCase {
 
         return MatchInfo(
             translates = MatchInfo.Translates(
-                ballInPlayTranslate = translates.get(infoDto.data.lexics.ballInPlay.toString())?.text
+                ballInPlayTranslate = translates.get(infoDto.data?.lexics?.ballInPlay.toString())?.text
                     ?: "",
-                fullGameTranslate = translates.get(infoDto.data.lexics.fullGame.toString())?.text
+                fullGameTranslate = translates.get(infoDto.data?.lexics?.fullGame.toString())?.text
                     ?: "",
-                goalsTranslate = translates.get(infoDto.data.lexics.goals.toString())?.text ?: "",
-                highlightsTranslate = translates.get(infoDto.data.lexics.highlights.toString())?.text
+                goalsTranslate = translates.get(infoDto.data?.lexics?.goals.toString())?.text ?: "",
+                highlightsTranslate = translates.get(infoDto.data?.lexics?.highlights.toString())?.text
                     ?: "",
-                interviewTranslate = translates.get(infoDto.data.lexics.interview.toString())?.text
+                interviewTranslate = translates.get(infoDto.data?.lexics?.interview.toString())?.text
                     ?: "",
-                playersTranslate = translates.get(infoDto.data.lexics.players.toString())?.text
+                playersTranslate = translates.get(infoDto.data?.lexics?.players.toString())?.text
                     ?: "",
             ),
-            ballInPlay = infoDto.data.ballInPlay.data?.map {
-                it.toEpisode().copy(
+            ballInPlay = infoDto.data?.ballInPlay?.data?.map {
+                it?.toEpisode()!!.copy(
                     image = image,
                     placeholder = ImageUrlBuilder.getPlaceholder(
                         sportId,
@@ -95,8 +96,18 @@ class MatchProfileUseCaseImpl(private val api: MainApi) : MatchProfileUseCase {
                     title = "${match.team1.nameRus} - ${match.team2.nameRus}"
                 )
             }?.sortedBy { it.start }?: emptyList(),
-            ballInPlayDuration = infoDto.data.ballInPlay.dur,
-            highlights = infoDto.data.highlights.data?.map {
+            ballInPlayDuration = infoDto.data?.ballInPlay?.dur ?: 0,
+            highlights = infoDto.data?.highlights?.data?.map {
+                it?.toEpisode().copy(
+                    image = image, placeholder = ImageUrlBuilder.getPlaceholder(
+                        sportId,
+                        ImageUrlBuilder.Companion.Type.TOURNAMENT
+                    ),
+                    title = "${match.team1.nameRus} - ${match.team2.nameRus}"
+                )
+            }?.sortedBy { it.start }?: emptyList(),
+            highlightsDuration = infoDto.data?.highlights?.dur?:0,
+            goals = infoDto.data?.goals?.data?.map {
                 it.toEpisode().copy(
                     image = image, placeholder = ImageUrlBuilder.getPlaceholder(
                         sportId,
@@ -105,18 +116,8 @@ class MatchProfileUseCaseImpl(private val api: MainApi) : MatchProfileUseCase {
                     title = "${match.team1.nameRus} - ${match.team2.nameRus}"
                 )
             }?.sortedBy { it.start }?: emptyList(),
-            highlightsDuration = infoDto.data.highlights.dur,
-            goals = infoDto.data.goals.data?.map {
-                it.toEpisode().copy(
-                    image = image, placeholder = ImageUrlBuilder.getPlaceholder(
-                        sportId,
-                        ImageUrlBuilder.Companion.Type.TOURNAMENT
-                    ),
-                    title = "${match.team1.nameRus} - ${match.team2.nameRus}"
-                )
-            }?.sortedBy { it.start }?: emptyList(),
-            goalsDuration = infoDto.data.goals.dur,
-            players1 = infoDto.data.players1.map {
+            goalsDuration = infoDto.data?.goals?.dur?:0,
+            players1 = infoDto.data?.players1?.map {
                 Player(
                     id = it.id,
                     team = 1,
@@ -132,8 +133,8 @@ class MatchProfileUseCaseImpl(private val api: MainApi) : MatchProfileUseCase {
                     ),
                     number = it.num
                 )
-            },
-            players2 = infoDto.data.players2.map {
+            }?: emptyList(),
+            players2 = infoDto.data?.players2?.map {
                 Player(
                     id = it.id,
                     team = 2,
@@ -149,7 +150,7 @@ class MatchProfileUseCaseImpl(private val api: MainApi) : MatchProfileUseCase {
                     ),
                     number = it.num
                 )
-            }
+            }?: emptyList()
         )
 
     }

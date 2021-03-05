@@ -26,6 +26,7 @@ import kotlinx.android.synthetic.main.calendar_header.view.*
 import kotlinx.android.synthetic.main.fragment_calendar.*
 import kotlinx.android.synthetic.main.item_day.view.*
 import kotlinx.android.synthetic.main.view_calendar_header.*
+import timber.log.Timber
 import java.time.Month
 import java.time.YearMonth
 import java.time.format.TextStyle
@@ -39,7 +40,7 @@ class CalendarFragment : BaseFragment<CalendarViewModel>() {
     private var currentMonth: YearMonth = YearMonth.now()
     private var firstMonth = currentMonth.minusMonths(0)
     private var lastMonth = currentMonth.plusMonths(0)
-    private var firstDayOfWeek = WeekFields.of(Locale("ru_RU")).firstDayOfWeek
+    private var firstDayOfWeek = WeekFields.of(Locale("ru")).firstDayOfWeek
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -93,8 +94,15 @@ class CalendarFragment : BaseFragment<CalendarViewModel>() {
         calendarView.monthHeaderBinder = object : MonthHeaderFooterBinder<MonthViewContainer> {
             override fun create(view: View) = MonthViewContainer(view)
             override fun bind(container: MonthViewContainer, month: CalendarMonth) {
-
-                monthText.text = Month.of(month.yearMonth.month.value).getDisplayName(TextStyle.FULL_STANDALONE , Locale("ru")).capitalize(Locale.ROOT) //TODO multilang
+                Timber.e("TUTITYTUYTUYT ${firstDayOfWeek} ${daysOfWeek} ${month.yearMonth.month}")
+               val  mCalendar = Calendar.getInstance();
+                mCalendar.set(Calendar.MONTH,month.yearMonth.month.value -1)
+                val mMonth = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                    mCalendar.getDisplayName(Calendar.MONTH, Calendar.LONG_STANDALONE, Locale("ru")).capitalize(Locale.ROOT)
+                } else {
+                    month.yearMonth.month.getDisplayName( TextStyle.FULL_STANDALONE , Locale("ru")).capitalize(Locale.ROOT)
+                }
+                monthText.text = mMonth//month.yearMonth.month.getDisplayName( TextStyle.FULL_STANDALONE , Locale("ru"))//Month.of(month.yearMonth.month.value).getDisplayName(TextStyle.FULL_STANDALONE , Locale("ru")).capitalize(Locale.ROOT) //TODO multilang
                 yearText.text = month.year.toString()
 
                 (container.view.legendLayout as LinearLayout).children.map { it as TextView }
