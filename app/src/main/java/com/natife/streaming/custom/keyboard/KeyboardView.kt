@@ -33,7 +33,7 @@ class KeyboardView @JvmOverloads constructor(
     private var localAlphabet = localResources.getStringArray(R.array.alphabet)
     private var enAlphabet = enResources.getStringArray(R.array.alphabet)
     private val numbers = resources.getStringArray(R.array.numbers)
-    private val dp36 = context.resources.getDimension(R.dimen.dp_36).toInt()
+    private val dp36 = context.resources.getDimension(R.dimen.dp_32).toInt()
 
     private var isNumeric = false
     private var isEnglish = true
@@ -147,6 +147,7 @@ class KeyboardView @JvmOverloads constructor(
                 isWrapBefore = index % columns == 0
             }
             text = str
+            textSize = 18f
             setBackgroundResource(R.drawable.keyboard_btn)
             isFocusable = true
             isFocusableInTouchMode = true
