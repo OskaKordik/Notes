@@ -6,14 +6,15 @@
     android:background="@drawable/menu_item_state"
     android:focusable="true"
     android:paddingVertical="10dp"
-    android:paddingHorizontal="25dp">
+    android:paddingHorizontal="35dp">
 
     <TextView
         android:id="@+id/variant"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:duplicateParentState="true"
-        android:textSize="10dp"
+        android:focusable="true"
+        android:textSize="14sp"
         tools:text="Российская Премер Лига"
         android:textColor="@color/menu_item_state_text" />
 </LinearLayout>

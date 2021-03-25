@@ -24,7 +24,7 @@ open class VariantDialog<VM : BaseViewModel> : BaseDialog<VM>() {
         super.onViewCreated(view, savedInstanceState)
         dialog?.window?.setGravity(Gravity.END);
 
-        dialog?.window?.setLayout(650,ViewGroup.LayoutParams.MATCH_PARENT)
+        dialog?.window?.setLayout(440,ViewGroup.LayoutParams.MATCH_PARENT)
 
         dialogRecycler.layoutManager = LinearLayoutManager(context)
         dialogRecycler.adapter = adapter
