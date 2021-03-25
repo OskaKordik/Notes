@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:paddingEnd="100dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingStart="40dp"
+    android:paddingEnd="67dp">
 
     <include
         layout="@layout/view_calendar_header"
-        />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <com.kizitonwose.calendarview.CalendarView
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         app:cv_dayViewResource="@layout/item_day"
+        app:cv_inDateStyle="allMonths"
         app:cv_monthHeaderResource="@layout/calendar_header"
         app:cv_orientation="horizontal"
         app:cv_outDateStyle="endOfGrid"
-        app:cv_inDateStyle="allMonths"
-        app:cv_scrollMode="paged"/>
+        app:cv_scrollMode="paged" />
 </LinearLayout>

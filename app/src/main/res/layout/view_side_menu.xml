@@ -128,7 +128,7 @@
         <ImageView
             android:id="@+id/iconFavorites"
             android:layout_width="@dimen/big_menu_icon_size"
-            android:layout_height="@dimen/small_menu_icon_size"
+            android:layout_height="21dp"
             android:layout_marginStart="12dp"
             android:duplicateParentState="true"
             android:src="@drawable/ic_favorites"
