@@ -63,8 +63,6 @@ open class MatchViewHolder(view: View) : BaseViewHolder<Match>(view) {
                     itemView.matchDescription.text = span
                 }
             }
-
-
         }
     }
 
