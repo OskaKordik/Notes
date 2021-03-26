@@ -70,7 +70,7 @@
             android:layout_marginStart="12dp"
             android:duplicateParentState="true"
             android:singleLine="true"
-            android:text="Искать"
+            android:text="Поиск"
             android:textColor="@color/menu_item_state_text" />
 
     </LinearLayout>
@@ -105,7 +105,7 @@
             android:layout_marginStart="12dp"
             android:duplicateParentState="true"
             android:singleLine="true"
-            android:text="Home"
+            android:text="Главная"
             android:textColor="@color/menu_item_state_text" />
 
     </LinearLayout>
@@ -128,7 +128,7 @@
         <ImageView
             android:id="@+id/iconFavorites"
             android:layout_width="@dimen/big_menu_icon_size"
-            android:layout_height="@dimen/small_menu_icon_size"
+            android:layout_height="21dp"
             android:layout_marginStart="12dp"
             android:duplicateParentState="true"
             android:src="@drawable/ic_favorites"

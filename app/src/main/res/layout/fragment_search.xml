@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="32dp"
         android:text="Поиск"
         android:textColor="@color/white"
         android:textSize="18sp"
@@ -24,9 +23,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="18dp"
-        tools:text="Команда"
+        app:layout_constraintBaseline_toBaselineOf="@+id/title"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/title" />
+        tools:text="Команда" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonGender"
@@ -34,9 +33,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="18dp"
-        tools:text="Мужчины"
         app:layout_constraintEnd_toStartOf="@+id/buttonType"
-        app:layout_constraintTop_toTopOf="@+id/buttonType" />
+        app:layout_constraintTop_toTopOf="@+id/buttonType"
+        tools:text="Мужчины" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonSport"
@@ -44,27 +43,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="18dp"
-        tools:text="Баскетбол"
         app:layout_constraintEnd_toStartOf="@+id/buttonGender"
-        app:layout_constraintTop_toTopOf="@+id/buttonType" />
+        app:layout_constraintTop_toTopOf="@+id/buttonType"
+        tools:text="Баскетбол" />
 
 
     <EditText
         android:id="@+id/searchInput"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/oval_white_simple"
+        android:lines="1"
         android:paddingHorizontal="10dp"
         android:paddingVertical="5dp"
-        android:lines="1"
         android:singleLine="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title"
-        app:layout_constraintWidth_percent="0.25" />
+        app:layout_constraintEnd_toStartOf="@+id/guideline5"
+        app:layout_constraintStart_toStartOf="@+id/guideline6"
+        app:layout_constraintTop_toBottomOf="@+id/title"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/searchRecycler"
@@ -72,9 +68,11 @@
         android:layout_height="0dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="4dp"
+        android:scrollbarSize="4dp"
         android:scrollbarThumbVertical="@color/dialog_gray"
+        android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/searchInput"
+        app:layout_constraintEnd_toStartOf="@+id/guideline5"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchInput" />
@@ -83,9 +81,9 @@
         android:id="@+id/keyboardView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
+        android:layout_marginStart="32dp"
         android:focusable="false"
-        app:layout_constraintStart_toEndOf="@+id/searchInput"
+        app:layout_constraintStart_toStartOf="@+id/guideline5"
         app:layout_constraintTop_toTopOf="@+id/searchInput" />
 
     <ImageView
@@ -97,21 +95,35 @@
         android:background="@drawable/voice_input_background"
         android:focusable="true"
         android:src="@drawable/ic_voice_input"
-        app:tint="@color/search_color"
         app:layout_constraintBottom_toBottomOf="@+id/keyboardView2"
         app:layout_constraintStart_toEndOf="@+id/keyboardView2"
-        app:layout_constraintTop_toTopOf="@+id/keyboardView2" />
-        <ProgressBar
-            android:id="@+id/speechProgress"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:visibility="gone"
-            android:progressTint="@color/light_red"
-            app:layout_constraintTop_toTopOf="@+id/voiceInput"
-            app:layout_constraintBottom_toBottomOf="@+id/voiceInput"
-            app:layout_constraintStart_toStartOf="@+id/voiceInput"
-            app:layout_constraintEnd_toEndOf="@+id/voiceInput"/>
+        app:layout_constraintTop_toTopOf="@+id/keyboardView2"
+        app:tint="@color/search_color" />
 
+    <ProgressBar
+        android:id="@+id/speechProgress"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:progressTint="@color/light_red"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/voiceInput"
+        app:layout_constraintEnd_toEndOf="@+id/voiceInput"
+        app:layout_constraintStart_toStartOf="@+id/voiceInput"
+        app:layout_constraintTop_toTopOf="@+id/voiceInput" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.35" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="20dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

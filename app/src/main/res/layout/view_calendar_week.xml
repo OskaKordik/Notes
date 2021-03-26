@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/headerRoot"
     android:layout_width="match_parent"
-
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
@@ -13,10 +12,12 @@
         android:layout_marginHorizontal="8dp"
         android:layout_weight="1"
         android:background="@drawable/day_background"
-        android:padding="2dp"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="0dp"
         android:text="Пн"
+        android:textStyle="bold"
         android:textColor="@color/black"
-        android:textSize="18sp" />
+        android:textSize="13sp" />
 
     <TextView
         android:id="@+id/legendText2"
@@ -25,10 +26,12 @@
         android:layout_marginHorizontal="8dp"
         android:layout_weight="1"
         android:background="@drawable/day_background"
-        android:padding="2dp"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="0dp"
         android:text="Вт"
+        android:textStyle="bold"
         android:textColor="@color/black"
-        android:textSize="18sp" />
+        android:textSize="13sp" />
 
     <TextView
         android:id="@+id/legendText3"
@@ -37,11 +40,12 @@
         android:layout_marginHorizontal="8dp"
         android:layout_weight="1"
         android:background="@drawable/day_background"
-        android:padding="2dp"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="0dp"
         android:text="Ср"
-
+        android:textStyle="bold"
         android:textColor="@color/black"
-        android:textSize="18sp" />
+        android:textSize="13sp" />
 
     <TextView
         android:id="@+id/legendText4"
@@ -50,11 +54,12 @@
         android:layout_marginHorizontal="8dp"
         android:layout_weight="1"
         android:background="@drawable/day_background"
-        android:padding="2dp"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="0dp"
         android:text="Чт"
-
+        android:textStyle="bold"
         android:textColor="@color/black"
-        android:textSize="18sp" />
+        android:textSize="13sp"/>
 
     <TextView
         android:id="@+id/legendText5"
@@ -63,11 +68,12 @@
         android:layout_marginHorizontal="8dp"
         android:layout_weight="1"
         android:background="@drawable/day_background"
-        android:padding="2dp"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="0dp"
         android:text="Пт"
-
+        android:textStyle="bold"
         android:textColor="@color/black"
-        android:textSize="18sp" />
+        android:textSize="13sp" />
 
     <TextView
         android:id="@+id/legendText6"
@@ -76,11 +82,12 @@
         android:layout_marginHorizontal="8dp"
         android:layout_weight="1"
         android:background="@drawable/day_background"
-
-        android:padding="2dp"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="0dp"
         android:text="Сб"
+        android:textStyle="bold"
         android:textColor="@color/black"
-        android:textSize="18sp" />
+        android:textSize="13sp" />
 
     <TextView
         android:id="@+id/legendText7"
@@ -89,9 +96,10 @@
         android:layout_marginHorizontal="8dp"
         android:layout_weight="1"
         android:background="@drawable/day_background"
-        android:padding="2dp"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="0dp"
         android:text="Вс"
-
+        android:textStyle="bold"
         android:textColor="@color/black"
-        android:textSize="18sp" />
+        android:textSize="13sp"/>
 </LinearLayout>

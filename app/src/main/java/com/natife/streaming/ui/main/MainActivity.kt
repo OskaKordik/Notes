@@ -3,6 +3,7 @@ package com.natife.streaming.ui.main
 import android.animation.ValueAnimator
 import android.graphics.Rect
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import androidx.constraintlayout.motion.widget.MotionLayout
@@ -60,6 +61,26 @@ class MainActivity : BaseActivity<MainViewModel>() {
             }
 
         }
+        mainMotion.setTransitionListener(object: MotionLayout.TransitionListener {
+            override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {
+            }
+
+            override fun onTransitionChange(p0: MotionLayout?, p1: Int, p2: Int, p3: Float) {
+            }
+            override fun onTransitionCompleted(p0: MotionLayout?, p1: Int) {
+                when (p1){
+                    R.id.start ->{
+                        mainMenu.setCloseStyle()
+                    }
+                    R.id.end ->{
+                        mainMenu.setOpenStyle()
+                    }
+                }
+            }
+            override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {
+            }
+
+        })
 
         router.addListener { controller, destination, arguments ->
             //Timber.e("mlkmldkmslkd ${resources.getResourceName(destination.id)} ${destination.id ==  R.id.accountFragment || destination.id ==   R.id.searchFragment} ${backGroup.isVisible }")

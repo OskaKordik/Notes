@@ -13,7 +13,7 @@ class TournamentDialog: VariantDialog<TournamentDialogViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        dialogTitle.text = "Турнир"//TODO multilang
+        dialogTitle.text = "Выберите турнир"//TODO multilang
         subscribe(viewModel.list){
 
             adapter.submitList(it.map { it.name })

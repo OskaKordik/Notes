@@ -8,8 +8,9 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="67dp"
+        android:layout_marginEnd="10dp"
         android:orientation="vertical"
-        android:paddingHorizontal="64dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintStart_toStartOf="parent"
@@ -51,9 +52,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:focusable="true"
+            android:nextFocusRight="@id/text_input_end_icon"
             android:nextFocusDown="@id/buttonLogin"
             android:textColorHint="@color/white"
-            android:nextFocusRight="@id/text_input_end_icon"
             app:passwordToggleDrawable="@drawable/password_checkbox"
             app:passwordToggleEnabled="true"
             app:passwordToggleTint="@color/white">
@@ -65,11 +66,11 @@
                 android:backgroundTint="@android:color/transparent"
                 android:focusable="false"
                 android:hint="Пароль"
-                android:nextFocusDown="@id/buttonLogin"
                 android:imeOptions="actionNext"
                 android:inputType="textPassword"
-                android:nextFocusRight="@id/text_input_end_icon"
                 android:maxLines="1"
+                android:nextFocusRight="@id/text_input_end_icon"
+                android:nextFocusDown="@id/buttonLogin"
                 android:privateImeOptions="horizontalAlignment=right"
                 android:singleLine="true"
                 android:textColor="@android:color/white"
@@ -87,13 +88,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:visibility="gone"
             android:background="@drawable/text_state"
-            android:textSize="12sp"
             android:clickable="true"
             android:focusable="true"
-            tools:text="Забыли пароль?"
-            android:textColor="@android:color/holo_red_light"/>
+            android:textColor="@android:color/holo_red_light"
+            android:textSize="12sp"
+            android:visibility="gone"
+            tools:text="Забыли пароль?" />
 
 
         <com.google.android.material.button.MaterialButton
@@ -111,11 +112,11 @@
         android:id="@+id/titleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginStart="67dp"
+        android:layout_marginTop="28dp"
         android:text="@string/login"
         android:textColor="@android:color/white"
-        android:textSize="30sp"
+        android:textSize="21sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -136,9 +137,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="64dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="42dp"
         android:text="@string/instat_tv"
-        android:textColor="@color/white"
+        android:textColor="@color/text_gray"
+        android:textColorLink="@color/blueTeam"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

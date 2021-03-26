@@ -9,12 +9,11 @@
 
     <TextView
         android:id="@+id/dialogTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
-        android:padding="25dp"
+        android:padding="35dp"
         android:textColor="@color/white"
-        android:textSize="14sp"
+        android:textSize="17sp"
         tools:text="Выберите турнир"
          />
     <androidx.recyclerview.widget.RecyclerView

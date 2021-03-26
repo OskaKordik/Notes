@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.leanback.widget.BrowseFrameLayout
 import androidx.navigation.NavController
@@ -100,6 +101,20 @@ class SideMenu @JvmOverloads constructor(
     fun setRouter(router: Router?){
         this.router = router
         this.router?.addListener(navListener)
+    }
+
+    fun setOpenStyle(){
+        this.accountIcon.imageTintList = resources.getColorStateList(R.color.menu_item_state_icon_selected,null)
+        this.iconSearch.imageTintList = resources.getColorStateList(R.color.menu_item_state_icon_selected,null)
+        this.iconHome.imageTintList = resources.getColorStateList(R.color.menu_item_state_icon_selected,null)
+        this.iconFavorites.imageTintList = resources.getColorStateList(R.color.menu_item_state_icon_selected,null)
+    }
+
+    fun setCloseStyle(){
+        this.accountIcon.imageTintList = resources.getColorStateList(R.color.menu_item_state_icon,null)
+        this.iconSearch.imageTintList = resources.getColorStateList(R.color.menu_item_state_icon,null)
+        this.iconHome.imageTintList = resources.getColorStateList(R.color.menu_item_state_icon,null)
+        this.iconFavorites.imageTintList = resources.getColorStateList(R.color.menu_item_state_icon,null)
     }
 
     override fun onFocusChanged(gainFocus: Boolean, direction: Int, previouslyFocusedRect: Rect?) {
