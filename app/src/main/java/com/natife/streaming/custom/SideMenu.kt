@@ -108,6 +108,7 @@ class SideMenu @JvmOverloads constructor(
         this.iconSearch.imageTintList = resources.getColorStateList(R.color.menu_item_state_icon_selected,null)
         this.iconHome.imageTintList = resources.getColorStateList(R.color.menu_item_state_icon_selected,null)
         this.iconFavorites.imageTintList = resources.getColorStateList(R.color.menu_item_state_icon_selected,null)
+        this.iconSettings.imageTintList = resources.getColorStateList(R.color.menu_item_state_icon_selected,null)
     }
 
     fun setCloseStyle(){
@@ -115,6 +116,7 @@ class SideMenu @JvmOverloads constructor(
         this.iconSearch.imageTintList = resources.getColorStateList(R.color.menu_item_state_icon,null)
         this.iconHome.imageTintList = resources.getColorStateList(R.color.menu_item_state_icon,null)
         this.iconFavorites.imageTintList = resources.getColorStateList(R.color.menu_item_state_icon,null)
+        this.iconSettings.imageTintList = resources.getColorStateList(R.color.menu_item_state_icon,null)
     }
 
     override fun onFocusChanged(gainFocus: Boolean, direction: Int, previouslyFocusedRect: Rect?) {

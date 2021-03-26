@@ -58,8 +58,8 @@ open class MatchViewHolder(view: View) : BaseViewHolder<Match>(view) {
                         itemView.resources.getColor(R.color.text_accent, null)
                     ) {
                         append(data.sportName.toUpperCase()) }
-                    span.append(" ")
-                    span.color(itemView.resources.getColor(R.color.text_gray, null)) { append(data.info) }
+                    span.append("   ")
+                    span.color(itemView.resources.getColor(R.color.text_gray, null)) { append(data.info)}
                     itemView.matchDescription.text = span
                 }
             }

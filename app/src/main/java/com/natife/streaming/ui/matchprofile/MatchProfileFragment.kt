@@ -8,6 +8,7 @@ import com.natife.streaming.R
 import com.natife.streaming.base.BaseFragment
 import com.natife.streaming.ext.subscribe
 import com.natife.streaming.ext.toDisplayTime
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_match_profile.*
 import kotlinx.android.synthetic.main.fragment_match_profile.buttonBack
 import org.koin.core.parameter.ParametersDefinition
@@ -89,6 +90,10 @@ class MatchProfileFragment: BaseFragment<MatchProfileViewModel>() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        requireActivity().logo.alpha = 0f
+    }
 
     override fun getParameters(): ParametersDefinition = {
         parametersOf(MatchProfileFragmentArgs.fromBundle(requireArguments()))
