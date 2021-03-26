@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 data class VideoDTOItem(
     val abc: String,
     @SerializedName("abc_type")
-    val abcType: String,
+    val abcType: String?,
     val checksum: Long,
     val duration: Long,
     val folder: String,

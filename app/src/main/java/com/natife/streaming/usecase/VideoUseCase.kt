@@ -14,7 +14,7 @@ class VideoUseCaseImpl(private val api: MainApi) : VideoUseCase {
         return video.map {
             Video(
                 abc = it.abc,
-                abcType = it.abcType,
+                abcType = it.abcType?:"",
                 duration = it.duration,
                 folder = it.folder,
                 matchId = it.matchId,
