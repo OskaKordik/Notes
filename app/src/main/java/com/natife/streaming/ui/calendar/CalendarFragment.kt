@@ -48,7 +48,7 @@ class CalendarFragment : BaseFragment<CalendarViewModel>() {
         (activity as MainActivity).logo?.alpha = 1F
 
         calendarView.doOnPreDraw {
-            calendarView.daySize = Size(calendarView.width / 7, (calendarView.height- 30.dp) / 6 )
+            calendarView.daySize = Size(calendarView.width / 7, (calendarView.height- 40.dp) / 6 )
         }
 
         subscribe(viewModel.date){
