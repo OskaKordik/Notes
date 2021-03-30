@@ -25,7 +25,7 @@ class TournamentFragment: BaseFragment<TournamentViewModel>() {
 
     @SuppressLint("RestrictedApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        (activity as MainActivity).logo?.alpha = 1f
+        (activity as MainActivity).logo?.alpha = 0f
 
         scoreBtn.setOnClickListener {
             viewModel.onScoreClicked()
