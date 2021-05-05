@@ -1,7 +1,6 @@
 package com.natife.streaming.ui.home
 
-import android.graphics.Color
-import android.text.Spannable
+import android.content.Context
 import android.text.SpannableStringBuilder
 import android.text.TextUtils
 import android.text.style.BackgroundColorSpan
@@ -9,7 +8,6 @@ import android.text.style.ForegroundColorSpan
 import android.view.View
 import androidx.annotation.ColorRes
 import androidx.core.text.color
-import androidx.core.view.isVisible
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseViewHolder
 import com.natife.streaming.custom.Alert
@@ -67,10 +65,11 @@ open class MatchViewHolder(view: View) : BaseViewHolder<Match>(view) {
                 }
                 if(it is MatchDiffUtil.INFO_PAYLOAD || it is MatchDiffUtil.SPORT_PAYLOAD){
                     val span = SpannableStringBuilder()
-                    span.color(
-                        itemView.resources.getColor(R.color.text_accent, null)
-                    ) {
-                        append(data.sportName.toUpperCase()) }
+                    span.addTextColor(data.sportName, itemView.context)
+//                    span.color(
+//                        itemView.resources.getColor(R.color.text_accent, null)
+//                    ) {
+//                        append(data.sportName.toUpperCase()) }
                     span.append("   ")
                     span.color(itemView.resources.getColor(R.color.text_gray, null)) { append(data.info)}
                     itemView.matchDescription.text = span
@@ -82,5 +81,14 @@ open class MatchViewHolder(view: View) : BaseViewHolder<Match>(view) {
     override fun onRecycled() {
         super.onRecycled()
         itemView.messageContainer.removeAllViews()
+    }
+}
+
+private fun SpannableStringBuilder.addTextColor(sportName: String, context: Context) {
+    when(sportName.trim().toUpperCase()){
+       "ФУТБОЛ" -> this.color(context.resources.getColor(R.color.accentFutbol, context.resources.newTheme())){append(sportName.toUpperCase()) }
+       "БАСКЕТБОЛ" -> this.color(context.resources.getColor(R.color.accentBasket, context.resources.newTheme())){append(sportName.toUpperCase()) }
+        "ХОККЕЙ" -> this.color(context.resources.getColor(R.color.accentHockey, context.resources.newTheme())){ append(sportName.toUpperCase()) }
+        else ->this.color(context.resources.getColor(R.color.text_accent, context.resources.newTheme())){append(sportName.toUpperCase()) }
     }
 }

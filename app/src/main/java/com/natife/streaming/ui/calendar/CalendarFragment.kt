@@ -17,9 +17,7 @@ import com.kizitonwose.calendarview.ui.ViewContainer
 import com.kizitonwose.calendarview.utils.Size
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseFragment
-import com.natife.streaming.ext.daysOfWeekFromLocale
-import com.natife.streaming.ext.fromCalendar
-import com.natife.streaming.ext.subscribe
+import com.natife.streaming.ext.*
 import com.natife.streaming.ui.main.MainActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.calendar_header.view.*
@@ -50,7 +48,7 @@ class CalendarFragment : BaseFragment<CalendarViewModel>() {
         (activity as MainActivity).logo?.alpha = 1F
 
         calendarView.doOnPreDraw {
-            calendarView.daySize = Size(calendarView.width / 7, (calendarView.height) / 6)
+            calendarView.daySize = Size(calendarView.width / 7, (calendarView.height- 40.dp) / 6 )
         }
 
         subscribe(viewModel.date){
@@ -95,12 +93,20 @@ class CalendarFragment : BaseFragment<CalendarViewModel>() {
             override fun create(view: View) = MonthViewContainer(view)
             override fun bind(container: MonthViewContainer, month: CalendarMonth) {
                 Timber.e("TUTITYTUYTUYT ${firstDayOfWeek} ${daysOfWeek} ${month.yearMonth.month}")
-               val  mCalendar = Calendar.getInstance();
-                mCalendar.set(Calendar.MONTH,month.yearMonth.month.value -1)
-                val mMonth = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                    mCalendar.getDisplayName(Calendar.MONTH, Calendar.LONG_STANDALONE, Locale("ru")).capitalize(Locale.ROOT)
-                } else {
-                    month.yearMonth.month.getDisplayName( TextStyle.FULL_STANDALONE , Locale("ru")).capitalize(Locale.ROOT)
+                val mMonth = when (month.yearMonth.month.getDisplayName( TextStyle.FULL_STANDALONE , Locale("ru")).capitalize(Locale.ROOT)){
+                    "1" -> "Январь"
+                    "2" -> "Февраль"
+                    "3" -> "Март"
+                    "4" -> "Апрель"
+                    "5" -> "Май"
+                    "6" -> "Июнь"
+                    "7" -> "Июль"
+                    "8" -> "Август"
+                    "9" -> "Сентябрь"
+                    "10" -> "Октябрь"
+                    "11" -> "Ноябрь"
+                    "12" -> "Декабрь"
+                    else -> month.yearMonth.month.getDisplayName( TextStyle.FULL_STANDALONE , Locale("ru")).capitalize(Locale.ROOT)
                 }
                 monthText.text = mMonth//month.yearMonth.month.getDisplayName( TextStyle.FULL_STANDALONE , Locale("ru"))//Month.of(month.yearMonth.month.value).getDisplayName(TextStyle.FULL_STANDALONE , Locale("ru")).capitalize(Locale.ROOT) //TODO multilang
                 yearText.text = month.year.toString()

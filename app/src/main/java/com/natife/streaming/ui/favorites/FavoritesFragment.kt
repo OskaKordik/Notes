@@ -12,6 +12,8 @@ import com.natife.streaming.R
 import com.natife.streaming.base.BaseFragment
 import com.natife.streaming.ext.subscribe
 import com.natife.streaming.ui.home.MatchAdapter
+import com.natife.streaming.ui.main.MainActivity
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_favorites.*
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -30,6 +32,8 @@ class FavoritesFragment : BaseFragment<FavoriteViewModel>() {
     @SuppressLint("RestrictedApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as MainActivity).logo?.alpha = 1f
+
         favoritesRecycler.adapter = favoriteAfapter
         favoritesRecycler.focusScrollStrategy = BaseGridView.FOCUS_SCROLL_ITEM
 

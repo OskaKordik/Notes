@@ -9,6 +9,8 @@ import com.natife.streaming.R
 import com.natife.streaming.base.BaseFragment
 import com.natife.streaming.ext.subscribe
 import com.natife.streaming.ext.url
+import com.natife.streaming.ui.main.MainActivity
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_tournament.*
 import org.koin.core.parameter.ParametersDefinition
@@ -23,12 +25,11 @@ class TournamentFragment: BaseFragment<TournamentViewModel>() {
 
     @SuppressLint("RestrictedApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        (activity as MainActivity).logo?.alpha = 0f
+
         scoreBtn.setOnClickListener {
             viewModel.onScoreClicked()
         }
-
-
-
 
         subscribe(viewModel.tournament) {
             tournamentTitle.text = it.title
