@@ -15,7 +15,7 @@ android {
         minSdkVersion 23
         targetSdkVersion 30
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.1"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -28,8 +28,16 @@ android {
         }
     }
 
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            def flavor = variant.name
+            def versionName = variant.versionName
+            outputFileName = "instat-${flavor}-${versionName}-${versionCode}.apk"
+        }
+    }
+
     buildTypes {
-        debug{
+        debug {
             buildConfigField "String", "BASE_URL", "\"https://api.instat.tv/\""
         }
         release {
