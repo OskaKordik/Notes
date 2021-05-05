@@ -17,4 +17,7 @@
     <color name="btn">#5C5C5C</color>
     <color name="blueTeam">#2D9CDB</color>
     <color name="redTeam">#EB5757</color>
+    <color name="football">#8A8500</color>
+    <color name="basketball">#F1903B</color>
+    <color name="hockey">#5EB2FF</color>
 </resources>

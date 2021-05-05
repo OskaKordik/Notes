@@ -7,6 +7,7 @@ import android.text.TextUtils
 import android.text.style.BackgroundColorSpan
 import android.text.style.ForegroundColorSpan
 import android.view.View
+import androidx.annotation.ColorRes
 import androidx.core.text.color
 import androidx.core.view.isVisible
 import com.natife.streaming.R
@@ -26,8 +27,17 @@ open class MatchViewHolder(view: View) : BaseViewHolder<Match>(view) {
         itemView.matchImage.url(data.image,data.placeholder)
         itemView.matchTitle.text = "${data.team1.name} - ${data.team2.name}"
         val span = SpannableStringBuilder()
+
+        @ColorRes
+        val colorId = when(data.sportId){
+            1 -> R.color.football
+            2 -> R.color.hockey
+            3 -> R.color.basketball
+            else -> R.color.text_accent
+        }
+
         span.color(
-            itemView.resources.getColor(R.color.text_accent, null)
+            itemView.resources.getColor(colorId, null)
         ) {
             append(data.sportName.toUpperCase()) }
         span.append("   ")
