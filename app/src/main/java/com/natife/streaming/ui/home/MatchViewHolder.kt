@@ -3,6 +3,7 @@ package com.natife.streaming.ui.home
 import android.graphics.Color
 import android.text.Spannable
 import android.text.SpannableStringBuilder
+import android.text.TextUtils
 import android.text.style.BackgroundColorSpan
 import android.text.style.ForegroundColorSpan
 import android.view.View
@@ -32,6 +33,8 @@ open class MatchViewHolder(view: View) : BaseViewHolder<Match>(view) {
         span.append("   ")
         span.color(itemView.resources.getColor(R.color.text_gray, null)) { append(data.info) }
         itemView.matchDescription.text = span
+        itemView.matchDescription.ellipsize = TextUtils.TruncateAt.MARQUEE
+        itemView.matchDescription.isSelected = true
 
         Timber.e("data.date ${data.date} ${Date()} ${data.date.fromResponse().time}  ${data.date.fromResponse().time - Date().time}  ${Date().time}")
 

@@ -196,6 +196,11 @@ class MatchProfileViewModelImpl(
             videos = video
             Timber.e("KMOKFMOFKF ${video.filter { it.abc == "0" }.groupBy { it.quality }?.entries?.maxByOrNull { it.key.toInt() }}")
             Timber.e("KMOKFMOFKF ${video.filter { it.abc == "0" }.groupBy { it.quality }?.entries?.maxByOrNull { it.key.toInt() }!!.value.map { (it.duration/1000) }.sum()}")
+            var a = mutableListOf<Video>()
+            a.addAll(videos!!)
+            val b = a.filter { it.abc == "0" }.groupBy { it.quality }?.entries?.maxByOrNull { it.key.toInt() }!!.value.map { (it.duration/1000) }.sum()
+
+
             fullVideoDuration.value = video.filter { it.abc == "0" }.groupBy { it.quality }?.entries?.maxByOrNull { it.key.toInt() }!!.value.map { (it.duration/1000) }.sum()
         }
     }
