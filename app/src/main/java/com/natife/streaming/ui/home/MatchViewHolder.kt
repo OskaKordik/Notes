@@ -3,8 +3,6 @@ package com.natife.streaming.ui.home
 import android.content.Context
 import android.text.SpannableStringBuilder
 import android.text.TextUtils
-import android.text.style.BackgroundColorSpan
-import android.text.style.ForegroundColorSpan
 import android.view.View
 import androidx.annotation.ColorRes
 import androidx.core.text.color
@@ -26,19 +24,13 @@ open class MatchViewHolder(view: View) : BaseViewHolder<Match>(view) {
         itemView.matchTitle.text = "${data.team1.name} - ${data.team2.name}"
         val span = SpannableStringBuilder()
 
-        @ColorRes
-        val colorId = when(data.sportId){
-            1 -> R.color.football
-            2 -> R.color.hockey
-            3 -> R.color.basketball
-            else -> R.color.text_accent
-        }
-
         span.color(
-            itemView.resources.getColor(colorId, null)
+            itemView.resources.getColor(selectSportColor(data.sportId), null)
         ) {
             append(data.sportName.toUpperCase()) }
+
         span.append("   ")
+
         span.color(itemView.resources.getColor(R.color.text_gray, null)) { append(data.info) }
         itemView.matchDescription.text = span
         itemView.matchDescription.ellipsize = TextUtils.TruncateAt.MARQUEE
@@ -65,11 +57,10 @@ open class MatchViewHolder(view: View) : BaseViewHolder<Match>(view) {
                 }
                 if(it is MatchDiffUtil.INFO_PAYLOAD || it is MatchDiffUtil.SPORT_PAYLOAD){
                     val span = SpannableStringBuilder()
-                    span.addTextColor(data.sportName, itemView.context)
-//                    span.color(
-//                        itemView.resources.getColor(R.color.text_accent, null)
-//                    ) {
-//                        append(data.sportName.toUpperCase()) }
+                    span.color(
+                        itemView.resources.getColor(selectSportColor(data.sportId), null)
+                    ) {
+                        append(data.sportName.toUpperCase()) }
                     span.append("   ")
                     span.color(itemView.resources.getColor(R.color.text_gray, null)) { append(data.info)}
                     itemView.matchDescription.text = span
@@ -84,11 +75,12 @@ open class MatchViewHolder(view: View) : BaseViewHolder<Match>(view) {
     }
 }
 
-private fun SpannableStringBuilder.addTextColor(sportName: String, context: Context) {
-    when(sportName.trim().toUpperCase()){
-       "ФУТБОЛ" -> this.color(context.resources.getColor(R.color.accentFutbol, context.resources.newTheme())){append(sportName.toUpperCase()) }
-       "БАСКЕТБОЛ" -> this.color(context.resources.getColor(R.color.accentBasket, context.resources.newTheme())){append(sportName.toUpperCase()) }
-        "ХОККЕЙ" -> this.color(context.resources.getColor(R.color.accentHockey, context.resources.newTheme())){ append(sportName.toUpperCase()) }
-        else ->this.color(context.resources.getColor(R.color.text_accent, context.resources.newTheme())){append(sportName.toUpperCase()) }
+private fun selectSportColor(sportId: Int):Int {
+    return when(sportId){
+        1 -> R.color.football
+        2 -> R.color.hockey
+        3 -> R.color.basketball
+        else -> R.color.text_accent
     }
 }
+
