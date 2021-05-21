@@ -37,7 +37,7 @@ interface MainApi {
     @POST("data")
     suspend fun getTournamentList(@Body body: BaseRequest<TournamentsRequest>): TournamentListDTO
     @POST("data")
-    suspend fun getTranslate(@Body body: BaseRequest<TranslateRequest>): TranslatesDTO
+    suspend fun getTranslate(@Body body: BaseRequest<TranslateRequest>): TranslatesDTO //new
 
     @POST("data/{sport}")
     suspend fun getMatchInfo(@Body body: BaseRequest<BaseParams>,@Path("sport") sport: String): MatchInfoDTO

@@ -11,6 +11,7 @@ import timber.log.Timber
 abstract class LoginViewModel : BaseViewModel() {
 
     abstract fun login(email: String, password: String, onError: ((String?) -> Unit))
+    abstract fun onRegisterClicked()
 }
 
 class LoginViewModelImpl(
@@ -37,6 +38,11 @@ class LoginViewModelImpl(
                 }
             }
         }
+    }
+
+    override fun onRegisterClicked() {
+        val navDirections = LoginFragmentDirections.actionLoginFragmentToRegisterFragment()
+        router.navigate(navDirections)
     }
 }
 

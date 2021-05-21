@@ -32,7 +32,7 @@ class FavoritesFragment : BaseFragment<FavoriteViewModel>() {
     @SuppressLint("RestrictedApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as MainActivity).logo?.alpha = 1f
+//        (activity as MainActivity).logo?.alpha = 1f
 
         favoritesRecycler.adapter = favoriteAfapter
         favoritesRecycler.focusScrollStrategy = BaseGridView.FOCUS_SCROLL_ITEM

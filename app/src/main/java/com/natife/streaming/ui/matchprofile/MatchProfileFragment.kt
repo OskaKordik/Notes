@@ -92,7 +92,7 @@ class MatchProfileFragment: BaseFragment<MatchProfileViewModel>() {
 
     override fun onResume() {
         super.onResume()
-        requireActivity().logo.alpha = 0f
+//        requireActivity().logo.alpha = 0f
     }
 
     override fun getParameters(): ParametersDefinition = {

@@ -4,14 +4,10 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.leanback.widget.BaseGridView
-import androidx.recyclerview.widget.GridLayoutManager
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseFragment
 import com.natife.streaming.ext.subscribe
 import com.natife.streaming.ext.url
-import com.natife.streaming.ui.main.MainActivity
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_tournament.*
 import org.koin.core.parameter.ParametersDefinition
 import org.koin.core.parameter.parametersOf
@@ -25,7 +21,7 @@ class TournamentFragment: BaseFragment<TournamentViewModel>() {
 
     @SuppressLint("RestrictedApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        (activity as MainActivity).logo?.alpha = 0f
+//        (activity as MainActivity).logo?.alpha = 0f
 
         scoreBtn.setOnClickListener {
             viewModel.onScoreClicked()

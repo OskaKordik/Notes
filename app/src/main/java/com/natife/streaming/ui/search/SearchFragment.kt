@@ -42,7 +42,7 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
     }
 
     private fun applyAlpha(alpha: Float){
-        (activity as MainActivity).logo?.alpha = alpha
+//        (activity as MainActivity).logo?.alpha = alpha
         buttonType?.alpha = 1 - alpha
         buttonSport?.alpha = 1 - alpha
         buttonGender?.alpha = 1 - alpha

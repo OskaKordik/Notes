@@ -11,7 +11,7 @@ import com.natife.streaming.mock.MockSportRepository
 import com.natife.streaming.preferenses.SettingsPrefs
 import com.natife.streaming.prefsModule
 import timber.log.Timber
-
+//new
 interface GetSportUseCase{
     suspend fun execute(reload:Boolean = false): List<Sport>
 }

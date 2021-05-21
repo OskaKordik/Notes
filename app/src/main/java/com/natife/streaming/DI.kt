@@ -3,21 +3,20 @@ package com.natife.streaming
 import android.content.Context
 import androidx.room.Room
 import com.google.gson.GsonBuilder
-import com.natife.streaming.base.EmptyViewModel
-import com.natife.streaming.datasource.MatchDataSource
-import com.natife.streaming.datasource.MatchDataSourceFactory
-import com.natife.streaming.mock.MockAccountRepository
-import com.natife.streaming.mock.MockLoginRepository
-import com.natife.streaming.mock.MockMatchRepository
-import com.natife.streaming.mock.MockSportRepository
-import com.natife.streaming.router.Router
 import com.ihsanbal.logging.Level
 import com.ihsanbal.logging.LoggingInterceptor
 import com.natife.streaming.api.MainApi
 import com.natife.streaming.api.interceptor.AuthInterceptor
 import com.natife.streaming.api.interceptor.ErrorInterceptor
+import com.natife.streaming.base.EmptyViewModel
+import com.natife.streaming.datasource.MatchDataSourceFactory
 import com.natife.streaming.db.AppDatabase
+import com.natife.streaming.mock.MockAccountRepository
+import com.natife.streaming.mock.MockLoginRepository
+import com.natife.streaming.mock.MockMatchRepository
+import com.natife.streaming.mock.MockSportRepository
 import com.natife.streaming.preferenses.*
+import com.natife.streaming.router.Router
 import com.natife.streaming.ui.account.AccountViewModel
 import com.natife.streaming.ui.account.AccountViewModelImpl
 import com.natife.streaming.ui.calendar.CalendarViewModel
@@ -32,15 +31,20 @@ import com.natife.streaming.ui.home.score.ScoreViewModel
 import com.natife.streaming.ui.home.score.ScoreViewModelImpl
 import com.natife.streaming.ui.home.sport.SportViewModel
 import com.natife.streaming.ui.home.sport.SportViewModelImpl
-import com.natife.streaming.ui.home.tournament.*
+import com.natife.streaming.ui.home.tournament.TournamentDialogArgs
+import com.natife.streaming.ui.home.tournament.TournamentDialogViewModel
+import com.natife.streaming.ui.home.tournament.TournamentDialogViewModelImpl
 import com.natife.streaming.ui.login.LoginViewModel
 import com.natife.streaming.ui.login.LoginViewModelImpl
 import com.natife.streaming.ui.main.MainViewModel
-import com.natife.streaming.ui.tournament.TournamentFragmentArgs
 import com.natife.streaming.ui.matchprofile.*
+import com.natife.streaming.ui.mypreferences.MypreferencesViewModel
+import com.natife.streaming.ui.mypreferences.MypreferencesViewModelImpl
 import com.natife.streaming.ui.player.PlayerFragmentArgs
 import com.natife.streaming.ui.player.PlayerViewModel
 import com.natife.streaming.ui.player.PlayerViewModelImpl
+import com.natife.streaming.ui.register.RegisterViewModel
+import com.natife.streaming.ui.register.RegisterViewModelImpl
 import com.natife.streaming.ui.search.SearchViewModel
 import com.natife.streaming.ui.search.SearchViewModelImpl
 import com.natife.streaming.ui.search.gender.GenderViewModel
@@ -49,23 +53,29 @@ import com.natife.streaming.ui.search.type.TypeDialogViewModel
 import com.natife.streaming.ui.search.type.TypeDialogViewModelImpl
 import com.natife.streaming.ui.settings.SettingsViewModel
 import com.natife.streaming.ui.settings.SettingsViewModelImpl
+import com.natife.streaming.ui.tournament.TournamentFragmentArgs
 import com.natife.streaming.ui.tournament.TournamentViewModel
 import com.natife.streaming.usecase.*
 import com.natife.streaming.utils.OneTimeScope
+import com.natife.streaming.utils.ResourceProvider
+import com.natife.streaming.utils.ResourceProviderImpl
 import okhttp3.OkHttpClient
 import okhttp3.internal.platform.Platform
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
+import org.koin.dsl.bind
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
 
 val viewModelModule = module {
     viewModel { EmptyViewModel() }
-    viewModel<LoginViewModel> { LoginViewModelImpl(get(), get(), get()) }
+    viewModel<LoginViewModel> { LoginViewModelImpl(get(), get(), get()) }//new
+    viewModel<RegisterViewModel> { RegisterViewModelImpl(get(),get(),get()) }//new
+    viewModel<MypreferencesViewModel> { MypreferencesViewModelImpl(get(), get(), get(), get(), get(), get(), get()) }//new
+
     viewModel { MainViewModel(get(), get()) }
     viewModel<AccountViewModel> { AccountViewModelImpl(get(), get(), get()) }
     viewModel { (args: TournamentFragmentArgs) ->
@@ -196,9 +206,9 @@ val useCaseModule = module {
     factory<SubscriptionUseCase> { SubscriptionUseCaseImpl() }
     factory<SaveDeleteFavoriteUseCase> { SaveDeleteFavoriteUseCaseImpl(get()) }
     factory<FavoritesUseCase> { FavoritesUseCaseImpl(get()) }
-    factory<TeamUseCase> { TeamUseCaseImpl(get(),get()) }
-    factory<PlayerUseCase> { PlayerUseCaseImpl(get(),get()) }
-    factory<ProfileUseCase> { ProfileUseCaseImpl(get(),get()) }
+    factory<TeamUseCase> { TeamUseCaseImpl(get(), get()) }
+    factory<PlayerUseCase> { PlayerUseCaseImpl(get(), get()) }
+    factory<ProfileUseCase> { ProfileUseCaseImpl(get(), get()) }
 
 }
 
@@ -263,6 +273,10 @@ val databaseModule = module {
 val utilModule = module {
     factory { OneTimeScope() }
 }
+//new
+val resourseProvider = module {
+    single { ResourceProviderImpl(androidContext()) } bind ResourceProvider::class
+}
 
 val appModules = arrayListOf(
     viewModelModule,
@@ -273,5 +287,6 @@ val appModules = arrayListOf(
     routerModule,
     apiModule,
     databaseModule,
-    utilModule
+    utilModule,
+    resourseProvider
 )

@@ -28,7 +28,7 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
 
 
     private fun applyAlpha(alpha: Float){
-        (activity as MainActivity).logo?.alpha = alpha
+//        (activity as MainActivity).logo?.alpha = alpha
         buttonLive?.alpha = 1 - alpha
         buttonLock?.alpha = 1 - alpha
         buttonScore?.alpha = 1 - alpha

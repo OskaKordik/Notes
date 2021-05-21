@@ -22,6 +22,7 @@ import kotlinx.android.synthetic.main.keyboard.view.*
 import timber.log.Timber
 import java.util.*
 
+@Deprecated("Not use")
 class KeyboardView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {

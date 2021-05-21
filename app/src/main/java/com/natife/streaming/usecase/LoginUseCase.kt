@@ -15,6 +15,7 @@ import com.natife.streaming.preferenses.AuthPrefs
 import com.natife.streaming.preferenses.SettingsPrefs
 import timber.log.Timber
 import java.lang.Exception
+import com.natife.streaming.utils.Result
 
 /**
  * Выступает в роли интерфейса между ViewModel и Api.
@@ -25,7 +26,7 @@ interface LoginUseCase {
     suspend fun execute(
         email: String,
         password: String,
-        onComplete: (com.natife.streaming.utils.Result<String>) -> Unit
+        onComplete: (Result<String>) -> Unit
     )
 }
 
@@ -38,7 +39,7 @@ class LoginUseCaseImpl(
     override suspend fun execute(
         email: String,
         password: String,
-        onComplete: (com.natife.streaming.utils.Result<String>) -> Unit
+        onComplete: (Result<String>) -> Unit
     ) {
 
         val request = BaseRequest(
@@ -54,7 +55,7 @@ class LoginUseCaseImpl(
             val login = api.login(request)
             Timber.e("jkjdfkjf $login")
             if (login.status == 1) {
-                onComplete(com.natife.streaming.utils.Result.success("Success"))
+                onComplete(Result.success("Success"))
             }
         }catch (e: ApiException){
             Timber.e("jkjdfkjf ${e.body}")
@@ -65,14 +66,14 @@ class LoginUseCaseImpl(
                     2 ,3 -> {
                         val answer = api.getTranslate(BaseRequest(procedure = API_TRANSLATE,params = TranslateRequest(language = settingsPrefs.getLanguage(),
                             listOf(context.resources.getInteger(R.integer.wrong_login_or_password)))))
-                        onComplete(com.natife.streaming.utils.Result.error<String>(answer[context.resources.getInteger(R.integer.wrong_login_or_password).toString()]?.text))
+                        onComplete(Result.error<String>(answer[context.resources.getInteger(R.integer.wrong_login_or_password).toString()]?.text))
                     }
                     4 ->{
                         val answer = api.getTranslate(BaseRequest(procedure = API_TRANSLATE,params = TranslateRequest(language = settingsPrefs.getLanguage(),
                             listOf(context.resources.getInteger(R.integer.email_is_blocked)))))
-                        onComplete(com.natife.streaming.utils.Result.error<String>(answer[context.resources.getInteger(R.integer.email_is_blocked).toString()]?.text))
+                        onComplete(Result.error<String>(answer[context.resources.getInteger(R.integer.email_is_blocked).toString()]?.text))
                     }
-                    5 -> onComplete(com.natife.streaming.utils.Result.error<String>("Аккаунт истек"))
+                    5 -> onComplete(Result.error<String>("Аккаунт истек"))
                 }
             }catch (e: Exception){
                 e.printStackTrace()

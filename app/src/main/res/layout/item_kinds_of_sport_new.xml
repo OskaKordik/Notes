@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="35dp">
+
+    <TextView
+        android:id="@+id/sport_name_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="11dp"
+        android:layout_marginEnd="11dp"
+        android:maxLines="1"
+        android:textAlignment="textStart"
+        android:textAppearance="@style/TextAppearance.StreamingTheme.Headline5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/is_sport_check_marker"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_goneMarginEnd="94dp"
+        tools:text="Американский футбол" />
+
+    <ImageView
+        android:id="@+id/is_sport_check_marker"
+        android:layout_width="22dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="11dp"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/ic_check_ok_new"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="contentDescription" />
+</androidx.constraintlayout.widget.ConstraintLayout>

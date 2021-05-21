@@ -16,7 +16,26 @@
         <fragment
             android:id="@+id/loginFragment"
             android:name="com.natife.streaming.ui.login.LoginFragment"
-            android:label="LoginFragment" />
+            android:label="LoginFragment"
+            tools:layout="@layout/fragment_login_new">
+            <action
+                android:id="@+id/action_loginFragment_to_registerFragment"
+                app:destination="@id/registerFragment"/>
+        </fragment>
+        <fragment
+            android:id="@+id/registerFragment"
+            android:name="com.natife.streaming.ui.register.RegisterFragment"
+            android:label="fragment_register_new"
+            tools:layout="@layout/fragment_register_new" >
+            <action
+                android:id="@+id/action_registerFragment_to_mypreferencesFragment"
+                app:destination="@id/mypreferencesFragment" />
+        </fragment>
+        <fragment
+            android:id="@+id/mypreferencesFragment"
+            android:name="com.natife.streaming.ui.mypreferences.MypreferencesFragment"
+            android:label="MypreferencesFragment"
+            tools:layout="@layout/fragment_mypreferences_new"/>
 
     </navigation>
 

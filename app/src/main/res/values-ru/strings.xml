@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="lang">ru</string>  //флаг используемого языка в приложении
+    <string name="Enter">Вход</string>
+    <string name="welcome_sign_in_to_access_your_account">Добро пожаловать! Войдите в систему для доступа к своей учетной записи.</string>
+    <string name="enter_login">Введите логин</string>
+    <string name="enter_password">Введите пароль</string>
+    <string name="to_come_in">Войти</string>
+    <string name="register_now">Зарегистрироваться</string>
+    <string name="check_in">Регистрация</string>
+    <string name="my_pref">Мои предпочтения</string>
+    <string name="apply">Применить</string>
+</resources>

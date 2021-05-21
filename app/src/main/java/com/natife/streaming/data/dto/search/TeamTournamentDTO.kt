@@ -1,7 +1,7 @@
 package com.natife.streaming.data.dto.search
 
 import com.google.gson.annotations.SerializedName
-import com.natife.streaming.data.dto.tournament.CountryDTO
+import com.natife.streaming.data.dto.country.CountryDTO
 
 data class TeamTournamentDTO(
     val country: CountryDTO,

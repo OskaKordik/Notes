@@ -1,7 +1,7 @@
 package com.natife.streaming.data.dto.favorites.savedelete
 
 import com.google.gson.annotations.SerializedName
-import com.natife.streaming.data.dto.tournament.CountryDTO
+import com.natife.streaming.data.dto.country.CountryDTO
 
 data class InfoDTO(
     val country: CountryDTO,
