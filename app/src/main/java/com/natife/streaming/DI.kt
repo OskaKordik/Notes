@@ -11,6 +11,7 @@ import com.natife.streaming.api.interceptor.ErrorInterceptor
 import com.natife.streaming.base.EmptyViewModel
 import com.natife.streaming.datasource.MatchDataSourceFactory
 import com.natife.streaming.db.AppDatabase
+import com.natife.streaming.db.LocalSqlDataSourse
 import com.natife.streaming.mock.MockAccountRepository
 import com.natife.streaming.mock.MockLoginRepository
 import com.natife.streaming.mock.MockMatchRepository
@@ -72,7 +73,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 val viewModelModule = module {
     viewModel { EmptyViewModel() }
-    viewModel<LoginViewModel> { LoginViewModelImpl(get(), get(), get()) }//new
+    viewModel<LoginViewModel> { LoginViewModelImpl(get(), get(), get(), get()) }//new
     viewModel<RegisterViewModel> { RegisterViewModelImpl(get(),get(),get()) }//new
     viewModel<MypreferencesViewModel> { MypreferencesViewModelImpl(get(), get(), get(), get(), get(), get(), get()) }//new
 
@@ -259,7 +260,7 @@ val apiModule = module {
 
     single { get<Retrofit>(named(MAIN_API_QUALIFIER)).create(MainApi::class.java) }
 }
-
+//new
 val databaseModule = module {
     single {
         Room.databaseBuilder(androidContext(), AppDatabase::class.java, DATABASE_NAME)
@@ -269,13 +270,15 @@ val databaseModule = module {
     single { get<AppDatabase>().actionDao() }
     single { get<AppDatabase>().searchDao() }
     single { get<AppDatabase>().lexicDao() }
+    single { get<AppDatabase>().localSqlTasksDao() }
+    single { LocalSqlDataSourse(get(), get()) }
 }
 val utilModule = module {
     factory { OneTimeScope() }
 }
 //new
 val resourseProvider = module {
-    single { ResourceProviderImpl(androidContext()) } bind ResourceProvider::class
+    factory { ResourceProviderImpl(androidContext()) } bind ResourceProvider::class
 }
 
 val appModules = arrayListOf(

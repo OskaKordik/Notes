@@ -1,5 +1,7 @@
 package com.natife.streaming.ui.login
 
+import android.content.res.Configuration
+import android.os.Build
 import android.os.Bundle
 import android.util.Patterns
 import android.view.View
@@ -9,6 +11,12 @@ import com.natife.streaming.BuildConfig
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_login_new.*
+import java.util.*
+import java.util.Locale
+
+
+
+
 
 class LoginFragment : BaseFragment<LoginViewModel>() {
     override fun getLayoutRes() = R.layout.fragment_login_new
@@ -20,6 +28,15 @@ class LoginFragment : BaseFragment<LoginViewModel>() {
         if (BuildConfig.DEBUG) {
 //            emailText.setText("tv2@test.com")
 //            passwordText.setText("tv2")
+
+
+//            val locale = Locale("en")
+//            Locale.setDefault(locale)
+//            val configuration = Configuration()
+//            configuration.setLocale(locale)
+//            requireContext().resources.updateConfiguration(configuration, requireContext().resources.displayMetrics)
+
+
 
             loginTextField.editText?.setText("tv2@test.com")
             passwordTextField.editText?.setText("tv2")

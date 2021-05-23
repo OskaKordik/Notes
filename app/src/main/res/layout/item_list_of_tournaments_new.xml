@@ -3,158 +3,77 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="54dp">
+    android:layout_height="wrap_content"
+    android:background="@drawable/round_background_t_w_state_new"
+    android:focusable="true">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <TextView
+        android:id="@+id/name_of_comand_text_l"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_marginEnd="20dp"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineHalf"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="5dp"
+        android:duplicateParentState="true"
+        android:maxLines="3"
+        android:textAppearance="@style/TextAppearance.StreamingTheme.Headline4"
+        android:textColor="@color/button_text_b_w_state_new"
+        app:layout_constraintBottom_toTopOf="@+id/country_name_text_l"
+        app:layout_constraintEnd_toStartOf="@+id/check_image"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="spread"
+        app:layout_goneMarginEnd="38dp"
+        tools:text="Российская Премьер Лига" />
 
+    <ImageView
+        android:id="@+id/type_of_game_image_l"
+        android:layout_width="wrap_content"
+        android:layout_height="11dp"
+        app:layout_constraintBottom_toBottomOf="@+id/flag_of_command_country_image_l"
+        app:layout_constraintStart_toStartOf="@+id/name_of_comand_text_l"
+        app:layout_constraintTop_toTopOf="@+id/flag_of_command_country_image_l"
+        app:srcCompat="@drawable/ic_bool_new"
+        tools:ignore="contentDescription" />
 
-        <TextView
-            android:id="@+id/name_of_comand_text_l"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="11dp"
-            android:layout_marginEnd="11dp"
-            android:textAppearance="@style/TextAppearance.StreamingTheme.Headline4"
-            app:layout_constraintBottom_toTopOf="@+id/country_name_text_l"
-            app:layout_constraintEnd_toStartOf="@+id/is_comand_check_marker_l"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="spread"
-            tools:text="Российская Премьер Лига" />
+    <ImageView
+        android:id="@+id/flag_of_command_country_image_l"
+        android:layout_width="22dp"
+        android:layout_height="11dp"
+        android:layout_marginStart="8dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="@+id/country_name_text_l"
+        app:layout_constraintStart_toEndOf="@+id/type_of_game_image_l"
+        app:layout_constraintTop_toTopOf="@+id/country_name_text_l"
+        app:srcCompat="@drawable/ic_flag_new"
+        tools:ignore="contentDescription" />
 
-        <ImageView
-            android:id="@+id/type_of_game_image_l"
-            android:layout_width="wrap_content"
-            android:layout_height="11dp"
-            app:layout_constraintBottom_toBottomOf="@+id/flag_of_command_country_image_l"
-            app:layout_constraintStart_toStartOf="@+id/name_of_comand_text_l"
-            app:layout_constraintTop_toTopOf="@+id/flag_of_command_country_image_l"
-            app:srcCompat="@drawable/ic_bool_new"
-            tools:ignore="contentDescription" />
-
-        <ImageView
-            android:id="@+id/flag_of_command_country_image_l"
-            android:layout_width="22dp"
-            android:layout_height="11dp"
-            android:layout_marginStart="8dp"
-            android:scaleType="centerCrop"
-            app:layout_constraintBottom_toBottomOf="@+id/country_name_text_l"
-            app:layout_constraintStart_toEndOf="@+id/type_of_game_image_l"
-            app:layout_constraintTop_toTopOf="@+id/country_name_text_l"
-            app:srcCompat="@drawable/ic_flag_new"
-            tools:ignore="contentDescription" />
-
-        <TextView
-            android:id="@+id/country_name_text_l"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:textAppearance="@style/TextAppearance.StreamingTheme.Body2"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/flag_of_command_country_image_l"
-            app:layout_constraintTop_toBottomOf="@+id/name_of_comand_text_l"
-            tools:text="Россия" />
-
-        <ImageView
-            android:id="@+id/is_comand_check_marker_l"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
-            android:layout_marginEnd="11dp"
-            android:scaleType="centerCrop"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_check_ok_new"
-            tools:ignore="contentDescription"/>
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_marginStart="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guidelineHalf"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/name_of_comand_text_r"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="11dp"
-            android:layout_marginEnd="11dp"
-            android:textAppearance="@style/TextAppearance.StreamingTheme.Headline4"
-            app:layout_constraintBottom_toTopOf="@+id/country_name_text_r"
-            app:layout_constraintEnd_toStartOf="@+id/is_comand_check_marker_r"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="spread"
-            tools:text="Российская Премьер Лига" />
-
-        <ImageView
-            android:id="@+id/type_of_game_image_r"
-            android:layout_width="wrap_content"
-            android:layout_height="11dp"
-            app:layout_constraintBottom_toBottomOf="@+id/flag_of_command_country_image_r"
-            app:layout_constraintStart_toStartOf="@+id/name_of_comand_text_r"
-            app:layout_constraintTop_toTopOf="@+id/flag_of_command_country_image_r"
-            app:srcCompat="@drawable/ic_bool_new"
-            tools:ignore="contentDescription" />
-
-        <ImageView
-            android:id="@+id/flag_of_command_country_image_r"
-            android:layout_width="22dp"
-            android:layout_height="11dp"
-            android:layout_marginStart="8dp"
-            android:scaleType="centerCrop"
-            app:layout_constraintBottom_toBottomOf="@+id/country_name_text_r"
-            app:layout_constraintStart_toEndOf="@+id/type_of_game_image_r"
-            app:layout_constraintTop_toTopOf="@+id/country_name_text_r"
-            app:srcCompat="@drawable/ic_flag_new"
-            tools:ignore="contentDescription" />
-
-        <TextView
-            android:id="@+id/country_name_text_r"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:textAppearance="@style/TextAppearance.StreamingTheme.Body2"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/flag_of_command_country_image_r"
-            app:layout_constraintTop_toBottomOf="@+id/name_of_comand_text_r"
-            tools:text="Россия" />
-
-        <ImageView
-            android:id="@+id/is_comand_check_marker_r"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
-            android:layout_marginEnd="11dp"
-            android:scaleType="centerCrop"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_check_ok_new"
-            tools:ignore="contentDescription"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineHalf"
+    <TextView
+        android:id="@+id/country_name_text_l"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent=".5" />
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="6dp"
+        android:duplicateParentState="true"
+        android:maxLines="1"
+        android:textAppearance="@style/TextAppearance.StreamingTheme.Body2"
+        android:textColor="@color/button_text_b_w_state_new"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/flag_of_command_country_image_l"
+        app:layout_constraintTop_toBottomOf="@+id/name_of_comand_text_l"
+        tools:text="Россия" />
+
+    <ImageView
+        android:id="@+id/check_image"
+        android:layout_width="22dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="11dp"
+        android:duplicateParentState="true"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_check_ok_b_w_new"
+        tools:ignore="contentDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

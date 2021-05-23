@@ -1,7 +1,9 @@
 package com.natife.streaming.ui.mypreferences
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -9,7 +11,7 @@ import com.natife.streaming.data.dto.tournament.TournamentTranslateDTO
 import com.natife.streaming.databinding.ItemListOfTournamentsNewBinding
 
 class TournamentAdapter(private val onListOfTournamentsClickListener: ((tournament: TournamentTranslateDTO, isCheck: Boolean) -> Unit)) :
-    ListAdapter<Pair<TournamentTranslateDTO, TournamentTranslateDTO>, TournamentAdapter.TournamentAdapterViewHolder>(
+    ListAdapter <TournamentTranslateDTO, TournamentAdapter.TournamentAdapterViewHolder>(
         TournamentAdapterDiffUtilCallback()
     ) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TournamentAdapterViewHolder {
@@ -26,31 +28,41 @@ class TournamentAdapter(private val onListOfTournamentsClickListener: ((tourname
         holder.bind(currentList[position])
     }
 
+
     inner class TournamentAdapterViewHolder(
         private val binding: ItemListOfTournamentsNewBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(data: Pair<TournamentTranslateDTO, TournamentTranslateDTO>) {
-            binding.nameOfComandTextL.text = data.first.name
-            binding.countryNameTextL.text = data.first.country.name
-
-            binding.nameOfComandTextR.text = data.second.name
-            binding.countryNameTextR.text = data.second.country.name
+        fun bind(data: TournamentTranslateDTO) {
+            binding.nameOfComandTextL.text = data.name
+            binding.countryNameTextL.text = data.country.name
+            itemView.setOnClickListener {
+                when (binding.checkImage.isVisible) {
+                    true -> {
+                        binding.checkImage.isVisible = false
+                        onListOfTournamentsClickListener.invoke(data,false)
+                    }
+                    false -> {
+                        binding.checkImage.isVisible= true
+                        onListOfTournamentsClickListener.invoke(data, true)
+                    }
+                }
+            }
         }
     }
 }
 
 class TournamentAdapterDiffUtilCallback :
-    DiffUtil.ItemCallback<Pair<TournamentTranslateDTO, TournamentTranslateDTO>>() {
+    DiffUtil.ItemCallback<TournamentTranslateDTO>() {
     override fun areItemsTheSame(
-        oldItem: Pair<TournamentTranslateDTO, TournamentTranslateDTO>,
-        newItem: Pair<TournamentTranslateDTO, TournamentTranslateDTO>
+        oldItem: TournamentTranslateDTO,
+        newItem: TournamentTranslateDTO
     ): Boolean {
-        return oldItem.first.id == newItem.first.id && oldItem.second.id == newItem.second.id
+        return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(
-        oldItem: Pair<TournamentTranslateDTO, TournamentTranslateDTO>,
-        newItem: Pair<TournamentTranslateDTO, TournamentTranslateDTO>
+        oldItem: TournamentTranslateDTO,
+        newItem: TournamentTranslateDTO
     ): Boolean {
         return oldItem == newItem
     }

@@ -59,7 +59,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/button_text_state" />
+            app:tint="@color/button_text_b_w_state_new" />
 
         <TextView
             android:id="@+id/inputTypeBtn"
@@ -69,7 +69,7 @@
             android:focusable="true"
             android:gravity="center"
             android:text="&amp;123"
-            android:textColor="@color/button_text_state"
+            android:textColor="@color/button_text_b_w_state_new"
             android:textStyle="bold"
             app:autoSizeMaxTextSize="14sp"
             app:autoSizeMinTextSize="4sp"
@@ -92,7 +92,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/inputTypeBtn"
-            app:tint="@color/button_text_state" />
+            app:tint="@color/button_text_b_w_state_new" />
 
         <ImageView
             android:id="@+id/languageBtn"
@@ -106,7 +106,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/capsBtn"
-            app:tint="@color/button_text_state" />
+            app:tint="@color/button_text_b_w_state_new" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

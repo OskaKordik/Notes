@@ -22,6 +22,7 @@ class SportsAdapter(private val onKindOfSportClickListener: ((sport: SportTransl
 
     override fun onBindViewHolder(holder: SportsAdapterViewHolder, position: Int) {
         holder.bind(currentList[position])
+        holder.itemView.requestFocus()
     }
 
     inner class SportsAdapterViewHolder(
@@ -30,13 +31,13 @@ class SportsAdapter(private val onKindOfSportClickListener: ((sport: SportTransl
         fun bind(data: SportTranslateDTO) {
             binding.sportNameText.text = data.text
             itemView.setOnClickListener {
-                when (binding.isSportCheckMarker.isVisible) {
+                when (binding.checkImage.isVisible) {
                     true -> {
-                        binding.isSportCheckMarker.visibility = View.GONE
+                        binding.checkImage.isVisible = false
                         onKindOfSportClickListener.invoke(data,false)
                     }
                     false -> {
-                        binding.isSportCheckMarker.visibility = View.VISIBLE
+                        binding.checkImage.isVisible= true
                         onKindOfSportClickListener.invoke(data, true)
                     }
                 }

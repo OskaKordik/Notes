@@ -1,11 +1,14 @@
 package com.natife.streaming.ui.mypreferences
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import androidx.leanback.widget.BaseGridView
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseFragment
 import com.natife.streaming.ext.predominantColorToGradient
 import com.natife.streaming.ext.subscribe
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_mypreferences_new.*
 
 
@@ -18,19 +21,29 @@ class MypreferencesFragment : BaseFragment<MypreferencesViewModel>() {
         TournamentAdapter(viewModel::listOfTournamentsClicked)
     }
 
+    @SuppressLint("RestrictedApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //Heading in the predominant team color
         topConstraintLayout.predominantColorToGradient("#CB312A")
         viewModel.initialization()
+
+        kindsOfSportsRecyclerView.isFocusable = false
         kindsOfSportsRecyclerView.adapter = sportAdapter
+        kindsOfSportsRecyclerView.setNumColumns(1)
+        kindsOfSportsRecyclerView.focusScrollStrategy = BaseGridView.FOCUS_SCROLL_ITEM
+
+
+        listOfTournamentsRecyclerView.isFocusable = false
         listOfTournamentsRecyclerView.adapter = tournamentAdapter
+        listOfTournamentsRecyclerView.setNumColumns(2)
+        listOfTournamentsRecyclerView.focusScrollStrategy = BaseGridView.FOCUS_SCROLL_ITEM
 
         subscribe(viewModel.sportsList) {
             sportAdapter.submitList(it)
         }
         subscribe(viewModel.tournament) {
-            tournamentAdapter.submitList(it.zipWithNext())
+            tournamentAdapter.submitList(it)
         }
     }
 }

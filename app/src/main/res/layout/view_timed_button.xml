@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:duplicateParentState="true"
-        android:textColor="@color/button_text_state"
+        android:textColor="@color/button_text_b_w_state_new"
         android:textSize="12sp"
         android:textAllCaps="true"
         android:textStyle="bold"
@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:duplicateParentState="true"
         android:textSize="12sp"
-        android:textColor="@color/button_text_state"
+        android:textColor="@color/button_text_b_w_state_new"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
