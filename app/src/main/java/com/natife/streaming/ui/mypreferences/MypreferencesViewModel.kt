@@ -18,13 +18,11 @@ import com.natife.streaming.usecase.GetTournamentUseCase
 import com.natife.streaming.usecase.SaveSportUseCase
 import com.natife.streaming.usecase.SaveTournamentUseCase
 import com.natife.streaming.utils.ResourceProvider
-import timber.log.Timber
-import java.util.*
 
 //new
 abstract class MypreferencesViewModel : BaseViewModel() {
     abstract val sportsList: LiveData<List<SportTranslateDTO>>
-    abstract val tournament: LiveData<List<TournamentTranslateDTO>>
+    abstract val tournamentList: LiveData<List<TournamentTranslateDTO>>
 
     abstract fun applyMypreferencesClicked()
     abstract fun findClicked()
@@ -43,7 +41,7 @@ class MypreferencesViewModelImpl(
     private val router: Router,
 ) : MypreferencesViewModel() {
     override val sportsList = MutableLiveData<List<SportTranslateDTO>>()
-    override val tournament = MutableLiveData<List<TournamentTranslateDTO>>()
+    override val tournamentList = MutableLiveData<List<TournamentTranslateDTO>>()
 
 
     override fun applyMypreferencesClicked() {
@@ -55,11 +53,15 @@ class MypreferencesViewModelImpl(
     }
 
     override fun kindOfSportClicked(sport: SportTranslateDTO, isCheck: Boolean) {
-//        TODO("Not yet implemented")
+        launch {
+            saveSportUseCase.execute(sport, isCheck)
+        }
     }
 
     override fun listOfTournamentsClicked(tournament: TournamentTranslateDTO, isCheck: Boolean) {
-//        TODO("Not yet implemented")
+        launch {
+            saveTournamentUseCase.execute(tournament, isCheck)
+        }
     }
 
     override fun initialization() {
@@ -70,10 +72,21 @@ class MypreferencesViewModelImpl(
     }
 
     private suspend fun initListOfTournament() {
-//        Timber.tag("TAG").d(tournamentUseCase.execute().toString())
-
-        tournament.value = tournamentUseCase.execute()
-            .toTournamentTranslateDTO(resourceProvider.getString(R.string.lang))
+        val allUserPreferencesInTournament = tournamentUseCase.getAllUserPreferencesInTournament()
+        val tournament = tournamentUseCase.execute()
+            .toTournamentTranslateDTO(resourceProvider.getString(R.string.lang)).sortedBy { it.id } as MutableList
+        //check element
+        allUserPreferencesInTournament?.forEach { pref->
+//            val index = tournament.indexOfFirst { it.id == pref.id }
+            val index = tournament.binarySearch{ pref.id }
+            when {
+                index > 0 ->{
+                    tournament[index] = tournament[index].copy(isCheck = true)
+                }
+                else ->{}
+            }
+        }
+        tournamentList.value = tournament
     }
 
     private suspend fun initListOfSports() {
@@ -83,7 +96,14 @@ class MypreferencesViewModelImpl(
                 language = resourceProvider.getString(R.string.lang),
                 params = sports.map { it.lexic }
             )))
-        val sportTranslate = sports.toSportTranslateDTO(translates)
+
+        val allUserPreferencesInSport = getSportUseCase.getAllUserPreferencesInSport()
+        val sportTranslate = sports.toSportTranslateDTO(translates) as MutableList
+        //check element
+        allUserPreferencesInSport?.forEach { pref ->
+            val index = sportTranslate.indexOfFirst { it.id == pref.id }
+            sportTranslate[index] = sportTranslate[index].copy(isCheck = true)
+        }
         sportsList.value = sportTranslate
     }
 }

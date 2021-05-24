@@ -35,6 +35,7 @@ class TournamentAdapter(private val onListOfTournamentsClickListener: ((tourname
         fun bind(data: TournamentTranslateDTO) {
             binding.nameOfComandTextL.text = data.name
             binding.countryNameTextL.text = data.country.name
+            binding.checkImage.visibility = if (data.isCheck) View.VISIBLE else View.GONE
             itemView.setOnClickListener {
                 when (binding.checkImage.isVisible) {
                     true -> {

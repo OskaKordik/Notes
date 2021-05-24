@@ -1,48 +1,52 @@
 package com.natife.streaming.db
 
-import com.natife.streaming.data.Sport
+import com.natife.streaming.data.dto.sports.SportTranslateDTO
+import com.natife.streaming.data.dto.tournament.TournamentTranslateDTO
 import com.natife.streaming.db.dao.LocalSqlTasksDao
-import com.natife.streaming.db.entity.GlobalSettings
-import com.natife.streaming.db.entity.Lang
-import com.natife.streaming.usecase.AccountUseCase
+import com.natife.streaming.db.entity.*
+import com.natife.streaming.preferenses.AuthPrefs
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class LocalSqlDataSourse internal constructor(
     private val localSqlTasksDao: LocalSqlTasksDao,
-    private val accountUseCase: AccountUseCase,
+    private val authPrefs: AuthPrefs,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) {
-    private suspend fun getUserAuthEmail(): String =
+    private suspend fun getUserAuthEmail(): String? =
         withContext(ioDispatcher) {
-            accountUseCase.getProfile().email
+            authPrefs.getProfile()?.email
         }
 
-    private suspend fun setGlobalSettings(showScore: Boolean, lang: Lang) {
+    //Global Settings
+    suspend fun setGlobalSettings(showScore: Boolean, lang: Lang) {
         withContext(ioDispatcher) {
-            GlobalSettings(
-                authEmail = getUserAuthEmail(),
-                showScore = showScore,
-                lang = lang
-            ).let {
-                localSqlTasksDao.setGlobalSettings(it)
+            getUserAuthEmail()?.let { userAuthEmail ->
+                GlobalSettings(
+                    authEmail = userAuthEmail,
+                    showScore = showScore,
+                    lang = lang
+                ).let {
+                    localSqlTasksDao.setGlobalSettings(it)
+                }
             }
         }
     }
 
-    //Global Settings
     suspend fun updateGlobalSettings(showScore: Boolean, lang: Lang) {
         withContext(ioDispatcher) {
             if (getGlobalSettings() == null) {
-                setGlobalSettings(showScore,lang)
+                setGlobalSettings(showScore, lang)
             } else {
-                GlobalSettings(
-                    authEmail = getUserAuthEmail(),
-                    showScore = showScore,
-                    lang = lang
-                ).let {
-                    localSqlTasksDao.updateGlobalSettings(it)
+                getUserAuthEmail()?.let { userAuthEmail ->
+                    GlobalSettings(
+                        authEmail = userAuthEmail,
+                        showScore = showScore,
+                        lang = lang
+                    ).let {
+                        localSqlTasksDao.updateGlobalSettings(it)
+                    }
                 }
             }
         }
@@ -50,59 +54,102 @@ class LocalSqlDataSourse internal constructor(
 
     suspend fun updateGlobalSettingsShowScore(showScore: Boolean) {
         withContext(ioDispatcher) {
-            GlobalSettings(
-                authEmail = getUserAuthEmail(),
-                showScore = showScore,
-                lang = getGlobalSettings().lang
-            ).let {
-                localSqlTasksDao.updateGlobalSettings(it)
+            getUserAuthEmail()?.let { userAuthEmail ->
+                getGlobalSettings()?.let { globalSettings ->
+                    GlobalSettings(
+                        authEmail = userAuthEmail,
+                        showScore = showScore,
+                        lang = globalSettings.lang
+                    ).let {
+                        localSqlTasksDao.updateGlobalSettings(it)
+                    }
+                }
             }
         }
     }
 
     suspend fun updateGlobalSettingsLang(lang: Lang) {
         withContext(ioDispatcher) {
-            GlobalSettings(
-                authEmail = getUserAuthEmail(),
-                showScore = getGlobalSettings().showScore,
-                lang = lang
-            ).let {
-                localSqlTasksDao.updateGlobalSettings(it)
+            getUserAuthEmail()?.let { userAuthEmail ->
+                getGlobalSettings()?.let { globalSettings ->
+                    GlobalSettings(
+                        authEmail = userAuthEmail,
+                        showScore = globalSettings.showScore,
+                        lang = lang
+                    ).let {
+                        localSqlTasksDao.updateGlobalSettings(it)
+                    }
+                }
             }
         }
     }
 
-    suspend fun getGlobalSettings(): GlobalSettings =
+    suspend fun getGlobalSettings(): GlobalSettings? =
         withContext(ioDispatcher) {
-            localSqlTasksDao.getGlobalSettings(getUserAuthEmail())
+            getUserAuthEmail()?.let { userAuthEmail ->
+                localSqlTasksDao.getGlobalSettings(userAuthEmail)
+            }
         }
 
     // PreferencesSports
-//    private suspend fun setPreferencesSport(sport: Sport) {
-//        withContext(ioDispatcher) {
-//            localSqlTasksDao.setPreferencesSport(sport)
-//        }
-//    }
+    suspend fun setPreferencesSport(sport: SportTranslateDTO) {
+        withContext(ioDispatcher) {
+            localSqlTasksDao.setPreferencesSport(sport.toPreferencesSport())
+        }
+    }
 
-//    suspend fun getPreferencesSport():List<Sport> =
-//        withContext(ioDispatcher) {
-//            localSqlTasksDao.getPreferencesSport()
-//        }
-//
-//    suspend fun updatePreferencesSport(sport: Sport) {
-//        withContext(ioDispatcher) {
-//            if (getGlobalSettings() == null) {
-//                setGlobalSettings(showScore,lang)
-//            } else {
-//                GlobalSettings(
-//                    authEmail = getUserAuthEmail(),
-//                    showScore = showScore,
-//                    lang = lang
-//                ).let {
-//                    localSqlTasksDao.updateGlobalSettings(it)
-//                }
-//            }
-//        }
-//    }
+    suspend fun getPreferencesSport(): List<PreferencesSport>? =
+        withContext(ioDispatcher) {
+            localSqlTasksDao.getPreferencesSport()
+        }
 
+    suspend fun updatePreferencesSport(sport: SportTranslateDTO) {
+        withContext(ioDispatcher) {
+            if (getPreferencesSport().isNullOrEmpty()) {
+                setPreferencesSport(sport)
+            } else {
+                localSqlTasksDao.updatePreferencesSport(sport.toPreferencesSport())
+            }
+        }
+    }
+
+    suspend fun deletePreferencesSport(sport: SportTranslateDTO) {
+        withContext(ioDispatcher) {
+            localSqlTasksDao.deletePreferencesSport(sport.toPreferencesSport())
+        }
+    }
+
+    //PreferencesTournament
+    suspend fun setPreferencesTournament(tournament: TournamentTranslateDTO) {
+        withContext(ioDispatcher) {
+            localSqlTasksDao.setPreferencesTournament(tournament.toPreferencesTournament())
+        }
+    }
+
+    suspend fun getPreferencesTournament(): List<PreferencesTournament>? =
+        withContext(ioDispatcher) {
+            localSqlTasksDao.getPreferencesTournament()
+        }
+
+    suspend fun updatePreferencesTournament(tournament: TournamentTranslateDTO) {
+        withContext(ioDispatcher) {
+            if (getPreferencesTournament().isNullOrEmpty()) {
+                setPreferencesTournament(tournament)
+            } else {
+                localSqlTasksDao.updatePreferencesTournament(tournament.toPreferencesTournament())
+            }
+        }
+    }
+
+    suspend fun deletePreferencesTournament(tournament: TournamentTranslateDTO) {
+        withContext(ioDispatcher) {
+            localSqlTasksDao.deletePreferencesTournament(tournament.toPreferencesTournament())
+        }
+    }
 }
+
+
+
+
+
+

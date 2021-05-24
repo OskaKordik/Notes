@@ -78,6 +78,8 @@ class SideMenu @JvmOverloads constructor(
     init {
         val view = LayoutInflater.from(context).inflate(R.layout.view_side_menu, this, false)
         this.addView(view)
+
+        // TODO 2 раза подряд оджно и тоже надо оставить FLOW
         authPrefs.getProfile()?.let {
             accountText.text = it.firstName + " " + it.lastName
         }

@@ -11,7 +11,8 @@ data class TournamentTranslateDTO (
     val name: String,
     val sport: Int,
     val teamType: Int,
-    val tournamentType: Int
+    val tournamentType: Int,
+    val isCheck:Boolean = false
 )
 
 fun TournamentListDTO.toTournamentTranslateDTO(lang: String): List<TournamentTranslateDTO> {

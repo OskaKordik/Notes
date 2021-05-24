@@ -5,6 +5,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverter
 import androidx.room.TypeConverters
 import com.google.gson.Gson
+import com.natife.streaming.data.Sport
 import com.natife.streaming.data.dto.country.CountryDTO
 import com.natife.streaming.db.dao.ActionDao
 import com.natife.streaming.db.dao.LexicDao
@@ -33,23 +34,27 @@ abstract class AppDatabase : RoomDatabase() {
 
 class RoomConverters {
     companion object {
-        @TypeConverter @JvmStatic
+        @TypeConverter
+        @JvmStatic
         fun fromCountry(country: CountryDTO): String {
             return Gson().toJson(country)
         }
 
-        @TypeConverter @JvmStatic
+        @TypeConverter
+        @JvmStatic
         fun toCountry(data: String): CountryDTO {
             return Gson().fromJson(data, CountryDTO::class.java)
         }
 
-        @TypeConverter @JvmStatic
+        @TypeConverter
+        @JvmStatic
         fun fromLang(lang: Lang): String {
             return lang.name
         }
 
-        @TypeConverter @JvmStatic
-        fun toLang(data: String): Lang{
+        @TypeConverter
+        @JvmStatic
+        fun toLang(data: String): Lang {
             return Lang.valueOf(data)
         }
     }

@@ -2,8 +2,6 @@ package com.natife.streaming.preferenses
 
 import android.content.SharedPreferences
 import com.natife.streaming.data.LiveType
-import com.natife.streaming.data.Sport
-import com.natife.streaming.data.Tournament
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.sendBlocking
 import kotlinx.coroutines.flow.Flow

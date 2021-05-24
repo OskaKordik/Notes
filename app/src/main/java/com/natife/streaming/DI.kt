@@ -185,15 +185,15 @@ val useCaseModule = module {
     single<MatchUseCase> { MatchUseCaseImpl(get(), get()) }
     factory<GetShowScoreUseCase> { GetShowScoreUseCaseImpl() }
     factory<SaveShowScoreUseCase> { SaveShowScoreUseCaseImpl(get()) }
-    single<GetSportUseCase> { GetSportUseCaseImpl(get(), get()) }
-    factory<SaveSportUseCase> { SaveSportUseCaseImpl(get()) }
+    single<GetSportUseCase> { GetSportUseCaseImpl(get(), get(), get()) }
+    factory<SaveSportUseCase> { SaveSportUseCaseImpl(get(),get()) }
     factory<GetLiveUseCase> { GetLiveUseCaseImpl() }
     factory<SaveLiveUseCase> { SaveLiveUseCaseImpl(get()) }
     factory<MatchProfileUseCase> { MatchProfileUseCaseImpl(get()) }
     factory<GetThumbnailUseCase> { GetThumbnailUseCaseImpl(get()) }
     factory<ActionsUseCase> { ActionsUseCaseImpl(get(), get()) }
-    factory<GetTournamentUseCase> { GetTournamentUseCaseImpl(get()) }
-    factory<SaveTournamentUseCase> { SaveTournamentUseCaseImpl(get()) }
+    factory<GetTournamentUseCase> { GetTournamentUseCaseImpl(get(), get()) }
+    factory<SaveTournamentUseCase> { SaveTournamentUseCaseImpl(get(), get()) }
     factory<TournamentUseCase> { TournamentUseCaseImpl(get()) }
     factory<SearchUseCase> { SearchUseCaseImpl(get(), get()) }
     factory<GenderUseCase> { GenderUseCaseImpl() }

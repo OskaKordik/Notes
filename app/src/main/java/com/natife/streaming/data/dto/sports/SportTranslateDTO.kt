@@ -11,7 +11,8 @@ data class SportTranslateDTO(
     val name: String,
     val lexic: Int,
     val lang: String,
-    val text: String
+    val text: String,
+    var isCheck:Boolean = false
 )
 
 fun List<Sport>.toSportTranslateDTO(translates: TranslatesDTO): List<SportTranslateDTO>{

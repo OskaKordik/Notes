@@ -9,10 +9,7 @@ import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import com.natife.streaming.R
 import com.natife.streaming.ext.hideKeyboard
-import com.natife.streaming.preferenses.AuthPrefs
-import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.core.KoinComponent
-import org.koin.core.inject
 import timber.log.Timber
 
 /**

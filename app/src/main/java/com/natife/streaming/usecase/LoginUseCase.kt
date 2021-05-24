@@ -13,8 +13,6 @@ import com.natife.streaming.data.request.RequestLogin
 import com.natife.streaming.data.request.TranslateRequest
 import com.natife.streaming.preferenses.AuthPrefs
 import com.natife.streaming.preferenses.SettingsPrefs
-import timber.log.Timber
-import java.lang.Exception
 import com.natife.streaming.utils.Result
 
 /**
@@ -41,7 +39,6 @@ class LoginUseCaseImpl(
         password: String,
         onComplete: (Result<String>) -> Unit
     ) {
-
         val request = BaseRequest(
             procedure = API_LOGIN,
             params = RequestLogin(
@@ -49,33 +46,50 @@ class LoginUseCaseImpl(
                 password
             )
         )
-        Timber.e("jkjdfkjf jodijoijdofi")
         try {
-            Timber.e("jkjdfkjf before")
             val login = api.login(request)
-            Timber.e("jkjdfkjf $login")
             if (login.status == 1) {
                 onComplete(Result.success("Success"))
             }
-        }catch (e: ApiException){
-            Timber.e("jkjdfkjf ${e.body}")
+        } catch (e: ApiException) {
             try {
-                val body = Gson().fromJson(e.body,LoginDTO::class.java)
-                Timber.e("jkjdfkjf ${body}")
+                val body = Gson().fromJson(e.body, LoginDTO::class.java)
                 when (body.status) {
-                    2 ,3 -> {
-                        val answer = api.getTranslate(BaseRequest(procedure = API_TRANSLATE,params = TranslateRequest(language = settingsPrefs.getLanguage(),
-                            listOf(context.resources.getInteger(R.integer.wrong_login_or_password)))))
-                        onComplete(Result.error<String>(answer[context.resources.getInteger(R.integer.wrong_login_or_password).toString()]?.text))
+                    2, 3 -> {
+                        val answer = api.getTranslate(
+                            BaseRequest(
+                                procedure = API_TRANSLATE, params = TranslateRequest(
+                                    language = settingsPrefs.getLanguage(),
+                                    listOf(context.resources.getInteger(R.integer.wrong_login_or_password))
+                                )
+                            )
+                        )
+                        onComplete(
+                            Result.error<String>(
+                                answer[context.resources.getInteger(R.integer.wrong_login_or_password)
+                                    .toString()]?.text
+                            )
+                        )
                     }
-                    4 ->{
-                        val answer = api.getTranslate(BaseRequest(procedure = API_TRANSLATE,params = TranslateRequest(language = settingsPrefs.getLanguage(),
-                            listOf(context.resources.getInteger(R.integer.email_is_blocked)))))
-                        onComplete(Result.error<String>(answer[context.resources.getInteger(R.integer.email_is_blocked).toString()]?.text))
+                    4 -> {
+                        val answer = api.getTranslate(
+                            BaseRequest(
+                                procedure = API_TRANSLATE, params = TranslateRequest(
+                                    language = settingsPrefs.getLanguage(),
+                                    listOf(context.resources.getInteger(R.integer.email_is_blocked))
+                                )
+                            )
+                        )
+                        onComplete(
+                            Result.error<String>(
+                                answer[context.resources.getInteger(R.integer.email_is_blocked)
+                                    .toString()]?.text
+                            )
+                        )
                     }
                     5 -> onComplete(Result.error<String>("Аккаунт истек"))
                 }
-            }catch (e: Exception){
+            } catch (e: Exception) {
                 e.printStackTrace()
             }
         }

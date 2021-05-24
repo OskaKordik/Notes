@@ -30,6 +30,7 @@ class SportsAdapter(private val onKindOfSportClickListener: ((sport: SportTransl
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(data: SportTranslateDTO) {
             binding.sportNameText.text = data.text
+            binding.checkImage.visibility = if (data.isCheck) View.VISIBLE else View.GONE
             itemView.setOnClickListener {
                 when (binding.checkImage.isVisible) {
                     true -> {

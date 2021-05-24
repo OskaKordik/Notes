@@ -2,7 +2,6 @@ package com.natife.streaming.ui.home.sport
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.natife.streaming.base.BaseViewHolder
 import com.natife.streaming.base.BaseViewModel
 import com.natife.streaming.data.Sport
 import com.natife.streaming.router.Router

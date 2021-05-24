@@ -26,18 +26,12 @@ class LoginViewModelImpl(
     override fun login(email: String, password: String, onError: ((String?) -> Unit)) {
         launch {
                         loginUseCase.execute(email, password) { result ->
-//                Timber.e("jkjdfkjf ${result.status}")
                 if (result.status == Result.Status.SUCCESS) {
-                    Timber.e("jkjdfkjf !!!")
                     launch {
                        accountUseCase.getProfile()
-                        //todo
-                        localSqlDataSourse.updateGlobalSettings(true,Lang.EN)
-
                         router.navigate(R.id.action_global_nav_main)
                     }
                 } else {
-//                    Timber.e("jkjdfkjf !!! ${result.message} ")
                     onError.invoke(result.message)
                 }
             }
