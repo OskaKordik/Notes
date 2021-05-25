@@ -1,7 +1,9 @@
 package com.natife.streaming.ui.mypreferences
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
 import com.natife.streaming.API_TRANSLATE
 import com.natife.streaming.R
 import com.natife.streaming.api.MainApi
@@ -12,17 +14,21 @@ import com.natife.streaming.data.dto.tournament.TournamentTranslateDTO
 import com.natife.streaming.data.dto.tournament.toTournamentTranslateDTO
 import com.natife.streaming.data.request.BaseRequest
 import com.natife.streaming.data.request.TranslateRequest
+import com.natife.streaming.db.entity.PreferencesSport
+import com.natife.streaming.db.entity.PreferencesTournament
 import com.natife.streaming.router.Router
 import com.natife.streaming.usecase.GetSportUseCase
 import com.natife.streaming.usecase.GetTournamentUseCase
 import com.natife.streaming.usecase.SaveSportUseCase
 import com.natife.streaming.usecase.SaveTournamentUseCase
 import com.natife.streaming.utils.ResourceProvider
+import com.natife.streaming.utils.combineAndCompute
 
 //new
 abstract class MypreferencesViewModel : BaseViewModel() {
-    abstract val sportsList: LiveData<List<SportTranslateDTO>>
-    abstract val tournamentList: LiveData<List<TournamentTranslateDTO>>
+    abstract val combineSportsAndPreferencesInSportData: MediatorLiveData<List<SportTranslateDTO>>
+    abstract val combineTournamentAndPreferencesTournamentData: MediatorLiveData<List<TournamentTranslateDTO>>
+
 
     abstract fun applyMypreferencesClicked()
     abstract fun findClicked()
@@ -40,8 +46,18 @@ class MypreferencesViewModelImpl(
     private val api: MainApi,
     private val router: Router,
 ) : MypreferencesViewModel() {
-    override val sportsList = MutableLiveData<List<SportTranslateDTO>>()
-    override val tournamentList = MutableLiveData<List<TournamentTranslateDTO>>()
+    private val sportsList = MutableLiveData<List<SportTranslateDTO>>()
+    private val tournamentList = MutableLiveData<List<TournamentTranslateDTO>>()
+    private val allUserPreferencesInTournament: LiveData<List<PreferencesTournament>>
+        get() = tournamentUseCase.getAllUserPreferencesInTournament().asLiveData()
+    private val allUserPreferencesInSport: LiveData<List<PreferencesSport>>
+        get() = getSportUseCase.getAllUserPreferencesInSport().asLiveData()
+    override val combineSportsAndPreferencesInSportData = sportsList.combineAndCompute(allUserPreferencesInSport){ a, b ->
+        combimneSportsAndPreferencesInSport(a, b)
+        }
+    override val combineTournamentAndPreferencesTournamentData = tournamentList.combineAndCompute(allUserPreferencesInTournament){ a, b ->
+        combineTournamentAndPreferencesTournament(a, b)
+    }
 
 
     override fun applyMypreferencesClicked() {
@@ -60,6 +76,15 @@ class MypreferencesViewModelImpl(
 
     override fun listOfTournamentsClicked(tournament: TournamentTranslateDTO, isCheck: Boolean) {
         launch {
+            val s = tournamentList.value as MutableList
+            if (isCheck) {
+                val index = s.indexOfFirst { it.id == tournament.id && it.sport == tournament.sport && it.tournamentType == tournament.tournamentType}
+                s[index] = s[index].copy(isCheck = true)
+            } else{
+                val index = s.indexOfFirst { it.id == tournament.id && it.sport == tournament.sport && it.tournamentType == tournament.tournamentType}
+                s[index] = s[index].copy(isCheck = false)
+            }
+            tournamentList.value = s
             saveTournamentUseCase.execute(tournament, isCheck)
         }
     }
@@ -72,20 +97,10 @@ class MypreferencesViewModelImpl(
     }
 
     private suspend fun initListOfTournament() {
-        val allUserPreferencesInTournament = tournamentUseCase.getAllUserPreferencesInTournament()
         val tournament = tournamentUseCase.execute()
-            .toTournamentTranslateDTO(resourceProvider.getString(R.string.lang)).sortedBy { it.id } as MutableList
-        //check element
-        allUserPreferencesInTournament?.forEach { pref->
-//            val index = tournament.indexOfFirst { it.id == pref.id }
-            val index = tournament.binarySearch{ pref.id }
-            when {
-                index > 0 ->{
-                    tournament[index] = tournament[index].copy(isCheck = true)
-                }
-                else ->{}
-            }
-        }
+            .toTournamentTranslateDTO(resourceProvider.getString(R.string.lang))
+            .sortedBy { it.id } as MutableList
+
         tournamentList.value = tournament
     }
 
@@ -96,14 +111,32 @@ class MypreferencesViewModelImpl(
                 language = resourceProvider.getString(R.string.lang),
                 params = sports.map { it.lexic }
             )))
+        sportsList.value = sports.toSportTranslateDTO(translates)
+    }
 
-        val allUserPreferencesInSport = getSportUseCase.getAllUserPreferencesInSport()
-        val sportTranslate = sports.toSportTranslateDTO(translates) as MutableList
+    private fun combimneSportsAndPreferencesInSport(
+        sport: List<SportTranslateDTO>,
+        prefSport: List<PreferencesSport>
+    ): List<SportTranslateDTO> {
+        val sportCheck = sport as MutableList
         //check element
-        allUserPreferencesInSport?.forEach { pref ->
-            val index = sportTranslate.indexOfFirst { it.id == pref.id }
-            sportTranslate[index] = sportTranslate[index].copy(isCheck = true)
+        prefSport.forEach { pref ->
+            val index = sport.indexOfFirst { it.id == pref.id }
+            sport[index] = sport[index].copy(isCheck = true)
         }
-        sportsList.value = sportTranslate
+        return sportCheck
+    }
+
+    private fun combineTournamentAndPreferencesTournament(
+        tournament: List<TournamentTranslateDTO>,
+        prefTournament: List<PreferencesTournament>
+    ): List<TournamentTranslateDTO> {
+        val tournamentCheck = tournament as MutableList
+        //check element
+        prefTournament.forEach { pref ->
+            val index = tournamentCheck.indexOfFirst { it.id == pref.id && it.sport == pref.sport && it.tournamentType == pref.tournamentType}
+            tournamentCheck[index] = tournamentCheck[index].copy(isCheck = true)
+        }
+        return tournamentCheck
     }
 }

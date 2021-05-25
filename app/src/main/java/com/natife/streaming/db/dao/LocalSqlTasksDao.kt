@@ -1,11 +1,10 @@
 package com.natife.streaming.db.dao
 
 import androidx.room.*
-import com.natife.streaming.data.dto.sports.SportTranslateDTO
-import com.natife.streaming.data.dto.tournament.TournamentTranslateDTO
 import com.natife.streaming.db.entity.GlobalSettings
 import com.natife.streaming.db.entity.PreferencesSport
 import com.natife.streaming.db.entity.PreferencesTournament
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface LocalSqlTasksDao {
@@ -24,7 +23,7 @@ interface LocalSqlTasksDao {
     fun setPreferencesSport(sport: PreferencesSport)
 
     @Query("SELECT * FROM 'PreferencesSport'")
-    fun getPreferencesSport():List<PreferencesSport>
+    fun getPreferencesSport(): Flow<List<PreferencesSport>>
 
     @Update
     fun updatePreferencesSport(sport: PreferencesSport)
@@ -37,7 +36,7 @@ interface LocalSqlTasksDao {
     fun setPreferencesTournament(preferencesTournament: PreferencesTournament)
 
     @Query ("SELECT * FROM 'PreferencesTournament'")
-    fun getPreferencesTournament(): List<PreferencesTournament>
+    fun getPreferencesTournament(): Flow<List<PreferencesTournament>>
 
     @Update
     fun updatePreferencesTournament(preferencesTournament: PreferencesTournament)

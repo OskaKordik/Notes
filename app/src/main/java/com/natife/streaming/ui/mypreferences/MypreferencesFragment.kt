@@ -38,10 +38,10 @@ class MypreferencesFragment : BaseFragment<MypreferencesViewModel>() {
         listOfTournamentsRecyclerView.setNumColumns(2)
         listOfTournamentsRecyclerView.focusScrollStrategy = BaseGridView.FOCUS_SCROLL_ITEM
 
-        subscribe(viewModel.sportsList) {
+        subscribe(viewModel.combineSportsAndPreferencesInSportData) {
             sportAdapter.submitList(it)
         }
-        subscribe(viewModel.tournamentList) {
+        subscribe(viewModel.combineTournamentAndPreferencesTournamentData) {
             tournamentAdapter.submitList(it)
         }
     }

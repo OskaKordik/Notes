@@ -7,6 +7,7 @@ import com.natife.streaming.db.entity.*
 import com.natife.streaming.preferenses.AuthPrefs
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 
 class LocalSqlDataSourse internal constructor(
@@ -98,18 +99,13 @@ class LocalSqlDataSourse internal constructor(
         }
     }
 
-    suspend fun getPreferencesSport(): List<PreferencesSport>? =
-        withContext(ioDispatcher) {
+    fun getPreferencesSport(): Flow<List<PreferencesSport>> =
             localSqlTasksDao.getPreferencesSport()
-        }
+
 
     suspend fun updatePreferencesSport(sport: SportTranslateDTO) {
         withContext(ioDispatcher) {
-            if (getPreferencesSport().isNullOrEmpty()) {
-                setPreferencesSport(sport)
-            } else {
                 localSqlTasksDao.updatePreferencesSport(sport.toPreferencesSport())
-            }
         }
     }
 
@@ -126,19 +122,13 @@ class LocalSqlDataSourse internal constructor(
         }
     }
 
-    suspend fun getPreferencesTournament(): List<PreferencesTournament>? =
-        withContext(ioDispatcher) {
+    fun getPreferencesTournament():Flow<List<PreferencesTournament>> =
             localSqlTasksDao.getPreferencesTournament()
-        }
 
     suspend fun updatePreferencesTournament(tournament: TournamentTranslateDTO) {
         withContext(ioDispatcher) {
-            if (getPreferencesTournament().isNullOrEmpty()) {
-                setPreferencesTournament(tournament)
-            } else {
                 localSqlTasksDao.updatePreferencesTournament(tournament.toPreferencesTournament())
             }
-        }
     }
 
     suspend fun deletePreferencesTournament(tournament: TournamentTranslateDTO) {

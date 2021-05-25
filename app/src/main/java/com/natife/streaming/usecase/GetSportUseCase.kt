@@ -10,11 +10,12 @@ import com.natife.streaming.data.request.TranslateRequest
 import com.natife.streaming.db.LocalSqlDataSourse
 import com.natife.streaming.db.entity.PreferencesSport
 import com.natife.streaming.preferenses.SettingsPrefs
+import kotlinx.coroutines.flow.Flow
 
 //new
 interface GetSportUseCase {
     suspend fun execute(reload: Boolean = false): List<Sport>
-    suspend fun getAllUserPreferencesInSport(): List<PreferencesSport>?
+    fun getAllUserPreferencesInSport(): Flow<List<PreferencesSport>>
 }
 
 class GetSportUseCaseImpl(
@@ -41,6 +42,6 @@ class GetSportUseCaseImpl(
         return catche!!
     }
 
-    override suspend fun getAllUserPreferencesInSport(): List<PreferencesSport>? =
+    override fun getAllUserPreferencesInSport(): Flow<List<PreferencesSport>> =
         localSqlDataSourse.getPreferencesSport()
 }

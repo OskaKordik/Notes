@@ -7,7 +7,7 @@ import com.natife.streaming.data.dto.sports.SportTranslateDTO
 import com.natife.streaming.data.dto.tournament.TournamentTranslateDTO
 
 
-@Entity(primaryKeys = ["id"])
+@Entity(primaryKeys = ["id","sport","tournamentType"])
 data class PreferencesTournament(
     val id: Int,
     val name: String,

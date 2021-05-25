@@ -8,6 +8,10 @@ import com.natife.streaming.data.request.BaseRequest
 import com.natife.streaming.data.request.TournamentsRequest
 import com.natife.streaming.db.LocalSqlDataSourse
 import com.natife.streaming.db.entity.PreferencesTournament
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.withContext
 
 //new
 interface GetTournamentUseCase {
@@ -15,12 +19,13 @@ interface GetTournamentUseCase {
     suspend fun execute(sportId: Int?): List<Tournament>
 
     suspend fun execute(): TournamentListDTO
-    suspend fun getAllUserPreferencesInTournament(): List<PreferencesTournament>?
+    fun getAllUserPreferencesInTournament(): Flow<List<PreferencesTournament>>
 }
 
 class GetTournamentUseCaseImpl(
     private val api: MainApi,
-    private val localSqlDataSourse: LocalSqlDataSourse
+    private val localSqlDataSourse: LocalSqlDataSourse,
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : GetTournamentUseCase {
     @Deprecated("don't use")
     override suspend fun execute(sportId: Int?): List<Tournament> {
@@ -42,6 +47,6 @@ class GetTournamentUseCaseImpl(
         )
     )
 
-    override suspend fun getAllUserPreferencesInTournament(): List<PreferencesTournament>? =
-        localSqlDataSourse.getPreferencesTournament()
+    override fun getAllUserPreferencesInTournament(): Flow<List<PreferencesTournament>> =
+            localSqlDataSourse.getPreferencesTournament()
 }
