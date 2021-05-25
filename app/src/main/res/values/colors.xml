@@ -32,4 +32,5 @@
     <color name="blue_500">#294FC3</color>
     <color name="black_transparent_20">#33000000</color>
     <color name="black_transparent_30">#4d000000</color>
+    <color name="black_transparent_40">#66000000</color>
 </resources>

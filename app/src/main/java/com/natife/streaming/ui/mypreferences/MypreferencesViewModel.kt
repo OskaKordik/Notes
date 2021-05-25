@@ -35,6 +35,7 @@ abstract class MypreferencesViewModel : BaseViewModel() {
     abstract fun kindOfSportClicked(sport: SportTranslateDTO, isCheck: Boolean)
     abstract fun listOfTournamentsClicked(tournament: TournamentTranslateDTO, isCheck: Boolean)
     abstract fun initialization()
+    abstract fun onFinishClicked()
 }
 
 class MypreferencesViewModelImpl(
@@ -94,6 +95,10 @@ class MypreferencesViewModelImpl(
             initListOfSports()
             initListOfTournament()
         }
+    }
+
+    override fun onFinishClicked() {
+        router.navigate(R.id.action_global_nav_main)
     }
 
     private suspend fun initListOfTournament() {

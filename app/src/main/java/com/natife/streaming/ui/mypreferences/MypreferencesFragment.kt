@@ -3,6 +3,7 @@ package com.natife.streaming.ui.mypreferences
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import androidx.activity.addCallback
 import androidx.leanback.widget.BaseGridView
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseFragment
@@ -52,6 +53,9 @@ class MypreferencesFragment : BaseFragment<MypreferencesViewModel>() {
         }
         applay_button.setOnClickListener {
             viewModel.applyMypreferencesClicked()
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            viewModel.onFinishClicked()
         }
     }
 }

@@ -9,6 +9,7 @@ import androidx.leanback.widget.BrowseFrameLayout
 import androidx.navigation.NavDestination
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseActivity
+import com.natife.streaming.ext.predominantColorToGradient
 import com.natife.streaming.ext.subscribe
 import com.natife.streaming.ext.toDisplay
 import kotlinx.android.synthetic.main.activity_main.*
@@ -21,6 +22,9 @@ class MainActivity : BaseActivity<MainViewModel>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //Heading in the predominant team color
+        mainMotion.predominantColorToGradient("#3560E1")
+
         mainMenu.setRouter(router)
         mainMenu.activity = this
         subscribe(viewModel.name) {
