@@ -7,13 +7,14 @@ import com.natife.streaming.data.LiveType
 import com.natife.streaming.router.Router
 import com.natife.streaming.usecase.GetLiveUseCase
 import com.natife.streaming.usecase.SaveLiveUseCase
-
+@Deprecated("don'tuse")
 abstract class LiveViewModel : BaseViewModel() {
     abstract val list: LiveData<List<String>>
     abstract fun saveType(selected: Int)
     abstract fun onSelect(it: Int)
 }
 
+@Deprecated("don'tuse")
 class LiveViewModelImpl(
     private val getLiveUseCase: GetLiveUseCase,
     private val saveLiveUseCase: SaveLiveUseCase,

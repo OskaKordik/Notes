@@ -5,10 +5,10 @@ import android.view.View
 import com.natife.streaming.base.impl.VariantDialog
 import com.natife.streaming.ext.subscribe
 import kotlinx.android.synthetic.main.dialog_variant.*
-import kotlinx.android.synthetic.main.fragment_search.*
 import org.koin.core.parameter.ParametersDefinition
 import org.koin.core.parameter.parametersOf
 
+@Deprecated("don'tuse")
 class TournamentDialog: VariantDialog<TournamentDialogViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

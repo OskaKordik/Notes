@@ -6,6 +6,7 @@ import com.natife.streaming.base.impl.VariantDialog
 import com.natife.streaming.ext.subscribe
 import kotlinx.android.synthetic.main.dialog_variant.*
 
+@Deprecated("don'tuse")
 class SportDialog: VariantDialog<SportViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

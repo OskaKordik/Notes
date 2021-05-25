@@ -30,4 +30,5 @@
     <!-- MyPreferencesFragment -->
     <string name="my_pref">My preferences</string>
     <string name="apply">Apply</string>
+    <string name="hide_account">Hide account</string>
 </resources>

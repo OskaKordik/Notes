@@ -44,6 +44,13 @@ class MypreferencesFragment : BaseFragment<MypreferencesViewModel>() {
         subscribe(viewModel.combineTournamentAndPreferencesTournamentData) {
             tournamentAdapter.submitList(it)
         }
+
+        search_button.setOnClickListener {
+            viewModel.findClicked()
+        }
+        applay_button.setOnClickListener {
+            viewModel.applyMypreferencesClicked()
+        }
     }
 }
 

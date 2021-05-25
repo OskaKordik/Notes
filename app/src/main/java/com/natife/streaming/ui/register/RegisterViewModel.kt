@@ -6,7 +6,6 @@ import com.natife.streaming.router.Router
 import com.natife.streaming.usecase.AccountUseCase
 import com.natife.streaming.usecase.LoginUseCase
 import com.natife.streaming.utils.Result
-import timber.log.Timber
 
 abstract class RegisterViewModel : BaseViewModel() {
     abstract fun userRegistration(email: String, password: String, onError: ((String?) -> Unit))
@@ -24,7 +23,7 @@ class RegisterViewModelImpl(
                 if (result.status == Result.Status.SUCCESS) {
                     launch {
                         accountUseCase.getProfile()
-                        router.navigate(R.id.action_registerFragment_to_mypreferencesFragment)
+                        router.navigate(R.id.action_global_preferences)
                     }
                 } else {
                     onError.invoke(result.message)

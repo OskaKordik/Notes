@@ -7,13 +7,14 @@ import com.natife.streaming.data.Sport
 import com.natife.streaming.router.Router
 import com.natife.streaming.usecase.GetSportUseCase
 import com.natife.streaming.usecase.SaveSportUseCase
-
+@Deprecated("don'tuse")
 abstract class SportViewModel : BaseViewModel() {
     abstract val title: LiveData<String>
     abstract val sport: LiveData<List<Sport>>
     abstract fun select(position: Int)
 }
 
+@Deprecated("don'tuse")
 class SportViewModelImpl(
     private val getSportUseCase: GetSportUseCase,
     private val saveSportUseCase: SaveSportUseCase,

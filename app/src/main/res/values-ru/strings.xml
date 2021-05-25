@@ -10,4 +10,5 @@
     <string name="check_in">Регистрация</string>
     <string name="my_pref">Мои предпочтения</string>
     <string name="apply">Применить</string>
+    <string name="hide_account">Скрыть счет</string>
 </resources>

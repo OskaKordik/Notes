@@ -61,7 +61,7 @@ class MypreferencesViewModelImpl(
 
 
     override fun applyMypreferencesClicked() {
-//        TODO("Not yet implemented")
+        router.navigate(R.id.action_global_nav_main)
     }
 
     override fun findClicked() {

@@ -5,8 +5,8 @@ import android.view.View
 import com.natife.streaming.base.impl.VariantDialog
 import com.natife.streaming.ext.subscribe
 import kotlinx.android.synthetic.main.dialog_variant.*
-import kotlinx.android.synthetic.main.fragment_search.*
 
+@Deprecated("don'tuse")
 class LiveDialog: VariantDialog<LiveViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

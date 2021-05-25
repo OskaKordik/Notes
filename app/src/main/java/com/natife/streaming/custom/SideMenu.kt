@@ -12,7 +12,7 @@ import androidx.navigation.NavController
 import com.natife.streaming.R
 import com.natife.streaming.preferenses.AuthPrefs
 import com.natife.streaming.router.Router
-import kotlinx.android.synthetic.main.view_side_menu.view.*
+import kotlinx.android.synthetic.main.view_side_menu_new.view.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -57,10 +57,10 @@ class SideMenu @JvmOverloads constructor(
                     select(iconFavorites)
                     currentSelected = iconFavorites
                 }
-                R.id.settingsFragment -> {
-                    select(iconSettings)
-                    currentSelected = iconSettings
-                }
+//                R.id.settingsFragment -> {
+//                    select(iconSettings)
+//                    currentSelected = iconSettings
+//                }
             }
         }
 
@@ -70,13 +70,13 @@ class SideMenu @JvmOverloads constructor(
         iconHome.imageTintList = resources.getColorStateList(R.color.menu_item_state_icon, null)
         iconFavorites.imageTintList =
             resources.getColorStateList(R.color.menu_item_state_icon, null)
-        iconSettings.imageTintList = resources.getColorStateList(R.color.menu_item_state_icon, null)
+//        iconSettings.imageTintList = resources.getColorStateList(R.color.menu_item_state_icon, null)
         view.imageTintList =
             resources.getColorStateList(R.color.menu_item_state_icon_selected, null)
     }
 
     init {
-        val view = LayoutInflater.from(context).inflate(R.layout.view_side_menu, this, false)
+        val view = LayoutInflater.from(context).inflate(R.layout.view_side_menu_new, this, false)
         this.addView(view)
 
         // TODO 2 раза подряд оджно и тоже надо оставить FLOW
@@ -106,9 +106,9 @@ class SideMenu @JvmOverloads constructor(
             router?.toFavorites()
             //router?.navigate(R.id.action_main_tournamentFragment)
         }
-        menuSettings.setOnClickListener {
-            router?.toSettings()
-        }
+//        menuSettings.setOnClickListener {
+//            router?.toSettings()
+//        }
 
     }
 
@@ -130,8 +130,8 @@ class SideMenu @JvmOverloads constructor(
             resources.getColorStateList(R.color.menu_item_state_icon_selected, null)
         this.iconFavorites.imageTintList =
             resources.getColorStateList(R.color.menu_item_state_icon_selected, null)
-        this.iconSettings.imageTintList =
-            resources.getColorStateList(R.color.menu_item_state_icon_selected, null)
+//        this.iconSettings.imageTintList =
+//            resources.getColorStateList(R.color.menu_item_state_icon_selected, null)
         currentSelected.imageTintList =
             resources.getColorStateList(R.color.menu_item_state_icon, null)
     }
@@ -145,8 +145,8 @@ class SideMenu @JvmOverloads constructor(
             resources.getColorStateList(R.color.menu_item_state_icon, null)
         this.iconFavorites.imageTintList =
             resources.getColorStateList(R.color.menu_item_state_icon, null)
-        this.iconSettings.imageTintList =
-            resources.getColorStateList(R.color.menu_item_state_icon, null)
+//        this.iconSettings.imageTintList =
+//            resources.getColorStateList(R.color.menu_item_state_icon, null)
         currentSelected.imageTintList =
             resources.getColorStateList(R.color.menu_item_state_icon_selected, null)
     }

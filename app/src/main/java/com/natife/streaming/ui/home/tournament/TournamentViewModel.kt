@@ -9,12 +9,13 @@ import com.natife.streaming.router.Router
 import com.natife.streaming.usecase.GetTournamentUseCase
 import com.natife.streaming.usecase.SaveTournamentUseCase
 import timber.log.Timber
-
+@Deprecated("don'tuse")
 abstract class TournamentDialogViewModel: BaseViewModel() {
     abstract val list: LiveData<List<Tournament>>
     abstract fun select(position: Int)
 }
 
+@Deprecated("don'tuse")
 class TournamentDialogViewModelImpl(private val tournament:Array<Tournament>,
                                     private val tournamentUseCase: GetTournamentUseCase,
                                     private val settingsPrefs: SettingsPrefs,

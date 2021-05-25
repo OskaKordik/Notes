@@ -26,16 +26,7 @@
             android:id="@+id/registerFragment"
             android:name="com.natife.streaming.ui.register.RegisterFragment"
             android:label="fragment_register_new"
-            tools:layout="@layout/fragment_register_new" >
-            <action
-                android:id="@+id/action_registerFragment_to_mypreferencesFragment"
-                app:destination="@id/mypreferencesFragment" />
-        </fragment>
-        <fragment
-            android:id="@+id/mypreferencesFragment"
-            android:name="com.natife.streaming.ui.mypreferences.MypreferencesFragment"
-            android:label="MypreferencesFragment"
-            tools:layout="@layout/fragment_mypreferences_new"/>
+            tools:layout="@layout/fragment_register_new" />
 
     </navigation>
 
@@ -299,7 +290,7 @@
             android:id="@+id/favoritesFragment"
             android:name="com.natife.streaming.ui.favorites.FavoritesFragment"
             android:label="FavoritesFragment"
-             tools:layout="@layout/fragment_favorites">
+            tools:layout="@layout/fragment_favorites">
             <action
                 android:id="@+id/action_favoritesFragment_to_matchProfileFragment"
                 app:destination="@id/matchProfileFragment" />
@@ -308,6 +299,15 @@
                 app:destination="@id/tournamentFragment" />
         </fragment>
 
+    </navigation>
+
+    <navigation
+        android:id="@+id/preferences"
+        app:startDestination="@id/mypreferencesFragment">
+        <fragment
+            android:id="@+id/mypreferencesFragment"
+            android:name="com.natife.streaming.ui.mypreferences.MypreferencesFragment"
+            android:label="PreferencesFragment" />
     </navigation>
 
     <action
@@ -319,6 +319,12 @@
     <action
         android:id="@+id/action_global_nav_main"
         app:destination="@id/nav_main"
+        app:launchSingleTop="true"
+        app:popUpTo="@id/nav_global" />
+
+    <action
+        android:id="@+id/action_global_preferences"
+        app:destination="@id/preferences"
         app:launchSingleTop="true"
         app:popUpTo="@id/nav_global" />
 

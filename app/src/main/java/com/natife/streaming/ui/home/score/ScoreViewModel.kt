@@ -6,13 +6,14 @@ import com.natife.streaming.base.BaseViewModel
 import com.natife.streaming.router.Router
 import com.natife.streaming.usecase.GetShowScoreUseCase
 import com.natife.streaming.usecase.SaveShowScoreUseCase
-
+@Deprecated("don'tuse")
 abstract class ScoreViewModel : BaseViewModel() {
     abstract val title: LiveData<String>
     abstract val showScore: LiveData<List<String>>
     abstract fun select(position: Int)
 }
 
+@Deprecated("don'tuse")
 class ScoreViewModelImpl(
     private val getShowScoreUseCase: GetShowScoreUseCase,
     private val saveShowScoreUseCase: SaveShowScoreUseCase,
