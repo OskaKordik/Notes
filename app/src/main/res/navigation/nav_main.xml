@@ -325,7 +325,7 @@
     <action
         android:id="@+id/action_global_preferences"
         app:destination="@id/preferences"
-        app:launchSingleTop="true"
+        app:launchSingleTop="false"
         app:popUpTo="@id/nav_global" />
 
 

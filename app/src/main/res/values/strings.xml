@@ -8,7 +8,6 @@
     <string name="add_to_favorite" translatable="false">Добавить в избранное</string>
     <string name="whitespace" translatable="false">Пробел</string>
     <string name="clear" translatable="false">Очистить</string>
-    <string name="search" translatable="false">Поиск</string>
 
     <string name="test_mp4" translatable="false">https://storage.googleapis.com/exoplayer-test-media-0/BigBuckBunny_320x180.mp4</string>
     <string name="text_slash" translatable="false">\u0020/\u0020</string>
@@ -30,5 +29,10 @@
     <!-- MyPreferencesFragment -->
     <string name="my_pref">My preferences</string>
     <string name="apply">Apply</string>
-    <string name="hide_account">Hide account</string>
+    <!--Side menu-->
+    <string name="hide_account">Hide score</string>
+    <string name="search">Search</string>
+    <string name="home">Home</string>
+    <string name="favorites">Favorites</string>
+    <string name="account">Account</string>
 </resources>

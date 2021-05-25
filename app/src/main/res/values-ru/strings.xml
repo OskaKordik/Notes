@@ -11,4 +11,8 @@
     <string name="my_pref">Мои предпочтения</string>
     <string name="apply">Применить</string>
     <string name="hide_account">Скрыть счет</string>
+    <string name="search">Поиск</string>
+    <string name="home">Главная</string>
+    <string name="favorites">Избранное</string>
+    <string name="account">Аккаунт</string>
 </resources>

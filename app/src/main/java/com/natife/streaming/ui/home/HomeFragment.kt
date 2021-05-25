@@ -4,22 +4,13 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.constraintlayout.motion.widget.MotionLayout
-import androidx.core.view.doOnLayout
 import androidx.leanback.widget.BaseGridView
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseFragment
 import com.natife.streaming.ext.subscribe
-import com.natife.streaming.ext.toDisplay
-import com.natife.streaming.router.Router
 import com.natife.streaming.ui.main.MainActivity
-import com.natife.streaming.ui.tournament.TournamentFragmentDirections
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_favorites.*
 import kotlinx.android.synthetic.main.fragment_home.*
-import org.koin.android.ext.android.inject
-import timber.log.Timber
 
 class HomeFragment : BaseFragment<HomeViewModel>() {
     override fun getLayoutRes() = R.layout.fragment_home
@@ -29,14 +20,14 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
 
     private fun applyAlpha(alpha: Float){
 //        (activity as MainActivity).logo?.alpha = alpha
-        buttonLive?.alpha = 1 - alpha
-        buttonLock?.alpha = 1 - alpha
-        buttonScore?.alpha = 1 - alpha
-        buttonSport?.alpha = 1 - alpha
-        buttonTourney?.alpha = 1 - alpha
-        dateRight?.alpha = 1 - alpha
-        dateLeft?.alpha = 1 - alpha
-        dateText?.alpha = 1 - alpha
+//        buttonLive?.alpha = 1 - alpha
+//        buttonLock?.alpha = 1 - alpha
+//        buttonScore?.alpha = 1 - alpha
+//        buttonSport?.alpha = 1 - alpha
+//        buttonTourney?.alpha = 1 - alpha
+//        dateRight?.alpha = 1 - alpha
+//        dateLeft?.alpha = 1 - alpha
+//        dateText?.alpha = 1 - alpha
     }
 
     private val transitionListener = object :
@@ -66,44 +57,44 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
         applyAlpha(((activity as MainActivity).mainMotion as MotionLayout).progress)
 
 
+//        subscribe(viewModel.subOnly){
+//            buttonLock.setImageResource(if (it){R.drawable.button_lock_red}else{R.drawable.button_lock})
+//        }
 
-        subscribe(viewModel.subOnly){
-            buttonLock.setImageResource(if (it){R.drawable.button_lock_red}else{R.drawable.button_lock})
-        }
+//        subscribe(viewModel.date){
+//            dateText.text = it.toDisplay().toUpperCase()
+//        }
 
-        subscribe(viewModel.date){
-            dateText.text = it.toDisplay().toUpperCase()
-        }
-
-        adapter.onClick={
+        adapter.onClick = {
             viewModel.toMatchProfile(it)
         }
 
-        buttonScore.setOnClickListener {
-            viewModel.showScoreDialog()
-        }
-        buttonSport.setOnClickListener {
-            viewModel.showSportDialog()
-        }
-        buttonTourney.setOnClickListener {
-            viewModel.showTourneyDialog(adapter.currentList)
-        }
-        buttonLive.setOnClickListener {
-            viewModel.showLiveDialog()
-        }
-        buttonLock.setOnClickListener {
-            viewModel.subOnlyChange()
-        }
-        dateText.setOnClickListener {
-            viewModel.toCalendar()
-        }
-        dateLeft.setOnClickListener {
-            viewModel.previousDay()
-        }
-        dateRight.setOnClickListener {
-            viewModel.nextDay()
-        }
+//        buttonScore.setOnClickListener {
+//            viewModel.showScoreDialog()
+//        }
+//        buttonSport.setOnClickListener {
+//            viewModel.showSportDialog()
+//        }
+//        buttonTourney.setOnClickListener {
+//            viewModel.showTourneyDialog(adapter.currentList)
+//        }
+//        buttonLive.setOnClickListener {
+//            viewModel.showLiveDialog()
+//        }
+//        buttonLock.setOnClickListener {
+//            viewModel.subOnlyChange()
+//        }
 
+
+//        dateText.setOnClickListener {
+//            viewModel.toCalendar()
+//        }
+//        dateLeft.setOnClickListener {
+//            viewModel.previousDay()
+//        }
+//        dateRight.setOnClickListener {
+//            viewModel.nextDay()
+//        }
 
 
         homeRecycler.isFocusable = false

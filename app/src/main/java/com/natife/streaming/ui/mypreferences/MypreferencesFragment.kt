@@ -23,9 +23,11 @@ class MypreferencesFragment : BaseFragment<MypreferencesViewModel>() {
     @SuppressLint("RestrictedApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         //Heading in the predominant team color
         topConstraintLayout.predominantColorToGradient("#CB312A")
         viewModel.initialization()
+
 
         kindsOfSportsRecyclerView.isFocusable = false
         kindsOfSportsRecyclerView.adapter = sportAdapter

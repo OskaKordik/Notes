@@ -5,69 +5,158 @@
     android:id="@+id/mainMotion"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layoutDescription="@xml/activity_main_scene"
     android:background="@drawable/ic_login_background_new"
+    app:layoutDescription="@xml/activity_main_scene"
     tools:context=".ui.main.MainActivity">
 
 
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/action_chackbox_background" />
-
-    <ImageView
-        android:id="@+id/logo_imageView"
-        android:layout_width="81dp"
-        android:layout_height="19dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="28dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_logo_new"
-        android:backgroundTint="@color/white"
-        tools:ignore="contentDescription" />
-
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/score_button"
-        style="@style/ButtonOutlinedTransparentButton"
-        app:iconGravity="start"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="28dp"
-        android:text="@string/hide_account"
-        app:icon="@drawable/ic_password_off"
-        app:layout_constraintBottom_toBottomOf="@+id/preferences_button"
-        app:layout_constraintEnd_toStartOf="@+id/preferences_button"
-        app:layout_constraintTop_toTopOf="@+id/preferences_button" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/preferences_button"
-        style="@style/IconButton"
-        android:layout_width="38dp"
-        android:layout_height="26dp"
-        android:layout_marginTop="31dp"
-        android:layout_marginEnd="28dp"
-        app:icon="@drawable/ic_preferences_new"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/topLayout"
+        android:layout_width="match_parent"
+        android:layout_height="124dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/shadowe_imageView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/black_transparent_30"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/logo_imageView"
+            android:layout_width="81dp"
+            android:layout_height="19dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="28dp"
+            android:backgroundTint="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_logo_new"
+            tools:ignore="contentDescription" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/score_button"
+            style="@style/ButtonTransparentNoOutlined"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="@string/hide_account"
+            app:icon="@drawable/ic_password_off_f"
+            app:iconGravity="start"
+            app:iconSize="18dp"
+            app:layout_constraintBottom_toBottomOf="@+id/preferences_button"
+            app:layout_constraintEnd_toStartOf="@+id/preferences_button"
+            app:layout_constraintTop_toTopOf="@+id/preferences_button" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/preferences_button"
+            style="@style/ButtonTransparentNoOutlined"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="31dp"
+            android:layout_marginEnd="28dp"
+            android:paddingLeft="7dp"
+            android:paddingRight="7dp"
+            app:icon="@drawable/ic_preferences_new"
+            app:iconGravity="start"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/calendar_left"
+            style="@style/ButtonTransparentNoOutlined"
+            android:layout_width="35dp"
+            android:layout_height="36dp"
+            android:paddingLeft="7dp"
+            android:paddingRight="7dp"
+            app:icon="@drawable/ic_left"
+            app:iconGravity="start"
+            app:layout_constraintBottom_toBottomOf="@+id/day_of_weektext_text"
+            app:layout_constraintEnd_toStartOf="@id/guideline30"
+            app:layout_constraintTop_toTopOf="@+id/data_text" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/calendar_right"
+            style="@style/ButtonTransparentNoOutlined"
+            android:layout_width="35dp"
+            android:layout_height="36dp"
+            android:paddingLeft="7dp"
+            android:paddingRight="7dp"
+            app:icon="@drawable/ic_right"
+            app:iconGravity="start"
+            app:layout_constraintBottom_toBottomOf="@+id/day_of_weektext_text"
+            app:layout_constraintStart_toStartOf="@id/guideline60"
+            app:layout_constraintTop_toTopOf="@+id/data_text" />
+
+        <TextView
+            android:id="@+id/data_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="19 января"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+            android:textStyle="bold"
+            android:textColor="@color/menu_item_state_text"
+            app:layout_constraintBottom_toTopOf="@+id/day_of_weektext_text"
+            app:layout_constraintEnd_toEndOf="@+id/day_of_weektext_text"
+            app:layout_constraintStart_toStartOf="@+id/day_of_weektext_text" />
+
+        <TextView
+            android:id="@+id/day_of_weektext_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Понедельник"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+            android:textColor="@color/menu_item_state_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/guideline"
+            tools:layout_editor_absoluteY="31dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="108dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline30"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent=".38" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline60"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent=".62" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
         android:id="@+id/bottom_backgrounnd"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="124dp"
+        app:layout_goneMarginTop="0dp"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topLayout"
         app:srcCompat="@drawable/ic_background" />
+
 
     <com.natife.streaming.custom.SideMenu
         android:id="@+id/mainMenu"
-        android:layout_width="50dp"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -77,12 +166,13 @@
     <androidx.leanback.widget.BrowseFrameLayout
         android:id="@+id/contentBrowse"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_marginTop="124dp"
+        android:layout_height="0dp"
+        app:layout_goneMarginTop="0dp"
+        app:layout_goneMarginStart="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/mainMenu"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/topLayout">
 
         <fragment
             android:id="@+id/globalNavFragment"
@@ -93,5 +183,4 @@
             app:navGraph="@navigation/nav_main"
             tools:layout="@layout/fragment_home" />
     </androidx.leanback.widget.BrowseFrameLayout>
-
 </androidx.constraintlayout.motion.widget.MotionLayout>

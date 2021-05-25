@@ -8,7 +8,6 @@ import com.natife.streaming.data.LiveType
 import com.natife.streaming.data.match.Match
 import com.natife.streaming.datasource.MatchParams
 import com.natife.streaming.ext.fromResponse
-import com.natife.streaming.ext.toDate
 import com.natife.streaming.ext.toRequest
 import com.natife.streaming.preferenses.SettingsPrefs
 import com.natife.streaming.router.Router
@@ -29,9 +28,10 @@ abstract class HomeViewModel : BaseViewModel() {
     abstract fun showLiveDialog()
     abstract fun subOnlyChange()
     abstract fun loadList()
-    abstract fun toCalendar()
-    abstract fun nextDay()
-    abstract fun previousDay()
+
+    //    abstract fun toCalendar()
+//    abstract fun nextDay()
+//    abstract fun previousDay()
     abstract fun toMatchProfile(match: Match)
 
     abstract val list: LiveData<List<Match>>
@@ -107,23 +107,23 @@ class HomeViewModelImpl(
         }
     }
 
-    override fun toCalendar() {
-        router.navigate(R.id.action_homeFragment_to_calendarFragment)
-    }
-
-    override fun nextDay() {
-        val calendar = Calendar.getInstance()
-        calendar.time = settingsPrefs.getDate()?.toDate() ?: Date()
-        calendar.add(Calendar.DAY_OF_YEAR, 1)
-        settingsPrefs.saveDate(calendar.time.time)
-    }
-
-    override fun previousDay() {
-        val calendar = Calendar.getInstance()
-        calendar.time = settingsPrefs.getDate()?.toDate() ?: Date()
-        calendar.add(Calendar.DAY_OF_YEAR, -1)
-        settingsPrefs.saveDate(calendar.time.time)
-    }
+//    override fun toCalendar() {
+//        router.navigate(R.id.action_homeFragment_to_calendarFragment)
+//    }
+//
+//    override fun nextDay() {
+//        val calendar = Calendar.getInstance()
+//        calendar.time = settingsPrefs.getDate()?.toDate() ?: Date()
+//        calendar.add(Calendar.DAY_OF_YEAR, 1)
+//        settingsPrefs.saveDate(calendar.time.time)
+//    }
+//
+//    override fun previousDay() {
+//        val calendar = Calendar.getInstance()
+//        calendar.time = settingsPrefs.getDate()?.toDate() ?: Date()
+//        calendar.add(Calendar.DAY_OF_YEAR, -1)
+//        settingsPrefs.saveDate(calendar.time.time)
+//    }
 
     override fun toMatchProfile(match: Match) {
         if (match.hasVideo) {

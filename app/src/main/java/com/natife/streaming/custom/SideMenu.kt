@@ -36,7 +36,7 @@ class SideMenu @JvmOverloads constructor(
         NavController.OnDestinationChangedListener { controller, destination, arguments ->
 
             this.isVisible = when (destination.id) {
-                R.id.loginFragment,R.id.registerFragment,R.id.mypreferencesFragment, R.id.matchProfileFragment, R.id.matchSettingsFragment, R.id.watchFragment, R.id.playerFragment -> false
+                R.id.loginFragment, R.id.registerFragment, R.id.mypreferencesFragment, R.id.action_global_preferences, R.id.matchProfileFragment, R.id.matchSettingsFragment, R.id.watchFragment, R.id.playerFragment -> false
 
                 else -> true
             }
