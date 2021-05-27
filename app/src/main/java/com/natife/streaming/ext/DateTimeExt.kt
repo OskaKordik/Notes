@@ -8,6 +8,9 @@ import java.time.LocalDate
 import java.time.temporal.WeekFields
 import java.util.*
 
+val Date.dayOfWeek: String get() =
+    SimpleDateFormat("EEEE", Locale("ru", "RU")).format(this)
+
 fun Date.toRequest(): String {
     val sdf0 = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
     val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault())

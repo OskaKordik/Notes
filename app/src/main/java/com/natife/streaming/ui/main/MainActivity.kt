@@ -9,10 +9,12 @@ import androidx.leanback.widget.BrowseFrameLayout
 import androidx.navigation.NavDestination
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseActivity
+import com.natife.streaming.ext.dayOfWeek
 import com.natife.streaming.ext.predominantColorToGradient
 import com.natife.streaming.ext.subscribe
 import com.natife.streaming.ext.toDisplay
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.*
 
 class MainActivity : BaseActivity<MainViewModel>() {
 
@@ -32,6 +34,9 @@ class MainActivity : BaseActivity<MainViewModel>() {
         }
         subscribe(viewModel.date) {
             data_text.text = it.toDisplay().toUpperCase()
+            if (it != null) {
+                day_of_weektext_text.text = it.dayOfWeek.capitalize(Locale.getDefault())
+            }
         }
         data_text.setOnClickListener {
             viewModel.toCalendar()
