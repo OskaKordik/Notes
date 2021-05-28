@@ -1,5 +1,6 @@
 package com.natife.streaming.ui.main
 
+import android.annotation.SuppressLint
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.View
@@ -22,6 +23,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
 
     override fun getNavHostId() = R.id.globalNavFragment
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     @ExperimentalStdlibApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +43,13 @@ class MainActivity : BaseActivity<MainViewModel>() {
             }
         }
         subscribe(viewModel.settings) {
-
+            if (it.showScore) {
+                score_button.isChecked = false
+                score_button.text = resources.getString(R.string.hide_account)
+            } else {
+                score_button.isChecked = true
+                score_button.text = resources.getString(R.string.showe_account)
+            }
         }
 
         data_text.setOnClickListener {
@@ -60,7 +68,16 @@ class MainActivity : BaseActivity<MainViewModel>() {
             viewModel.preferences()
         }
         score_button.setOnClickListener {
-            viewModel.scoreButtonClicked()
+            if (score_button.isChecked) {
+//                score_button.icon = resources.getDrawable(R.drawable.ic_password_off_f, theme)
+                score_button.text = resources.getString(R.string.showe_account)
+//                score_button.icon = resources.getDrawable(R.drawable.ic_password_on_f, theme)
+                viewModel.scoreButtonClicked(true)
+            } else {
+                score_button.text = resources.getString(R.string.hide_account)
+//                score_button.icon = resources.getDrawable(R.drawable.ic_password_off_f, theme)
+                viewModel.scoreButtonClicked(false)
+            }
         }
 
 

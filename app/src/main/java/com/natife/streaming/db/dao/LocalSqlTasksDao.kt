@@ -15,8 +15,11 @@ interface LocalSqlTasksDao {
     @Update
     fun updateGlobalSettings(globalSettings: GlobalSettings)
 
-    @Query ("SELECT * FROM 'GlobalSettings' WHERE authEmail ==:authEmail")
+    @Query("SELECT * FROM 'GlobalSettings' WHERE authEmail ==:authEmail")
     fun getGlobalSettings(authEmail: String): GlobalSettings
+
+    @Query("SELECT * FROM 'GlobalSettings' WHERE authEmail ==:authEmail")
+    fun getGlobalSettingsFlow(authEmail: String): Flow<GlobalSettings>
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

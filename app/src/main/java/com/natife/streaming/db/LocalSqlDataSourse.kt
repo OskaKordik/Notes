@@ -15,9 +15,9 @@ class LocalSqlDataSourse internal constructor(
     private val authPrefs: AuthPrefs,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) {
-    private suspend fun getUserAuthEmail(): String? =
+    private suspend fun getUserAuthEmail(): String =
         withContext(ioDispatcher) {
-            authPrefs.getProfile()?.email
+            authPrefs.getProfile()?.email ?: ""
         }
 
     //Global Settings
@@ -59,6 +59,16 @@ class LocalSqlDataSourse internal constructor(
                 localSqlTasksDao.getGlobalSettings(userAuthEmail)
             }
         }
+//
+//    fun getGlobalSettingsFlow(): Flow<GlobalSettings> {
+//        var userAuthEmail: String =""
+//        GlobalScope.launch(ioDispatcher) {
+//            userAuthEmail = getUserAuthEmail()
+//        }
+//        return userAuthEmail.let { userAuthEmail ->
+//            localSqlTasksDao.getGlobalSettingsFlow(userAuthEmail!!)
+//        }
+//    }
 
 
     suspend fun updateShowScore(showScore: Boolean) {
@@ -102,12 +112,12 @@ class LocalSqlDataSourse internal constructor(
     }
 
     fun getPreferencesSport(): Flow<List<PreferencesSport>> =
-            localSqlTasksDao.getPreferencesSport()
+        localSqlTasksDao.getPreferencesSport()
 
 
     suspend fun updatePreferencesSport(sport: SportTranslateDTO) {
         withContext(ioDispatcher) {
-                localSqlTasksDao.updatePreferencesSport(sport.toPreferencesSport())
+            localSqlTasksDao.updatePreferencesSport(sport.toPreferencesSport())
         }
     }
 
@@ -124,13 +134,13 @@ class LocalSqlDataSourse internal constructor(
         }
     }
 
-    fun getPreferencesTournament():Flow<List<PreferencesTournament>> =
-            localSqlTasksDao.getPreferencesTournament()
+    fun getPreferencesTournament(): Flow<List<PreferencesTournament>> =
+        localSqlTasksDao.getPreferencesTournament()
 
     suspend fun updatePreferencesTournament(tournament: TournamentTranslateDTO) {
         withContext(ioDispatcher) {
-                localSqlTasksDao.updatePreferencesTournament(tournament.toPreferencesTournament())
-            }
+            localSqlTasksDao.updatePreferencesTournament(tournament.toPreferencesTournament())
+        }
     }
 
     suspend fun deletePreferencesTournament(tournament: TournamentTranslateDTO) {

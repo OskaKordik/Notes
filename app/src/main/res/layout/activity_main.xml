@@ -30,13 +30,14 @@
             tools:ignore="contentDescription" />
 
         <com.google.android.material.button.MaterialButton
+            android:checkable="true"
             android:id="@+id/score_button"
             style="@style/ButtonTransparentNoOutlined"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
-            android:text="@string/hide_account"
-            app:icon="@drawable/ic_password_off_f"
+            tools:text="@string/hide_account"
+            app:icon="@drawable/button_score"
             app:iconGravity="start"
             app:iconSize="15dp"
             app:layout_constraintBottom_toBottomOf="@+id/preferences_button"

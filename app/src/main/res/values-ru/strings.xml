@@ -16,4 +16,5 @@
     <string name="home">Главная</string>
     <string name="favorites">Избранное</string>
     <string name="account">Аккаунт</string>
+    <string name="showe_account">Показать счет</string>
 </resources>

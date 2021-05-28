@@ -99,7 +99,12 @@ class MainViewModel(
         router.navigate(R.id.action_global_preferences)
     }
 
-    fun scoreButtonClicked() {
+    fun scoreButtonClicked(b: Boolean) {
+        if (b) launch {
+            localSqlDataSourse.updateShowScore(false)
+        } else launch {
+            localSqlDataSourse.updateShowScore(true)
+        }
 
     }
 
