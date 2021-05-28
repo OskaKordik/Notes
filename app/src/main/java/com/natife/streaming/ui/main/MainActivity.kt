@@ -53,6 +53,9 @@ class MainActivity : BaseActivity<MainViewModel>() {
         preferences_button.setOnClickListener {
             viewModel.preferences()
         }
+        score_button.setOnClickListener {
+            viewModel.scoreButtonClicked()
+        }
 
 
         mainMenu.onChildFocusListener = object : BrowseFrameLayout.OnChildFocusListener {

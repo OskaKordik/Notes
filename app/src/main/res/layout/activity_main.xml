@@ -5,20 +5,17 @@
     android:id="@+id/mainMotion"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     app:layoutDescription="@xml/activity_main_scene"
     tools:context=".ui.main.MainActivity">
-<!--    android:background="@drawable/ic_login_background_new"-->
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/topLayout"
         android:layout_width="match_parent"
         android:layout_height="124dp"
+        android:background="@drawable/vertical_gradient_black_mask"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@drawable/vertical_gradient_black_mask">
-        <!--        android:background="@color/black_transparent_40"-->
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/logo_imageView"
@@ -37,11 +34,11 @@
             style="@style/ButtonTransparentNoOutlined"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="10dp"
             android:text="@string/hide_account"
             app:icon="@drawable/ic_password_off_f"
             app:iconGravity="start"
-            app:iconSize="18dp"
+            app:iconSize="15dp"
             app:layout_constraintBottom_toBottomOf="@+id/preferences_button"
             app:layout_constraintEnd_toStartOf="@+id/preferences_button"
             app:layout_constraintTop_toTopOf="@+id/preferences_button" />
@@ -51,9 +48,9 @@
             style="@style/ButtonTransparentNoOutlined"
             android:layout_width="40dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="31dp"
-            android:layout_marginEnd="28dp"
-            android:paddingLeft="7dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
+            android:paddingLeft="3dp"
             android:paddingRight="7dp"
             app:icon="@drawable/ic_preferences_new"
             app:iconGravity="start"
@@ -63,27 +60,31 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/calendar_left"
             style="@style/ButtonTransparentNoOutlined"
-            android:layout_width="35dp"
-            android:layout_height="36dp"
-            android:paddingLeft="7dp"
+            android:layout_width="30dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="40dp"
+            android:paddingLeft="5dp"
             android:paddingRight="7dp"
             app:icon="@drawable/ic_left"
             app:iconGravity="start"
+            app:iconSize="18dp"
             app:layout_constraintBottom_toBottomOf="@+id/day_of_weektext_text"
-            app:layout_constraintEnd_toStartOf="@id/guideline30"
+            app:layout_constraintEnd_toStartOf="@id/barrier_left"
             app:layout_constraintTop_toTopOf="@+id/data_text" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/calendar_right"
             style="@style/ButtonTransparentNoOutlined"
-            android:layout_width="35dp"
-            android:layout_height="36dp"
+            android:layout_width="30dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="40dp"
             android:paddingLeft="7dp"
-            android:paddingRight="7dp"
+            android:paddingRight="5dp"
             app:icon="@drawable/ic_right"
             app:iconGravity="start"
+            app:iconSize="18dp"
             app:layout_constraintBottom_toBottomOf="@+id/day_of_weektext_text"
-            app:layout_constraintStart_toStartOf="@id/guideline60"
+            app:layout_constraintStart_toStartOf="@id/barrier_right"
             app:layout_constraintTop_toTopOf="@+id/data_text" />
 
         <TextView
@@ -91,26 +92,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/background_calendar"
-            tools:text="19 января"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
-            android:textStyle="bold"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="4dp"
+            android:textAppearance="@style/TextAppearance.StreamingTheme.Headline3"
             android:textColor="@color/menu_item_state_text"
+            android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/day_of_weektext_text"
             app:layout_constraintEnd_toEndOf="@+id/day_of_weektext_text"
-            app:layout_constraintStart_toStartOf="@+id/day_of_weektext_text" />
+            app:layout_constraintStart_toStartOf="@+id/day_of_weektext_text"
+            tools:text="19 января"
+            style="@style/TextStyle" />
 
         <TextView
             android:id="@+id/day_of_weektext_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/background_calendar"
-            tools:text="Понедельник"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-            android:textColor="@color/calendar_day_of_week_state"
+            android:textAppearance="@style/TextAppearance.StreamingTheme.Headline3"
+            app:layout_constraintBottom_toTopOf="@id/guideline"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/guideline"
-            tools:layout_editor_absoluteY="31dp" />
+            tools:layout_editor_absoluteY="31dp"
+            tools:text="Понедельник"
+            style="@style/TextStyle" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline"
@@ -119,19 +120,20 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_begin="108dp" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline30"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent=".38" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline60"
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent=".62" />
+            app:barrierDirection="left"
+            app:constraint_referenced_ids="data_text,day_of_weektext_text" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="right"
+            app:constraint_referenced_ids="data_text,day_of_weektext_text" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -139,12 +141,12 @@
         android:id="@+id/bottom_backgrounnd"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_goneMarginTop="0dp"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/topLayout"
+        app:layout_goneMarginTop="0dp"
         app:srcCompat="@drawable/ic_background" />
 
 
@@ -161,12 +163,12 @@
         android:id="@+id/contentBrowse"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_goneMarginTop="0dp"
-        app:layout_goneMarginStart="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/mainMenu"
-        app:layout_constraintTop_toBottomOf="@+id/topLayout">
+        app:layout_constraintTop_toBottomOf="@+id/topLayout"
+        app:layout_goneMarginStart="0dp"
+        app:layout_goneMarginTop="0dp">
 
         <fragment
             android:id="@+id/globalNavFragment"

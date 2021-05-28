@@ -77,7 +77,7 @@ val viewModelModule = module {
     viewModel<RegisterViewModel> { RegisterViewModelImpl(get(),get(),get()) }//new
     viewModel<MypreferencesViewModel> { MypreferencesViewModelImpl(get(), get(), get(), get(), get(), get(), get()) }//new
 
-    viewModel { MainViewModel(get(), get(), get()) }
+    viewModel { MainViewModel(get(), get(), get(), get(), get()) }
     viewModel<AccountViewModel> { AccountViewModelImpl(get(), get(), get()) }
     viewModel { (args: TournamentFragmentArgs) ->
         TournamentViewModel(

@@ -7,6 +7,8 @@ import com.natife.streaming.ext.toDate
 import com.natife.streaming.preferenses.AuthPrefs
 import com.natife.streaming.preferenses.SettingsPrefs
 import com.natife.streaming.router.Router
+import com.natife.streaming.usecase.GetShowScoreUseCase
+import com.natife.streaming.usecase.SaveShowScoreUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.*
@@ -14,7 +16,9 @@ import java.util.*
 class MainViewModel(
     private val authPrefs: AuthPrefs,
     private val router: Router,
-    private val settingsPrefs: SettingsPrefs
+    private val settingsPrefs: SettingsPrefs,
+    private val getShowScoreUseCase: GetShowScoreUseCase,
+    private val saveShowScoreUseCase: SaveShowScoreUseCase,
 ) : BaseViewModel() {
     val name = MutableLiveData<String>()
     val date = MutableLiveData<Date>()
@@ -76,4 +80,10 @@ class MainViewModel(
 
         router.navigate(R.id.action_global_preferences)
     }
+
+    fun scoreButtonClicked() {
+
+    }
+
+
 }
