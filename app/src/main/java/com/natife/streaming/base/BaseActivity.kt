@@ -1,22 +1,29 @@
 package com.natife.streaming.base
 
 import android.app.Application
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import com.natife.streaming.App
+import com.natife.streaming.R
+import com.natife.streaming.db.LocalSqlDataSourse
 import com.natife.streaming.ext.showToast
 import com.natife.streaming.ext.subscribe
 import com.natife.streaming.router.Router
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import timber.log.Timber
 import java.lang.reflect.ParameterizedType
+import java.util.*
 import kotlin.reflect.KClass
 
 abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity() {
 
     val router by inject<Router>()
+    private val localSqlDataSourse: LocalSqlDataSourse by inject()
     private val app: Application by inject()
 
     protected lateinit var viewModel: VM
@@ -28,8 +35,10 @@ abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         router.attach(this, getNavHostId())
+        val lang = getLang()
+
         super.onCreate(savedInstanceState)
-        (app as App).onKoinRestart ={
+        (app as App).onKoinRestart = {
             Timber.e("jndofidfo ")
             router.attach(this, getNavHostId())
         }
@@ -43,6 +52,23 @@ abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity() {
             onError(it)
         }
     }
+
+    private fun getLang() {
+        var lang: String? = null
+        GlobalScope.launch {
+            lang = localSqlDataSourse.getGlobalSettings()?.lang?.name
+        }
+        if (lang != null && lang != this.resources.getString(R.string.lang)) {
+            val locale = Locale(lang!!.toLowerCase(Locale.ROOT))
+            Locale.setDefault(locale)
+            val configuration = Configuration()
+            configuration.setLocale(locale)
+//        this.resources.updateConfiguration(configuration, this.resources.displayMetrics)
+            this.resources.displayMetrics.setTo(this.resources.displayMetrics)
+            this.resources.configuration.setTo(configuration)
+        }
+    }
+
 
     protected open fun onError(throwable: Throwable) {
         throwable.localizedMessage?.let {

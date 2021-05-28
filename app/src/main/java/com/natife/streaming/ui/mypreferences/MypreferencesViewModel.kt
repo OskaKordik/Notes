@@ -21,7 +21,6 @@ import com.natife.streaming.usecase.GetSportUseCase
 import com.natife.streaming.usecase.GetTournamentUseCase
 import com.natife.streaming.usecase.SaveSportUseCase
 import com.natife.streaming.usecase.SaveTournamentUseCase
-import com.natife.streaming.utils.ResourceProvider
 import com.natife.streaming.utils.combineAndCompute
 
 //new
@@ -34,14 +33,13 @@ abstract class MypreferencesViewModel : BaseViewModel() {
     abstract fun findClicked()
     abstract fun kindOfSportClicked(sport: SportTranslateDTO, isCheck: Boolean)
     abstract fun listOfTournamentsClicked(tournament: TournamentTranslateDTO, isCheck: Boolean)
-    abstract fun initialization()
+    abstract fun initialization(lang: String)
     abstract fun onFinishClicked()
 }
 
 class MypreferencesViewModelImpl(
     private val getSportUseCase: GetSportUseCase,
     private val saveSportUseCase: SaveSportUseCase,
-    private val resourceProvider: ResourceProvider,
     private val tournamentUseCase: GetTournamentUseCase,
     private val saveTournamentUseCase: SaveTournamentUseCase,
     private val api: MainApi,
@@ -90,10 +88,10 @@ class MypreferencesViewModelImpl(
         }
     }
 
-    override fun initialization() {
+    override fun initialization(lang: String) {
         launch {
-            initListOfSports()
-            initListOfTournament()
+            initListOfSports(lang)
+            initListOfTournament(lang)
         }
     }
 
@@ -101,19 +99,19 @@ class MypreferencesViewModelImpl(
         router.navigate(R.id.action_global_nav_main)
     }
 
-    private suspend fun initListOfTournament() {
+    private suspend fun initListOfTournament(lang: String) {
         val tournament = tournamentUseCase.execute()
-            .toTournamentTranslateDTO(resourceProvider.getString(R.string.lang))
+            .toTournamentTranslateDTO(lang)
             .sortedBy { it.id } as MutableList
 
         tournamentList.value = tournament
     }
 
-    private suspend fun initListOfSports() {
+    private suspend fun initListOfSports(lang: String) {
         val sports = getSportUseCase.execute()
         val translates =
             api.getTranslate(BaseRequest(procedure = API_TRANSLATE, params = TranslateRequest(
-                language = resourceProvider.getString(R.string.lang),
+                language = lang,
                 params = sports.map { it.lexic }
             )))
         sportsList.value = sports.toSportTranslateDTO(translates)

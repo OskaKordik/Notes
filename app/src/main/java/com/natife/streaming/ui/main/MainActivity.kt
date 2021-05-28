@@ -22,10 +22,12 @@ class MainActivity : BaseActivity<MainViewModel>() {
 
     override fun getNavHostId() = R.id.globalNavFragment
 
+    @ExperimentalStdlibApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //Heading in the predominant team color
         mainMotion.predominantColorToGradient("#3560E1")
+        viewModel.initialization(resources.getString(R.string.lang))
 
         mainMenu.setRouter(router)
         mainMenu.activity = this
@@ -38,6 +40,10 @@ class MainActivity : BaseActivity<MainViewModel>() {
                 day_of_weektext_text.text = it.dayOfWeek.capitalize(Locale.getDefault())
             }
         }
+        subscribe(viewModel.settings) {
+
+        }
+
         data_text.setOnClickListener {
             viewModel.toCalendar()
         }
@@ -90,6 +96,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
 
             override fun onTransitionChange(p0: MotionLayout?, p1: Int, p2: Int, p3: Float) {
             }
+
             override fun onTransitionCompleted(p0: MotionLayout?, p1: Int) {
                 when (p1){
                     R.id.start ->{
@@ -100,6 +107,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
                     }
                 }
             }
+
             override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {
             }
 

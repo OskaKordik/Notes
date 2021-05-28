@@ -53,7 +53,15 @@ class LocalSqlDataSourse internal constructor(
         }
     }
 
-    suspend fun updateGlobalSettingsShowScore(showScore: Boolean) {
+    suspend fun getGlobalSettings(): GlobalSettings? =
+        withContext(ioDispatcher) {
+            getUserAuthEmail()?.let { userAuthEmail ->
+                localSqlTasksDao.getGlobalSettings(userAuthEmail)
+            }
+        }
+
+
+    suspend fun updateShowScore(showScore: Boolean) {
         withContext(ioDispatcher) {
             getUserAuthEmail()?.let { userAuthEmail ->
                 getGlobalSettings()?.let { globalSettings ->
@@ -69,7 +77,7 @@ class LocalSqlDataSourse internal constructor(
         }
     }
 
-    suspend fun updateGlobalSettingsLang(lang: Lang) {
+    suspend fun updateLang(lang: Lang) {
         withContext(ioDispatcher) {
             getUserAuthEmail()?.let { userAuthEmail ->
                 getGlobalSettings()?.let { globalSettings ->
@@ -85,12 +93,6 @@ class LocalSqlDataSourse internal constructor(
         }
     }
 
-    suspend fun getGlobalSettings(): GlobalSettings? =
-        withContext(ioDispatcher) {
-            getUserAuthEmail()?.let { userAuthEmail ->
-                localSqlTasksDao.getGlobalSettings(userAuthEmail)
-            }
-        }
 
     // PreferencesSports
     suspend fun setPreferencesSport(sport: SportTranslateDTO) {

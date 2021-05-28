@@ -27,7 +27,7 @@ class MypreferencesFragment : BaseFragment<MypreferencesViewModel>() {
 
         //Heading in the predominant team color
         topConstraintLayout.predominantColorToGradient("#CB312A")
-        viewModel.initialization()
+        viewModel.initialization(resources.getString(R.string.lang))
 
 
         kindsOfSportsRecyclerView.isFocusable = false

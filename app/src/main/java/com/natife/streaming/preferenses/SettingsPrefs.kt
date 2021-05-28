@@ -10,28 +10,38 @@ import timber.log.Timber
 
 interface SettingsPrefs: BasePrefs {
     fun saveLive(type: LiveType): Boolean
+
+    @Deprecated("localSqlDataSourse.getGlobalSettings()")
     fun saveScore(show: Boolean): Boolean
     fun saveSport(id: Int): Boolean
     fun saveTournament(id: Int): Boolean
     fun saveSubOnly(show: Boolean): Boolean
     fun saveDate(time:Long): Boolean
+
+    @Deprecated("localSqlDataSourse.getGlobalSettings()")
     fun saveLanguage(lang: String): Boolean
     fun saveCard(id: Int): Boolean
     fun saveSubscription(id: Int): Boolean
     fun saveCountry(country: String): Boolean
 
     fun getLive(): LiveType?
+
+    @Deprecated("localSqlDataSourse.getGlobalSettings()")
     fun getScore(): Boolean?
     fun getSport(): Int?
     fun getTournament(): Int?
     fun getSubOnly(): Boolean
     fun getDate():Long?
+
+    @Deprecated("localSqlDataSourse.getGlobalSettings()")
     fun getLanguage(): String
     fun getCard(): Int?
     fun getSubscription(): Int?
     fun getCountry(): String
 
     fun getLiveFlow(): Flow<LiveType?>
+
+    @Deprecated("localSqlDataSourse.getGlobalSettings()")
     fun getScoreFlow(): Flow<Boolean?>
     fun getSportFlow(): Flow<Int?>
     fun getTournamentFlow(): Flow<Int?>
@@ -59,11 +69,15 @@ private const val COUNTRY= "country"
 
 class SettingsPrefsImpl(private val prefs: SharedPreferences): SettingsPrefs{
     override fun saveLive(type: LiveType) : Boolean = prefs.edit().putString(LIVE, type.name).commit()
+
+    @Deprecated("localSqlDataSourse.getGlobalSettings()")
     override fun saveScore(show: Boolean) : Boolean = prefs.edit().putBoolean(SCORE, show).commit()
     override fun saveSport(id: Int): Boolean  = prefs.edit().putInt(SPORT, id).commit()
     override fun saveTournament(id: Int) : Boolean = prefs.edit().putInt(TOURNAMENT, id).commit()
     override fun saveSubOnly(show: Boolean): Boolean = prefs.edit().putBoolean(SUB_ONLY, show).commit()
     override fun saveDate(time: Long): Boolean =prefs.edit().putLong(DATE,time).commit()
+
+    @Deprecated("localSqlDataSourse.getGlobalSettings()")
     override fun saveLanguage(lang: String) = prefs.edit().putString(LANG,lang).commit()
     override fun saveCard(id: Int) = prefs.edit().putInt(CARD,id).commit()
     override fun saveSubscription(id: Int) = prefs.edit().putInt(SUB,id).commit()
@@ -79,6 +93,7 @@ class SettingsPrefsImpl(private val prefs: SharedPreferences): SettingsPrefs{
         }
     }
 
+    @Deprecated("localSqlDataSourse.getGlobalSettings()")
     override fun getScore(): Boolean = prefs.getBoolean(SCORE,false)
 
     override fun getSport(): Int? {
@@ -109,6 +124,7 @@ class SettingsPrefsImpl(private val prefs: SharedPreferences): SettingsPrefs{
         }
     }
 
+    @Deprecated("localSqlDataSourse.getGlobalSettings()")
     override fun getLanguage(): String = prefs.getString(LANG,"ru")?:"ru"
     override fun getCard(): Int?  {
         val card = prefs.getInt(CARD, -1)
@@ -143,6 +159,7 @@ class SettingsPrefsImpl(private val prefs: SharedPreferences): SettingsPrefs{
         awaitClose { prefs.unregisterOnSharedPreferenceChangeListener(changeListener) }
     }
 
+    @Deprecated("localSqlDataSourse.getGlobalSettings()")
     override fun getScoreFlow(): Flow<Boolean?> = callbackFlow {
         sendBlocking(getScore())
         val changeListener =
@@ -205,6 +222,7 @@ class SettingsPrefsImpl(private val prefs: SharedPreferences): SettingsPrefs{
         awaitClose { prefs.unregisterOnSharedPreferenceChangeListener(changeListener) }
     }
 
+    @Deprecated("localSqlDataSourse.getGlobalSettings()")
     override fun getLanguageFlow(): Flow<String> = callbackFlow {
         sendBlocking(getLanguage())
         val changeListener =

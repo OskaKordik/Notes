@@ -3,12 +3,13 @@ package com.natife.streaming.ui.main
 import androidx.lifecycle.MutableLiveData
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseViewModel
+import com.natife.streaming.db.LocalSqlDataSourse
+import com.natife.streaming.db.entity.GlobalSettings
+import com.natife.streaming.db.entity.Lang
 import com.natife.streaming.ext.toDate
 import com.natife.streaming.preferenses.AuthPrefs
 import com.natife.streaming.preferenses.SettingsPrefs
 import com.natife.streaming.router.Router
-import com.natife.streaming.usecase.GetShowScoreUseCase
-import com.natife.streaming.usecase.SaveShowScoreUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.*
@@ -17,14 +18,15 @@ class MainViewModel(
     private val authPrefs: AuthPrefs,
     private val router: Router,
     private val settingsPrefs: SettingsPrefs,
-    private val getShowScoreUseCase: GetShowScoreUseCase,
-    private val saveShowScoreUseCase: SaveShowScoreUseCase,
+    private val localSqlDataSourse: LocalSqlDataSourse,
 ) : BaseViewModel() {
     val name = MutableLiveData<String>()
     val date = MutableLiveData<Date>()
-    fun back(){
+    val settings = MutableLiveData<GlobalSettings>()
+    fun back() {
         router.navigateUp()
     }
+
     init {
         launch {
             val isLoggedIn = authPrefs.isLoggedIn()
@@ -57,6 +59,22 @@ class MainViewModel(
             }
         }
     }
+
+    //if global settings are not specified, set the default
+    @ExperimentalStdlibApi
+    fun initialization(lang: String) =
+        launch {
+            val globalSettings = localSqlDataSourse.getGlobalSettings()
+            if (globalSettings == null) {
+                localSqlDataSourse.setGlobalSettings(
+                    showScore = false,
+                    lang = Lang.valueOf(lang.uppercase())
+                )
+                settings.value = localSqlDataSourse.getGlobalSettings()
+            } else {
+                settings.value = localSqlDataSourse.getGlobalSettings()
+            }
+        }
 
     fun toCalendar() {
         router.navigate(R.id.action_homeFragment_to_calendarFragment)

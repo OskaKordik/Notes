@@ -58,15 +58,12 @@ import com.natife.streaming.ui.tournament.TournamentFragmentArgs
 import com.natife.streaming.ui.tournament.TournamentViewModel
 import com.natife.streaming.usecase.*
 import com.natife.streaming.utils.OneTimeScope
-import com.natife.streaming.utils.ResourceProvider
-import com.natife.streaming.utils.ResourceProviderImpl
 import okhttp3.OkHttpClient
 import okhttp3.internal.platform.Platform
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
-import org.koin.dsl.bind
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -74,10 +71,19 @@ import retrofit2.converter.gson.GsonConverterFactory
 val viewModelModule = module {
     viewModel { EmptyViewModel() }
     viewModel<LoginViewModel> { LoginViewModelImpl(get(), get(), get(), get()) }//new
-    viewModel<RegisterViewModel> { RegisterViewModelImpl(get(),get(),get()) }//new
-    viewModel<MypreferencesViewModel> { MypreferencesViewModelImpl(get(), get(), get(), get(), get(), get(), get()) }//new
+    viewModel<RegisterViewModel> { RegisterViewModelImpl(get(), get(), get(), get()) }//new
+    viewModel<MypreferencesViewModel> {
+        MypreferencesViewModelImpl(
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+            get()
+        )
+    }//new
 
-    viewModel { MainViewModel(get(), get(), get(), get(), get()) }
+    viewModel { MainViewModel(get(), get(), get(), get()) }
     viewModel<AccountViewModel> { AccountViewModelImpl(get(), get(), get()) }
     viewModel { (args: TournamentFragmentArgs) ->
         TournamentViewModel(
@@ -276,10 +282,6 @@ val databaseModule = module {
 val utilModule = module {
     factory { OneTimeScope() }
 }
-//new
-val resourseProvider = module {
-    factory { ResourceProviderImpl(androidContext()) } bind ResourceProvider::class
-}
 
 val appModules = arrayListOf(
     viewModelModule,
@@ -291,5 +293,4 @@ val appModules = arrayListOf(
     apiModule,
     databaseModule,
     utilModule,
-    resourseProvider
 )

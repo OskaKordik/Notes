@@ -14,7 +14,12 @@ class RegisterFragment : BaseFragment<RegisterViewModel>() {
         super.onViewCreated(view, savedInstanceState)
 
         registerButton.setOnClickListener {
-            viewModel.userRegistration(email = "tv2@test.com", password = "tv2",onError = {})
+            viewModel.userRegistration(
+                resources.getString(R.string.lang),
+                email = "tv2@test.com",
+                password = "tv2",
+                onError = {})
         }
     }
+
 }
