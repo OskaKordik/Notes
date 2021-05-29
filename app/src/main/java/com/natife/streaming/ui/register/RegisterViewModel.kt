@@ -6,7 +6,7 @@ import com.natife.streaming.db.LocalSqlDataSourse
 import com.natife.streaming.db.entity.Lang
 import com.natife.streaming.router.Router
 import com.natife.streaming.usecase.AccountUseCase
-import com.natife.streaming.usecase.LoginUseCase
+import com.natife.streaming.usecase.RegisterUseCase
 import com.natife.streaming.utils.Result
 
 abstract class RegisterViewModel : BaseViewModel() {
@@ -19,7 +19,7 @@ abstract class RegisterViewModel : BaseViewModel() {
 }
 
 class RegisterViewModelImpl(
-    private val loginUseCase: LoginUseCase,
+    private val registerUseCase: RegisterUseCase,
     private val accountUseCase: AccountUseCase,
     private val localSqlDataSourse: LocalSqlDataSourse,
     private val router: Router,
@@ -33,7 +33,7 @@ class RegisterViewModelImpl(
         onError: (String?) -> Unit
     ) {
         launch {
-            loginUseCase.execute(email, password) { result ->
+            registerUseCase.execute(email, password) { result ->
                 if (result.status == Result.Status.SUCCESS) {
                     launch {
                         accountUseCase.getProfile()

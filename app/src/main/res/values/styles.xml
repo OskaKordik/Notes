@@ -88,7 +88,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:paddingHorizontal">10dp</item>
         <item name="android:paddingVertical">4dp</item>
-        <item name="android:background">@drawable/background_calendar</item>
+        <item name="android:background">@drawable/background_text_filld_w_large</item>
         <item name="android:textColor">@color/calendar_day_of_week_state</item>
     </style>
 </resources>

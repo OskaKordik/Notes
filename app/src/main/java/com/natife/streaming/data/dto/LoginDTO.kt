@@ -2,6 +2,7 @@ package com.natife.streaming.data.dto
 
 import com.google.gson.annotations.SerializedName
 
+
 data class LoginDTO(
     @SerializedName("_p_status")
     val status: Int,
@@ -10,3 +11,4 @@ data class LoginDTO(
     @SerializedName("_p_token")
     val token: String
 )
+

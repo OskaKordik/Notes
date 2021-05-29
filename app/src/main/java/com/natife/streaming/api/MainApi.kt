@@ -10,6 +10,8 @@ import com.natife.streaming.data.dto.match.MatchesDTO
 import com.natife.streaming.data.dto.matchprofile.MatchInfoDTO
 import com.natife.streaming.data.dto.matchprofile.MatchProfileDTO
 import com.natife.streaming.data.dto.player.PlayerDTO
+import com.natife.streaming.data.dto.register.RegisterDTO
+import com.natife.streaming.data.dto.register.RequestRegister
 import com.natife.streaming.data.dto.search.SearchResultDTO
 import com.natife.streaming.data.dto.sports.SportsDTO
 import com.natife.streaming.data.dto.team.TeamDTO
@@ -26,14 +28,22 @@ interface MainApi {
 
     @POST("data")
     suspend fun login(@Body body: BaseRequest<RequestLogin>): LoginDTO
+
+    @POST("data")
+    suspend fun makeRegister(@Body body: BaseRequest<RequestRegister>): RegisterDTO
+
     @POST("data")
     suspend fun getProfile(@Body body: BaseRequest<EmptyRequest>): AccountDTO
+
     @POST("data")
     suspend fun getMatches(@Body body: BaseRequest<MatchRequest>): MatchesDTO
+
     @POST("data")
     suspend fun getSports(@Body body: BaseRequest<EmptyRequest>): SportsDTO
+
     @POST("data")
     suspend fun getMatchProfile(@Body body: BaseRequest<MatchProfileRequest>): MatchProfileDTO
+
     @POST("data")
     suspend fun getTournamentList(@Body body: BaseRequest<TournamentsRequest>): TournamentListDTO
     @POST("data")
