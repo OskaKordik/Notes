@@ -17,6 +17,7 @@
         android:required="false" />
 
     <application
+        android:windowSoftInputMode="adjustResize"
         android:allowBackup="true"
         android:name=".App"
         android:icon="@mipmap/ic_launcher"

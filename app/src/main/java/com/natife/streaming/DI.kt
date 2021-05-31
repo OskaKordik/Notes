@@ -71,7 +71,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 val viewModelModule = module {
     viewModel { EmptyViewModel() }
     viewModel<LoginViewModel> { LoginViewModelImpl(get(), get(), get(), get()) }//new
-    viewModel<RegisterViewModel> { RegisterViewModelImpl(get(), get(), get(), get()) }//new
+    viewModel<RegisterViewModel> { RegisterViewModelImpl(get(), get(), get(), get(), get()) }//new
     viewModel<MypreferencesViewModel> {
         MypreferencesViewModelImpl(
             get(),

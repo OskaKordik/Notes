@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="243dp"
+    android:focusable="true"
+    android:layout_height="243dp"
+    android:padding="10dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="213dp"
+        android:layout_height="213dp"
+        android:background="@drawable/item_background"
+        android:duplicateParentState="true"
+        android:focusable="true"
+        android:padding="2dp">
+
+
+        <ImageView
+            android:id="@+id/match_imageView"
+            android:layout_width="0dp"
+            android:layout_height="123dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+        <TextView
+            android:id="@+id/alert_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/time_background"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp"
+            android:textAppearance="@style/TextAppearance.StreamingTheme.Headline6"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="22:30" />
+        <!--            android:background="@drawable/alert_background"/>-->
+
+
+        <TextView
+            android:id="@+id/first_team_textView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.StreamingTheme.Headline6"
+            app:layout_constraintEnd_toStartOf="@+id/first_team_score_textView"
+            app:layout_constraintStart_toStartOf="@+id/guidelineStart"
+            app:layout_constraintTop_toBottomOf="@+id/match_imageView"
+            tools:text="Orlando" />
+
+        <TextView
+            android:id="@+id/first_team_score_textView"
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            tools:text="5"
+            android:maxLines="1"
+            android:textAlignment="textEnd"
+            android:textAppearance="@style/TextAppearance.StreamingTheme.Headline6"
+            app:layout_constraintBaseline_toBaselineOf="@+id/first_team_textView"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineEnd" />
+
+        <TextView
+            android:id="@+id/second_team_textView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.StreamingTheme.Headline6"
+            app:layout_constraintEnd_toStartOf="@+id/second_team_score_textView"
+            app:layout_constraintStart_toStartOf="@+id/guidelineStart"
+            app:layout_constraintTop_toBottomOf="@+id/first_team_textView" />
+
+        <TextView
+            android:id="@+id/second_team_score_textView"
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            android:text="6"
+            android:textAlignment="textEnd"
+            android:textAppearance="@style/TextAppearance.StreamingTheme.Headline6"
+            android:maxLines="1"
+            app:layout_constraintBaseline_toBaselineOf="@+id/second_team_textView"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineEnd" />
+
+        <ImageView
+            android:id="@+id/type_of_game_image_l"
+            android:layout_width="wrap_content"
+            android:layout_height="11dp"
+            app:layout_constraintBottom_toBottomOf="@+id/flag_of_command_country_image_l"
+            app:layout_constraintStart_toStartOf="@+id/guidelineStart"
+            app:layout_constraintTop_toTopOf="@+id/flag_of_command_country_image_l"
+            app:srcCompat="@drawable/ic_bool_new"
+            tools:ignore="contentDescription" />
+
+        <ImageView
+            android:id="@+id/flag_of_command_country_image_l"
+            android:layout_width="22dp"
+            android:layout_height="11dp"
+            android:layout_marginStart="8dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="@+id/country_name_text_l"
+            app:layout_constraintStart_toEndOf="@+id/type_of_game_image_l"
+            app:layout_constraintTop_toTopOf="@+id/country_name_text_l"
+            app:srcCompat="@drawable/ic_flag_new"
+            tools:ignore="contentDescription" />
+
+        <TextView
+            android:id="@+id/country_name_text_l"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:duplicateParentState="true"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.StreamingTheme.Body2"
+            android:textColor="@color/button_text_b_w_state_new"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/flag_of_command_country_image_l"
+            app:layout_constraintTop_toBottomOf="@+id/second_team_textView"
+            tools:text="Россия" />
+
+        <ImageView
+            android:id="@+id/favorite_imageView"
+            android:layout_width="7dp"
+            android:layout_height="7dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/country_name_text_l"
+            app:layout_constraintStart_toEndOf="@+id/country_name_text_l"
+            app:layout_constraintTop_toTopOf="@+id/country_name_text_l"
+            app:srcCompat="@drawable/ic_favorites" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="8dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="8dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

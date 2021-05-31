@@ -10,7 +10,6 @@
     <color name="white40">#66FFFFFF</color>
     <color name="gray">#3F3F3F</color>
     <color name="text_gray">#7A7A7A</color>
-    <color name="alert_red">#CC0000</color>
     <color name="text_accent">#F1903B</color>
 
     <color name="dialog_gray">#5C5C5C</color>
@@ -34,4 +33,6 @@
     <color name="black_transparent_30">#4d000000</color>
     <color name="black_transparent_40">#66000000</color>
     <color name="manatee">#929497</color>
+    <color name="alert_red">#CC0000</color>
+    <color name="gray_400">#666666</color>
 </resources>

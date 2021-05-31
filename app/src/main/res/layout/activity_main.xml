@@ -148,7 +148,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/topLayout"
         app:layout_goneMarginTop="0dp"
-        app:srcCompat="@drawable/ic_background" />
+        app:srcCompat="@drawable/home_background" />
 
 
     <com.natife.streaming.custom.SideMenu
