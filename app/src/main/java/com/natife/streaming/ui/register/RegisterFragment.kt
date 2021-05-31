@@ -20,7 +20,7 @@ class RegisterFragment : BaseFragment<RegisterViewModel>() {
 
         loginTextField.editText?.requestFocus()
 
-        loginTextField.editText?.doOnTextChanged { text, _, _, count ->
+        loginTextField.editText?.doOnTextChanged { text, start, _, count ->
             with(loginTextField) {
 //                setEndIconDrawable(R.drawable.ic_done)
 //                setEndIconTintList(
@@ -35,7 +35,8 @@ class RegisterFragment : BaseFragment<RegisterViewModel>() {
                     isEndIconVisible =
                         text.isNotEmpty() && text.matches(Patterns.EMAIL_ADDRESS.toRegex())
                 }
-                hint = if (count > 0) null else context.resources.getString(R.string.enter_login)
+                hint =
+                    if (start + count > 0) null else context.resources.getString(R.string.enter_login)
                 isErrorEnabled = false
             }
             registerButton.isEnabled = !text?.trim().isNullOrEmpty()
@@ -60,16 +61,13 @@ class RegisterFragment : BaseFragment<RegisterViewModel>() {
                 }
             }
 
-        passwordTextField.editText?.doOnTextChanged { text, _, _, count ->
-
-            text_input_error.text =
-                if (count > 0) null else resources.getString(R.string.enter_password)
+        passwordTextField.editText?.doOnTextChanged { text, start, _, count ->
+            if (start + count > 0) text_input_error.text = null
 
             with(passwordTextField) {
                 isErrorEnabled = false
-                if (count > 0) {
-                    hint = null
-                }
+                hint =
+                    if (start + count > 0) null else context.resources.getString(R.string.enter_password)
             }
             registerButton.isEnabled = !text?.trim().isNullOrEmpty()
                     && !loginTextField.editText?.text?.trim().isNullOrEmpty()
@@ -107,12 +105,5 @@ class RegisterFragment : BaseFragment<RegisterViewModel>() {
                     passwordTextField.requestFocus()
                 })
         }
-//        registerButton.setOnClickListener {
-//            viewModel.userRegistration(
-//                lang = resources.getString(R.string.lang),
-//                email = "youdin.alexey.natife@gmail.com",
-//                password = "fghjYdJty4573",
-//                onError = {})
-//        }
     }
 }

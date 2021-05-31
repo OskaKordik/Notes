@@ -26,7 +26,7 @@ class LoginFragment : BaseFragment<LoginViewModel>() {
         loginTextField.editText?.requestFocus()
 
 
-        loginTextField.editText?.doOnTextChanged { text, _, _, count ->
+        loginTextField.editText?.doOnTextChanged { text, start, _, count ->
             with(loginTextField) {
 //                setEndIconDrawable(R.drawable.ic_done)
 //                setEndIconTintList(
@@ -41,7 +41,8 @@ class LoginFragment : BaseFragment<LoginViewModel>() {
                     isEndIconVisible =
                         text.isNotEmpty() && text.matches(Patterns.EMAIL_ADDRESS.toRegex())
                 }
-                hint = if (count > 0) null else context.resources.getString(R.string.enter_login)
+                hint =
+                    if (start + count > 0) null else context.resources.getString(R.string.enter_login)
                 isErrorEnabled = false
             }
             loging_button.isEnabled = !text?.trim().isNullOrEmpty()
@@ -66,13 +67,12 @@ class LoginFragment : BaseFragment<LoginViewModel>() {
                 }
             }
 
-        passwordTextField.editText?.doOnTextChanged { text, _, _, count ->
-            if (count > 0) text_input_error.text = null
+        passwordTextField.editText?.doOnTextChanged { text, start, _, count ->
+            if (start + count > 0) text_input_error.text = null
             with(passwordTextField) {
                 isErrorEnabled = false
-                if (count > 0) {
-                    hint = null
-                }
+                hint =
+                    if (start + count > 0) null else context.resources.getString(R.string.enter_password)
             }
             loging_button.isEnabled = !text?.trim().isNullOrEmpty()
                     && !loginTextField.editText?.text?.trim().isNullOrEmpty()
