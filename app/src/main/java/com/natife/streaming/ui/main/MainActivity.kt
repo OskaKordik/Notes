@@ -33,9 +33,9 @@ class MainActivity : BaseActivity<MainViewModel>() {
 
         mainMenu.setRouter(router)
         mainMenu.activity = this
-        subscribe(viewModel.name) {
-            mainMenu.setProfile(it)
-        }
+//        subscribe(viewModel.name) {
+        mainMenu.setProfile(resources.getString(R.string.account))
+//        }
         subscribe(viewModel.date) {
             data_text.text =
                 it.toDisplay(resources.getString(R.string.lang)).capitalize(Locale.getDefault())

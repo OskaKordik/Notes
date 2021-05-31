@@ -2,24 +2,23 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="243dp"
+    android:layout_width="match_parent"
     android:focusable="true"
     android:layout_height="243dp"
     android:padding="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="213dp"
-        android:layout_height="213dp"
+        android:layout_width="match_parent"
+        android:layout_height="215dp"
         android:background="@drawable/item_background"
         android:duplicateParentState="true"
-        android:focusable="true"
-        android:padding="2dp">
+        android:focusable="true">
 
 
         <ImageView
             android:id="@+id/match_imageView"
             android:layout_width="0dp"
-            android:layout_height="123dp"
+            android:layout_height="128dp"
             android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -103,34 +102,36 @@
             android:layout_height="11dp"
             android:layout_marginStart="8dp"
             android:scaleType="centerCrop"
-            app:layout_constraintBottom_toBottomOf="@+id/country_name_text_l"
+            app:layout_constraintBottom_toBottomOf="@+id/tournament_name_text"
             app:layout_constraintStart_toEndOf="@+id/type_of_game_image_l"
-            app:layout_constraintTop_toTopOf="@+id/country_name_text_l"
+            app:layout_constraintTop_toTopOf="@+id/tournament_name_text"
             app:srcCompat="@drawable/ic_flag_new"
             tools:ignore="contentDescription" />
 
         <TextView
-            android:id="@+id/country_name_text_l"
+            android:id="@+id/tournament_name_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:duplicateParentState="true"
-            android:maxLines="1"
+            android:maxLength="20"
             android:textAppearance="@style/TextAppearance.StreamingTheme.Body2"
             android:textColor="@color/button_text_b_w_state_new"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/flag_of_command_country_image_l"
             app:layout_constraintTop_toBottomOf="@+id/second_team_textView"
-            tools:text="Россия" />
+            tools:text="Россияd" />
 
         <ImageView
             android:id="@+id/favorite_imageView"
             android:layout_width="7dp"
             android:layout_height="7dp"
             android:layout_marginStart="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/country_name_text_l"
-            app:layout_constraintStart_toEndOf="@+id/country_name_text_l"
-            app:layout_constraintTop_toTopOf="@+id/country_name_text_l"
+            app:layout_constraintBottom_toBottomOf="@+id/tournament_name_text"
+            app:layout_constraintEnd_toStartOf="@+id/guidelineEnd"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/tournament_name_text"
+            app:layout_constraintTop_toTopOf="@+id/tournament_name_text"
             app:srcCompat="@drawable/ic_favorites" />
 
         <androidx.constraintlayout.widget.Guideline

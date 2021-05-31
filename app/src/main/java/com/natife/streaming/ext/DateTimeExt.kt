@@ -30,6 +30,11 @@ fun Date.toDisplay(lang: String): String {
     return sdf.format(this)
 }
 
+fun Date.toDisplay3(lang: String): String {
+    val sdf = SimpleDateFormat("HH:mm", Locale(lang))
+    return sdf.format(this)
+}
+
 fun Date.toDisplay2(): String {
     val sdf = SimpleDateFormat("dd.MM.yyyy HH:mm", Locale("ru"))//TODO multilang
     return sdf.format(this)

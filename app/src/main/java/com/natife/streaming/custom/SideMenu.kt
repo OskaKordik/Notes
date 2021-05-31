@@ -113,7 +113,7 @@ class SideMenu @JvmOverloads constructor(
     }
 
     fun setProfile(name: String) {
-        accountText.text = name
+        accountText.text = if (name.isEmpty()) "User" else name
     }
 
     fun setRouter(router: Router?) {

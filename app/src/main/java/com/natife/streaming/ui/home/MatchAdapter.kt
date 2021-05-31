@@ -5,30 +5,28 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseListAdapter
-import com.natife.streaming.base.BasePagedListAdapter
 import com.natife.streaming.data.match.Match
-import timber.log.Timber
 
-class MatchAdapter: BaseListAdapter<Match, MatchViewHolder>(MatchDiffUtil()) {
+class MatchAdapter : BaseListAdapter<Match, MatchViewHolderNew>(MatchDiffUtil()) {
 
-    var onBind: ((Int)->Unit)? = null
-    var onClick: ((Match)->Unit)? = null
+    var onBind: ((Int) -> Unit)? = null
+    var onClick: ((Match) -> Unit)? = null
     private var FOCUSE_FIRST_TIME = true
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MatchViewHolder {
-        return MatchViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_match, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MatchViewHolderNew {
+        return MatchViewHolderNew(
+            LayoutInflater.from(parent.context).inflate(R.layout.item_match_new, parent, false)
         )
     }
 
-    override fun onBindViewHolder(holder: MatchViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MatchViewHolderNew, position: Int) {
         super.onBindViewHolder(holder, position)
-        if (FOCUSE_FIRST_TIME && position == 0){
+        if (FOCUSE_FIRST_TIME && position == 0) {
             holder.itemView.requestFocus()
             FOCUSE_FIRST_TIME = false
         }
-        if (position> itemCount-20)
-        onBind?.invoke(position)
+        if (position > itemCount - 20)
+            onBind?.invoke(position)
         holder.itemView.setOnClickListener {
             onClick?.invoke(currentList[position])
         }

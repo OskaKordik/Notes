@@ -17,7 +17,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -162,9 +161,10 @@ class HomeViewModelImpl(
             collect(matchUseCase.list){
                 dataSource = it
                 val filtered = filterLive(dataSource)
-                Timber.e("HKUHIUH ${list.value}")
-                Timber.e("HKUHIUH1 ${filtered}")
-                list.value = filtered
+//                Timber.e("HKUHIUH ${list.value}")
+//                Timber.e("HKUHIUH1 ${filtered}")
+//                list.value = filtered
+                list.value = it
             }
         }
         val sport = settingsPrefs.getSport()

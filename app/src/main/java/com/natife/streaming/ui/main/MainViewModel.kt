@@ -20,7 +20,7 @@ class MainViewModel(
     private val settingsPrefs: SettingsPrefs,
     private val localSqlDataSourse: LocalSqlDataSourse,
 ) : BaseViewModel() {
-    val name = MutableLiveData<String>()
+//    val name = MutableLiveData<String>()
     val date = MutableLiveData<Date>()
     val settings = MutableLiveData<GlobalSettings>()
     fun back() {
@@ -36,12 +36,12 @@ class MainViewModel(
                 router.navigate(R.id.action_global_nav_auth)
             }
         }
-        launch {
-            collect(authPrefs.getProfileFlow()) {
-
-                name.value = "${it?.firstName ?: ""} ${it?.lastName ?: ""}"
-            }
-        }
+//        launch {
+//            collect(authPrefs.getProfileFlow()) {
+//
+//                name.value = "${it?.firstName ?: ""} ${it?.lastName ?: ""}"
+//            }
+//        }
 
         val date = settingsPrefs.getDate()
         if (date == null) {
