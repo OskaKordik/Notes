@@ -59,7 +59,7 @@ class LoginUseCaseImpl(
                         val answer = api.getTranslate(
                             BaseRequest(
                                 procedure = API_TRANSLATE, params = TranslateRequest(
-                                    language = settingsPrefs.getLanguage(),
+                                    language = context.resources.getString(R.string.lang),
                                     listOf(context.resources.getInteger(R.integer.wrong_login_or_password))
                                 )
                             )
@@ -75,7 +75,7 @@ class LoginUseCaseImpl(
                         val answer = api.getTranslate(
                             BaseRequest(
                                 procedure = API_TRANSLATE, params = TranslateRequest(
-                                    language = settingsPrefs.getLanguage(),
+                                    language = context.resources.getString(R.string.lang),
                                     listOf(context.resources.getInteger(R.integer.email_is_blocked))
                                 )
                             )

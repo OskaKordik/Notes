@@ -17,7 +17,6 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingVertical="4dp"
-        android:paddingStart="14dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,7 +27,7 @@
             android:layout_width="17dp"
             android:layout_height="17dp"
             android:scaleType="centerInside"
-            android:layout_marginStart="17dp"
+            android:layout_marginStart="19dp"
             android:duplicateParentState="true"
             android:src="@drawable/ic_search"
             app:tint="@color/menu_item_state_icon" />
@@ -46,7 +45,6 @@
     </LinearLayout>
 
     <LinearLayout
-        android:paddingStart="14dp"
         android:id="@+id/menuHome"
         android:layout_width="0dp"
         android:layout_height="40dp"
@@ -65,7 +63,7 @@
             android:layout_width="17dp"
             android:layout_height="17dp"
             android:scaleType="centerInside"
-            android:layout_marginStart="17dp"
+            android:layout_marginStart="19dp"
             android:duplicateParentState="true"
             android:src="@drawable/ic_home"
             app:tint="@color/menu_item_state_icon" />
@@ -83,7 +81,6 @@
     </LinearLayout>
 
     <LinearLayout
-        android:paddingStart="14dp"
         android:id="@+id/menuFavorites"
         android:layout_width="0dp"
         android:layout_height="40dp"
@@ -102,7 +99,7 @@
             android:layout_width="17dp"
             android:layout_height="17dp"
             android:scaleType="centerInside"
-            android:layout_marginStart="17dp"
+            android:layout_marginStart="19dp"
             android:duplicateParentState="true"
             android:src="@drawable/ic_favorites"
             app:tint="@color/menu_item_state_icon" />
@@ -128,7 +125,6 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingVertical="4dp"
-        android:paddingStart="14dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/menuFavorites">
@@ -137,7 +133,7 @@
             android:id="@+id/accountIcon"
             android:layout_width="17dp"
             android:layout_height="17dp"
-            android:layout_marginStart="17dp"
+            android:layout_marginStart="19dp"
             android:scaleType="centerInside"
             android:duplicateParentState="true"
             android:src="@drawable/ic_account_icon_new"

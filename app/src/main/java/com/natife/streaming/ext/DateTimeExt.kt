@@ -1,15 +1,17 @@
 package com.natife.streaming.ext
 
 import timber.log.Timber
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.temporal.WeekFields
 import java.util.*
 
-val Date.dayOfWeek: String get() =
-    SimpleDateFormat("EEEE", Locale("ru", "RU")).format(this)
+///new
+fun Date.dayOfWeek(lang: String): String {
+    return SimpleDateFormat("EEEE", Locale(lang)).format(this)
+}
+
 
 fun Date.toRequest(): String {
     val sdf0 = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
@@ -22,10 +24,12 @@ fun String.fromResponse(): Date {
     return sdf.parse(this)
 }
 
-fun Date.toDisplay(): String {
-    val sdf = SimpleDateFormat("dd MMMM yyyy", Locale("ru"))//TODO multilang
+//new
+fun Date.toDisplay(lang: String): String {
+    val sdf = SimpleDateFormat("dd MMMM", Locale(lang))
     return sdf.format(this)
 }
+
 fun Date.toDisplay2(): String {
     val sdf = SimpleDateFormat("dd.MM.yyyy HH:mm", Locale("ru"))//TODO multilang
     return sdf.format(this)
@@ -41,7 +45,7 @@ fun Long.toDate(): Date {
 }
 
 fun Long.toDisplayTime(): String {
-    val miliss = this*1000
+    val miliss = this * 1000
     val sdf1 = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
     val sdf2 = SimpleDateFormat("mm:ss", Locale.getDefault())
     val sdf3 = SimpleDateFormat("ss", Locale.getDefault())

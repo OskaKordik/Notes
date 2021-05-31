@@ -5,9 +5,11 @@ import android.util.Patterns
 import android.view.View
 import androidx.core.widget.doOnTextChanged
 import com.google.android.material.textfield.TextInputLayout
-import com.natife.streaming.BuildConfig
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseFragment
+import com.natife.streaming.ext.dp
+import com.natife.streaming.ext.hideKeyboard
+import com.natife.streaming.ext.showKeyboard
 import kotlinx.android.synthetic.main.fragment_login_new.*
 
 
@@ -17,21 +19,18 @@ class LoginFragment : BaseFragment<LoginViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        (activity as MainActivity).logo.isVisible = false
-        if (BuildConfig.DEBUG) {
-            loginTextField.editText?.setText("tv2@test.com")
-            passwordTextField.editText?.setText("tv2")
-        }
+//        if (BuildConfig.DEBUG) {
+//            loginTextField.editText?.setText("tv2@test.com")
+//            passwordTextField.editText?.setText("tv2")
+//        }
 
-//        loginTextField.addTextChangedListener(textWatcher)
-//        passwordText.addTextChangedListener(textWatcher)
-        loginTextField.editText?.doOnTextChanged { text, _, _, _ ->
+        loginTextField.editText?.doOnTextChanged { text, _, _, count ->
             with(loginTextField) {
-                setEndIconDrawable(R.drawable.ic_chack)
+                setEndIconDrawable(R.drawable.ic_done)
                 setEndIconTintList(
                     android.content.res.ColorStateList.valueOf(
                         requireActivity().getColor(
-                            R.color.blue_500
+                            R.color.hint_text_field_color
                         )
                     )
                 )
@@ -40,6 +39,7 @@ class LoginFragment : BaseFragment<LoginViewModel>() {
                     isEndIconVisible =
                         text.isNotEmpty() && text.matches(Patterns.EMAIL_ADDRESS.toRegex())
                 }
+                hint = if (count > 0) null else context.resources.getString(R.string.enter_login)
                 isErrorEnabled = false
             }
             loging_button.isEnabled = !text?.trim().isNullOrEmpty()
@@ -47,61 +47,73 @@ class LoginFragment : BaseFragment<LoginViewModel>() {
                     && text?.matches(Patterns.EMAIL_ADDRESS.toRegex()) ?: false
         }
 
-        passwordTextField.editText?.doOnTextChanged { text, _, _, _ ->
+        loginTextField.editText?.onFocusChangeListener =
+            View.OnFocusChangeListener { editText, hasFocus ->
+                if (hasFocus) {
+                    editText.showKeyboard()
+                    with(loginTextField.layoutParams) {
+                        width = 346.dp
+                        loginTextField.layoutParams = this
+                    }
+                } else {
+                    editText.hideKeyboard()
+                    with(loginTextField.layoutParams) {
+                        width = 305.dp
+                        loginTextField.layoutParams = this
+                    }
+                }
+            }
+
+        passwordTextField.editText?.doOnTextChanged { text, _, _, count ->
+
+            text_input_error.text =
+                if (count > 0) null else resources.getString(R.string.enter_password)
+
             with(passwordTextField) {
                 isErrorEnabled = false
+                hint = if (count > 0) {
+                    null
+                } else context.resources.getString(R.string.enter_password)
             }
             loging_button.isEnabled = !text?.trim().isNullOrEmpty()
                     && !loginTextField.editText?.text?.trim().isNullOrEmpty()
                     && loginTextField.editText?.text?.matches(Patterns.EMAIL_ADDRESS.toRegex()) ?: false
         }
 
+        // Если к компоненту перешёл фокус
+        passwordTextField.editText?.onFocusChangeListener =
+            View.OnFocusChangeListener { editText, hasFocus ->
+                if (hasFocus) {
+                    editText.showKeyboard()
+                    with(passwordTextField.layoutParams) {
+                        width = 346.dp
+                        passwordTextField.layoutParams = this
+                    }
+                } else {
+                    editText.hideKeyboard()
+                    with(passwordTextField.layoutParams) {
+                        width = 305.dp
+                        passwordTextField.layoutParams = this
+                    }
+                }
+            }
+
         loging_button.setOnClickListener {
-            viewModel.login(email = loginTextField.editText?.text?.trim().toString(),
+            viewModel.login(
+                email = loginTextField.editText?.text?.trim().toString(),
                 password = passwordTextField.editText?.text?.trim().toString(),
                 onError = {
-//                    emailUnderline.setBackgroundResource(R.color.light_red)
-//                    passwordUnderline.setBackgroundResource(R.color.light_red)
-//                    errorText.text = it
-//                    errorText.isVisible = true
-                    with(passwordTextField) {
-                        error = it
-                        isErrorEnabled = true
+                    with(text_input_error) {
+                        text = it
                     }
                     loging_button.isEnabled = false
+                    passwordTextField.requestFocus()
                 })
         }
+
         register_button.setOnClickListener {
             viewModel.onRegisterClicked()
         }
 
-
-//        keyboardView.attachInput(emailTextInput, passwordTextInput)
-
-//      TODO  goToSiteText.movementMethod = LinkMovementMethod.getInstance()
     }
-
-
-//    private val textWatcher = object : TextWatcher {
-//        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-//
-//        }
-//
-//        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-//
-//        }
-//
-//        override fun afterTextChanged(s: Editable?) {
-//            emailUnderline.setBackgroundResource(R.color.white)
-//            passwordUnderline.setBackgroundResource(R.color.white)
-//            errorText.isVisible = false
-//            emailText.error = null
-//            passwordText.error = null
-//            buttonLogin.isEnabled =
-//                !emailText.text?.trim().isNullOrEmpty()
-//                        && !passwordText.text?.trim().isNullOrEmpty()
-//                        && Patterns.EMAIL_ADDRESS.matcher(emailText.text.toString()).matches()
-//        }
-//    }
-
 }

@@ -53,7 +53,7 @@
 
     <style name="TextAppearance.StreamingTheme.Caption" parent="TextAppearance.MaterialComponents.Caption">
         <item name="android:textSize">12sp</item>
-        <item name="android:textColor">?attr/colorOnPrimary</item>
+        <item name="android:textColor">@color/light_red</item>
     </style>
 
     <style name="TextAppearance.StreamingTheme.Overline" parent="TextAppearance.MaterialComponents.Overline">

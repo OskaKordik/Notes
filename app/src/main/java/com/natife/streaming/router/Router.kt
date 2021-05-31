@@ -38,6 +38,7 @@ class Router : KoinComponent {
         Timber.e(" ${activity} $navHostId ")
         try {
             val activity = activity ?: return
+            activity.hideKeyboard()
             val navHostId = navHostId ?: return
             val navController = activity.findNavController(navHostId)
 
@@ -52,6 +53,7 @@ class Router : KoinComponent {
     fun navigate(navDirections: NavDirections) {
         try {
             val activity = activity ?: return
+            activity.hideKeyboard()
             val navHostId = navHostId ?: return
             val navController = activity.findNavController(navHostId)
             navController.navigate(navDirections)

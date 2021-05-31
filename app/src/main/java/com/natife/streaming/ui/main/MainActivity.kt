@@ -37,9 +37,11 @@ class MainActivity : BaseActivity<MainViewModel>() {
             mainMenu.setProfile(it)
         }
         subscribe(viewModel.date) {
-            data_text.text = it.toDisplay().toUpperCase()
+            data_text.text =
+                it.toDisplay(resources.getString(R.string.lang)).capitalize(Locale.getDefault())
             if (it != null) {
-                day_of_weektext_text.text = it.dayOfWeek.capitalize(Locale.getDefault())
+                day_of_weektext_text.text =
+                    it.dayOfWeek(resources.getString(R.string.lang)).capitalize(Locale.getDefault())
             }
         }
         subscribe(viewModel.settings) {

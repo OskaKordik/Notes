@@ -60,10 +60,40 @@
         <item name="iconTint">@color/button_text_b_w_state_new</item>
     </style>
 
-    <style name="LoginTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+    <style name="ThemeOverlay.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="materialThemeOverlay">@style/TextInputLayout</item>
+    </style>
+
+    <style name="TextInputLayout">
+        <item name="colorPrimary">@color/black</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="colorOnSurface">@color/black</item>
+
+        <item name="colorControlNormal">@color/black</item>
+        <item name="colorControlActivated">@color/black</item>
+        <item name="colorControlHighlight">@color/black</item>
+
+        <!--        <item name="colorError">@color/light_red</item>-->
+        <!--        <item name="helperText">@color/light_red</item>-->
+    </style>
+
+
+    <style name="TextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <!--        <item name="android:paddingHorizontal">10dp</item>-->
+        <!--        <item name="android:paddingVertical">4dp</item>-->
+        <item name="android:background">@drawable/background_text_filld_w_large</item>
+        <item name="android:textColor">@color/calendar_day_of_week_state</item>
+    </style>
+
+
+    <style name="LoginTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="materialThemeOverlay">@style/ThemeOverlay.TextInputLayout</item>
         <!--        <item name="shapeAppearance">@style/ShapeAppearance.StreamingTheme.SmallComponent</item>-->
         <item name="hintTextColor">?attr/colorOnSurface</item>
+        <item name="boxCollapsedPaddingTop">0dp</item>
+
         <item name="shapeAppearance">@style/ShapeAppearance.StreamingTheme.LargeComponent</item>
     </style>
 
@@ -74,21 +104,5 @@
         <item name="colorError">@color/light_red</item>
     </style>
 
-    <style name="ThemeOverlay.TextInputLayout" parent="">
-        <item name="colorPrimary">@color/black</item>
-        <item name="android:textColor">@color/black</item>
-        <item name="colorOnSurface">@color/black</item>
-        <item name="editTextStyle">@style/Widget.MaterialComponents.TextInputLayout.FilledBox</item>
-        <item name="textAppearanceSubtitle1">@style/TextAppearance.StreamingTheme.Subtitle1</item>
-        <!--        <item name="textAppearanceCaption">@style/TextAppearance.StreamingTheme.Caption</item>-->
-    </style>
 
-    <style name="TextStyle">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingHorizontal">10dp</item>
-        <item name="android:paddingVertical">4dp</item>
-        <item name="android:background">@drawable/background_text_filld_w_large</item>
-        <item name="android:textColor">@color/calendar_day_of_week_state</item>
-    </style>
 </resources>
