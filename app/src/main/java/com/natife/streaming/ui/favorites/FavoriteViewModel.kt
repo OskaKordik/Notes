@@ -1,11 +1,12 @@
 package com.natife.streaming.ui.favorites
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.natife.streaming.R
 import com.natife.streaming.base.BaseViewModel
 import com.natife.streaming.data.match.Match
 import com.natife.streaming.data.search.SearchResult
-import com.natife.streaming.datasource.MatchParams
 import com.natife.streaming.router.Router
 import com.natife.streaming.usecase.FavoritesUseCase
 import com.natife.streaming.usecase.MatchUseCase
@@ -15,7 +16,7 @@ import kotlinx.coroutines.sync.withLock
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicBoolean
 
-abstract class FavoriteViewModel: BaseViewModel() {
+abstract class FavoriteViewModel : BaseViewModel() {
 
 
     abstract val favorites: LiveData<List<FavoritesAdapter.Favorite>>
@@ -24,13 +25,19 @@ abstract class FavoriteViewModel: BaseViewModel() {
     abstract fun loadNext()
     abstract fun goToProfile(match: Match)
 }
-class FavoriteViewModelImpl(private val favoritesUseCase: FavoritesUseCase, private val matchUseCase: MatchUseCase,private val router: Router): FavoriteViewModel() {
+
+class FavoriteViewModelImpl(
+    private val favoritesUseCase: FavoritesUseCase,
+    private val matchUseCase: MatchUseCase,
+    private val router: Router,
+    private val context: Context
+) : FavoriteViewModel() {
 
 
     override val favorites = MutableLiveData<List<FavoritesAdapter.Favorite>>()
     override val matches = MutableLiveData<List<Match>>()
     private var process: Job? = null
-    private var selected: SearchResult?=null
+    private var selected: SearchResult? = null
 
     override fun onFavoriteSelected(searchResult: SearchResult) {
         Timber.e("$searchResult")
@@ -92,7 +99,7 @@ class FavoriteViewModelImpl(private val favoritesUseCase: FavoritesUseCase, priv
             val groups = _favorites.groupBy { it.type }
             val list = mutableListOf<FavoritesAdapter.Favorite>()
             list.add(SearchResult(
-                name = "Все",
+                name = context.resources.getString(R.string.all),
                 sport = -1,
                 gender = -1,
                 image = "",
@@ -103,15 +110,15 @@ class FavoriteViewModelImpl(private val favoritesUseCase: FavoritesUseCase, priv
             groups.keys.forEach {
                 when(it){
                     SearchResult.Type.PLAYER -> {
-                        list.add(FavoritesAdapter.Header(text = "Игроки"))
+                        list.add(FavoritesAdapter.Header(text = context.resources.getString(R.string.players)))
                         list.addAll(groups[it]?.toList() ?: listOf())
                     }
                     SearchResult.Type.TEAM -> {
-                        list.add(FavoritesAdapter.Header(text = "Команды"))
+                        list.add(FavoritesAdapter.Header(text = context.resources.getString(R.string.commands)))
                         list.addAll(groups[it]?.toList() ?: listOf())
                     }
                     SearchResult.Type.TOURNAMENT -> {
-                        list.add(FavoritesAdapter.Header(text = "Турниры"))
+                        list.add(FavoritesAdapter.Header(text = context.resources.getString(R.string.tournaments)))
                         list.addAll(groups[it]?.toList() ?: listOf())
                     }
                 }

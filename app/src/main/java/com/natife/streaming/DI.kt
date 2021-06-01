@@ -111,7 +111,7 @@ val viewModelModule = module {
             get()
         )
     }
-    viewModel<CalendarViewModel> { CalendarViewModelImpl(get()) }
+    viewModel<CalendarViewModel> { CalendarViewModelImpl(get(), get()) }
     viewModel<MatchProfileViewModel> { (args: MatchProfileFragmentArgs) ->
         MatchProfileViewModelImpl(
             args.sportId,
@@ -150,7 +150,7 @@ val viewModelModule = module {
     viewModel<GenderViewModel> { GenderViewModelImpl(get(), get(), get()) }
     viewModel<PlayerViewModel> { (args: PlayerFragmentArgs) -> PlayerViewModelImpl(args.setup) }
     viewModel<SettingsViewModel> { SettingsViewModelImpl(get(), get(), get(), get(), get(), get()) }
-    viewModel<FavoriteViewModel> { FavoriteViewModelImpl(get(), get(), get()) }
+    viewModel<FavoriteViewModel> { FavoriteViewModelImpl(get(), get(), get(), get()) }
 }
 
 val prefsModule = module {
@@ -213,7 +213,7 @@ val useCaseModule = module {
     factory<CardUseCase> { CardUseCaseImpl() }
     factory<SubscriptionUseCase> { SubscriptionUseCaseImpl() }
     factory<SaveDeleteFavoriteUseCase> { SaveDeleteFavoriteUseCaseImpl(get()) }
-    factory<FavoritesUseCase> { FavoritesUseCaseImpl(get()) }
+    factory<FavoritesUseCase> { FavoritesUseCaseImpl(get(), get()) }
     factory<TeamUseCase> { TeamUseCaseImpl(get(), get()) }
     factory<PlayerUseCase> { PlayerUseCaseImpl(get(), get()) }
     factory<ProfileUseCase> { ProfileUseCaseImpl(get(), get()) }

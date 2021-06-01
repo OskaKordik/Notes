@@ -149,7 +149,15 @@ class MainActivity : BaseActivity<MainViewModel>() {
 
     private fun visibilityDesttination(destination: NavDestination) =
         when (destination.id) {
-            R.id.loginFragment, R.id.registerFragment, R.id.mypreferencesFragment, R.id.action_global_preferences, R.id.matchProfileFragment, R.id.matchSettingsFragment, R.id.watchFragment, R.id.playerFragment -> false
+            R.id.loginFragment,
+            R.id.registerFragment,
+            R.id.mypreferencesFragment,
+            R.id.action_global_preferences,
+            R.id.matchProfileFragment,
+            R.id.matchSettingsFragment,
+            R.id.watchFragment,
+            R.id.playerFragment,
+            R.id.calendarFragment -> false
             else -> true
         }
 
