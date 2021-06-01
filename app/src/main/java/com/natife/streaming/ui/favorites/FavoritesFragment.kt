@@ -5,20 +5,14 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.leanback.widget.BaseGridView
-import androidx.leanback.widget.VerticalGridView
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseFragment
 import com.natife.streaming.ext.subscribe
 import com.natife.streaming.ui.home.MatchAdapter
-import com.natife.streaming.ui.main.MainActivity
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_favorites.*
-import kotlinx.android.synthetic.main.fragment_home.*
 
 class FavoritesFragment : BaseFragment<FavoriteViewModel>() {
-    override fun getLayoutRes(): Int = R.layout.fragment_favorites
+    override fun getLayoutRes(): Int = R.layout.fragment_favorites_new
 
     private val matchAdapter: MatchAdapter by lazy {
         MatchAdapter()
