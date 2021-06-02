@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/gray">
+    android:layout_height="match_parent">
+
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
@@ -17,64 +17,50 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonType"
+        style="@style/materialButtonStile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="18dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/title"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="Команда" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonGender"
+        style="@style/materialButtonStile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="18dp"
+        app:layout_constraintEnd_toStartOf="@+id/buttonType"
+        app:layout_constraintTop_toTopOf="@+id/buttonType"
+        tools:text="Мужчины" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonSport"
+        style="@style/materialButtonStile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="18dp"
+        app:layout_constraintEnd_toStartOf="@+id/buttonGender"
+        app:layout_constraintTop_toTopOf="@+id/buttonType"
+        tools:text="Баскетбол" />
+
+
     <EditText
-        android:drawableLeft="@drawable/ic_search_gray"
         android:id="@+id/searchInput"
-        android:layout_width="400dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:background="@drawable/oval_white_simple"
         android:lines="1"
         android:paddingHorizontal="10dp"
         android:paddingVertical="5dp"
         android:singleLine="true"
-        android:background="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-    <com.natife.streaming.custom.keyboard.KeyboardView
-        android:id="@+id/keyboardView2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:focusable="false"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchInput"
-        app:layout_constraintEnd_toEndOf="parent"/>
-    <LinearLayout
-        android:gravity="center"
-        android:id="@+id/liner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/keyboardView2">
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/buttonType"
-            android:text="Игроки"
-            android:textSize="16sp"
-            android:textAllCaps="false"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <com.google.android.material.button.MaterialButton
-            android:text="Команды"
-            android:textSize="16sp"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:id="@+id/buttonGender"
-            android:textAllCaps="false"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <com.google.android.material.button.MaterialButton
-            android:text="Турниры"
-            android:textSize="16sp"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:id="@+id/buttonSport"
-            android:textAllCaps="false"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-
-
+        app:layout_constraintEnd_toStartOf="@+id/guideline5"
+        app:layout_constraintStart_toStartOf="@+id/guideline6"
+        app:layout_constraintTop_toBottomOf="@+id/title"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/searchRecycler"
@@ -86,10 +72,58 @@
         android:scrollbarThumbVertical="@color/dialog_gray"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline5"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/liner"
-        tools:listitem="@layout/item_search"/>
+        app:layout_constraintTop_toBottomOf="@+id/searchInput" />
+
+    <com.natife.streaming.custom.keyboard.KeyboardView
+        android:id="@+id/keyboardView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:focusable="false"
+        app:layout_constraintStart_toStartOf="@+id/guideline5"
+        app:layout_constraintTop_toTopOf="@+id/searchInput" />
+
+    <ImageView
+        android:id="@+id/voiceInput"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/voice_input_background"
+        android:focusable="true"
+        android:src="@drawable/ic_voice_input"
+        app:layout_constraintBottom_toBottomOf="@+id/keyboardView2"
+        app:layout_constraintStart_toEndOf="@+id/keyboardView2"
+        app:layout_constraintTop_toTopOf="@+id/keyboardView2"
+        app:tint="@color/search_color" />
+
+    <ProgressBar
+        android:id="@+id/speechProgress"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:progressTint="@color/light_red"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/voiceInput"
+        app:layout_constraintEnd_toEndOf="@+id/voiceInput"
+        app:layout_constraintStart_toStartOf="@+id/voiceInput"
+        app:layout_constraintTop_toTopOf="@+id/voiceInput" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.35" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="20dp" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
