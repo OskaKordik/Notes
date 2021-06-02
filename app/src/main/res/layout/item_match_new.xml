@@ -94,7 +94,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/flag_of_command_country_image_l"
             app:layout_constraintStart_toStartOf="@+id/guidelineStart"
             app:layout_constraintTop_toTopOf="@+id/flag_of_command_country_image_l"
-            app:srcCompat="@drawable/ic_bool_new"
+            app:srcCompat="@drawable/ic_footbool_new"
             tools:ignore="contentDescription" />
 
         <ImageView

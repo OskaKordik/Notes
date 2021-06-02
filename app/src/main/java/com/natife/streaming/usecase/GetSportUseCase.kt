@@ -9,18 +9,16 @@ import com.natife.streaming.data.request.EmptyRequest
 import com.natife.streaming.data.request.TranslateRequest
 import com.natife.streaming.db.LocalSqlDataSourse
 import com.natife.streaming.db.entity.PreferencesSport
-import com.natife.streaming.preferenses.SettingsPrefs
 import kotlinx.coroutines.flow.Flow
 
 //new
 interface GetSportUseCase {
     suspend fun execute(reload: Boolean = false): List<Sport>
-    fun getAllUserPreferencesInSport(): Flow<List<PreferencesSport>>
+    fun getAllUserPreferencesInSportFlow(): Flow<List<PreferencesSport>>
 }
 
 class GetSportUseCaseImpl(
     private val api: MainApi,
-    private val prefs: SettingsPrefs,
     private val localSqlDataSourse: LocalSqlDataSourse
 ) :
     GetSportUseCase {
@@ -32,7 +30,7 @@ class GetSportUseCaseImpl(
             val sports = api.getSports(BaseRequest(procedure = API_SPORTS, params = EmptyRequest()))
             val translates =
                 api.getTranslate(BaseRequest(procedure = API_TRANSLATE, params = TranslateRequest(
-                    language = prefs.getLanguage(),
+                    language = "ru",
                     params = sports.map { it.lexic }
                 )))
             catche = sports.map {
@@ -42,6 +40,6 @@ class GetSportUseCaseImpl(
         return catche!!
     }
 
-    override fun getAllUserPreferencesInSport(): Flow<List<PreferencesSport>> =
+    override fun getAllUserPreferencesInSportFlow(): Flow<List<PreferencesSport>> =
         localSqlDataSourse.getPreferencesSport()
 }

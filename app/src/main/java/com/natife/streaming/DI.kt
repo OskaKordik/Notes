@@ -39,8 +39,8 @@ import com.natife.streaming.ui.login.LoginViewModel
 import com.natife.streaming.ui.login.LoginViewModelImpl
 import com.natife.streaming.ui.main.MainViewModel
 import com.natife.streaming.ui.matchprofile.*
-import com.natife.streaming.ui.mypreferences.MypreferencesViewModel
-import com.natife.streaming.ui.mypreferences.MypreferencesViewModelImpl
+import com.natife.streaming.ui.mypreferences.UserPreferencesViewModel
+import com.natife.streaming.ui.mypreferences.UserPreferencesViewModelImpl
 import com.natife.streaming.ui.player.PlayerFragmentArgs
 import com.natife.streaming.ui.player.PlayerViewModel
 import com.natife.streaming.ui.player.PlayerViewModelImpl
@@ -72,8 +72,8 @@ val viewModelModule = module {
     viewModel { EmptyViewModel() }
     viewModel<LoginViewModel> { LoginViewModelImpl(get(), get(), get(), get()) }//new
     viewModel<RegisterViewModel> { RegisterViewModelImpl(get(), get(), get(), get(), get()) }//new
-    viewModel<MypreferencesViewModel> {
-        MypreferencesViewModelImpl(
+    viewModel<UserPreferencesViewModel> {
+        UserPreferencesViewModelImpl(
             get(),
             get(),
             get(),
@@ -192,8 +192,8 @@ val useCaseModule = module {
     single<MatchUseCase> { MatchUseCaseImpl(get(), get()) }
     factory<GetShowScoreUseCase> { GetShowScoreUseCaseImpl() }
     factory<SaveShowScoreUseCase> { SaveShowScoreUseCaseImpl(get()) }
-    single<GetSportUseCase> { GetSportUseCaseImpl(get(), get(), get()) }
-    factory<SaveSportUseCase> { SaveSportUseCaseImpl(get(),get()) }
+    single<GetSportUseCase> { GetSportUseCaseImpl(get(), get()) }
+    factory<SaveSportUseCase> { SaveSportUseCaseImpl(get(), get()) }
     factory<GetLiveUseCase> { GetLiveUseCaseImpl() }
     factory<SaveLiveUseCase> { SaveLiveUseCaseImpl(get()) }
     factory<MatchProfileUseCase> { MatchProfileUseCaseImpl(get()) }

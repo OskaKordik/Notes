@@ -9,9 +9,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.natife.streaming.data.dto.tournament.TournamentTranslateDTO
 import com.natife.streaming.databinding.ItemListOfTournamentsNewBinding
+import com.natife.streaming.ext.bindFlagImage
+import com.natife.streaming.ext.bindSportImage
 
 class TournamentAdapter(private val onListOfTournamentsClickListener: ((tournament: TournamentTranslateDTO, isCheck: Boolean) -> Unit)) :
-    ListAdapter <TournamentTranslateDTO, TournamentAdapter.TournamentAdapterViewHolder>(
+    ListAdapter<TournamentTranslateDTO, TournamentAdapter.TournamentAdapterViewHolder>(
         TournamentAdapterDiffUtilCallback()
     ) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TournamentAdapterViewHolder {
@@ -33,6 +35,8 @@ class TournamentAdapter(private val onListOfTournamentsClickListener: ((tourname
         private val binding: ItemListOfTournamentsNewBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(data: TournamentTranslateDTO) {
+            binding.flagOfCommandCountryImageL.bindFlagImage(data.country.id)
+            binding.typeOfGameImageL.bindSportImage(data.sport)
             binding.nameOfComandTextL.text = data.name
             binding.countryNameTextL.text = data.country.name
             binding.checkImage.visibility = if (data.isCheck) View.VISIBLE else View.GONE
@@ -40,10 +44,10 @@ class TournamentAdapter(private val onListOfTournamentsClickListener: ((tourname
                 when (binding.checkImage.isVisible) {
                     true -> {
                         binding.checkImage.isVisible = false
-                        onListOfTournamentsClickListener.invoke(data,false)
+                        onListOfTournamentsClickListener.invoke(data, false)
                     }
                     false -> {
-                        binding.checkImage.isVisible= true
+                        binding.checkImage.isVisible = true
                         onListOfTournamentsClickListener.invoke(data, true)
                     }
                 }
@@ -58,7 +62,7 @@ class TournamentAdapterDiffUtilCallback :
         oldItem: TournamentTranslateDTO,
         newItem: TournamentTranslateDTO
     ): Boolean {
-        return oldItem.id == newItem.id
+        return oldItem.id == newItem.id && oldItem.sport == newItem.sport && oldItem.tournamentType == newItem.tournamentType
     }
 
     override fun areContentsTheSame(

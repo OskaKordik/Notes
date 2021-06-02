@@ -28,24 +28,25 @@
 
     <ImageView
         android:id="@+id/type_of_game_image_l"
-        android:layout_width="wrap_content"
+        android:layout_width="11dp"
         android:layout_height="11dp"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="@+id/flag_of_command_country_image_l"
         app:layout_constraintStart_toStartOf="@+id/name_of_comand_text_l"
         app:layout_constraintTop_toTopOf="@+id/flag_of_command_country_image_l"
-        app:srcCompat="@drawable/ic_bool_new"
+        tools:srcCompat="@drawable/ic_footbool_new"
         tools:ignore="contentDescription" />
 
     <ImageView
         android:id="@+id/flag_of_command_country_image_l"
-        android:layout_width="22dp"
-        android:layout_height="11dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:layout_marginStart="8dp"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="@+id/country_name_text_l"
         app:layout_constraintStart_toEndOf="@+id/type_of_game_image_l"
         app:layout_constraintTop_toTopOf="@+id/country_name_text_l"
-        app:srcCompat="@drawable/ic_flag_new"
+        tools:srcCompat="@drawable/ic_flag_new"
         tools:ignore="contentDescription" />
 
     <TextView
@@ -53,6 +54,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="5dp"
         android:layout_marginBottom="6dp"
         android:duplicateParentState="true"
         android:maxLines="1"

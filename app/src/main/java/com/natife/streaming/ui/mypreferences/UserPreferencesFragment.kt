@@ -7,12 +7,13 @@ import androidx.activity.addCallback
 import androidx.leanback.widget.BaseGridView
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseFragment
+import com.natife.streaming.db.entity.toTournamentTranslateDTO
 import com.natife.streaming.ext.predominantColorToGradient
 import com.natife.streaming.ext.subscribe
 import kotlinx.android.synthetic.main.fragment_mypreferences_new.*
 
 
-class MypreferencesFragment : BaseFragment<MypreferencesViewModel>() {
+class UserPreferencesFragment : BaseFragment<UserPreferencesViewModel>() {
     override fun getLayoutRes() = R.layout.fragment_mypreferences_new
     private val sportAdapter by lazy {
         SportsAdapter(viewModel::kindOfSportClicked)
@@ -41,11 +42,16 @@ class MypreferencesFragment : BaseFragment<MypreferencesViewModel>() {
         listOfTournamentsRecyclerView.setNumColumns(2)
         listOfTournamentsRecyclerView.focusScrollStrategy = BaseGridView.FOCUS_SCROLL_ITEM
 
-        subscribe(viewModel.combineSportsAndPreferencesInSportData) {
+        subscribe(viewModel.allUserPreferencesInSport) {
+            viewModel.getTranslateLexic(it, resources.getString(R.string.lang))
+        }
+
+        subscribe(viewModel.sportsList) {
             sportAdapter.submitList(it)
         }
-        subscribe(viewModel.combineTournamentAndPreferencesTournamentData) {
-            tournamentAdapter.submitList(it)
+
+        subscribe(viewModel.allUserPreferencesInTournament) {
+            tournamentAdapter.submitList(it.toTournamentTranslateDTO(resources.getString(R.string.lang)))
         }
 
         search_button.setOnClickListener {

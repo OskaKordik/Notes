@@ -3,7 +3,10 @@ package com.natife.streaming.db
 import com.natife.streaming.data.dto.sports.SportTranslateDTO
 import com.natife.streaming.data.dto.tournament.TournamentTranslateDTO
 import com.natife.streaming.db.dao.LocalSqlTasksDao
-import com.natife.streaming.db.entity.*
+import com.natife.streaming.db.entity.GlobalSettings
+import com.natife.streaming.db.entity.Lang
+import com.natife.streaming.db.entity.PreferencesSport
+import com.natife.streaming.db.entity.PreferencesTournament
 import com.natife.streaming.preferenses.AuthPrefs
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -105,49 +108,83 @@ class LocalSqlDataSourse internal constructor(
 
 
     // PreferencesSports
-    suspend fun setPreferencesSport(sport: SportTranslateDTO) {
+    suspend fun setPreferencesSportList(sport: List<PreferencesSport>) {
         withContext(ioDispatcher) {
-            localSqlTasksDao.setPreferencesSport(sport.toPreferencesSport())
+            localSqlTasksDao.setPreferencesSportList(sport)
         }
     }
+
+    suspend fun setCheckedSport(sport: SportTranslateDTO, isCheck: Boolean) {
+        withContext(ioDispatcher) {
+            localSqlTasksDao.getPreferencesSportByID(sport.id).copy(isChack = isCheck).let {
+                updatePreferencesSport(it)
+            }
+        }
+    }
+
+//    suspend fun setPreferencesSport(sport: SportTranslateDTO) {
+//        withContext(ioDispatcher) {
+//            localSqlTasksDao.setPreferencesSport(sport.toPreferencesSport())
+//        }
+//    }
 
     fun getPreferencesSport(): Flow<List<PreferencesSport>> =
         localSqlTasksDao.getPreferencesSport()
 
 
-    suspend fun updatePreferencesSport(sport: SportTranslateDTO) {
+    suspend fun updatePreferencesSport(sport: PreferencesSport) {
         withContext(ioDispatcher) {
-            localSqlTasksDao.updatePreferencesSport(sport.toPreferencesSport())
+            localSqlTasksDao.updatePreferencesSport(sport)
         }
     }
+//
+//    suspend fun deletePreferencesSport(sport: SportTranslateDTO) {
+//        withContext(ioDispatcher) {
+//            localSqlTasksDao.deletePreferencesSport(sport.toPreferencesSport())
+//        }
+//    }
 
-    suspend fun deletePreferencesSport(sport: SportTranslateDTO) {
-        withContext(ioDispatcher) {
-            localSqlTasksDao.deletePreferencesSport(sport.toPreferencesSport())
-        }
-    }
 
     //PreferencesTournament
-    suspend fun setPreferencesTournament(tournament: TournamentTranslateDTO) {
+    suspend fun setlistPreferencesTournament(tournamentList: List<PreferencesTournament>) {
         withContext(ioDispatcher) {
-            localSqlTasksDao.setPreferencesTournament(tournament.toPreferencesTournament())
+            localSqlTasksDao.setListPreferencesTournament(tournamentList)
         }
     }
 
-    fun getPreferencesTournament(): Flow<List<PreferencesTournament>> =
-        localSqlTasksDao.getPreferencesTournament()
-
-    suspend fun updatePreferencesTournament(tournament: TournamentTranslateDTO) {
+    suspend fun setCheckedTournament(tournamentId: TournamentTranslateDTO, isCheck: Boolean) {
         withContext(ioDispatcher) {
-            localSqlTasksDao.updatePreferencesTournament(tournament.toPreferencesTournament())
+            localSqlTasksDao.getPreferencesTournamentByID(
+                tournamentId.id,
+                tournamentId.sport,
+                tournamentId.tournamentType
+            ).copy(isPreferred = isCheck)
+                .let {
+                    updatePreferencesTournament(it)
+                }
         }
     }
 
-    suspend fun deletePreferencesTournament(tournament: TournamentTranslateDTO) {
+    suspend fun getPreferencesTournament(): List<PreferencesTournament> =
         withContext(ioDispatcher) {
-            localSqlTasksDao.deletePreferencesTournament(tournament.toPreferencesTournament())
+            localSqlTasksDao.getPreferencesTournament()
+        }
+
+
+    fun getPreferencesTournamentFlow(): Flow<List<PreferencesTournament>> =
+        localSqlTasksDao.getPreferencesTournamentFlow()
+
+    suspend fun updatePreferencesTournament(tournament: PreferencesTournament) {
+        withContext(ioDispatcher) {
+            localSqlTasksDao.updatePreferencesTournament(tournament)
         }
     }
+
+//    suspend fun deletePreferencesTournament(tournament: TournamentTranslateDTO) {
+//        withContext(ioDispatcher) {
+//            localSqlTasksDao.deletePreferencesTournament(tournament.toPreferencesTournament())
+//        }
+//    }
 }
 
 
