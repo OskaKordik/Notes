@@ -111,37 +111,37 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
 
 
         var lastAction = KeyEvent.ACTION_UP
-        voiceInput.setOnKeyListener { _, keyCode, event ->
-            Timber.e("$event")
-            if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
-                context?.withAllPermissions(Manifest.permission.RECORD_AUDIO) {
-                    when (event.action) {
-                        KeyEvent.ACTION_DOWN -> {
-                            if (lastAction != KeyEvent.ACTION_DOWN) {
-                                speechRecognizer.startListening(speechRecognizerIntent)
-                                lastAction = KeyEvent.ACTION_DOWN
-                            }
-                        }
-                        KeyEvent.ACTION_UP -> {
-                            //speechRecognizer.stopListening()
-                            lastAction = KeyEvent.ACTION_UP
-                        }
-                    }
-                }
-
-            }
-            return@setOnKeyListener false
-        }
-
-        speechRecognizer.doOnResult({
-            searchInput.setText(it)
-        }, {
-            speechProgress.isVisible = true
-        }, {
-            speechProgress.isVisible = false
-        }, {
-            showToast("Can not recognize")
-        })
+//        voiceInput.setOnKeyListener { _, keyCode, event ->
+//            Timber.e("$event")
+//            if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
+//                context?.withAllPermissions(Manifest.permission.RECORD_AUDIO) {
+//                    when (event.action) {
+//                        KeyEvent.ACTION_DOWN -> {
+//                            if (lastAction != KeyEvent.ACTION_DOWN) {
+//                                speechRecognizer.startListening(speechRecognizerIntent)
+//                                lastAction = KeyEvent.ACTION_DOWN
+//                            }
+//                        }
+//                        KeyEvent.ACTION_UP -> {
+//                            //speechRecognizer.stopListening()
+//                            lastAction = KeyEvent.ACTION_UP
+//                        }
+//                    }
+//                }
+//
+//            }
+//            return@setOnKeyListener false
+//        }
+//
+//        speechRecognizer.doOnResult({
+//            searchInput.setText(it)
+//        }, {
+//            speechProgress.isVisible = true
+//        }, {
+//            speechProgress.isVisible = false
+//        }, {
+//            showToast("Can not recognize")
+//        })
 
         buttonType.setOnClickListener {
             viewModel.showTypeDialog()
