@@ -116,7 +116,7 @@ class LocalSqlDataSourse internal constructor(
 
     suspend fun setCheckedSport(sport: SportTranslateDTO) {
         withContext(ioDispatcher) {
-            localSqlTasksDao.getPreferencesSportByID(sport.id).let { preferencesSport ->
+            localSqlTasksDao.getPreferencesSportByID(sport.id)?.let { preferencesSport ->
                 updatePreferencesSport(preferencesSport.copy(isChack = !preferencesSport.isChack))
                 if (!preferencesSport.isChack) {
                     getPreferencesTournamentBySport(preferencesSport.id).map {
@@ -135,27 +135,31 @@ class LocalSqlDataSourse internal constructor(
         }
     }
 
-//    suspend fun setPreferencesSport(sport: SportTranslateDTO) {
-//        withContext(ioDispatcher) {
-//            localSqlTasksDao.setPreferencesSport(sport.toPreferencesSport())
-//        }
-//    }
+    suspend fun getPreferencesSportByID(sport: PreferencesSport) =
+        withContext(ioDispatcher) {
+            localSqlTasksDao.getPreferencesSportByID(sport.id)
+        }
 
-    fun getPreferencesSport(): Flow<List<PreferencesSport>> =
-        localSqlTasksDao.getPreferencesSport()
+    fun getPreferencesSportFlow(): Flow<List<PreferencesSport>> =
+        localSqlTasksDao.getPreferencesSportFlow()
 
+
+    suspend fun getPreferencesSport(): List<PreferencesSport> =
+        withContext(ioDispatcher) {
+            localSqlTasksDao.getPreferencesSport()
+        }
 
     suspend fun updatePreferencesSport(sport: PreferencesSport) {
         withContext(ioDispatcher) {
             localSqlTasksDao.updatePreferencesSport(sport)
         }
     }
-//
-//    suspend fun deletePreferencesSport(sport: SportTranslateDTO) {
-//        withContext(ioDispatcher) {
-//            localSqlTasksDao.deletePreferencesSport(sport.toPreferencesSport())
-//        }
-//    }
+
+    suspend fun deletePreferencesSport(sport: PreferencesSport) {
+        withContext(ioDispatcher) {
+            localSqlTasksDao.deletePreferencesSport(sport)
+        }
+    }
 
 
     //PreferencesTournament
@@ -203,11 +207,11 @@ class LocalSqlDataSourse internal constructor(
         }
     }
 
-//    suspend fun deletePreferencesTournament(tournament: TournamentTranslateDTO) {
-//        withContext(ioDispatcher) {
-//            localSqlTasksDao.deletePreferencesTournament(tournament.toPreferencesTournament())
-//        }
-//    }
+    suspend fun deletePreferencesTournament(tournament: PreferencesTournament) {
+        withContext(ioDispatcher) {
+            localSqlTasksDao.deletePreferencesTournament(tournament)
+        }
+    }
 }
 
 

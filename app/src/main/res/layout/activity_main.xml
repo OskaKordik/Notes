@@ -30,19 +30,19 @@
             tools:ignore="contentDescription" />
 
         <com.google.android.material.button.MaterialButton
-            android:checkable="true"
             android:id="@+id/score_button"
             style="@style/ButtonTransparentNoOutlined"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
-            tools:text="@string/hide_account"
+            android:checkable="true"
             app:icon="@drawable/button_score"
             app:iconGravity="start"
             app:iconSize="15dp"
             app:layout_constraintBottom_toBottomOf="@+id/preferences_button"
             app:layout_constraintEnd_toStartOf="@+id/preferences_button"
-            app:layout_constraintTop_toTopOf="@+id/preferences_button" />
+            app:layout_constraintTop_toTopOf="@+id/preferences_button"
+            tools:text="@string/hide_account" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/preferences_button"
@@ -63,14 +63,11 @@
             style="@style/ButtonTransparentNoOutlined"
             android:layout_width="30dp"
             android:layout_height="0dp"
-            android:layout_marginEnd="25dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="7dp"
             app:icon="@drawable/ic_left"
             app:iconGravity="start"
             app:iconSize="18dp"
             app:layout_constraintBottom_toBottomOf="@+id/day_of_weektext_text"
-            app:layout_constraintEnd_toStartOf="@id/barrier_left"
+            app:layout_constraintEnd_toStartOf="@id/guideline_left"
             app:layout_constraintTop_toTopOf="@+id/data_text" />
 
         <com.google.android.material.button.MaterialButton
@@ -78,18 +75,18 @@
             style="@style/ButtonTransparentNoOutlined"
             android:layout_width="30dp"
             android:layout_height="0dp"
-            android:layout_marginStart="25dp"
             android:paddingLeft="7dp"
             android:paddingRight="5dp"
             app:icon="@drawable/ic_right"
             app:iconGravity="start"
             app:iconSize="18dp"
             app:layout_constraintBottom_toBottomOf="@+id/day_of_weektext_text"
-            app:layout_constraintStart_toStartOf="@id/barrier_right"
+            app:layout_constraintStart_toStartOf="@id/guideline_right"
             app:layout_constraintTop_toTopOf="@+id/data_text" />
 
         <TextView
             android:id="@+id/data_text"
+            style="@style/TextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/background_text_filld_w_large"
@@ -100,19 +97,18 @@
             app:layout_constraintBottom_toTopOf="@+id/day_of_weektext_text"
             app:layout_constraintEnd_toEndOf="@+id/day_of_weektext_text"
             app:layout_constraintStart_toStartOf="@+id/day_of_weektext_text"
-            tools:text="19 января"
-            style="@style/TextStyle" />
+            tools:text="19 января" />
 
         <TextView
             android:id="@+id/day_of_weektext_text"
+            style="@style/TextStyle"
+            android:paddingHorizontal="18dp"
             android:textAppearance="@style/TextAppearance.StreamingTheme.Headline3"
             app:layout_constraintBottom_toTopOf="@id/guideline"
             app:layout_constraintEnd_toEndOf="parent"
-            android:paddingHorizontal="18dp"
             app:layout_constraintStart_toStartOf="parent"
             tools:layout_editor_absoluteY="31dp"
-            tools:text="Понедельник"
-            style="@style/TextStyle" />
+            tools:text="Понедельник" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline"
@@ -121,20 +117,20 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_begin="108dp" />
 
-
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/barrier_left"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:barrierDirection="left"
-            app:constraint_referenced_ids="data_text,day_of_weektext_text" />
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="362dp" />
 
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/barrier_right"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:barrierDirection="right"
-            app:constraint_referenced_ids="data_text,day_of_weektext_text" />
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="362dp" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -180,4 +176,5 @@
             app:navGraph="@navigation/nav_main"
             tools:layout="@layout/fragment_home" />
     </androidx.leanback.widget.BrowseFrameLayout>
+
 </androidx.constraintlayout.motion.widget.MotionLayout>

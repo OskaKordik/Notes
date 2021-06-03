@@ -41,5 +41,5 @@ class GetSportUseCaseImpl(
     }
 
     override fun getAllUserPreferencesInSportFlow(): Flow<List<PreferencesSport>> =
-        localSqlDataSourse.getPreferencesSport()
+        localSqlDataSourse.getPreferencesSportFlow()
 }

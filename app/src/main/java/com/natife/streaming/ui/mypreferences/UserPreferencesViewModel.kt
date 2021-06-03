@@ -14,8 +14,6 @@ import com.natife.streaming.data.request.BaseRequest
 import com.natife.streaming.data.request.TranslateRequest
 import com.natife.streaming.db.entity.PreferencesSport
 import com.natife.streaming.db.entity.PreferencesTournament
-import com.natife.streaming.db.entity.toPreferencesSport
-import com.natife.streaming.db.entity.toPreferencesTournament
 import com.natife.streaming.router.Router
 import com.natife.streaming.usecase.GetSportUseCase
 import com.natife.streaming.usecase.GetTournamentUseCase
@@ -32,7 +30,6 @@ abstract class UserPreferencesViewModel : BaseViewModel() {
     abstract fun findClicked()
     abstract fun kindOfSportClicked(sport: SportTranslateDTO)
     abstract fun listOfTournamentsClicked(tournament: TournamentTranslateDTO)
-    abstract fun initialization(lang: String)
     abstract fun onFinishClicked()
     abstract fun getTranslateLexic(sports: List<PreferencesSport>, lang: String)
 }
@@ -43,7 +40,7 @@ class UserPreferencesViewModelImpl(
     private val tournamentUseCase: GetTournamentUseCase,
     private val saveTournamentUseCase: SaveTournamentUseCase,
     private val api: MainApi,
-    private val router: Router,
+    private val router: Router
 ) : UserPreferencesViewModel() {
     override val sportsList = MutableLiveData<List<SportTranslateDTO>>()
     override val allUserPreferencesInTournament: LiveData<List<PreferencesTournament>>
@@ -71,13 +68,6 @@ class UserPreferencesViewModelImpl(
         }
     }
 
-    override fun initialization(lang: String) {
-        launch {
-            initListOfSports(lang)
-            initListOfTournament(lang)
-        }
-    }
-
     override fun onFinishClicked() {
         router.navigate(R.id.action_global_nav_main)
     }
@@ -89,21 +79,11 @@ class UserPreferencesViewModelImpl(
         launch {
             val translates =
                 api.getTranslate(BaseRequest(procedure = API_TRANSLATE, params = TranslateRequest(
-                    language = lang.toUpperCase(),
+                    language = lang.toLowerCase(),
                     params = sports.map { it.lexic }
                 )))
             sportsList.value = sports.toSportTranslateDTO(translates)
         }
-    }
-
-    private suspend fun initListOfTournament(lang: String) {
-        val preferencesTournament = tournamentUseCase.execute().toPreferencesTournament()
-        saveTournamentUseCase.saveTournamentList(preferencesTournament)
-    }
-
-    private suspend fun initListOfSports(lang: String) {
-        val sports = getSportUseCase.execute().toPreferencesSport()
-        saveSportUseCase.savePreferencesSportList(sports)
     }
 }
 

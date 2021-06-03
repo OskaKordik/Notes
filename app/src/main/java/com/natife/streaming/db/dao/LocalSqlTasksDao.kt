@@ -29,10 +29,13 @@ interface LocalSqlTasksDao {
     fun setPreferencesSportList(sport: List<PreferencesSport>)
 
     @Query("SELECT * FROM 'PreferencesSport'")
-    fun getPreferencesSport(): Flow<List<PreferencesSport>>
+    fun getPreferencesSportFlow(): Flow<List<PreferencesSport>>
+
+    @Query("SELECT * FROM 'PreferencesSport'")
+    fun getPreferencesSport(): List<PreferencesSport>
 
     @Query("SELECT * FROM 'PreferencesSport' WHERE id ==:id")
-    fun getPreferencesSportByID(id: Int): PreferencesSport
+    fun getPreferencesSportByID(id: Int): PreferencesSport?
 
     @Update
     fun updatePreferencesSport(sport: PreferencesSport)
