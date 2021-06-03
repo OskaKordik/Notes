@@ -11,7 +11,7 @@ interface SaveSportUseCase {
     suspend fun execute(sportId: Int)
 
     suspend fun savePreferencesSportList(list: List<PreferencesSport>)
-    suspend fun setSportCheckUncheck(sport: SportTranslateDTO, isCheck: Boolean)
+    suspend fun setSportCheckUncheck(sport: SportTranslateDTO)
 }
 
 class SaveSportUseCaseImpl(
@@ -26,8 +26,8 @@ class SaveSportUseCaseImpl(
     }
 
 
-    override suspend fun setSportCheckUncheck(sport: SportTranslateDTO, isCheck: Boolean) {
-        localSqlDataSourse.setCheckedSport(sport, isCheck)
+    override suspend fun setSportCheckUncheck(sport: SportTranslateDTO) {
+        localSqlDataSourse.setCheckedSport(sport)
     }
 
     override suspend fun savePreferencesSportList(list: List<PreferencesSport>) {

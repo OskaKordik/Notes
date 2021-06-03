@@ -9,7 +9,7 @@ interface SaveTournamentUseCase {
     @Deprecated("don't use")
     fun execute(tournamentId: Int)
 
-    suspend fun setTournamentCheckUncheck(tournament: TournamentTranslateDTO, isCheck: Boolean)
+    suspend fun setTournamentCheckUncheck(tournament: TournamentTranslateDTO)
     suspend fun saveTournamentList(list: List<PreferencesTournament>)
 
 }
@@ -24,10 +24,9 @@ class SaveTournamentUseCaseImpl(
     }
 
     override suspend fun setTournamentCheckUncheck(
-        tournament: TournamentTranslateDTO,
-        isCheck: Boolean
+        tournament: TournamentTranslateDTO
     ) {
-        localSqlDataSourse.setCheckedTournament(tournament, isCheck)
+        localSqlDataSourse.setCheckedTournament(tournament)
     }
 
     override suspend fun saveTournamentList(list: List<PreferencesTournament>) {

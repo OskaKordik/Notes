@@ -3,7 +3,6 @@ package com.natife.streaming.ui.mypreferences
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -12,7 +11,7 @@ import com.natife.streaming.databinding.ItemListOfTournamentsNewBinding
 import com.natife.streaming.ext.bindFlagImage
 import com.natife.streaming.ext.bindSportImage
 
-class TournamentAdapter(private val onListOfTournamentsClickListener: ((tournament: TournamentTranslateDTO, isCheck: Boolean) -> Unit)) :
+class TournamentAdapter(private val onListOfTournamentsClickListener: ((tournament: TournamentTranslateDTO) -> Unit)) :
     ListAdapter<TournamentTranslateDTO, TournamentAdapter.TournamentAdapterViewHolder>(
         TournamentAdapterDiffUtilCallback()
     ) {
@@ -41,16 +40,7 @@ class TournamentAdapter(private val onListOfTournamentsClickListener: ((tourname
             binding.countryNameTextL.text = data.country.name
             binding.checkImage.visibility = if (data.isCheck) View.VISIBLE else View.GONE
             itemView.setOnClickListener {
-                when (binding.checkImage.isVisible) {
-                    true -> {
-                        binding.checkImage.isVisible = false
-                        onListOfTournamentsClickListener.invoke(data, false)
-                    }
-                    false -> {
-                        binding.checkImage.isVisible = true
-                        onListOfTournamentsClickListener.invoke(data, true)
-                    }
-                }
+                onListOfTournamentsClickListener.invoke(data)
             }
         }
     }

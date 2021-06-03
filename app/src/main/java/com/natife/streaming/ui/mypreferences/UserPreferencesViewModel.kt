@@ -30,8 +30,8 @@ abstract class UserPreferencesViewModel : BaseViewModel() {
 
     abstract fun applyMypreferencesClicked()
     abstract fun findClicked()
-    abstract fun kindOfSportClicked(sport: SportTranslateDTO, isCheck: Boolean)
-    abstract fun listOfTournamentsClicked(tournament: TournamentTranslateDTO, isCheck: Boolean)
+    abstract fun kindOfSportClicked(sport: SportTranslateDTO)
+    abstract fun listOfTournamentsClicked(tournament: TournamentTranslateDTO)
     abstract fun initialization(lang: String)
     abstract fun onFinishClicked()
     abstract fun getTranslateLexic(sports: List<PreferencesSport>, lang: String)
@@ -59,22 +59,22 @@ class UserPreferencesViewModelImpl(
 //        TODO("Not yet implemented")
     }
 
-    override fun kindOfSportClicked(sport: SportTranslateDTO, isCheck: Boolean) {
+    override fun kindOfSportClicked(sport: SportTranslateDTO) {
         launch {
-            saveSportUseCase.setSportCheckUncheck(sport, isCheck)
+            saveSportUseCase.setSportCheckUncheck(sport)
         }
     }
 
-    override fun listOfTournamentsClicked(tournament: TournamentTranslateDTO, isCheck: Boolean) {
+    override fun listOfTournamentsClicked(tournament: TournamentTranslateDTO) {
         launch {
-            saveTournamentUseCase.setTournamentCheckUncheck(tournament, isCheck)
+            saveTournamentUseCase.setTournamentCheckUncheck(tournament)
         }
     }
 
     override fun initialization(lang: String) {
         launch {
-//            initListOfSports(lang)
-//            initListOfTournament(lang)
+            initListOfSports(lang)
+            initListOfTournament(lang)
         }
     }
 

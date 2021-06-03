@@ -3,14 +3,14 @@ package com.natife.streaming.ui.mypreferences
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.natife.streaming.data.dto.sports.SportTranslateDTO
 import com.natife.streaming.databinding.ItemKindsOfSportNewBinding
+
 //new
-class SportsAdapter(private val onKindOfSportClickListener: ((sport: SportTranslateDTO, isCheck: Boolean) -> Unit)) :
+class SportsAdapter(private val onKindOfSportClickListener: ((sport: SportTranslateDTO) -> Unit)) :
     ListAdapter<SportTranslateDTO, SportsAdapter.SportsAdapterViewHolder>(
         SportsAdapterDiffUtilCallback()
     ) {
@@ -32,20 +32,12 @@ class SportsAdapter(private val onKindOfSportClickListener: ((sport: SportTransl
             binding.sportNameText.text = data.text
             binding.checkImage.visibility = if (data.isCheck) View.VISIBLE else View.GONE
             itemView.setOnClickListener {
-                when (binding.checkImage.isVisible) {
-                    true -> {
-                        binding.checkImage.isVisible = false
-                        onKindOfSportClickListener.invoke(data,false)
-                    }
-                    false -> {
-                        binding.checkImage.isVisible= true
-                        onKindOfSportClickListener.invoke(data, true)
-                    }
-                }
+                onKindOfSportClickListener.invoke(data)
             }
         }
     }
 }
+
 
 class SportsAdapterDiffUtilCallback : DiffUtil.ItemCallback<SportTranslateDTO>() {
     override fun areItemsTheSame(oldItem: SportTranslateDTO, newItem: SportTranslateDTO): Boolean {

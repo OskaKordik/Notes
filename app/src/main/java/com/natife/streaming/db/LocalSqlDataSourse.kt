@@ -114,10 +114,23 @@ class LocalSqlDataSourse internal constructor(
         }
     }
 
-    suspend fun setCheckedSport(sport: SportTranslateDTO, isCheck: Boolean) {
+    suspend fun setCheckedSport(sport: SportTranslateDTO) {
         withContext(ioDispatcher) {
-            localSqlTasksDao.getPreferencesSportByID(sport.id).copy(isChack = isCheck).let {
-                updatePreferencesSport(it)
+            localSqlTasksDao.getPreferencesSportByID(sport.id).let { preferencesSport ->
+                updatePreferencesSport(preferencesSport.copy(isChack = !preferencesSport.isChack))
+                if (!preferencesSport.isChack) {
+                    getPreferencesTournamentBySport(preferencesSport.id).map {
+                        it.copy(isPreferred = true)
+                    }.let {
+                        updatePreferencesTournamentList(it)
+                    }
+                } else {
+                    getPreferencesTournamentBySport(preferencesSport.id).map {
+                        it.copy(isPreferred = false)
+                    }.let {
+                        updatePreferencesTournamentList(it)
+                    }
+                }
             }
         }
     }
@@ -152,22 +165,26 @@ class LocalSqlDataSourse internal constructor(
         }
     }
 
-    suspend fun setCheckedTournament(tournamentId: TournamentTranslateDTO, isCheck: Boolean) {
+    suspend fun setCheckedTournament(tournamentId: TournamentTranslateDTO) {
         withContext(ioDispatcher) {
-            localSqlTasksDao.getPreferencesTournamentByID(
+            val a = localSqlTasksDao.getPreferencesTournamentByID(
                 tournamentId.id,
                 tournamentId.sport,
                 tournamentId.tournamentType
-            ).copy(isPreferred = isCheck)
-                .let {
-                    updatePreferencesTournament(it)
-                }
+            ).let {
+                updatePreferencesTournament(it.copy(isPreferred = !it.isPreferred))
+            }
         }
     }
 
     suspend fun getPreferencesTournament(): List<PreferencesTournament> =
         withContext(ioDispatcher) {
             localSqlTasksDao.getPreferencesTournament()
+        }
+
+    suspend fun getPreferencesTournamentBySport(sportId: Int): List<PreferencesTournament> =
+        withContext(ioDispatcher) {
+            localSqlTasksDao.getPreferencesTournamentBySport(sportId)
         }
 
 
@@ -177,6 +194,12 @@ class LocalSqlDataSourse internal constructor(
     suspend fun updatePreferencesTournament(tournament: PreferencesTournament) {
         withContext(ioDispatcher) {
             localSqlTasksDao.updatePreferencesTournament(tournament)
+        }
+    }
+
+    suspend fun updatePreferencesTournamentList(tournament: List<PreferencesTournament>) {
+        withContext(ioDispatcher) {
+            localSqlTasksDao.updatePreferencesTournamentList(tournament)
         }
     }
 
