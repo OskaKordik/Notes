@@ -12,6 +12,7 @@ import com.natife.streaming.data.match.Tournament
 import com.natife.streaming.data.request.*
 import com.natife.streaming.datasource.MatchDataSourceFactory
 import com.natife.streaming.datasource.MatchParams
+import com.natife.streaming.db.LocalSqlDataSourse
 import com.natife.streaming.utils.ImageUrlBuilder
 import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.BufferOverflow
@@ -37,7 +38,8 @@ interface ProfileUseCase {
 
 class ProfileUseCaseImpl(
     private val matchDataSourceFactory: MatchDataSourceFactory,
-    private val api: MainApi
+    private val api: MainApi,
+    private val localSqlDataSourse: LocalSqlDataSourse
 ) : ProfileUseCase {
 
     private val _list =  MutableSharedFlow<List<Match>>(replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
@@ -109,6 +111,7 @@ class ProfileUseCaseImpl(
                 Match(
                     id = match.id,
                     sportId = match.sport ?: requestParams?.sportId ?: 0,
+                    countryId = match.countryId,
                     sportName = ""
                         ?: "",
                     date = match.date,
@@ -136,7 +139,8 @@ class ProfileUseCaseImpl(
                     ),
                     live = match.live,
                     storage = match.storage,
-                    subscribed = match.sub
+                    subscribed = match.sub,
+                    isShoveScore = localSqlDataSourse.getGlobalSettings()?.showScore ?: false
                 )
             }
             newList.addAll(preload?.toList() ?: emptyList() )
@@ -225,6 +229,7 @@ class ProfileUseCaseImpl(
                 Match(
                     id = match.id,
                     sportId = match.sport ?: requestParams?.sportId ?: 0,
+                    countryId = match.countryId,
                     sportName = sportTranslate[sports.find { it.id == match.sport }?.lexic.toString()]?.text
                         ?: "",
                     date = match.date,
@@ -252,7 +257,8 @@ class ProfileUseCaseImpl(
                     ),
                     live = match.live,
                     storage = match.storage,
-                    subscribed = match.sub
+                    subscribed = match.sub,
+                    isShoveScore = localSqlDataSourse.getGlobalSettings()?.showScore ?: false
                 )
             }
         }

@@ -7,6 +7,7 @@ import kotlinx.android.parcel.Parcelize
 data class Match(
     val id: Int,
     val sportId: Int,
+    val countryId: Int,
     val sportName: String,
     val date: String,
     val tournament: Tournament,
@@ -19,6 +20,7 @@ data class Match(
     val subscribed: Boolean,
     val access: Boolean,
     val image: String,
-    val placeholder: String
+    val placeholder: String,
+    val isShoveScore: Boolean
 ): Parcelable
 

@@ -57,11 +57,11 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
         applyAlpha(((activity as MainActivity).mainMotion as MotionLayout).progress)
 
 
-//        subscribe(viewModel.subOnly){
+//        subscribe(viewModel.subOnly){//+
 //            buttonLock.setImageResource(if (it){R.drawable.button_lock_red}else{R.drawable.button_lock})
 //        }
 
-//        subscribe(viewModel.date){
+//        subscribe(viewModel.date){//+
 //            dateText.text = it.toDisplay().toUpperCase()
 //        }
 
@@ -69,30 +69,30 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
             viewModel.toMatchProfile(it)
         }
 
-//        buttonScore.setOnClickListener {
+//        buttonScore.setOnClickListener {//+
 //            viewModel.showScoreDialog()
 //        }
-//        buttonSport.setOnClickListener {
+//        buttonSport.setOnClickListener {//+
 //            viewModel.showSportDialog()
 //        }
-//        buttonTourney.setOnClickListener {
+//        buttonTourney.setOnClickListener {//+
 //            viewModel.showTourneyDialog(adapter.currentList)
 //        }
-//        buttonLive.setOnClickListener {
+//        buttonLive.setOnClickListener {//+
 //            viewModel.showLiveDialog()
 //        }
-//        buttonLock.setOnClickListener {
+//        buttonLock.setOnClickListener {//+
 //            viewModel.subOnlyChange()
 //        }
 
 
-//        dateText.setOnClickListener {
+//        dateText.setOnClickListener {//+
 //            viewModel.toCalendar()
 //        }
-//        dateLeft.setOnClickListener {
+//        dateLeft.setOnClickListener {//+
 //            viewModel.previousDay()
 //        }
-//        dateRight.setOnClickListener {
+//        dateRight.setOnClickListener {//+
 //            viewModel.nextDay()
 //        }
 

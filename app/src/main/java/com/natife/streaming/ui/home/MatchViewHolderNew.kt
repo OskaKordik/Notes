@@ -5,16 +5,15 @@ import android.view.View
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseViewHolder
 import com.natife.streaming.data.match.Match
-import com.natife.streaming.ext.fromResponse
-import com.natife.streaming.ext.toDisplay3
-import com.natife.streaming.ext.url
+import com.natife.streaming.ext.*
 import kotlinx.android.synthetic.main.item_match_new.view.*
 
 open class MatchViewHolderNew(private val view: View) : BaseViewHolder<Match>(view) {
     @SuppressLint("UseCompatLoadingForDrawables")
     override fun onBind(data: Match) {
         itemView.match_imageView.url(data.image, data.placeholder)
-
+        itemView.flag_of_command_country_image_l.bindFlagImage(data.countryId)
+        itemView.type_of_game_image_l.bindSportImage(data.sportId)
         if (data.live) {
             itemView.alert_textView.text = view.resources.getString(R.string.live)
             itemView.alert_textView.background =
@@ -27,11 +26,23 @@ open class MatchViewHolderNew(private val view: View) : BaseViewHolder<Match>(vi
         }
 
         itemView.first_team_textView.text = data.team1.name
-        itemView.first_team_score_textView.text = data.team1.score.toString()
+        itemView.first_team_score_textView.text =
+            if (data.isShoveScore) data.team1.score.toString() else ""
 
         itemView.second_team_textView.text = data.team2.name
-        itemView.second_team_score_textView.text = data.team2.score.toString()
+        itemView.second_team_score_textView.text =
+            if (data.isShoveScore) data.team2.score.toString() else ""
 
         itemView.tournament_name_text.text = data.tournament.name
+
+        itemView.logo_first_team.bindTeamImage(data.sportId, data.team1.id)
+        itemView.logo_second_team.bindTeamImage(data.sportId, data.team2.id)
+        if (data.subscribed) {
+            itemView.paid_content_image.visibility = View.GONE
+        } else itemView.paid_content_image.visibility = View.VISIBLE
+
+//        if (!data.access) {
+//            itemView.messageContainer.addView(Alert(itemView.context))
+//        }
     }
 }

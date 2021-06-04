@@ -54,3 +54,19 @@ fun ImageView.bindSportImage(sport: Int) {
         .override(this.width, this.height)
         .into(this)
 }
+
+fun ImageView.bindTeamImage(sport: Int, teamId: Int) {
+    val (url, errorPlaseHolder) = when (sport) {
+        1 -> ("https://instatscout.com/images/teams/180/$teamId.png" to R.drawable.team_no_photo) //Футболл
+        2 -> ("https://hockey.instatscout.com/images/teams/180/$teamId.png" to R.drawable.team_no_photo)//Хокей
+        3 -> ("https://basketball.instatscout.com/images/teams/180/$teamId.png" to R.drawable.team_no_photo)//Баскетбол
+        else -> {
+            ("http://empty" to 0)
+        }
+    }
+    Glide.with(this)
+        .load(url)
+        .override(this.width, this.height)
+        .error(errorPlaseHolder)
+        .into(this)
+}

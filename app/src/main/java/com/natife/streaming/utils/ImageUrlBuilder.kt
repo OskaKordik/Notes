@@ -39,9 +39,13 @@ class ImageUrlBuilder {
         }
         private fun getPathPlaceholder(type:Type,sportId: Int): String{
             return when(type){
-                Type.TOURNAMENT->if(sportId==1){"tournament-no-photo.png"}else{"tournaments/180/no-photo.png"}
-                Type.TEAM->"team-no-photo.png"
-                Type.PLAYER->"player-no-photo.png"
+                Type.TOURNAMENT -> if (sportId == 1) {
+                    "tournament-no-photo.png"
+                } else {
+                    "tournaments/180/no-photo.png"
+                }
+                Type.TEAM -> "team_no_photo.png"
+                Type.PLAYER -> "player-no-photo.png"
             }
 
         }

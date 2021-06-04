@@ -1,10 +1,8 @@
 package com.natife.streaming.ui.home
 
-import android.content.Context
 import android.text.SpannableStringBuilder
 import android.text.TextUtils
 import android.view.View
-import androidx.annotation.ColorRes
 import androidx.core.text.color
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseViewHolder
@@ -43,31 +41,31 @@ open class MatchViewHolder(view: View) : BaseViewHolder<Match>(view) {
         //itemView.matchAlert.isVisible = !data.hasVideo  &&  timeBeforeStart > 0 &&  timeBeforeStart <1000*60*60
         itemView.matchAlert.text = data.date.fromResponse().toDisplay2()
         if (!data.access) {
-           itemView.messageContainer.addView(Alert(itemView.context))
+            itemView.messageContainer.addView(Alert(itemView.context))
         }
     }
 
-    override fun onBind(data: Match, payloads: List<Any>) {
-        super.onBind(data, payloads)
-        payloads.forEach {
-            (it as List<Any>).forEach {
-
-                if (it is MatchDiffUtil.IMAGE_PAYLOAD){
-                    itemView.matchImage.url(data.image,data.placeholder)
-                }
-                if(it is MatchDiffUtil.INFO_PAYLOAD || it is MatchDiffUtil.SPORT_PAYLOAD){
-                    val span = SpannableStringBuilder()
-                    span.color(
-                        itemView.resources.getColor(selectSportColor(data.sportId), null)
-                    ) {
-                        append(data.sportName.toUpperCase()) }
-                    span.append("   ")
-                    span.color(itemView.resources.getColor(R.color.text_gray, null)) { append(data.info)}
-                    itemView.matchDescription.text = span
-                }
-            }
-        }
-    }
+//    override fun onBind(data: Match, payloads: List<Any>) {
+//        super.onBind(data, payloads)
+//        payloads.forEach {
+//            (it as List<Any>).forEach {
+//
+//                if (it is MatchDiffUtil.IMAGE_PAYLOAD){
+//                    itemView.matchImage.url(data.image,data.placeholder)
+//                }
+//                if(it is MatchDiffUtil.INFO_PAYLOAD || it is MatchDiffUtil.SPORT_PAYLOAD){
+//                    val span = SpannableStringBuilder()
+//                    span.color(
+//                        itemView.resources.getColor(selectSportColor(data.sportId), null)
+//                    ) {
+//                        append(data.sportName.toUpperCase()) }
+//                    span.append("   ")
+//                    span.color(itemView.resources.getColor(R.color.text_gray, null)) { append(data.info)}
+//                    itemView.matchDescription.text = span
+//                }
+//            }
+//        }
+//    }
 
     override fun onRecycled() {
         super.onRecycled()

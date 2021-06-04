@@ -12,11 +12,15 @@ import com.natife.streaming.data.match.Tournament
 import com.natife.streaming.data.request.*
 import com.natife.streaming.datasource.MatchDataSourceFactory
 import com.natife.streaming.datasource.MatchParams
+import com.natife.streaming.db.LocalSqlDataSourse
 import com.natife.streaming.utils.ImageUrlBuilder
 import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.first
 import timber.log.Timber
 
 interface MatchUseCase {
@@ -34,10 +38,12 @@ interface MatchUseCase {
 
 class MatchUseCaseImpl(
     private val matchDataSourceFactory: MatchDataSourceFactory,
-    private val api: MainApi
+    private val api: MainApi,
+    private val localSqlDataSourse: LocalSqlDataSourse
 ) : MatchUseCase {
 
-    private val _list =  MutableSharedFlow<List<Match>>(replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
+    private val _list =
+        MutableSharedFlow<List<Match>>(replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
     override val list: SharedFlow<List<Match>> = _list
     private var gotEnd = false
     private var page = 0
@@ -58,7 +64,7 @@ class MatchUseCaseImpl(
 
     }
 
-    override suspend fun load(type: MatchUseCase.Type){
+    override suspend fun load(type: MatchUseCase.Type) {
 
         Timber.e("list $list")
         if (!gotEnd) {
@@ -111,6 +117,7 @@ class MatchUseCaseImpl(
                 Match(
                     id = match.id,
                     sportId = match.sport ?: requestParams?.sportId ?: 0,
+                    countryId = match.countryId,
                     sportName = ""
                         ?: "",
                     date = match.date,
@@ -138,18 +145,19 @@ class MatchUseCaseImpl(
                     ),
                     live = match.live,
                     storage = match.storage,
-                    subscribed = match.sub
+                    subscribed = match.sub,
+                    isShoveScore = localSqlDataSourse.getGlobalSettings()?.showScore ?: false
                 )
             }
-            newList.addAll(preload?.toList() ?: emptyList() )
+            newList.addAll(preload?.toList() ?: emptyList())
             this._list.emit(newList.toList())
 
             val compl = loadInfo(matches) ?: emptyList()
-            val start = ((newList.size -1) - ((preload?.size ?: 0)-1) )
-            val end =  newList.size - 1
+            val start = ((newList.size - 1) - ((preload?.size ?: 0) - 1))
+            val end = newList.size - 1
             Timber.e("JIDUHDIUDHIUD $start $end ${newList.size} ${preload?.size}")
-            if (start in 0 until end){
-                 newList.removeAll(preload?: emptyList())
+            if (start in 0 until end) {
+                newList.removeAll(preload ?: emptyList())
                 newList.addAll(compl)
             }
 
@@ -161,7 +169,7 @@ class MatchUseCaseImpl(
 
             page++
         }
-       // return list
+        // return list
     }
 
     private suspend fun loadInfo(matches: MatchesDTO): List<Match>? {
@@ -196,31 +204,33 @@ class MatchUseCaseImpl(
 //        }
 
         return coroutineScope {
-        val (sportTranslate, previews) = Pair(async {
-            api.getTranslate(
-                BaseRequest(
-                    procedure = API_TRANSLATE,
-                    TranslateRequest(
-                        language = "ru", //todo remove hardcode
-                        params = sports.map { it.lexic }
+            val (sportTranslate, previews) = Pair(async {
+                api.getTranslate(
+                    BaseRequest(
+                        procedure = API_TRANSLATE,
+                        TranslateRequest(
+                            language = "ru", //todo remove hardcode
+                            params = sports.map { it.lexic }
+                        )
                     )
                 )
-            )
-        }.await(), async { if (!matches.videoContent.broadcast.isNullOrEmpty()) {
-            api.getMatchPreview(body = PreviewRequest().apply {
-                matches.videoContent.broadcast?.map {
-                    PreviewRequestItem(it.id, it.sport ?: requestParams?.sportId ?: 1)
-                }?.let {
-                    addAll(
-                        it
-                    )
+            }.await(), async {
+                if (!matches.videoContent.broadcast.isNullOrEmpty()) {
+                    api.getMatchPreview(body = PreviewRequest().apply {
+                        matches.videoContent.broadcast?.map {
+                            PreviewRequestItem(it.id, it.sport ?: requestParams?.sportId ?: 1)
+                        }?.let {
+                            addAll(
+                                it
+                            )
+                        }
+                    })
+                } else {
+                    null
                 }
-            })
-        } else {
-            null
-        } }.await())
+            }.await())
 
-        val data = matches.videoContent.broadcast?.map { match ->
+            val data = matches.videoContent.broadcast?.map { match ->
 
                 val profile = async {
 
@@ -251,6 +261,7 @@ class MatchUseCaseImpl(
                 Match(
                     id = match.id,
                     sportId = match.sport ?: requestParams?.sportId ?: 0,
+                    countryId = match.countryId,
                     sportName = sportTranslate[sports.find { it.id == match.sport }?.lexic.toString()]?.text
                         ?: "",
                     date = match.date,
@@ -278,12 +289,12 @@ class MatchUseCaseImpl(
                     ),
                     live = match.live,
                     storage = match.storage,
-                    subscribed = match.sub
+                    subscribed = match.sub,
+                    isShoveScore = localSqlDataSourse.getGlobalSettings()?.showScore ?: false
                 )
             }
             data
         }
-
 
 
     }

@@ -26,7 +26,7 @@ class LocalSqlDataSourse internal constructor(
     //Global Settings
     suspend fun setGlobalSettings(showScore: Boolean, lang: Lang) {
         withContext(ioDispatcher) {
-            getUserAuthEmail()?.let { userAuthEmail ->
+            getUserAuthEmail().let { userAuthEmail ->
                 GlobalSettings(
                     authEmail = userAuthEmail,
                     showScore = showScore,
@@ -43,7 +43,7 @@ class LocalSqlDataSourse internal constructor(
             if (getGlobalSettings() == null) {
                 setGlobalSettings(showScore, lang)
             } else {
-                getUserAuthEmail()?.let { userAuthEmail ->
+                getUserAuthEmail().let { userAuthEmail ->
                     GlobalSettings(
                         authEmail = userAuthEmail,
                         showScore = showScore,
@@ -58,8 +58,15 @@ class LocalSqlDataSourse internal constructor(
 
     suspend fun getGlobalSettings(): GlobalSettings? =
         withContext(ioDispatcher) {
-            getUserAuthEmail()?.let { userAuthEmail ->
+            getUserAuthEmail().let { userAuthEmail ->
                 localSqlTasksDao.getGlobalSettings(userAuthEmail)
+            }
+        }
+
+    suspend fun getGlobalSettingsFlow(): Flow<GlobalSettings?> =
+        withContext(ioDispatcher) {
+            getUserAuthEmail().let { userAuthEmail ->
+                localSqlTasksDao.getGlobalSettingsFlow(userAuthEmail)
             }
         }
 //
@@ -76,7 +83,7 @@ class LocalSqlDataSourse internal constructor(
 
     suspend fun updateShowScore(showScore: Boolean) {
         withContext(ioDispatcher) {
-            getUserAuthEmail()?.let { userAuthEmail ->
+            getUserAuthEmail().let { userAuthEmail ->
                 getGlobalSettings()?.let { globalSettings ->
                     GlobalSettings(
                         authEmail = userAuthEmail,
@@ -92,7 +99,7 @@ class LocalSqlDataSourse internal constructor(
 
     suspend fun updateLang(lang: Lang) {
         withContext(ioDispatcher) {
-            getUserAuthEmail()?.let { userAuthEmail ->
+            getUserAuthEmail().let { userAuthEmail ->
                 getGlobalSettings()?.let { globalSettings ->
                     GlobalSettings(
                         authEmail = userAuthEmail,

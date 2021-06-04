@@ -14,10 +14,13 @@ import com.natife.streaming.data.request.BaseRequest
 import com.natife.streaming.data.request.EmptyRequest
 import com.natife.streaming.data.request.MatchProfileRequest
 import com.natife.streaming.data.request.MatchesRequestSimpleTournament
+import com.natife.streaming.db.LocalSqlDataSourse
 import com.natife.streaming.ext.toRequest
 import com.natife.streaming.utils.ImageUrlBuilder
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
+import org.koin.core.KoinComponent
+import org.koin.core.get
 import timber.log.Timber
 import java.util.*
 
@@ -63,8 +66,8 @@ class MatchDataSourceFactory(private val api: MainApi, @Volatile private var req
 class MatchDataSource(
     private val api: MainApi,
     private val requestParams: MatchParams?
-) : PagingSource<Int, Match>() {
-
+) : PagingSource<Int, Match>(), KoinComponent {
+    private val localSqlDataSourse: LocalSqlDataSourse = get()
     override val keyReuseSupported: Boolean = true
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Match> {
 
@@ -114,12 +117,13 @@ class MatchDataSource(
                         }
                         Match(
                             id = match.id,
-                            sportId = match.sport?: requestParams?.sportId?:0,
+                            sportId = match.sport ?: requestParams?.sportId ?: 0,
+                            countryId = match.countryId,
                             sportName = sports.find { it.id == match.sport }?.name ?: "",
                             date = match.date,
                             tournament = Tournament(
-                                match.tournament?.id ?: requestParams?.additionalId ?:0,
-                                match.tournament?.nameRus?:""
+                                match.tournament?.id ?: requestParams?.additionalId ?: 0,
+                                match.tournament?.nameRus ?: ""
                             ),// todo multilang
                             team1 = Team(
                                 match.team1.id,
@@ -134,11 +138,20 @@ class MatchDataSource(
                             info = "${profile.await().country} ${profile.await().nameRus}",
                             access = match.access,
                             hasVideo = match.hasVideo,
-                            image = ImageUrlBuilder.getUrl(match.sport?: requestParams?.sportId?:0,ImageUrlBuilder.Companion.Type.TOURNAMENT, match.tournament?.id ?: requestParams?.additionalId ?:0),//todo image module
-                            placeholder =ImageUrlBuilder.getPlaceholder(match.sport?: requestParams?.sportId?:0,ImageUrlBuilder.Companion.Type.TOURNAMENT) ,
+                            image = ImageUrlBuilder.getUrl(
+                                match.sport ?: requestParams?.sportId ?: 0,
+                                ImageUrlBuilder.Companion.Type.TOURNAMENT,
+                                match.tournament?.id ?: requestParams?.additionalId ?: 0
+                            ),//todo image module
+                            placeholder = ImageUrlBuilder.getPlaceholder(
+                                match.sport ?: requestParams?.sportId ?: 0,
+                                ImageUrlBuilder.Companion.Type.TOURNAMENT
+                            ),
                             live = match.live,
                             storage = match.storage,
-                            subscribed = match.sub
+                            subscribed = match.sub,
+                            isShoveScore = localSqlDataSourse.getGlobalSettings()?.showScore
+                                ?: false
                         )
                     }
 

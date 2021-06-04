@@ -5,6 +5,8 @@ import com.google.gson.annotations.SerializedName
 data class BroadcastDTO(
     val access: Boolean,
     val date: String,
+    @SerializedName("country_id")
+    val countryId: Int,
     @SerializedName("has_video")
     val hasVideo: Boolean,
     val id: Int,

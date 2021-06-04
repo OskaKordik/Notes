@@ -107,7 +107,7 @@ val viewModelModule = module {
             get()
         )
     }
-    viewModel<HomeViewModel> { HomeViewModelImpl(get(), get(), get()) }
+    viewModel<HomeViewModel> { HomeViewModelImpl(get(), get(), get(), get()) }
     viewModel<ScoreViewModel> { ScoreViewModelImpl(get(), get(), get()) }
     viewModel<SportViewModel> { SportViewModelImpl(get(), get(), get()) }
     viewModel<LiveViewModel> { LiveViewModelImpl(get(), get(), get()) }
@@ -198,7 +198,7 @@ val useCaseModule = module {
     factory<RegisterUseCase> { RegisterUseCaseImpl(get(), get()) }
     factory<LogoutUseCase> { LogoutUseCaseImpl(get(), get(), get(), get(), get()) }
     factory<AccountUseCase> { AccountUseCaseImpl(get(), get()) }
-    single<MatchUseCase> { MatchUseCaseImpl(get(), get()) }
+    single<MatchUseCase> { MatchUseCaseImpl(get(), get(), get()) }
     factory<GetShowScoreUseCase> { GetShowScoreUseCaseImpl() }
     factory<SaveShowScoreUseCase> { SaveShowScoreUseCaseImpl(get()) }
     single<GetSportUseCase> { GetSportUseCaseImpl(get(), get()) }
@@ -214,7 +214,7 @@ val useCaseModule = module {
     factory<SearchUseCase> { SearchUseCaseImpl(get(), get()) }
     factory<GenderUseCase> { GenderUseCaseImpl() }
     factory<SearchTypeUseCase> { SearchTypeUseCaseImpl() }
-    factory<MatchInfoUseCase> { MatchInfoUseCaseImpl(get()) }
+    factory<MatchInfoUseCase> { MatchInfoUseCaseImpl(get(), get()) }
     factory<VideoUseCase> { VideoUseCaseImpl(get()) }
     factory<SecondUseCase> { SecondUseCaseImpl(get()) }
     factory<PlayerActionUseCase> { PlayerActionUseCaseImpl(get(), get(), get()) }
@@ -225,7 +225,7 @@ val useCaseModule = module {
     factory<FavoritesUseCase> { FavoritesUseCaseImpl(get(), get()) }
     factory<TeamUseCase> { TeamUseCaseImpl(get(), get()) }
     factory<PlayerUseCase> { PlayerUseCaseImpl(get(), get()) }
-    factory<ProfileUseCase> { ProfileUseCaseImpl(get(), get()) }
+    factory<ProfileUseCase> { ProfileUseCaseImpl(get(), get(), get()) }
 
 }
 

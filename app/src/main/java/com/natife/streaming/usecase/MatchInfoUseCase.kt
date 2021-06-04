@@ -9,18 +9,24 @@ import com.natife.streaming.data.match.Match
 import com.natife.streaming.data.match.Team
 import com.natife.streaming.data.match.Tournament
 import com.natife.streaming.data.request.*
+import com.natife.streaming.db.LocalSqlDataSourse
 import com.natife.streaming.utils.ImageUrlBuilder
-import kotlinx.coroutines.async
 
 interface MatchInfoUseCase {
     suspend fun execute(sportId: Int, matchId: Int): Match
 }
-class MatchInfoUseCaseImpl(private val api: MainApi): MatchInfoUseCase{
+
+class MatchInfoUseCaseImpl(
+    private val api: MainApi,
+    private val localSqlDataSourse: LocalSqlDataSourse
+) : MatchInfoUseCase {
     override suspend fun execute(sportId: Int, matchId: Int): Match {
-       val match = api.getMatchInfoGlobal(BaseRequest(
-           procedure = API_MATCH_INFO,
-           params = MatchInfo(sportId = sportId, matchId=matchId)
-       ))
+        val match = api.getMatchInfoGlobal(
+            BaseRequest(
+                procedure = API_MATCH_INFO,
+                params = MatchInfo(sportId = sportId, matchId = matchId)
+            )
+        )
 
         val sports = api.getSports(
             BaseRequest(
@@ -50,12 +56,14 @@ class MatchInfoUseCaseImpl(private val api: MainApi): MatchInfoUseCase{
 
         return Match(
             id = match.id,
-            sportId = match.sport?: sportId?:0,
-            sportName = sportTranslate[sports.find { it.id == match.sport }?.lexic.toString()]?.text  ?: "",
+            sportId = match.sport ?: sportId ?: 0,
+            countryId = match.countryId,
+            sportName = sportTranslate[sports.find { it.id == match.sport }?.lexic.toString()]?.text
+                ?: "",
             date = match.date,
             tournament = Tournament(
-                match.tournament?.id?:-1,
-                match.tournament?.nameRus?:""
+                match.tournament?.id ?: -1,
+                match.tournament?.nameRus ?: ""
             ),// todo multilang
             team1 = Team(
                 match.team1.id,
@@ -71,16 +79,17 @@ class MatchInfoUseCaseImpl(private val api: MainApi): MatchInfoUseCase{
             access = match.access,
             hasVideo = match.hasVideo,
             image = ImageUrlBuilder.getUrl(
-                match.sport?: sportId?:0,
-                ImageUrlBuilder.Companion.Type.TOURNAMENT, match.tournament?.id?:-1
+                match.sport ?: sportId ?: 0,
+                ImageUrlBuilder.Companion.Type.TOURNAMENT, match.tournament?.id ?: -1
             ),
             placeholder = ImageUrlBuilder.getPlaceholder(
-                match.sport?: sportId?:0,
+                match.sport ?: sportId ?: 0,
                 ImageUrlBuilder.Companion.Type.TOURNAMENT
             ),
             live = match.live,
             storage = match.storage,
-            subscribed = match.sub
+            subscribed = match.sub,
+            isShoveScore = localSqlDataSourse.getGlobalSettings()?.showScore ?: false
         )
     }
 
