@@ -2,8 +2,8 @@ package com.natife.streaming.ui.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.gson.Gson
 import com.natife.streaming.base.BaseViewModel
-import com.natife.streaming.data.LiveType
 import com.natife.streaming.data.match.Match
 import com.natife.streaming.datasource.MatchParams
 import com.natife.streaming.db.LocalSqlDataSourse
@@ -12,10 +12,10 @@ import com.natife.streaming.preferenses.SettingsPrefs
 import com.natife.streaming.router.Router
 import com.natife.streaming.usecase.MatchUseCase
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -32,8 +32,10 @@ abstract class HomeViewModel : BaseViewModel() {
 //    abstract fun nextDay()
 //    abstract fun previousDay()
     abstract fun toMatchProfile(match: Match)
+    abstract fun setListTournament(listMatch: List<Match>)
 
     abstract val list: LiveData<List<Match>>
+    abstract val listTournament: LiveData<List<TournamentItem>>
 //    abstract val subOnly: LiveData<Boolean>
 //    abstract val date: LiveData<Date>
 }
@@ -47,13 +49,15 @@ class HomeViewModelImpl(
 
 
     override val list = MutableLiveData<List<Match>>()
+    override val listTournament = MutableLiveData<List<TournamentItem>>()
+    private val showScore = MutableLiveData<Boolean>()
 
     //    override val subOnly = MutableLiveData<Boolean>()
     private val date = MutableLiveData<Date>()
 //    private var dataSource: List<Match> = listOf()
 
-    private var process: Job? = null
-    var live = LiveType.ALL
+//    private var process: Job? = null
+//    var live = LiveType.ALL
 
 //    override fun showScoreDialog() {
 //        router?.navigate(R.id.action_homeFragment_to_scoreDialog)
@@ -132,6 +136,51 @@ class HomeViewModelImpl(
 
     }
 
+    override fun setListTournament(listMatch: List<Match>) {
+        if (listMatch.isEmpty()) return
+        var tempId: Int? = null
+        var tempName: String = ""
+        var tempMatchList = mutableListOf<Match>()
+        val resultTournamentList = mutableListOf<TournamentItem>()
+        listMatch.forEach {
+            when {
+                tempId == null -> {
+                    if (listMatch.size > 1) {
+                        tempId = it.tournament.id
+                        tempName = it.tournament.name
+                        tempMatchList.add(it)
+                    } else {
+                        resultTournamentList.add(
+                            TournamentItem.RegularTournamentItem(
+                                tournamentId = listMatch.first().tournament.id,
+                                programName = listMatch.first().tournament.name,
+                                match = listOf(listMatch.first())
+                            )
+                        )
+                    }
+                }
+                tempId == it.tournament.id -> {
+                    tempMatchList.add(it)
+                }
+                tempId != it.tournament.id -> {
+                    resultTournamentList.add(
+                        TournamentItem.RegularTournamentItem(
+                            tournamentId = tempId,
+                            programName = tempName,
+                            match = tempMatchList
+                        )
+                    )
+                    tempId = it.tournament.id
+                    tempName = it.tournament.name
+                    tempMatchList = mutableListOf<Match>()
+                    tempMatchList.add(it)
+                }
+            }
+        }
+        Timber.tag("TAG").d(Gson().toJson(resultTournamentList))
+        listTournament.value = resultTournamentList
+    }
+
 
     private var params = MatchParams(
         date = Date().toRequest(),
@@ -152,41 +201,21 @@ class HomeViewModelImpl(
     }
 
     init {
-
-        launchCatching {
-            val isShowScore = localSqlDataSourse.getGlobalSettings()?.showScore ?: false
-            collect(matchUseCase.list) {
-//                dataSource = it
-//                val filtered = filterLive(dataSource)
-//                Timber.e("HKUHIUH ${list.value}")
-//                Timber.e("HKUHIUH1 ${filtered}")
-//                list.value = filtered
-                list.value = it
-                    .map { match ->
-                        match.copy(isShoveScore = isShowScore)
-                    }
-            }
-        }
-        val sport = settingsPrefs.getSport()
-        val tournament = settingsPrefs.getTournament()
-        live = settingsPrefs.getLive() ?: LiveType.ALL
-//        val subOnly = settingsPrefs.getSubOnly()
         val date = settingsPrefs.getDate()
-
         if (date == null) {
             this.date.value = Date()
         } else {
             this.date.value = Date(date)
         }
-
-//        this.subOnly.value = subOnly
-
         params = params.copy(
             sportId = null, //sport,
             additionalId = null, //tournament,
             subOnly = false, //показать только купленные матчи или же все
             date = (this.date.value ?: Date()).toRequest()
         )
+        launch {
+            matchUseCase.prepare(params)
+        }
         launchCatching {
             withContext(Dispatchers.IO) {
                 collect(settingsPrefs.getDateFlow()) {
@@ -204,6 +233,7 @@ class HomeViewModelImpl(
         launchCatching {
             withContext(Dispatchers.IO) {
                 collect(localSqlDataSourse.getGlobalSettingsFlow()) { globalSetings ->
+                    showScore.value = globalSetings?.showScore
                     list.value?.let {
                         list.value = it.map { match ->
                             match.copy(isShoveScore = globalSetings?.showScore ?: false)
@@ -212,55 +242,12 @@ class HomeViewModelImpl(
                 }
             }
         }
-
-
-//        launchCatching {
-//            withContext(Dispatchers.IO) {
-//                collect(settingsPrefs.getSportFlow()) {
-//                    params = params.copy(
-//                        sportId = it
-//                    )
-//                    prepareAndLoad()
-//                }
-//            }
-//        }
-//        launchCatching {
-//            withContext(Dispatchers.IO) {
-//                collect(settingsPrefs.getLiveFlow()) {
-//                    live = it ?: LiveType.ALL
-//                    list.value?.let {
-//                        list.value = filterLive(dataSource)
-//                    }
-//                }
-//            }
-//        }
-//        launchCatching {
-//            withContext(Dispatchers.IO) {
-//                collect(settingsPrefs.getTournamentFlow()) {
-//                    params = params.copy(
-//                        additionalId = it
-//                    )
-//                    prepareAndLoad()
-//                }
-//            }
-//        }
-//        launchCatching {
-//            withContext(Dispatchers.IO) {
-//                collect(settingsPrefs.getSubOnlyFlow()) {
-//                    params = params.copy(
-//                        subOnly = it
-//                    )
-//                    prepareAndLoad()
-//                }
-//            }
-//        }
-        launch {
-            matchUseCase.prepare(params)
-            withContext(Dispatchers.IO) {
-                loadList()
+        launchCatching {
+            collect(matchUseCase.list) { matchList ->
+                list.value = matchList.map { match ->
+                    match.copy(isShoveScore = showScore.value ?: false)
+                }
             }
         }
     }
-
-
 }

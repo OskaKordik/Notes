@@ -11,7 +11,7 @@ class MatchAdapter : BaseListAdapter<Match, MatchViewHolderNew>(MatchDiffUtil())
 
     var onBind: ((Int) -> Unit)? = null
     var onClick: ((Match) -> Unit)? = null
-    private var FOCUSE_FIRST_TIME = true
+//    private var FOCUSE_FIRST_TIME = true
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MatchViewHolderNew {
         return MatchViewHolderNew(
@@ -21,13 +21,13 @@ class MatchAdapter : BaseListAdapter<Match, MatchViewHolderNew>(MatchDiffUtil())
 
     override fun onBindViewHolder(holder: MatchViewHolderNew, position: Int) {
         super.onBindViewHolder(holder, position)
-        if (FOCUSE_FIRST_TIME && position == 0) {
-            holder.itemView.requestFocus()
-            FOCUSE_FIRST_TIME = false
-        }
-        //load the next pages if you have left to scroll through 20 matches
-        if (position > itemCount - 20)
-            onBind?.invoke(position)
+//        if (FOCUSE_FIRST_TIME && position == 0) {
+//            holder.itemView.requestFocus()
+//            FOCUSE_FIRST_TIME = false
+//        }
+
+// load the next pages if you have left to scroll through 20 matches
+//        if (position > itemCount - 20) onBind?.invoke(position)
         holder.itemView.setOnClickListener {
             onClick?.invoke(currentList[position])
         }

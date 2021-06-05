@@ -63,6 +63,8 @@
             style="@style/ButtonTransparentNoOutlined"
             android:layout_width="30dp"
             android:layout_height="0dp"
+            android:paddingLeft="7dp"
+            android:paddingRight="5dp"
             app:icon="@drawable/ic_left"
             app:iconGravity="start"
             app:iconSize="18dp"
