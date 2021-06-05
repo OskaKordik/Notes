@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.leanback.widget.BaseGridView
+import androidx.leanback.widget.VerticalGridView
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseFragment
 import com.natife.streaming.ext.subscribe
@@ -30,7 +31,9 @@ class FavoritesFragment : BaseFragment<FavoriteViewModel>() {
 
         favoritesRecycler.adapter = favoriteAfapter
         favoritesRecycler.focusScrollStrategy = BaseGridView.FOCUS_SCROLL_ITEM
+        favoritesRecycler.windowAlignment = VerticalGridView.WINDOW_ALIGN_BOTH_EDGE
 
+        favoritesMatchRecycler.windowAlignment = VerticalGridView.WINDOW_ALIGN_BOTH_EDGE
         favoritesMatchRecycler.focusScrollStrategy = BaseGridView.FOCUS_SCROLL_ITEM
         favoritesMatchRecycler.setNumColumns(3)
         favoritesMatchRecycler.adapter = matchAdapter

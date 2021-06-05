@@ -20,24 +20,10 @@ import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
 
 abstract class HomeViewModel : BaseViewModel() {
-//    abstract fun showScoreDialog()
-//    abstract fun showSportDialog()
-//    abstract fun showTourneyDialog(items: List<Match>)
-//    abstract fun showLiveDialog()
-
-    //    abstract fun subOnlyChange()
     abstract fun loadList()
-
-    //    abstract fun toCalendar()
-//    abstract fun nextDay()
-//    abstract fun previousDay()
     abstract fun toMatchProfile(match: Match)
-    abstract fun setListTournament(listMatch: List<Match>)
 
-    abstract val list: LiveData<List<Match>>
     abstract val listTournament: LiveData<List<TournamentItem>>
-//    abstract val subOnly: LiveData<Boolean>
-//    abstract val date: LiveData<Date>
 }
 
 class HomeViewModelImpl(
@@ -46,42 +32,10 @@ class HomeViewModelImpl(
     private val settingsPrefs: SettingsPrefs,
     private val localSqlDataSourse: LocalSqlDataSourse
 ) : HomeViewModel() {
-
-
-    override val list = MutableLiveData<List<Match>>()
     override val listTournament = MutableLiveData<List<TournamentItem>>()
+    private val list = MutableLiveData<List<Match>>()
     private val showScore = MutableLiveData<Boolean>()
-
-    //    override val subOnly = MutableLiveData<Boolean>()
     private val date = MutableLiveData<Date>()
-//    private var dataSource: List<Match> = listOf()
-
-//    private var process: Job? = null
-//    var live = LiveType.ALL
-
-//    override fun showScoreDialog() {
-//        router?.navigate(R.id.action_homeFragment_to_scoreDialog)
-//    }
-
-//    override fun showSportDialog() {
-//        router?.navigate(R.id.action_homeFragment_to_sportDialog)
-//    }
-
-//    override fun showTourneyDialog(items: List<Match>) {
-//        router?.navigate(HomeFragmentDirections.actionHomeFragmentToTournamentDialog(items.map { it.tournament }
-//            .toSet().toTypedArray()))
-//    }
-
-//    override fun showLiveDialog() {
-//        router?.navigate(R.id.action_homeFragment_to_liveDialog)
-//    }
-
-//    override fun subOnlyChange() {
-//        val sub = settingsPrefs.getSubOnly()
-//        settingsPrefs.saveSubOnly(!sub)
-//        subOnly.value = !sub
-//    }
-
     private val mutex = Mutex()
     private var isLoading = AtomicBoolean(false)
 
@@ -136,13 +90,14 @@ class HomeViewModelImpl(
 
     }
 
-    override fun setListTournament(listMatch: List<Match>) {
+    private fun setListTournament(listMatch: List<Match>) {
         if (listMatch.isEmpty()) return
         var tempId: Int? = null
         var tempName: String = ""
         var tempMatchList = mutableListOf<Match>()
         val resultTournamentList = mutableListOf<TournamentItem>()
         listMatch.forEach {
+            //TODO Проверка с предпочтениями
             when {
                 tempId == null -> {
                     if (listMatch.size > 1) {
@@ -234,9 +189,12 @@ class HomeViewModelImpl(
             withContext(Dispatchers.IO) {
                 collect(localSqlDataSourse.getGlobalSettingsFlow()) { globalSetings ->
                     showScore.value = globalSetings?.showScore
-                    list.value?.let {
-                        list.value = it.map { match ->
+                    list.value?.let { matchList ->
+                        matchList.map { match ->
                             match.copy(isShoveScore = globalSetings?.showScore ?: false)
+                        }.let {
+                            list.value = it
+                            setListTournament(it)
                         }
                     }
                 }
@@ -244,8 +202,11 @@ class HomeViewModelImpl(
         }
         launchCatching {
             collect(matchUseCase.list) { matchList ->
-                list.value = matchList.map { match ->
+                matchList.map { match ->
                     match.copy(isShoveScore = showScore.value ?: false)
+                }.let {
+                    list.value = it
+                    setListTournament(it)
                 }
             }
         }
