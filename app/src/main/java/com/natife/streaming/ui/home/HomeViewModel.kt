@@ -7,6 +7,7 @@ import com.natife.streaming.data.match.Match
 import com.natife.streaming.datasource.MatchParams
 import com.natife.streaming.db.LocalSqlDataSourse
 import com.natife.streaming.db.entity.PreferencesTournament
+import com.natife.streaming.ext.Event
 import com.natife.streaming.ext.toRequest
 import com.natife.streaming.preferenses.SettingsPrefs
 import com.natife.streaming.router.Router
@@ -23,6 +24,7 @@ abstract class HomeViewModel : BaseViewModel() {
     abstract fun toMatchProfile(match: Match)
 
     abstract val listTournament: LiveData<List<TournamentItem>>
+    abstract val isLoadData: LiveData<Event<Boolean>>
 }
 
 class HomeViewModelImpl(
@@ -32,6 +34,7 @@ class HomeViewModelImpl(
     private val localSqlDataSourse: LocalSqlDataSourse
 ) : HomeViewModel() {
     override val listTournament = MutableLiveData<List<TournamentItem>>()
+    override val isLoadData = MutableLiveData(Event(false))
     private val list = MutableLiveData<List<Match>>()
     private val showScore = MutableLiveData<Boolean>()
     private val prefInTournament = MutableLiveData<List<PreferencesTournament>>()
@@ -93,57 +96,24 @@ class HomeViewModelImpl(
     private fun setListTournament(listMatch: List<Match>) {
         if (listMatch.isEmpty()) return
         launch {
-            var tempId: Int? = null
-            var tempName: String = ""
-            var tempMatchList = mutableListOf<Match>()
-            val resultTournamentList = mutableListOf<TournamentItem>()
+            val res = hashMapOf<Int, List<Match>>()
             listMatch.forEach { it ->
-                when {
-                    tempId == null -> {
-                        if (listMatch.size > 1) {
-                            tempId = it.tournament.id
-                            tempName = it.tournament.name
-                            tempMatchList.add(it)
-                        } else {
-                            resultTournamentList.add(
-                                TournamentItem.RegularTournamentItem(
-                                    tournamentId = listMatch.first().tournament.id,
-                                    programName = listMatch.first().tournament.name,
-                                    match = listOf(listMatch.first())
-                                )
-                            )
-                        }
-                    }
-                    tempId == it.tournament.id -> {
-                        tempMatchList.add(it)
-                    }
-                    tempId != it.tournament.id -> {
-                        val isPreferred =
-                            localSqlDataSourse.getPreferencesTournamentBySportIDPrefID(
-                                it.sportId,
-                                it.tournament.id
-                            )?.isPreferred
-
-
-                        if (true) {
-                            resultTournamentList.add(
-                                TournamentItem.RegularTournamentItem(
-                                    tournamentId = tempId,
-                                    programName = tempName,
-                                    match = tempMatchList
-                                )
-                            )
-                        }
-
-
-                        tempId = it.tournament.id
-                        tempName = it.tournament.name
-                        tempMatchList = mutableListOf<Match>()
-                        tempMatchList.add(it)
-                    }
-                }
+                val isPreferred =
+                    localSqlDataSourse.getPreferencesTournamentBySportIDPrefID(
+                        it.sportId,
+                        it.tournament.id
+                    )?.isPreferred
+                if (isPreferred == true) res[it.tournament.id] =
+                    res[it.tournament.id]?.plus(it) ?: listOf(it)
             }
-            listTournament.value = resultTournamentList
+            listTournament.value = res.mapValues {
+                TournamentItem.RegularTournamentItem(
+                    tournamentId = it.key,
+                    programName = it.value.first().tournament.name,
+                    match = it.value
+                )
+            }.values.toList()
+            isLoadData.value = Event(true)
         }
     }
 

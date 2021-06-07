@@ -175,6 +175,12 @@ class LocalSqlDataSourse internal constructor(
         }
     }
 
+    suspend fun updateTournamentList(tournamentList: List<PreferencesTournament>) {
+        withContext(ioDispatcher) {
+            localSqlTasksDao.updateTournamentList(tournamentList)
+        }
+    }
+
     suspend fun setCheckedTournament(tournamentId: TournamentTranslateDTO) {
         withContext(ioDispatcher) {
             val a = localSqlTasksDao.getPreferencesTournamentByID(

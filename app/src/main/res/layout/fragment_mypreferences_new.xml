@@ -95,6 +95,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <ProgressBar
+            android:id="@+id/load_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminateTint="@color/white"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/listOfTournamentsRecyclerView"
+            app:layout_constraintStart_toStartOf="@+id/kindsOfSportsRecyclerView"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.leanback.widget.VerticalGridView
             android:id="@+id/kindsOfSportsRecyclerView"
             android:layout_width="0dp"

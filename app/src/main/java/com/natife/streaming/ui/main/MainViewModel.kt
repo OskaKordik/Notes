@@ -49,6 +49,7 @@ class MainViewModel(
         } else {
             this.date.value = Date(date)
         }
+
         launchCatching {
             withContext(Dispatchers.IO) {
                 collect(settingsPrefs.getDateFlow()) {

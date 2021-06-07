@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.fragment_mypreferences_new.*
 class UserPreferencesFragment : BaseFragment<UserPreferencesViewModel>() {
     override fun getLayoutRes() = R.layout.fragment_mypreferences_new
     private val sportAdapter by lazy {
-        SportsAdapter(viewModel::kindOfSportClicked)
+        SportsAdapter(viewModel::kindOfSportClicked, viewModel::kindOfSportSelected)
     }
     private val tournamentAdapter by lazy {
         TournamentAdapter(viewModel::listOfTournamentsClicked)
@@ -28,8 +28,7 @@ class UserPreferencesFragment : BaseFragment<UserPreferencesViewModel>() {
 
         //Heading in the predominant team color
         topConstraintLayout.predominantColorToGradient("#CB312A")
-
-
+        load_progress.visibility = View.VISIBLE
         kindsOfSportsRecyclerView.isFocusable = false
         kindsOfSportsRecyclerView.adapter = sportAdapter
         kindsOfSportsRecyclerView.setNumColumns(1)
@@ -50,7 +49,12 @@ class UserPreferencesFragment : BaseFragment<UserPreferencesViewModel>() {
         }
 
         subscribe(viewModel.allUserPreferencesInTournament) {
-            tournamentAdapter.submitList(it.toTournamentTranslateDTO(resources.getString(R.string.lang)))
+            tournamentAdapter.submitList(
+                it.toTournamentTranslateDTO(resources.getString(R.string.lang))
+//                .filter { tournament ->
+//                tournament.id == viewModel.sportsSelected.value?.id }
+            )
+            load_progress.visibility = View.GONE
         }
 
         search_button.setOnClickListener {

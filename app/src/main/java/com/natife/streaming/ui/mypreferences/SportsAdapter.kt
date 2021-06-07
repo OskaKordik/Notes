@@ -10,7 +10,10 @@ import com.natife.streaming.data.dto.sports.SportTranslateDTO
 import com.natife.streaming.databinding.ItemKindsOfSportNewBinding
 
 //new
-class SportsAdapter(private val onKindOfSportClickListener: ((sport: SportTranslateDTO) -> Unit)) :
+class SportsAdapter(
+    private val onKindOfSportClickListener: ((sport: SportTranslateDTO) -> Unit),
+    private val onKindOfSportSelectedListener: ((sport: SportTranslateDTO?) -> Unit)
+) :
     ListAdapter<SportTranslateDTO, SportsAdapter.SportsAdapterViewHolder>(
         SportsAdapterDiffUtilCallback()
     ) {
@@ -34,6 +37,14 @@ class SportsAdapter(private val onKindOfSportClickListener: ((sport: SportTransl
             itemView.setOnClickListener {
                 onKindOfSportClickListener.invoke(data)
             }
+            itemView.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
+                if (hasFocus) {
+                    onKindOfSportSelectedListener.invoke(data)
+                } else {
+                    onKindOfSportSelectedListener.invoke(null)
+                }
+            }
+
         }
     }
 }

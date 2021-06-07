@@ -103,7 +103,16 @@
     <!--        app:layout_constraintBottom_toBottomOf="@+id/buttonTourney"-->
     <!--        app:layout_constraintEnd_toStartOf="@+id/buttonTourney"-->
     <!--        app:layout_constraintTop_toTopOf="@+id/buttonTourney" />-->
-
+    <ProgressBar
+        android:id="@+id/progress_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:indeterminateTint="@color/white"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/homeRecycler"
+        app:layout_constraintEnd_toEndOf="@+id/homeRecycler"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/homeRecycler" />
 
     <androidx.leanback.widget.VerticalGridView
         android:id="@+id/homeRecycler"

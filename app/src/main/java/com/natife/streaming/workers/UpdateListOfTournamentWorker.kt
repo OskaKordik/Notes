@@ -18,12 +18,10 @@ class UpdateListOfTournamentWorker(
     private val localSqlDataSourse: LocalSqlDataSourse = get()
 
     override suspend fun doWork(): Result {
-
-        //TODO надо сделать синхронизацию сервера с бд
         val preferencesTournamentInDB = localSqlDataSourse.getPreferencesTournament()
         if (preferencesTournamentInDB.isEmpty()) {
             val preferencesTournament = tournamentUseCase.execute().toPreferencesTournament()
-            saveTournamentUseCase.saveTournamentList(preferencesTournament)
+            saveTournamentUseCase.updateTournamentList(preferencesTournament)
         }
         return Result.success()
     }

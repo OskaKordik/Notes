@@ -8,6 +8,7 @@ import androidx.leanback.widget.VerticalGridView
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseFragment
 import com.natife.streaming.ext.subscribe
+import com.natife.streaming.ext.subscribeEvent
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : BaseFragment<HomeViewModel>() {
@@ -32,6 +33,8 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
         subscribe(viewModel.listTournament) {
             adapter.submitList(it)
         }
-
+        subscribeEvent(viewModel.isLoadData) {
+            progress_icon.visibility = if (it) View.GONE else View.VISIBLE
+        }
     }
 }

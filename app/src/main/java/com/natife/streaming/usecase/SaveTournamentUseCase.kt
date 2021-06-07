@@ -11,6 +11,7 @@ interface SaveTournamentUseCase {
 
     suspend fun setTournamentCheckUncheck(tournament: TournamentTranslateDTO)
     suspend fun saveTournamentList(list: List<PreferencesTournament>)
+    suspend fun updateTournamentList(list: List<PreferencesTournament>)
 
 }
 class SaveTournamentUseCaseImpl(
@@ -31,5 +32,9 @@ class SaveTournamentUseCaseImpl(
 
     override suspend fun saveTournamentList(list: List<PreferencesTournament>) {
         localSqlDataSourse.setlistPreferencesTournament(list)
+    }
+
+    override suspend fun updateTournamentList(list: List<PreferencesTournament>) {
+        localSqlDataSourse.updateTournamentList(list)
     }
 }

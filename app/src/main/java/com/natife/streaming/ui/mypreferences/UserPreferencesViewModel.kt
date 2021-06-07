@@ -24,11 +24,13 @@ import com.natife.streaming.usecase.SaveTournamentUseCase
 abstract class UserPreferencesViewModel : BaseViewModel() {
     abstract val allUserPreferencesInTournament: LiveData<List<PreferencesTournament>>
     abstract val allUserPreferencesInSport: LiveData<List<PreferencesSport>>
+    abstract val sportsSelected: LiveData<SportTranslateDTO>
     abstract val sportsList: LiveData<List<SportTranslateDTO>>
 
     abstract fun applyMypreferencesClicked()
     abstract fun findClicked()
     abstract fun kindOfSportClicked(sport: SportTranslateDTO)
+    abstract fun kindOfSportSelected(sport: SportTranslateDTO?)
     abstract fun listOfTournamentsClicked(tournament: TournamentTranslateDTO)
     abstract fun onFinishClicked()
     abstract fun getTranslateLexic(sports: List<PreferencesSport>, lang: String)
@@ -43,6 +45,7 @@ class UserPreferencesViewModelImpl(
     private val router: Router
 ) : UserPreferencesViewModel() {
     override val sportsList = MutableLiveData<List<SportTranslateDTO>>()
+    override val sportsSelected = MutableLiveData<SportTranslateDTO>()
     override val allUserPreferencesInTournament: LiveData<List<PreferencesTournament>>
         get() = tournamentUseCase.getAllUserPreferencesInTournamentFlow().asLiveData()
     override val allUserPreferencesInSport: LiveData<List<PreferencesSport>>
@@ -60,6 +63,10 @@ class UserPreferencesViewModelImpl(
         launch {
             saveSportUseCase.setSportCheckUncheck(sport)
         }
+    }
+
+    override fun kindOfSportSelected(sport: SportTranslateDTO?) {
+        sportsSelected.value = sport
     }
 
     override fun listOfTournamentsClicked(tournament: TournamentTranslateDTO) {

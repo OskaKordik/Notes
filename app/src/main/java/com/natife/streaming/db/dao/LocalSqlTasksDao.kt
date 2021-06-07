@@ -47,6 +47,9 @@ interface LocalSqlTasksDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun setListPreferencesTournament(preferencesTournament: List<PreferencesTournament>)
 
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun updateTournamentList(preferencesTournament: List<PreferencesTournament>)
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun setPreferencesTournament(preferencesTournament: PreferencesTournament)
 

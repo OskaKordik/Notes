@@ -95,7 +95,7 @@ class SettingsPrefsImpl(private val prefs: SharedPreferences): SettingsPrefs{
 
     @Deprecated("localSqlDataSourse.getGlobalSettings()")
     override fun getScore(): Boolean = prefs.getBoolean(SCORE,false)
-
+    @Deprecated("localSqlDataSourse.getGlobalSettings()")
     override fun getSport(): Int? {
         val sport = prefs.getInt(SPORT,-1)
         return if (sport == -1){
@@ -105,6 +105,7 @@ class SettingsPrefsImpl(private val prefs: SharedPreferences): SettingsPrefs{
         }
     }
 
+    @Deprecated("localSqlDataSourse.getGlobalSettings()")
     override fun getTournament(): Int?  {
        val tour = prefs.getInt(TOURNAMENT, -1)
         return if (tour == -1){
