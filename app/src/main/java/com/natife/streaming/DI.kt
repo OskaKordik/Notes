@@ -198,7 +198,7 @@ val useCaseModule = module {
     factory<RegisterUseCase> { RegisterUseCaseImpl(get(), get()) }
     factory<LogoutUseCase> { LogoutUseCaseImpl(get(), get(), get(), get(), get()) }
     factory<AccountUseCase> { AccountUseCaseImpl(get(), get()) }
-    single<MatchUseCase> { MatchUseCaseImpl(get(), get(), get()) }
+    single<MatchUseCase> { MatchUseCaseImpl(get(), get(), get(), get()) }
     factory<GetShowScoreUseCase> { GetShowScoreUseCaseImpl() }
     factory<SaveShowScoreUseCase> { SaveShowScoreUseCaseImpl(get()) }
     single<GetSportUseCase> { GetSportUseCaseImpl(get(), get()) }

@@ -66,6 +66,9 @@ interface LocalSqlTasksDao {
     @Query("SELECT * FROM 'PreferencesTournament' WHERE sport ==:sportId")
     fun getPreferencesTournamentBySport(sportId: Int): List<PreferencesTournament>
 
+    @Query("SELECT * FROM 'PreferencesTournament' WHERE sport ==:sportId AND id ==:prefID ")
+    fun getPreferencesTournamentBySportIDPrefID(sportId: Int, prefID: Int): PreferencesTournament?
+
     @Update
     fun updatePreferencesTournament(preferencesTournament: PreferencesTournament)
 

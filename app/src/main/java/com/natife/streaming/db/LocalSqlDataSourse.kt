@@ -150,7 +150,6 @@ class LocalSqlDataSourse internal constructor(
     fun getPreferencesSportFlow(): Flow<List<PreferencesSport>> =
         localSqlTasksDao.getPreferencesSportFlow()
 
-
     suspend fun getPreferencesSport(): List<PreferencesSport> =
         withContext(ioDispatcher) {
             localSqlTasksDao.getPreferencesSport()
@@ -198,6 +197,13 @@ class LocalSqlDataSourse internal constructor(
             localSqlTasksDao.getPreferencesTournamentBySport(sportId)
         }
 
+    suspend fun getPreferencesTournamentBySportIDPrefID(
+        sportId: Int,
+        prefID: Int
+    ): PreferencesTournament? =
+        withContext(ioDispatcher) {
+            localSqlTasksDao.getPreferencesTournamentBySportIDPrefID(sportId, prefID)
+        }
 
     fun getPreferencesTournamentFlow(): Flow<List<PreferencesTournament>> =
         localSqlTasksDao.getPreferencesTournamentFlow()

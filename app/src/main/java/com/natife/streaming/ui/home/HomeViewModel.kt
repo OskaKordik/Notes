@@ -2,11 +2,11 @@ package com.natife.streaming.ui.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.google.gson.Gson
 import com.natife.streaming.base.BaseViewModel
 import com.natife.streaming.data.match.Match
 import com.natife.streaming.datasource.MatchParams
 import com.natife.streaming.db.LocalSqlDataSourse
+import com.natife.streaming.db.entity.PreferencesTournament
 import com.natife.streaming.ext.toRequest
 import com.natife.streaming.preferenses.SettingsPrefs
 import com.natife.streaming.router.Router
@@ -15,7 +15,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -35,6 +34,7 @@ class HomeViewModelImpl(
     override val listTournament = MutableLiveData<List<TournamentItem>>()
     private val list = MutableLiveData<List<Match>>()
     private val showScore = MutableLiveData<Boolean>()
+    private val prefInTournament = MutableLiveData<List<PreferencesTournament>>()
     private val date = MutableLiveData<Date>()
     private val mutex = Mutex()
     private var isLoading = AtomicBoolean(false)
@@ -92,50 +92,60 @@ class HomeViewModelImpl(
 
     private fun setListTournament(listMatch: List<Match>) {
         if (listMatch.isEmpty()) return
-        var tempId: Int? = null
-        var tempName: String = ""
-        var tempMatchList = mutableListOf<Match>()
-        val resultTournamentList = mutableListOf<TournamentItem>()
-        listMatch.forEach {
-            //TODO Проверка с предпочтениями
-            when {
-                tempId == null -> {
-                    if (listMatch.size > 1) {
+        launch {
+            var tempId: Int? = null
+            var tempName: String = ""
+            var tempMatchList = mutableListOf<Match>()
+            val resultTournamentList = mutableListOf<TournamentItem>()
+            listMatch.forEach { it ->
+                when {
+                    tempId == null -> {
+                        if (listMatch.size > 1) {
+                            tempId = it.tournament.id
+                            tempName = it.tournament.name
+                            tempMatchList.add(it)
+                        } else {
+                            resultTournamentList.add(
+                                TournamentItem.RegularTournamentItem(
+                                    tournamentId = listMatch.first().tournament.id,
+                                    programName = listMatch.first().tournament.name,
+                                    match = listOf(listMatch.first())
+                                )
+                            )
+                        }
+                    }
+                    tempId == it.tournament.id -> {
+                        tempMatchList.add(it)
+                    }
+                    tempId != it.tournament.id -> {
+                        val isPreferred =
+                            localSqlDataSourse.getPreferencesTournamentBySportIDPrefID(
+                                it.sportId,
+                                it.tournament.id
+                            )?.isPreferred
+
+
+                        if (true) {
+                            resultTournamentList.add(
+                                TournamentItem.RegularTournamentItem(
+                                    tournamentId = tempId,
+                                    programName = tempName,
+                                    match = tempMatchList
+                                )
+                            )
+                        }
+
+
                         tempId = it.tournament.id
                         tempName = it.tournament.name
+                        tempMatchList = mutableListOf<Match>()
                         tempMatchList.add(it)
-                    } else {
-                        resultTournamentList.add(
-                            TournamentItem.RegularTournamentItem(
-                                tournamentId = listMatch.first().tournament.id,
-                                programName = listMatch.first().tournament.name,
-                                match = listOf(listMatch.first())
-                            )
-                        )
                     }
                 }
-                tempId == it.tournament.id -> {
-                    tempMatchList.add(it)
-                }
-                tempId != it.tournament.id -> {
-                    resultTournamentList.add(
-                        TournamentItem.RegularTournamentItem(
-                            tournamentId = tempId,
-                            programName = tempName,
-                            match = tempMatchList
-                        )
-                    )
-                    tempId = it.tournament.id
-                    tempName = it.tournament.name
-                    tempMatchList = mutableListOf<Match>()
-                    tempMatchList.add(it)
-                }
             }
+            listTournament.value = resultTournamentList
         }
-        Timber.tag("TAG").d(Gson().toJson(resultTournamentList))
-        listTournament.value = resultTournamentList
     }
-
 
     private var params = MatchParams(
         date = Date().toRequest(),
@@ -151,7 +161,6 @@ class HomeViewModelImpl(
                 matchUseCase.prepare(params)
                 loadList()
             }
-
         }
     }
 
@@ -184,7 +193,7 @@ class HomeViewModelImpl(
                 }
             }
         }
-
+        //tracking global settings
         launchCatching {
             withContext(Dispatchers.IO) {
                 collect(localSqlDataSourse.getGlobalSettingsFlow()) { globalSetings ->
@@ -200,6 +209,16 @@ class HomeViewModelImpl(
                 }
             }
         }
+        //tracking preferences
+        launchCatching {
+            withContext(Dispatchers.IO) {
+                collect(localSqlDataSourse.getPreferencesTournamentFlow()) {
+//                    prefInTournament.value = listPrefTournament
+                    list.value?.let { setListTournament(it) }
+                }
+            }
+        }
+
         launchCatching {
             collect(matchUseCase.list) { matchList ->
                 matchList.map { match ->

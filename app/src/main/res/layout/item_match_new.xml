@@ -2,14 +2,14 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="243dp"
+    android:layout_width="223dp"
     android:focusable="true"
-    android:layout_height="243dp"
+    android:layout_height="223dp"
     android:padding="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="215dp"
+        android:layout_height="match_parent"
         android:background="@drawable/item_background"
         android:duplicateParentState="true"
         android:focusable="true"
@@ -19,7 +19,7 @@
         <ImageView
             android:id="@+id/match_imageView"
             android:layout_width="0dp"
-            android:layout_height="128dp"
+            android:layout_height="124dp"
             android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -80,15 +80,27 @@
 
         <TextView
             android:id="@+id/first_team_textView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
             android:maxLines="1"
+            android:maxLength="23"
             android:textAppearance="@style/TextAppearance.StreamingTheme.Headline6"
-            app:layout_constraintEnd_toStartOf="@+id/first_team_score_textView"
             app:layout_constraintStart_toStartOf="@+id/guidelineStart"
             app:layout_constraintTop_toBottomOf="@+id/match_imageView"
-            tools:text="Orlando" />
+            tools:text="Orlandod" />
+
+        <ImageView
+            android:id="@+id/favorite_first_team_imageView"
+            android:layout_width="7dp"
+            android:layout_height="7dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/first_team_textView"
+            app:layout_constraintEnd_toStartOf="@+id/first_team_score_textView"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/first_team_textView"
+            app:layout_constraintTop_toTopOf="@+id/first_team_textView"
+            app:srcCompat="@drawable/ic_favorites" />
 
         <TextView
             android:id="@+id/first_team_score_textView"
@@ -106,11 +118,23 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:maxLines="1"
-            android:text="TextView"
+            android:maxLength="23"
+            tools:text="Maritzburg"
             android:textAppearance="@style/TextAppearance.StreamingTheme.Headline6"
-            app:layout_constraintEnd_toStartOf="@+id/second_team_score_textView"
             app:layout_constraintStart_toStartOf="@+id/guidelineStart"
             app:layout_constraintTop_toBottomOf="@+id/first_team_textView" />
+
+        <ImageView
+            android:id="@+id/favorite_second_team_imageView"
+            android:layout_width="7dp"
+            android:layout_height="7dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/second_team_textView"
+            app:layout_constraintEnd_toStartOf="@+id/second_team_score_textView"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/second_team_textView"
+            app:layout_constraintTop_toTopOf="@+id/second_team_textView"
+            app:srcCompat="@drawable/ic_favorites" />
 
         <TextView
             android:id="@+id/second_team_score_textView"
@@ -154,6 +178,7 @@
             android:maxLength="20"
             android:textAppearance="@style/TextAppearance.StreamingTheme.Body2"
             android:textColor="@color/button_text_b_w_state_new"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/flag_of_command_country_image_l"
             app:layout_constraintTop_toBottomOf="@+id/second_team_textView"
@@ -199,21 +224,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_begin="35dp" />
+            app:layout_constraintGuide_begin="37dp" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guidelineEndLogoTeam"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_begin="100dp" />
+            app:layout_constraintGuide_begin="102dp" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guidelineEndPreviewImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_begin="128dp" />
+            app:layout_constraintGuide_begin="124dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

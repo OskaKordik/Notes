@@ -4,7 +4,6 @@ import com.natife.streaming.data.dto.sports.SportTranslateDTO
 import com.natife.streaming.db.LocalSqlDataSourse
 import com.natife.streaming.db.entity.PreferencesSport
 import com.natife.streaming.preferenses.SettingsPrefs
-import timber.log.Timber
 
 interface SaveSportUseCase {
     @Deprecated("don't use")
@@ -21,7 +20,6 @@ class SaveSportUseCaseImpl(
 
     @Deprecated("don't use")
     override suspend fun execute(sportId: Int) {
-        Timber.e("lkjndojoif $sportId")
         settingsPrefs.saveSport(sportId)
     }
 
