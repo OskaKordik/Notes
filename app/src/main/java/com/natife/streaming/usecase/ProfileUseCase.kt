@@ -1,5 +1,6 @@
 package com.natife.streaming.usecase
 
+import android.content.Context
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -21,7 +22,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.first
-import timber.log.Timber
 
 interface ProfileUseCase {
     suspend fun prepare(params: MatchParams)
@@ -39,10 +39,12 @@ interface ProfileUseCase {
 class ProfileUseCaseImpl(
     private val matchDataSourceFactory: MatchDataSourceFactory,
     private val api: MainApi,
-    private val localSqlDataSourse: LocalSqlDataSourse
+    private val localSqlDataSourse: LocalSqlDataSourse,
+    private val context: Context
 ) : ProfileUseCase {
 
-    private val _list =  MutableSharedFlow<List<Match>>(replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
+    private val _list =
+        MutableSharedFlow<List<Match>>(replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
     override val list: SharedFlow<List<Match>> = _list
     private var gotEnd = false
     private var page = 0
@@ -57,13 +59,12 @@ class ProfileUseCaseImpl(
             gotEnd = false
             _list.emit(listOf())
         }
-        Timber.e("prepared")
+//        Timber.e("prepared")
     }
 
 
-    override suspend fun load(type: ProfileUseCase.Type){
-
-        Timber.e("list $list")
+    override suspend fun load(type: ProfileUseCase.Type) {
+//        Timber.e("list $list")
         if (!gotEnd) {
             val mPrams = when (type) {
                 ProfileUseCase.Type.TOURNAMENT, ProfileUseCase.Type.SIMPLE -> MatchesRequestSimpleTournament(
@@ -91,7 +92,6 @@ class ProfileUseCaseImpl(
                     playerId = requestParams?.additionalId
                 )
             }
-
             val matches = api.getMatches(
                 BaseRequest(
                     procedure = when (type) {
@@ -105,9 +105,7 @@ class ProfileUseCaseImpl(
             )
             val newList = mutableListOf<Match>()
             newList.addAll(this._list.first())
-
             val preload = matches.videoContent.broadcast?.map { match ->
-
                 Match(
                     id = match.id,
                     sportId = match.sport ?: requestParams?.sportId ?: 0,
@@ -116,17 +114,29 @@ class ProfileUseCaseImpl(
                         ?: "",
                     date = match.date,
                     tournament = Tournament(
-                        match.tournament?.id ?: -1,
-                        match.tournament?.nameRus ?: ""
-                    ),// todo multilang
+                        id = match.tournament?.id ?: -1,
+                        name = when (context.resources.getString(R.string.lang)) {
+                            "en", "EN" -> match.tournament?.nameEng ?: ""
+                            "ru", "RU" -> match.tournament?.nameRus ?: ""
+                            else -> match.tournament?.nameEng ?: ""
+                        }
+                    ),
                     team1 = Team(
-                        match.team1.id,
-                        match.team1.nameRus,
+                        id = match.team1.id,
+                        name = when (context.resources.getString(R.string.lang)) {
+                            "en", "EN" -> match.team1.nameEng ?: ""
+                            "ru", "RU" -> match.team1.nameRus ?: ""
+                            else -> match.team1.nameEng ?: ""
+                        },
                         score = match.team1.score
                     ),
                     team2 = Team(
-                        match.team2.id,
-                        match.team2.nameRus,
+                        id = match.team2.id,
+                        name = when (context.resources.getString(R.string.lang)) {
+                            "en", "EN" -> match.team2.nameEng ?: ""
+                            "ru", "RU" -> match.team2.nameRus ?: ""
+                            else -> match.team1.nameEng ?: ""
+                        },
                         score = match.team2.score
                     ),
                     info = "",
@@ -143,24 +153,19 @@ class ProfileUseCaseImpl(
                     isShowScore = localSqlDataSourse.getGlobalSettings()?.showScore ?: false
                 )
             }
-            newList.addAll(preload?.toList() ?: emptyList() )
+            newList.addAll(preload?.toList() ?: emptyList())
             this._list.emit(newList.toList())
-
             val compl = loadInfo(matches) ?: emptyList()
-            val start = ((newList.size -1) - ((preload?.size ?: 0)-1) )
-            val end =  newList.size - 1
-            Timber.e("JIDUHDIUDHIUD $start $end ${newList.size} ${preload?.size}")
-            if (start in 0 until end){
-                newList.removeAll(preload?: emptyList())
+            val start = ((newList.size - 1) - ((preload?.size ?: 0) - 1))
+            val end = newList.size - 1
+//            Timber.e("JIDUHDIUDHIUD $start $end ${newList.size} ${preload?.size}")
+            if (start in 0 until end) {
+                newList.removeAll(preload ?: emptyList())
                 newList.addAll(compl)
             }
-
-
             val finalList = mutableListOf<Match>()
             finalList.addAll(newList)
-
             this._list.emit(finalList.toList())
-
             page++
         }
         // return list
@@ -177,7 +182,7 @@ class ProfileUseCaseImpl(
             BaseRequest(
                 procedure = API_TRANSLATE,
                 TranslateRequest(
-                    language = "ru", //todo remove hardcode
+                    language = context.resources.getString(R.string.lang),
                     params = sports.map { it.lexic }
                 )
             )
@@ -234,20 +239,39 @@ class ProfileUseCaseImpl(
                         ?: "",
                     date = match.date,
                     tournament = Tournament(
-                        match.tournament?.id ?: -1,
-                        match.tournament?.nameRus ?: ""
-                    ),// todo multilang
+                        id = match.tournament?.id ?: -1,
+                        name = when (context.resources.getString(R.string.lang)) {
+                            "en", "EN" -> match.tournament?.nameEng ?: ""
+                            "ru", "RU" -> match.tournament?.nameRus ?: ""
+                            else -> match.tournament?.nameEng ?: ""
+                        }
+                    ),
                     team1 = Team(
-                        match.team1.id,
-                        match.team1.nameRus,
+                        id = match.team1.id,
+                        name = when (context.resources.getString(R.string.lang)) {
+                            "en", "EN" -> match.team1.nameEng ?: ""
+                            "ru", "RU" -> match.team1.nameRus ?: ""
+                            else -> match.team1.nameEng ?: ""
+                        },
                         score = match.team1.score
                     ),
                     team2 = Team(
-                        match.team2.id,
-                        match.team2.nameRus,
+                        id = match.team2.id,
+                        name = when (context.resources.getString(R.string.lang)) {
+                            "en", "EN" -> match.team2.nameEng ?: ""
+                            "ru", "RU" -> match.team2.nameRus ?: ""
+                            else -> match.team1.nameEng ?: ""
+                        },
                         score = match.team2.score
                     ),
-                    info = "${profile.await()?.country?.name_rus} ${profile.await()?.nameRus}",
+                    info = when (context.resources.getString(R.string.lang)) {
+                        "en", "EN" -> "${profile.await()?.country?.name_eng} ${profile.await()?.nameEng}"
+                            ?: ""
+                        "ru", "RU" -> "${profile.await()?.country?.name_rus} ${profile.await()?.nameRus}"
+                            ?: ""
+                        else -> "${profile.await()?.country?.name_eng} ${profile.await()?.nameEng}"
+                            ?: ""
+                    },
                     access = match.access,
                     hasVideo = match.hasVideo,
                     image = image,
@@ -262,13 +286,8 @@ class ProfileUseCaseImpl(
                 )
             }
         }
-
-
         return data
-
-
     }
-
 
     @Deprecated("Use method above")
     override fun executeFlow(pageSize: Int): Flow<PagingData<Match>> {
@@ -276,5 +295,4 @@ class ProfileUseCaseImpl(
             matchDataSourceFactory.invoke()
         }.flow
     }
-
 }

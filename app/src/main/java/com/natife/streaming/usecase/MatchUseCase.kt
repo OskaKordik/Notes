@@ -264,7 +264,14 @@ class MatchUseCaseImpl(
                         },
                         score = match.team2.score
                     ),
-                    info = "${profile.await()?.country?.name_rus} ${profile.await()?.nameRus}",
+                    info = when (context.resources.getString(R.string.lang)) {
+                        "en", "EN" -> "${profile.await()?.country?.name_eng} ${profile.await()?.nameEng}"
+                            ?: ""
+                        "ru", "RU" -> "${profile.await()?.country?.name_rus} ${profile.await()?.nameRus}"
+                            ?: ""
+                        else -> "${profile.await()?.country?.name_eng} ${profile.await()?.nameEng}"
+                            ?: ""
+                    },
                     access = match.access,
                     hasVideo = match.hasVideo,
                     image = image,
@@ -288,6 +295,5 @@ class MatchUseCaseImpl(
             matchDataSourceFactory.invoke()
         }.flow
     }
-
 }
 

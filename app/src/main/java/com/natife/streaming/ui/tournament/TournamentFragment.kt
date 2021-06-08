@@ -82,11 +82,6 @@ class TournamentFragment : BaseFragment<TournamentViewModel>() {
                         )
                     }
                 }
-
-
-
-
-
                 (activity as MainActivity).flag_of_command_country_image_l?.bindFlagImage(it.countryId)
                 (activity as MainActivity).country_name_text_l?.text = it.countryName
                 (activity as MainActivity).favorites_button?.setOnClickListener { v ->
@@ -98,16 +93,42 @@ class TournamentFragment : BaseFragment<TournamentViewModel>() {
         subscribe(viewModel.team) {
             (activity as MainActivity).tournament_title_text?.text = it.name
             (activity as MainActivity).tournament_logo_image?.url(it.image, it.placeholder)
-            (activity as MainActivity).favorites_button?.icon = if (it.isFavorite) {
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.ic_star
-                )
-            } else {
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.ic_star_outline
-                )
+            (activity as MainActivity).favorites_button?.apply {
+                when (it.isFavorite) {
+                    true -> {
+                        icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_star)
+                        strokeColor = ColorStateList.valueOf(
+                            resources.getColor(
+                                R.color.white,
+                                requireContext().theme
+                            )
+                        )
+                        iconTint = WBColorStateList
+                        setTextColor(WBColorStateList)
+                    }
+                    false -> {
+                        icon =
+                            ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_outline)
+                        strokeColor = ColorStateList.valueOf(
+                            resources.getColor(
+                                R.color.black_transparent_30,
+                                requireContext().theme
+                            )
+                        )
+                        iconTint = ColorStateList.valueOf(
+                            resources.getColor(
+                                R.color.black_transparent_30,
+                                requireContext().theme
+                            )
+                        )
+                        setTextColor(
+                            resources.getColor(
+                                R.color.black_transparent_30,
+                                requireContext().theme
+                            )
+                        )
+                    }
+                }
             }
             (activity as MainActivity).flag_of_command_country_image_l?.bindFlagImage(it.countryId)
             (activity as MainActivity).country_name_text_l?.text = it.countryName
@@ -118,16 +139,42 @@ class TournamentFragment : BaseFragment<TournamentViewModel>() {
         subscribe(viewModel.player) {
             (activity as MainActivity).tournament_title_text?.text = it.name
             (activity as MainActivity).tournament_logo_image?.url(it.image, it.imagePlaceholder)
-            (activity as MainActivity).favorites_button?.icon = if (it.isFavorite) {
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.ic_star
-                )
-            } else {
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.ic_star_outline
-                )
+            (activity as MainActivity).favorites_button?.apply {
+                when (it.isFavorite) {
+                    true -> {
+                        icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_star)
+                        strokeColor = ColorStateList.valueOf(
+                            resources.getColor(
+                                R.color.white,
+                                requireContext().theme
+                            )
+                        )
+                        iconTint = WBColorStateList
+                        setTextColor(WBColorStateList)
+                    }
+                    false -> {
+                        icon =
+                            ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_outline)
+                        strokeColor = ColorStateList.valueOf(
+                            resources.getColor(
+                                R.color.black_transparent_30,
+                                requireContext().theme
+                            )
+                        )
+                        iconTint = ColorStateList.valueOf(
+                            resources.getColor(
+                                R.color.black_transparent_30,
+                                requireContext().theme
+                            )
+                        )
+                        setTextColor(
+                            resources.getColor(
+                                R.color.black_transparent_30,
+                                requireContext().theme
+                            )
+                        )
+                    }
+                }
             }
             (activity as MainActivity).flag_of_command_country_image_l?.bindFlagImage(it.countryId)
             (activity as MainActivity).country_name_text_l?.text = it.countryName
@@ -135,7 +182,6 @@ class TournamentFragment : BaseFragment<TournamentViewModel>() {
                 viewModel.addToFavorite(it)
             }
         }
-
         tournamentRecycler.focusScrollStrategy = BaseGridView.FOCUS_SCROLL_ITEM
         tournamentRecycler.setNumColumns(4)
         tournamentRecycler.adapter = adapter

@@ -228,7 +228,7 @@ val useCaseModule = module {
     factory<FavoritesUseCase> { FavoritesUseCaseImpl(get(), get()) }
     factory<TeamUseCase> { TeamUseCaseImpl(get(), get()) }
     factory<PlayerUseCase> { PlayerUseCaseImpl(get(), get()) }
-    factory<ProfileUseCase> { ProfileUseCaseImpl(get(), get(), get()) }
+    factory<ProfileUseCase> { ProfileUseCaseImpl(get(), get(), get(), get()) }
     factory<ProfileColorUseCase> { ProfileColorUseCaseImpl(get()) }
 
 }
