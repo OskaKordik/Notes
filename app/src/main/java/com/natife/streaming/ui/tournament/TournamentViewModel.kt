@@ -5,19 +5,16 @@ import androidx.lifecycle.MutableLiveData
 import com.natife.streaming.base.BaseViewModel
 import com.natife.streaming.data.Tournament
 import com.natife.streaming.data.match.Match
-import com.natife.streaming.data.match.Team
 import com.natife.streaming.data.matchprofile.Player
 import com.natife.streaming.data.search.SearchResult
 import com.natife.streaming.datasource.MatchParams
 import com.natife.streaming.router.Router
 import com.natife.streaming.usecase.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 import java.util.concurrent.atomic.AtomicBoolean
 
 class TournamentViewModel(
@@ -53,7 +50,7 @@ class TournamentViewModel(
      fun loadList() {
         launch {
             mutex.withLock {
-                Timber.e("JHDIDND ${System.currentTimeMillis()} load ${list.value?.size}")
+//                Timber.e("JHDIDND ${System.currentTimeMillis()} load ${list.value?.size}")
                 if (isLoading.get()) {
                     return@launch
                 }
@@ -69,7 +66,7 @@ class TournamentViewModel(
             }
 
 
-            Timber.e("JHDIDND 2 ${System.currentTimeMillis()} loaded ${list.value?.size}")
+//            Timber.e("JHDIDND 2 ${System.currentTimeMillis()} loaded ${list.value?.size}")
             isLoading.set(false)
 
         }
@@ -83,7 +80,7 @@ class TournamentViewModel(
             }
         }
         params = params.copy(additionalId = additionalId,sportId = sportId)
-        Timber.e("komdkmfkdfmlfkmdlkfmf $type")
+//        Timber.e("komdkmfkdfmlfkmdlkfmf $type")
         when(type){
             SearchResult.Type.PLAYER ->launch {
                 _player.value = playerUseCase.execute(sportId,additionalId)
@@ -110,16 +107,24 @@ class TournamentViewModel(
 
     }
 
-    fun onScoreClicked() {
-        router.toast("Счет")
-    }
+//    fun onScoreClicked() {
+//        router.toast("Счет")
+//    }
 
     fun addToFavorite(tournament: Tournament) {
         launch {
-            if (tournament.isFavorite){
-                saveDeleteFavoriteUseCase.executeDelete(sportId=sportId,id = additionalId,type = SearchResult.Type.TOURNAMENT)
-            }else{
-                saveDeleteFavoriteUseCase.executeSave(sportId=sportId,id = additionalId,type = SearchResult.Type.TOURNAMENT)
+            if (tournament.isFavorite) {
+                saveDeleteFavoriteUseCase.executeDelete(
+                    sportId = sportId,
+                    id = additionalId,
+                    type = SearchResult.Type.TOURNAMENT
+                )
+            } else {
+                saveDeleteFavoriteUseCase.executeSave(
+                    sportId = sportId,
+                    id = additionalId,
+                    type = SearchResult.Type.TOURNAMENT
+                )
             }
             _tournament.value = tournament.copy(isFavorite = !tournament.isFavorite)
         }

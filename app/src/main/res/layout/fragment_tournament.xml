@@ -4,62 +4,60 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/icon"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="26dp"
-        android:src="@drawable/mock_tournament"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <!--    <ImageView-->
+    <!--        android:id="@+id/icon"-->
+    <!--        android:layout_width="80dp"-->
+    <!--        android:layout_height="80dp"-->
+    <!--        android:layout_marginStart="32dp"-->
+    <!--        android:layout_marginTop="26dp"-->
+    <!--        android:src="@drawable/mock_tournament"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
 
-    <TextView
-        android:id="@+id/tournamentTitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="34dp"
-        android:layout_marginEnd="34dp"
-        android:text="Российская Премьер-Лига"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="@+id/icon"
-        app:layout_constraintEnd_toStartOf="@+id/scoreBtn"
-        app:layout_constraintStart_toEndOf="@+id/icon"
-        app:layout_constraintTop_toTopOf="@+id/icon" />
+    <!--    <TextView-->
+    <!--        android:id="@+id/tournamentTitle"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginStart="34dp"-->
+    <!--        android:layout_marginEnd="34dp"-->
+    <!--        android:text="Российская Премьер-Лига"-->
+    <!--        android:textAppearance="@style/TextAppearance.AppCompat.Headline"-->
+    <!--        android:textColor="@color/white"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@+id/icon"-->
+    <!--        app:layout_constraintEnd_toStartOf="@+id/scoreBtn"-->
+    <!--        app:layout_constraintStart_toEndOf="@+id/icon"-->
+    <!--        app:layout_constraintTop_toTopOf="@+id/icon" />-->
 
-    <Button
-        android:id="@+id/scoreBtn"
-        style="@style/materialButtonStile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="11dp"
-        android:text="@string/score"
-        app:layout_constraintBottom_toBottomOf="@+id/icon"
-        app:layout_constraintEnd_toStartOf="@+id/addToFavoriteBtn"
-        app:layout_constraintTop_toTopOf="@+id/icon" />
+    <!--    <Button-->
+    <!--        android:id="@+id/scoreBtn"-->
+    <!--        style="@style/materialButtonStile"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginEnd="11dp"-->
+    <!--        android:text="@string/score"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@+id/icon"-->
+    <!--        app:layout_constraintEnd_toStartOf="@+id/addToFavoriteBtn"-->
+    <!--        app:layout_constraintTop_toTopOf="@+id/icon" />-->
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/addToFavoriteBtn"
-        style="@style/materialButtonStile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:text="@string/add_to_favorite"
-        app:layout_constraintBottom_toBottomOf="@+id/icon"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/icon" />
+    <!--    <com.google.android.material.button.MaterialButton-->
+    <!--        android:id="@+id/addToFavoriteBtn"-->
+    <!--        style="@style/materialButtonStile"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginEnd="20dp"-->
+    <!--        android:text="@string/add_to_favorite"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@+id/icon"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="@+id/icon" />-->
 
     <androidx.leanback.widget.VerticalGridView
         android:id="@+id/tournamentRecycler"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:focusOutFront="true"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/icon" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

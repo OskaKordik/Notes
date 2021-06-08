@@ -112,6 +112,90 @@
             tools:layout_editor_absoluteY="31dp"
             tools:text="Понедельник" />
 
+        <ImageView
+            android:id="@+id/tournament_logo_image"
+            android:layout_width="97dp"
+            android:layout_height="97dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tournament_title_text"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0"
+            tools:srcCompat="@drawable/mock_tournament" />
+
+        <TextView
+            android:id="@+id/tournament_title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:textAppearance="@style/TextAppearance.StreamingTheme.Headline3"
+            app:layout_constraintBottom_toTopOf="@+id/country_name_text_l"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/tournament_logo_image"
+            app:layout_constraintTop_toTopOf="@+id/tournament_logo_image"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="Российская премьер-лига" />
+
+        <ImageView
+            android:id="@+id/flag_of_command_country_image_l"
+            android:layout_width="20dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="@+id/country_name_text_l"
+            app:layout_constraintStart_toEndOf="@+id/tournament_logo_image"
+            app:layout_constraintTop_toTopOf="@+id/country_name_text_l"
+            tools:ignore="contentDescription"
+            tools:srcCompat="@drawable/ic_flag_new" />
+
+        <TextView
+            android:id="@+id/country_name_text_l"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.StreamingTheme.Headline4"
+            app:layout_constraintBottom_toBottomOf="@+id/tournament_logo_image"
+            app:layout_constraintStart_toEndOf="@+id/flag_of_command_country_image_l"
+            app:layout_constraintTop_toBottomOf="@+id/tournament_title_text"
+            tools:text="Россия" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/favorites_button"
+            style="@style/ButtonOutlinedTransparentButtonIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_marginEnd="30dp"
+            android:focusable="true"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:nextFocusDown="@+id/log"
+            android:text="@string/favorites"
+            app:icon="@drawable/ic_star_outline"
+            app:iconGravity="textStart"
+            app:iconSize="17dp"
+            app:layout_constraintBottom_toBottomOf="@+id/country_name_text_l"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tournament_title_text" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/main_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="score_button, preferences_button, calendar_left, calendar_right, data_text, day_of_weektext_text"
+            android:visibility="visible" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/tournament_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="tournament_logo_image, tournament_title_text, flag_of_command_country_image_l, country_name_text_l, favorites_button"
+            android:visibility="gone" />
+
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline"
             android:layout_width="wrap_content"

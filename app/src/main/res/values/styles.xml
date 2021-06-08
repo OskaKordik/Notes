@@ -46,6 +46,10 @@
         <item name="shapeAppearance">@style/ShapeAppearance.StreamingTheme.LargeComponent</item>
     </style>
 
+    <style name="ButtonOutlinedTransparentButtonIcon" parent="ButtonOutlinedTransparentButton">
+        <item name="iconTint">@color/button_text_b_w_state_new</item>
+    </style>
+
     <style name="ButtonTransparentNoOutlined" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="backgroundTint">@color/button_background_t_w_state_new</item>
         <item name="android:textColor">@color/button_text_b_w_state_new</item>
