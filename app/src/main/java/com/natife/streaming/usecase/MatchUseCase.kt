@@ -153,7 +153,7 @@ class MatchUseCaseImpl(
                     live = match.live,
                     storage = match.storage,
                     subscribed = match.sub,
-                    isShoveScore = localSqlDataSourse.getGlobalSettings()?.showScore ?: false
+                    isShowScore = localSqlDataSourse.getGlobalSettings()?.showScore ?: false
                 )
             }
             newList.addAll(preload?.toList() ?: emptyList())
@@ -275,7 +275,7 @@ class MatchUseCaseImpl(
                     live = match.live,
                     storage = match.storage,
                     subscribed = match.sub,
-                    isShoveScore = localSqlDataSourse.getGlobalSettings()?.showScore ?: false
+                    isShowScore = localSqlDataSourse.getGlobalSettings()?.showScore ?: false
                 )
             }
             data

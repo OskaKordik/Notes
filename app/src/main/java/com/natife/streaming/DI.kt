@@ -105,6 +105,8 @@ val viewModelModule = module {
             get(),
             get(),
             get(),
+            get(),
+            get(),
             get()
         )
     }
@@ -160,7 +162,7 @@ val viewModelModule = module {
     viewModel<GenderViewModel> { GenderViewModelImpl(get(), get(), get()) }
     viewModel<PlayerViewModel> { (args: PlayerFragmentArgs) -> PlayerViewModelImpl(args.setup) }
     viewModel<SettingsViewModel> { SettingsViewModelImpl(get(), get(), get(), get(), get(), get()) }
-    viewModel<FavoriteViewModel> { FavoriteViewModelImpl(get(), get(), get(), get()) }
+    viewModel<FavoriteViewModel> { FavoriteViewModelImpl(get(), get(), get(), get(), get()) }
 }
 
 val prefsModule = module {
@@ -227,6 +229,7 @@ val useCaseModule = module {
     factory<TeamUseCase> { TeamUseCaseImpl(get(), get()) }
     factory<PlayerUseCase> { PlayerUseCaseImpl(get(), get()) }
     factory<ProfileUseCase> { ProfileUseCaseImpl(get(), get(), get()) }
+    factory<ProfileColorUseCase> { ProfileColorUseCaseImpl(get()) }
 
 }
 

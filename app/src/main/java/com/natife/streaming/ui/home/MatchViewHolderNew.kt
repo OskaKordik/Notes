@@ -27,11 +27,11 @@ open class MatchViewHolderNew(private val view: View) : BaseViewHolder<Match>(vi
 
         itemView.first_team_textView.text = data.team1.name
         itemView.first_team_score_textView.text =
-            if (data.isShoveScore) data.team1.score.toString() else ""
+            if (data.isShowScore) data.team1.score.toString() else ""
 
         itemView.second_team_textView.text = data.team2.name
         itemView.second_team_score_textView.text =
-            if (data.isShoveScore) data.team2.score.toString() else ""
+            if (data.isShowScore) data.team2.score.toString() else ""
 
         itemView.tournament_name_text.text = data.tournament.name
 

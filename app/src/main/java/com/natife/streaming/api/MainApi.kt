@@ -9,6 +9,7 @@ import com.natife.streaming.data.dto.match.BroadcastDTO
 import com.natife.streaming.data.dto.match.MatchesDTO
 import com.natife.streaming.data.dto.matchprofile.MatchInfoDTO
 import com.natife.streaming.data.dto.matchprofile.MatchProfileDTO
+import com.natife.streaming.data.dto.matchprofile.ProfileColorDTO
 import com.natife.streaming.data.dto.player.PlayerDTO
 import com.natife.streaming.data.dto.register.RegisterDTO
 import com.natife.streaming.data.dto.register.RequestRegister
@@ -46,14 +47,22 @@ interface MainApi {
 
     @POST("data")
     suspend fun getTournamentList(@Body body: BaseRequest<TournamentsRequest>): TournamentListDTO
+
     @POST("data")
     suspend fun getTranslate(@Body body: BaseRequest<TranslateRequest>): TranslatesDTO //new
 
+    @POST("profile/color")
+    suspend fun getProfileColor(@Body body: BaseRequest<ProfileColorRequest>): ProfileColorDTO //new
+
     @POST("data/{sport}")
-    suspend fun getMatchInfo(@Body body: BaseRequest<BaseParams>,@Path("sport") sport: String): MatchInfoDTO
+    suspend fun getMatchInfo(
+        @Body body: BaseRequest<BaseParams>,
+        @Path("sport") sport: String
+    ): MatchInfoDTO
 
     @POST("videoapi")
     suspend fun getVideoFile(@Body body: VideoRequest): VideoDTO
+
     //@POST("video/stream")
     //suspend fun getVideoStream(@Body body: BaseRequest<VideoRequest>): ???
 

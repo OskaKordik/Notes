@@ -150,7 +150,7 @@ class MatchDataSource(
                             live = match.live,
                             storage = match.storage,
                             subscribed = match.sub,
-                            isShoveScore = localSqlDataSourse.getGlobalSettings()?.showScore
+                            isShowScore = localSqlDataSourse.getGlobalSettings()?.showScore
                                 ?: false
                         )
                     }

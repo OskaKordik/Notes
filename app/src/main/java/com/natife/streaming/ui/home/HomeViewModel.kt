@@ -170,7 +170,7 @@ class HomeViewModelImpl(
                     showScore.value = globalSetings?.showScore
                     list.value?.let { matchList ->
                         matchList.map { match ->
-                            match.copy(isShoveScore = globalSetings?.showScore ?: false)
+                            match.copy(isShowScore = globalSetings?.showScore ?: false)
                         }.let {
                             list.value = it
                             setListTournament(it)
@@ -192,7 +192,7 @@ class HomeViewModelImpl(
         launchCatching {
             collect(matchUseCase.list) { matchList ->
                 matchList.map { match ->
-                    match.copy(isShoveScore = showScore.value ?: false)
+                    match.copy(isShowScore = showScore.value ?: false)
                 }.let {
                     list.value = it
                     setListTournament(it)

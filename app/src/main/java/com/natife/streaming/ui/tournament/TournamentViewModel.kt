@@ -8,6 +8,7 @@ import com.natife.streaming.data.match.Match
 import com.natife.streaming.data.matchprofile.Player
 import com.natife.streaming.data.search.SearchResult
 import com.natife.streaming.datasource.MatchParams
+import com.natife.streaming.db.LocalSqlDataSourse
 import com.natife.streaming.router.Router
 import com.natife.streaming.usecase.*
 import kotlinx.coroutines.Dispatchers
@@ -18,17 +19,18 @@ import kotlinx.coroutines.withContext
 import java.util.concurrent.atomic.AtomicBoolean
 
 class TournamentViewModel(
-    private val sportId:Int,
-    private val additionalId:Int,
+    private val sportId: Int,
+    private val additionalId: Int,
     private val type: SearchResult.Type,
     private val router: Router,
     private val tournamentUseCase: TournamentUseCase,
     private val teamUseCase: TeamUseCase,
     private val playerUseCase: PlayerUseCase,
     private val matchUseCase: ProfileUseCase,
-    private val saveDeleteFavoriteUseCase: SaveDeleteFavoriteUseCase
+    private val saveDeleteFavoriteUseCase: SaveDeleteFavoriteUseCase,
+    private val localSqlDataSourse: LocalSqlDataSourse,
+    private val profileColorUseCase: ProfileColorUseCase
 ) : BaseViewModel() {
-
     private val _tournament = MutableLiveData<Tournament>()
     private val _team = MutableLiveData<SearchResult>()
     private val _player = MutableLiveData<Player>()
@@ -47,7 +49,7 @@ class TournamentViewModel(
 
     private val mutex = Mutex()
     private var isLoading = AtomicBoolean(false)
-     fun loadList() {
+    fun loadList() {
         launch {
             mutex.withLock {
 //                Timber.e("JHDIDND ${System.currentTimeMillis()} load ${list.value?.size}")
@@ -58,10 +60,10 @@ class TournamentViewModel(
 
             isLoading.set(true)
 
-            when(type){
-                SearchResult.Type.PLAYER ->matchUseCase.load(ProfileUseCase.Type.PLAYER)
+            when (type) {
+                SearchResult.Type.PLAYER -> matchUseCase.load(ProfileUseCase.Type.PLAYER)
                 SearchResult.Type.TEAM -> matchUseCase.load(ProfileUseCase.Type.TEAM)
-                SearchResult.Type.TOURNAMENT ->matchUseCase.load(ProfileUseCase.Type.TOURNAMENT)
+                SearchResult.Type.TOURNAMENT -> matchUseCase.load(ProfileUseCase.Type.TOURNAMENT)
                 SearchResult.Type.NON -> matchUseCase.load(ProfileUseCase.Type.TOURNAMENT)
             }
 
@@ -72,24 +74,35 @@ class TournamentViewModel(
         }
     }
 
-    init {
+    fun gepProfileColor(sportId: Int, profileType: String, profileId: Int) {
+        launch {
+            val a = profileColorUseCase.execute(sportId, profileType, profileId)
+        }
+    }
 
+    init {
         launchCatching {
-            collect(matchUseCase.list){
-                _list.value = it
+            val isShowScore = localSqlDataSourse.getGlobalSettings()?.showScore
+            collect(matchUseCase.list) {
+                it.map { match ->
+                    match.copy(isShowScore = isShowScore ?: false)
+                }.let { matchList ->
+                    _list.value = matchList
+                }
             }
         }
-        params = params.copy(additionalId = additionalId,sportId = sportId)
+
+        params = params.copy(additionalId = additionalId, sportId = sportId)
 //        Timber.e("komdkmfkdfmlfkmdlkfmf $type")
-        when(type){
-            SearchResult.Type.PLAYER ->launch {
-                _player.value = playerUseCase.execute(sportId,additionalId)
+        when (type) {
+            SearchResult.Type.PLAYER -> launch {
+                _player.value = playerUseCase.execute(sportId, additionalId)
             }
-            SearchResult.Type.TEAM ->launch {
-                _team.value = teamUseCase.execute(sportId,additionalId)
+            SearchResult.Type.TEAM -> launch {
+                _team.value = teamUseCase.execute(sportId, additionalId)
             }
-            SearchResult.Type.TOURNAMENT ->launch {
-               _tournament.value = tournamentUseCase.execute(sportId,additionalId)
+            SearchResult.Type.TOURNAMENT -> launch {
+                _tournament.value = tournamentUseCase.execute(sportId, additionalId)
             }
             SearchResult.Type.NON -> launch { cancel() }
         }
@@ -106,10 +119,6 @@ class TournamentViewModel(
         }
 
     }
-
-//    fun onScoreClicked() {
-//        router.toast("Счет")
-//    }
 
     fun addToFavorite(tournament: Tournament) {
         launch {
@@ -131,24 +140,42 @@ class TournamentViewModel(
 
 
     }
+
     fun addToFavorite(player: Player) {
         launch {
-            if (player.isFavorite){
-                saveDeleteFavoriteUseCase.executeDelete(sportId=sportId,id = additionalId,type = SearchResult.Type.PLAYER)
-            }else{
-                saveDeleteFavoriteUseCase.executeSave(sportId=sportId,id = additionalId,type = SearchResult.Type.PLAYER)
+            if (player.isFavorite) {
+                saveDeleteFavoriteUseCase.executeDelete(
+                    sportId = sportId,
+                    id = additionalId,
+                    type = SearchResult.Type.PLAYER
+                )
+            } else {
+                saveDeleteFavoriteUseCase.executeSave(
+                    sportId = sportId,
+                    id = additionalId,
+                    type = SearchResult.Type.PLAYER
+                )
             }
             _player.value = player.copy(isFavorite = !player.isFavorite)
         }
 
 
     }
+
     fun addToFavorite(team: SearchResult) {
         launch {
-            if (team.isFavorite){
-                saveDeleteFavoriteUseCase.executeDelete(sportId=sportId,id = additionalId,type = SearchResult.Type.TEAM)
-            }else{
-                saveDeleteFavoriteUseCase.executeSave(sportId=sportId,id = additionalId,type = SearchResult.Type.TEAM)
+            if (team.isFavorite) {
+                saveDeleteFavoriteUseCase.executeDelete(
+                    sportId = sportId,
+                    id = additionalId,
+                    type = SearchResult.Type.TEAM
+                )
+            } else {
+                saveDeleteFavoriteUseCase.executeSave(
+                    sportId = sportId,
+                    id = additionalId,
+                    type = SearchResult.Type.TEAM
+                )
             }
             _team.value = team.copy(isFavorite = !team.isFavorite)
         }
@@ -157,6 +184,11 @@ class TournamentViewModel(
     }
 
     fun toProfile(match: Match) {
-        router.navigate(TournamentFragmentDirections.actionTournamentFragmentToMatchProfileFragment(match.id,match.sportId))
+        router.navigate(
+            TournamentFragmentDirections.actionTournamentFragmentToMatchProfileFragment(
+                match.id,
+                match.sportId
+            )
+        )
     }
 }

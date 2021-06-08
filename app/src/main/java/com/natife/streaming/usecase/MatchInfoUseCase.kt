@@ -89,7 +89,7 @@ class MatchInfoUseCaseImpl(
             live = match.live,
             storage = match.storage,
             subscribed = match.sub,
-            isShoveScore = localSqlDataSourse.getGlobalSettings()?.showScore ?: false
+            isShowScore = localSqlDataSourse.getGlobalSettings()?.showScore ?: false
         )
     }
 

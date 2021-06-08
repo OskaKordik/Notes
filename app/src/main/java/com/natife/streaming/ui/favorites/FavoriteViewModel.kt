@@ -7,12 +7,15 @@ import com.natife.streaming.R
 import com.natife.streaming.base.BaseViewModel
 import com.natife.streaming.data.match.Match
 import com.natife.streaming.data.search.SearchResult
+import com.natife.streaming.db.LocalSqlDataSourse
 import com.natife.streaming.router.Router
 import com.natife.streaming.usecase.FavoritesUseCase
 import com.natife.streaming.usecase.MatchUseCase
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -30,14 +33,14 @@ class FavoriteViewModelImpl(
     private val favoritesUseCase: FavoritesUseCase,
     private val matchUseCase: MatchUseCase,
     private val router: Router,
-    private val context: Context
+    private val context: Context,
+    private val localSqlDataSourse: LocalSqlDataSourse
 ) : FavoriteViewModel() {
-
-
     override val favorites = MutableLiveData<List<FavoritesAdapter.Favorite>>()
     override val matches = MutableLiveData<List<Match>>()
     private var process: Job? = null
     private var selected: SearchResult? = null
+    private val showScore = MutableLiveData<Boolean>()
 
     override fun onFavoriteSelected(searchResult: SearchResult) {
         Timber.e("$searchResult")
@@ -98,9 +101,29 @@ class FavoriteViewModelImpl(
 
     init {
 
+        //tracking global settings
         launchCatching {
-            collect(matchUseCase.list) {
-                matches.value = it
+            withContext(Dispatchers.IO) {
+                collect(localSqlDataSourse.getGlobalSettingsFlow()) { globalSetings ->
+                    showScore.value = globalSetings?.showScore
+                    matches.value?.let { matchList ->
+                        matchList.map { match ->
+                            match.copy(isShowScore = globalSetings?.showScore ?: false)
+                        }.let {
+                            matches.value = it
+                        }
+                    }
+                }
+            }
+        }
+
+        launchCatching {
+            collect(matchUseCase.list) { matchList ->
+                matchList.map { match ->
+                    match.copy(isShowScore = showScore.value ?: false)
+                }.let {
+                    matches.value = it
+                }
             }
         }
 

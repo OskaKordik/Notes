@@ -21,6 +21,6 @@ data class Match(
     val access: Boolean,
     val image: String,
     val placeholder: String,
-    val isShoveScore: Boolean
+    val isShowScore: Boolean
 ): Parcelable
 

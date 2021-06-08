@@ -2,6 +2,7 @@ package com.natife.streaming.data.dto.matchprofile
 
 import com.google.gson.annotations.SerializedName
 
+
 data class MatchProfileDTO(
     val country: Country,
     val id: Int,
