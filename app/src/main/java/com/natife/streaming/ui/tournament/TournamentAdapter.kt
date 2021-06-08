@@ -6,7 +6,6 @@ import com.natife.streaming.R
 import com.natife.streaming.base.BaseListAdapter
 import com.natife.streaming.data.match.Match
 import com.natife.streaming.ui.home.MatchDiffUtil
-import com.natife.streaming.ui.home.MatchViewHolder
 
 class TournamentAdapter(private val onClick :((Match)->Unit)): BaseListAdapter<Match, TournamentViewHolder>(MatchDiffUtil()) {
 
@@ -15,7 +14,8 @@ class TournamentAdapter(private val onClick :((Match)->Unit)): BaseListAdapter<M
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TournamentViewHolder {
         return TournamentViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_match, parent, false), onClick
+            LayoutInflater.from(parent.context).inflate(R.layout.item_match_new, parent, false),
+            onClick
         )
     }
 

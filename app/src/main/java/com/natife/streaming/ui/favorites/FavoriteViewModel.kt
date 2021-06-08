@@ -42,8 +42,14 @@ class FavoriteViewModelImpl(
     override fun onFavoriteSelected(searchResult: SearchResult) {
         Timber.e("$searchResult")
 
-        if (searchResult.id>0){
-            router.navigate(FavoritesFragmentDirections.actionFavoritesFragmentToTournamentFragment(searchResult.sport,searchResult.id,searchResult.type))
+        if (searchResult.id > 0) {
+            router.navigate(
+                FavoritesFragmentDirections.actionFavoritesFragmentToTournamentFragment(
+                    searchResult.sport,
+                    searchResult.id,
+                    searchResult.type
+                )
+            )
         }
 
 
@@ -54,7 +60,7 @@ class FavoriteViewModelImpl(
 //            subOnly = false,
 //            additionalId =searchResult.id))
             selected = searchResult
-         //   loadNext()
+            //   loadNext()
         }
     }
 
@@ -72,7 +78,7 @@ class FavoriteViewModelImpl(
             }
 
             isLoading.set(true)
-             matchUseCase.load( MatchUseCase.Type.SIMPLE)
+            matchUseCase.load(MatchUseCase.Type.SIMPLE)
 
             isLoading.set(false)
 
@@ -82,13 +88,18 @@ class FavoriteViewModelImpl(
     }
 
     override fun goToProfile(match: Match) {
-        router.navigate(FavoritesFragmentDirections.actionFavoritesFragmentToMatchProfileFragment(matchId = match.id,sportId = match.sportId))
+        router.navigate(
+            FavoritesFragmentDirections.actionFavoritesFragmentToMatchProfileFragment(
+                matchId = match.id,
+                sportId = match.sportId
+            )
+        )
     }
 
     init {
 
         launchCatching {
-            collect(matchUseCase.list){
+            collect(matchUseCase.list) {
                 matches.value = it
             }
         }
@@ -98,17 +109,21 @@ class FavoriteViewModelImpl(
             val _favorites = favoritesUseCase.execute()
             val groups = _favorites.groupBy { it.type }
             val list = mutableListOf<FavoritesAdapter.Favorite>()
-            list.add(SearchResult(
-                name = context.resources.getString(R.string.all),
-                sport = -1,
-                gender = -1,
-                image = "",
-                placeholder = "",
-                id = -1,
-                type = SearchResult.Type.NON
-            ))
+            list.add(
+                SearchResult(
+                    name = context.resources.getString(R.string.all),
+                    sport = -1,
+                    gender = -1,
+                    image = "",
+                    placeholder = "",
+                    id = -1,
+                    type = SearchResult.Type.NON,
+                    countryId = -1,
+                    countryName = ""
+                )
+            )
             groups.keys.forEach {
-                when(it){
+                when (it) {
                     SearchResult.Type.PLAYER -> {
                         list.add(FavoritesAdapter.Header(text = context.resources.getString(R.string.players)))
                         list.addAll(groups[it]?.toList() ?: listOf())

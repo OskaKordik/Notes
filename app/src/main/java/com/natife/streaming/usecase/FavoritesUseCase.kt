@@ -29,8 +29,11 @@ class FavoritesUseCaseImpl(
             SearchResult(
                 id = it.id,
                 name = when (context.resources.getString(R.string.lang)) {
-                    "ru" -> {
+                    "ru", "RU" -> {
                         it.info.nameRus ?: "${it.info.firstnameRus} ${it.info.lastnameRus}"
+                    }
+                    "en", "EN" -> {
+                        it.info.nameEng ?: "${it.info.firstnameEng} ${it.info.lastnameEng}"
                     }
                     else -> {
                         it.info.nameEng ?: "${it.info.firstnameEng} ${it.info.lastnameEng}"

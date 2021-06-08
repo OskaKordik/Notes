@@ -10,7 +10,7 @@ import com.natife.streaming.R
 import com.natife.streaming.base.BaseFragment
 import com.natife.streaming.ext.subscribe
 import com.natife.streaming.ui.home.MatchAdapter
-import kotlinx.android.synthetic.main.fragment_favorites.*
+import kotlinx.android.synthetic.main.fragment_favorites_new.*
 
 class FavoritesFragment : BaseFragment<FavoriteViewModel>() {
     override fun getLayoutRes(): Int = R.layout.fragment_favorites_new

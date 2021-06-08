@@ -1,49 +1,35 @@
 package com.natife.streaming.ui.home
 
-import android.text.SpannableStringBuilder
-import android.text.TextUtils
-import android.view.View
-import androidx.core.text.color
-import com.natife.streaming.R
-import com.natife.streaming.base.BaseViewHolder
-import com.natife.streaming.custom.Alert
-import com.natife.streaming.data.match.Match
-import com.natife.streaming.ext.fromResponse
-import com.natife.streaming.ext.toDisplay2
-import com.natife.streaming.ext.url
-import kotlinx.android.synthetic.main.item_match.view.*
-import timber.log.Timber
-import java.util.*
-
-open class MatchViewHolder(view: View) : BaseViewHolder<Match>(view) {
-
-    override fun onBind(data: Match) {
-        itemView.matchImage.url(data.image,data.placeholder)
-        itemView.matchTitle.text = "${data.team1.name} - ${data.team2.name}"
-        val span = SpannableStringBuilder()
-
-        span.color(
-            itemView.resources.getColor(selectSportColor(data.sportId), null)
-        ) {
-            append(data.sportName.toUpperCase()) }
-
-        span.append("   ")
-
-        span.color(itemView.resources.getColor(R.color.text_gray, null)) { append(data.info) }
-        itemView.matchDescription.text = span
-        itemView.matchDescription.ellipsize = TextUtils.TruncateAt.MARQUEE
-        itemView.matchDescription.isSelected = true
-
-        Timber.e("data.date ${data.date} ${Date()} ${data.date.fromResponse().time}  ${data.date.fromResponse().time - Date().time}  ${Date().time}")
-
-        val timeBeforeStart = (data.date.fromResponse().time - Date().time)
-
-        //itemView.matchAlert.isVisible = !data.hasVideo  &&  timeBeforeStart > 0 &&  timeBeforeStart <1000*60*60
-        itemView.matchAlert.text = data.date.fromResponse().toDisplay2()
-        if (!data.access) {
-            itemView.messageContainer.addView(Alert(itemView.context))
-        }
-    }
+//@Deprecated("Don't uses")
+//open class MatchViewHolder(view: View) : BaseViewHolder<Match>(view) {
+//
+//    override fun onBind(data: Match) {
+//        itemView.matchImage.url(data.image,data.placeholder)
+//        itemView.matchTitle.text = "${data.team1.name} - ${data.team2.name}"
+//        val span = SpannableStringBuilder()
+//
+//        span.color(
+//            itemView.resources.getColor(selectSportColor(data.sportId), null)
+//        ) {
+//            append(data.sportName.toUpperCase()) }
+//
+//        span.append("   ")
+//
+//        span.color(itemView.resources.getColor(R.color.text_gray, null)) { append(data.info) }
+//        itemView.matchDescription.text = span
+//        itemView.matchDescription.ellipsize = TextUtils.TruncateAt.MARQUEE
+//        itemView.matchDescription.isSelected = true
+//
+//        Timber.e("data.date ${data.date} ${Date()} ${data.date.fromResponse().time}  ${data.date.fromResponse().time - Date().time}  ${Date().time}")
+//
+//        val timeBeforeStart = (data.date.fromResponse().time - Date().time)
+//
+//        //itemView.matchAlert.isVisible = !data.hasVideo  &&  timeBeforeStart > 0 &&  timeBeforeStart <1000*60*60
+//        itemView.matchAlert.text = data.date.fromResponse().toDisplay2()
+//        if (!data.access) {
+//            itemView.messageContainer.addView(Alert(itemView.context))
+//        }
+//    }
 
 //    override fun onBind(data: Match, payloads: List<Any>) {
 //        super.onBind(data, payloads)
@@ -67,18 +53,18 @@ open class MatchViewHolder(view: View) : BaseViewHolder<Match>(view) {
 //        }
 //    }
 
-    override fun onRecycled() {
-        super.onRecycled()
-        itemView.messageContainer.removeAllViews()
-    }
-}
-
-private fun selectSportColor(sportId: Int):Int {
-    return when(sportId){
-        1 -> R.color.football
-        2 -> R.color.hockey
-        3 -> R.color.basketball
-        else -> R.color.text_accent
-    }
-}
+//    override fun onRecycled() {
+//        super.onRecycled()
+//        itemView.messageContainer.removeAllViews()
+//    }
+//}
+//
+//private fun selectSportColor(sportId: Int):Int {
+//    return when(sportId){
+//        1 -> R.color.football
+//        2 -> R.color.hockey
+//        3 -> R.color.basketball
+//        else -> R.color.text_accent
+//    }
+//}
 

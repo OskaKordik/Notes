@@ -211,7 +211,7 @@ val useCaseModule = module {
     factory<ActionsUseCase> { ActionsUseCaseImpl(get(), get()) }
     factory<GetTournamentUseCase> { GetTournamentUseCaseImpl(get(), get()) }
     factory<SaveTournamentUseCase> { SaveTournamentUseCaseImpl(get(), get()) }
-    factory<TournamentUseCase> { TournamentUseCaseImpl(get()) }
+    factory<TournamentUseCase> { TournamentUseCaseImpl(get(), get()) }
     factory<SearchUseCase> { SearchUseCaseImpl(get(), get()) }
     factory<GenderUseCase> { GenderUseCaseImpl() }
     factory<SearchTypeUseCase> { SearchTypeUseCaseImpl() }

@@ -63,7 +63,7 @@ class PlayerActionUseCaseImpl(private val api: MainApi, private val prefs: Match
                     sportId,
                     ImageUrlBuilder.Companion.Type.TOURNAMENT
                 ),
-                title = "${player.firstnameRus} ${player.lastnameRus}"
+                title = "${player.firstNameRus} ${player.lastNameRus}"
             )
         }.sortedBy { it.start }
     }

@@ -1,7 +1,5 @@
 package com.natife.streaming.data.matchprofile
 
-import com.natife.streaming.data.dto.matchprofile.PlayersDTO
-
 data class Player(
     val id: Int,
     val team: Int,
@@ -9,6 +7,8 @@ data class Player(
     val image: String,
     val imagePlaceholder: String,
     val number: String,
+    val countryId: Int = -1,
+    val countryName: String = "",
     val isFavorite: Boolean = false
 )
 
