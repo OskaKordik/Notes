@@ -7,7 +7,10 @@ import com.natife.streaming.R
 import com.natife.streaming.base.BaseViewModel
 import com.natife.streaming.data.match.Match
 import com.natife.streaming.data.search.SearchResult
+import com.natife.streaming.datasource.MatchParams
 import com.natife.streaming.db.LocalSqlDataSourse
+import com.natife.streaming.ext.toRequest
+import com.natife.streaming.preferenses.SettingsPrefs
 import com.natife.streaming.router.Router
 import com.natife.streaming.usecase.FavoritesUseCase
 import com.natife.streaming.usecase.MatchUseCase
@@ -17,6 +20,7 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
 
 abstract class FavoriteViewModel : BaseViewModel() {
@@ -33,7 +37,8 @@ class FavoriteViewModelImpl(
     private val matchUseCase: MatchUseCase,
     private val router: Router,
     private val context: Context,
-    private val localSqlDataSourse: LocalSqlDataSourse
+    private val localSqlDataSourse: LocalSqlDataSourse,
+    private val settingsPrefs: SettingsPrefs,
 ) : FavoriteViewModel() {
     override val favorites = MutableLiveData<List<FavoritesAdapter.Favorite>>()
     override val matches = MutableLiveData<List<Match>>()
@@ -54,37 +59,35 @@ class FavoriteViewModelImpl(
             )
         }
 
-
         launchCatching {
-//            matchUseCase.prepare(MatchParams(date = null,
-//            sportId = searchResult.sport,
-//            pageSize = 60,
-//            subOnly = false,
-//            additionalId =searchResult.id))
             selected = searchResult
-            //   loadNext()
         }
     }
 
     private val mutex = Mutex()
     private var isLoading = AtomicBoolean(false)
     override fun loadNext() {
-
         launch {
             mutex.withLock {
                 if (isLoading.get()) {
                     return@launch
                 }
-
             }
             isLoading.set(true)
             matchUseCase.load(MatchUseCase.Type.SIMPLE)
             isLoading.set(false)
-
         }
-
-
     }
+
+    private fun prepareAndLoad(params: MatchParams) {
+        launch {
+            withContext(Dispatchers.IO) {
+                matchUseCase.prepare(params)
+                loadNext()
+            }
+        }
+    }
+
 
     override fun goToProfile(match: Match) {
         router.navigate(
@@ -133,6 +136,23 @@ class FavoriteViewModelImpl(
                     )
                 }.let {
                     matches.value = it
+                }
+            }
+        }
+
+        launchCatching {
+            withContext(Dispatchers.IO) {
+                collect(settingsPrefs.getDateFlow()) {
+                    it?.let {
+                        val params = MatchParams(
+                            date = Date(it).toRequest(),
+                            sportId = null,
+                            subOnly = false,
+                            additionalId = null,
+                            pageSize = 60,
+                        )
+                        prepareAndLoad(params)
+                    }
                 }
             }
         }
