@@ -79,6 +79,7 @@ class UserPreferencesViewModelImpl(
         router.navigate(R.id.action_global_nav_main)
     }
 
+
     override fun getTranslateLexic(
         sports: List<PreferencesSport>,
         lang: String

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/round_background_t_w_state_new"
+    android:background="@drawable/round_background_t_w_state_selected"
     android:focusable="true">
 
 
@@ -14,12 +14,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="11dp"
         android:layout_marginTop="6dp"
-        android:layout_marginBottom="6dp"
         android:layout_marginEnd="5dp"
+        android:layout_marginBottom="6dp"
         android:duplicateParentState="true"
         android:maxLines="1"
         android:textAppearance="@style/TextAppearance.StreamingTheme.Headline4"
-        android:textColor="@color/button_text_b_w_state_new"
+        android:textColor="@color/button_text_b_w_state_selected"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/check_image"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,7 +38,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/sport_name_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/sport_name_text"
-        app:srcCompat="@drawable/ic_check_ok_b_w_new"
+        app:srcCompat="@drawable/ic_check_ok_b_w_selected"
         tools:ignore="contentDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

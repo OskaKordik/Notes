@@ -7,6 +7,7 @@ import androidx.activity.addCallback
 import androidx.leanback.widget.BaseGridView
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseFragment
+import com.natife.streaming.data.dto.tournament.TournamentTranslateDTO
 import com.natife.streaming.db.entity.toTournamentTranslateDTO
 import com.natife.streaming.ext.predominantColorToGradient
 import com.natife.streaming.ext.subscribe
@@ -21,6 +22,7 @@ class UserPreferencesFragment : BaseFragment<UserPreferencesViewModel>() {
     private val tournamentAdapter by lazy {
         TournamentAdapter(viewModel::listOfTournamentsClicked)
     }
+    private var temporalList: List<TournamentTranslateDTO>? = null
 
     @SuppressLint("RestrictedApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -48,12 +50,25 @@ class UserPreferencesFragment : BaseFragment<UserPreferencesViewModel>() {
             sportAdapter.submitList(it)
         }
 
+        subscribe(viewModel.sportsSelected) { selected ->
+            load_progress.visibility = View.VISIBLE
+            kindsOfSportsRecyclerView.scrollToPosition(selected.id - 1)
+            viewModel.sportsList.value?.forEach { s ->
+                kindsOfSportsRecyclerView.layoutManager?.findViewByPosition(s.id - 1)?.apply {
+                    isSelected = s.id == selected.id
+                }
+            }
+            val list = temporalList?.filter { tournament ->
+                tournament.sport == selected.id
+            }
+            tournamentAdapter.submitList(list)
+            load_progress.visibility = View.GONE
+        }
+
         subscribe(viewModel.allUserPreferencesInTournament) {
-            tournamentAdapter.submitList(
-                it.toTournamentTranslateDTO(resources.getString(R.string.lang))
-//                .filter { tournament ->
-//                tournament.id == viewModel.sportsSelected.value?.id }
-            )
+            temporalList = it.toTournamentTranslateDTO(resources.getString(R.string.lang))
+            tournamentAdapter.submitList(temporalList)
+            viewModel.kindOfSportSelected(viewModel.sportsSelected.value)
             load_progress.visibility = View.GONE
         }
 
