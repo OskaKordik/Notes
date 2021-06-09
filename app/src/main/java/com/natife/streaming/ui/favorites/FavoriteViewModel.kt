@@ -20,13 +20,12 @@ import timber.log.Timber
 import java.util.concurrent.atomic.AtomicBoolean
 
 abstract class FavoriteViewModel : BaseViewModel() {
-
-
     abstract val favorites: LiveData<List<FavoritesAdapter.Favorite>>
     abstract val matches: LiveData<List<Match>>
     abstract fun onFavoriteSelected(searchResult: SearchResult)
     abstract fun loadNext()
     abstract fun goToProfile(match: Match)
+    abstract fun initialization()
 }
 
 class FavoriteViewModelImpl(
@@ -73,16 +72,13 @@ class FavoriteViewModelImpl(
 
         launch {
             mutex.withLock {
-
                 if (isLoading.get()) {
                     return@launch
                 }
 
             }
-
             isLoading.set(true)
             matchUseCase.load(MatchUseCase.Type.SIMPLE)
-
             isLoading.set(false)
 
         }
@@ -99,8 +95,7 @@ class FavoriteViewModelImpl(
         )
     }
 
-    init {
-
+    override fun initialization() {
         //tracking global settings
         launchCatching {
             withContext(Dispatchers.IO) {
@@ -118,9 +113,24 @@ class FavoriteViewModelImpl(
         }
 
         launchCatching {
+            val favorites = favoritesUseCase.execute()
+            val tournamentFavorites: List<SearchResult> =
+                favorites.filter { it.type == SearchResult.Type.TOURNAMENT }
+            val teamFavorites = favorites.filter { it.type == SearchResult.Type.TEAM }
             collect(matchUseCase.list) { matchList ->
                 matchList.map { match ->
-                    match.copy(isShowScore = showScore.value ?: false)
+                    match.copy(
+                        isShowScore = showScore.value ?: false,
+                        isFavoriteTournament = tournamentFavorites.firstOrNull {
+                            it.id == match.tournament.id
+                        }?.isFavorite ?: false,
+                        isFavoriteTeam1 = teamFavorites.firstOrNull {
+                            it.id == match.team1.id
+                        }?.isFavorite ?: false,
+                        isFavoriteTeam2 = teamFavorites.firstOrNull {
+                            it.id == match.team2.id
+                        }?.isFavorite ?: false,
+                    )
                 }.let {
                     matches.value = it
                 }

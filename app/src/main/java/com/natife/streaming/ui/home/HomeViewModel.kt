@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.natife.streaming.base.BaseViewModel
 import com.natife.streaming.data.match.Match
+import com.natife.streaming.data.search.SearchResult
 import com.natife.streaming.datasource.MatchParams
 import com.natife.streaming.db.LocalSqlDataSourse
 import com.natife.streaming.db.entity.PreferencesTournament
@@ -11,6 +12,7 @@ import com.natife.streaming.ext.Event
 import com.natife.streaming.ext.toRequest
 import com.natife.streaming.preferenses.SettingsPrefs
 import com.natife.streaming.router.Router
+import com.natife.streaming.usecase.FavoritesUseCase
 import com.natife.streaming.usecase.MatchUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.sync.Mutex
@@ -31,7 +33,8 @@ class HomeViewModelImpl(
     private val matchUseCase: MatchUseCase,
     private val router: Router,
     private val settingsPrefs: SettingsPrefs,
-    private val localSqlDataSourse: LocalSqlDataSourse
+    private val localSqlDataSourse: LocalSqlDataSourse,
+    private val favoritesUseCase: FavoritesUseCase,
 ) : HomeViewModel() {
     override val listTournament = MutableLiveData<List<TournamentItem>>()
     override val isLoadData = MutableLiveData(Event(false))
@@ -190,9 +193,24 @@ class HomeViewModelImpl(
         }
 
         launchCatching {
+            val favorites = favoritesUseCase.execute()
+            val tournamentFavorites: List<SearchResult> =
+                favorites.filter { it.type == SearchResult.Type.TOURNAMENT }
+            val teamFavorites = favorites.filter { it.type == SearchResult.Type.TEAM }
             collect(matchUseCase.list) { matchList ->
                 matchList.map { match ->
-                    match.copy(isShowScore = showScore.value ?: false)
+                    match.copy(
+                        isShowScore = showScore.value ?: false,
+                        isFavoriteTournament = tournamentFavorites.firstOrNull {
+                            it.id == match.tournament.id
+                        }?.isFavorite ?: false,
+                        isFavoriteTeam1 = teamFavorites.firstOrNull {
+                            it.id == match.team1.id
+                        }?.isFavorite ?: false,
+                        isFavoriteTeam2 = teamFavorites.firstOrNull {
+                            it.id == match.team2.id
+                        }?.isFavorite ?: false,
+                    )
                 }.let {
                     list.value = it
                     setListTournament(it)

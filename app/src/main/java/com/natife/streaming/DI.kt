@@ -107,10 +107,19 @@ val viewModelModule = module {
             get(),
             get(),
             get(),
+            get(),
             get()
         )
     }
-    viewModel<HomeViewModel> { HomeViewModelImpl(get(), get(), get(), get()) }
+    viewModel<HomeViewModel> {
+        HomeViewModelImpl(
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+        )
+    }
     viewModel<ScoreViewModel> { ScoreViewModelImpl(get(), get(), get()) }
     viewModel<SportViewModel> { SportViewModelImpl(get(), get(), get()) }
     viewModel<LiveViewModel> { LiveViewModelImpl(get(), get(), get()) }
@@ -162,7 +171,15 @@ val viewModelModule = module {
     viewModel<GenderViewModel> { GenderViewModelImpl(get(), get(), get()) }
     viewModel<PlayerViewModel> { (args: PlayerFragmentArgs) -> PlayerViewModelImpl(args.setup) }
     viewModel<SettingsViewModel> { SettingsViewModelImpl(get(), get(), get(), get(), get(), get()) }
-    viewModel<FavoriteViewModel> { FavoriteViewModelImpl(get(), get(), get(), get(), get()) }
+    viewModel<FavoriteViewModel> {
+        FavoriteViewModelImpl(
+            get(),
+            get(),
+            get(),
+            get(),
+            get()
+        )
+    }
 }
 
 val prefsModule = module {
@@ -280,6 +297,7 @@ val apiModule = module {
 
     single { get<Retrofit>(named(MAIN_API_QUALIFIER)).create(MainApi::class.java) }
 }
+
 //new
 val databaseModule = module {
     single {

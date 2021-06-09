@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="223dp"
-    android:focusable="true"
     android:layout_height="223dp"
+    android:focusable="true"
     android:padding="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -83,8 +83,8 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_marginTop="8dp"
-            android:maxLines="1"
             android:maxLength="23"
+            android:maxLines="1"
             android:textAppearance="@style/TextAppearance.StreamingTheme.Headline6"
             app:layout_constraintStart_toStartOf="@+id/guidelineStart"
             app:layout_constraintTop_toBottomOf="@+id/match_imageView"
@@ -95,6 +95,7 @@
             android:layout_width="7dp"
             android:layout_height="7dp"
             android:layout_marginStart="8dp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/first_team_textView"
             app:layout_constraintEnd_toStartOf="@+id/first_team_score_textView"
             app:layout_constraintHorizontal_bias="0.0"
@@ -117,18 +118,19 @@
             android:id="@+id/second_team_textView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:maxLines="1"
             android:maxLength="23"
-            tools:text="Maritzburg"
+            android:maxLines="1"
             android:textAppearance="@style/TextAppearance.StreamingTheme.Headline6"
             app:layout_constraintStart_toStartOf="@+id/guidelineStart"
-            app:layout_constraintTop_toBottomOf="@+id/first_team_textView" />
+            app:layout_constraintTop_toBottomOf="@+id/first_team_textView"
+            tools:text="Maritzburg" />
 
         <ImageView
             android:id="@+id/favorite_second_team_imageView"
             android:layout_width="7dp"
             android:layout_height="7dp"
             android:layout_marginStart="8dp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/second_team_textView"
             app:layout_constraintEnd_toStartOf="@+id/second_team_score_textView"
             app:layout_constraintHorizontal_bias="0.0"
@@ -154,8 +156,8 @@
             app:layout_constraintBottom_toBottomOf="@+id/flag_of_command_country_image_l"
             app:layout_constraintStart_toStartOf="@+id/guidelineStart"
             app:layout_constraintTop_toTopOf="@+id/flag_of_command_country_image_l"
-            tools:srcCompat="@drawable/ic_footbool_new"
-            tools:ignore="contentDescription" />
+            tools:ignore="contentDescription"
+            tools:srcCompat="@drawable/ic_footbool_new" />
 
         <ImageView
             android:id="@+id/flag_of_command_country_image_l"
@@ -166,8 +168,8 @@
             app:layout_constraintBottom_toBottomOf="@+id/tournament_name_text"
             app:layout_constraintStart_toEndOf="@+id/type_of_game_image_l"
             app:layout_constraintTop_toTopOf="@+id/tournament_name_text"
-            tools:srcCompat="@drawable/ic_flag_new"
-            tools:ignore="contentDescription" />
+            tools:ignore="contentDescription"
+            tools:srcCompat="@drawable/ic_flag_new" />
 
         <TextView
             android:id="@+id/tournament_name_text"
@@ -189,6 +191,7 @@
             android:layout_width="7dp"
             android:layout_height="7dp"
             android:layout_marginStart="8dp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/tournament_name_text"
             app:layout_constraintEnd_toStartOf="@+id/guidelineEnd"
             app:layout_constraintHorizontal_bias="0.0"

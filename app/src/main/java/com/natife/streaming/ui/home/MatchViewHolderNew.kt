@@ -41,6 +41,13 @@ open class MatchViewHolderNew(private val view: View) : BaseViewHolder<Match>(vi
             itemView.paid_content_image.visibility = View.GONE
         } else itemView.paid_content_image.visibility = View.VISIBLE
 
+        itemView.favorite_first_team_imageView.visibility =
+            if (data.isFavoriteTeam1) View.VISIBLE else View.GONE
+        itemView.favorite_second_team_imageView.visibility =
+            if (data.isFavoriteTeam2) View.VISIBLE else View.GONE
+        itemView.favorite_imageView.visibility =
+            if (data.isFavoriteTournament) View.VISIBLE else View.GONE
+
 //        if (!data.access) {
 //            itemView.messageContainer.addView(Alert(itemView.context))
 //        }

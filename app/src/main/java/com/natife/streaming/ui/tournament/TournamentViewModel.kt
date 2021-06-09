@@ -29,7 +29,8 @@ class TournamentViewModel(
     private val matchUseCase: ProfileUseCase,
     private val saveDeleteFavoriteUseCase: SaveDeleteFavoriteUseCase,
     private val localSqlDataSourse: LocalSqlDataSourse,
-    private val profileColorUseCase: ProfileColorUseCase
+    private val profileColorUseCase: ProfileColorUseCase,
+    private val favoritesUseCase: FavoritesUseCase,
 ) : BaseViewModel() {
     private val _tournament = MutableLiveData<Tournament>()
     private val _team = MutableLiveData<SearchResult>()
@@ -83,9 +84,24 @@ class TournamentViewModel(
     init {
         launchCatching {
             val isShowScore = localSqlDataSourse.getGlobalSettings()?.showScore
-            collect(matchUseCase.list) {
-                it.map { match ->
-                    match.copy(isShowScore = isShowScore ?: false)
+            val favorites = favoritesUseCase.execute()
+            val tournamentFavorites: List<SearchResult> =
+                favorites.filter { it.type == SearchResult.Type.TOURNAMENT }
+            val teamFavorites = favorites.filter { it.type == SearchResult.Type.TEAM }
+            collect(matchUseCase.list) { listMatch ->
+                listMatch.map { match ->
+                    match.copy(
+                        isShowScore = isShowScore ?: false,
+                        isFavoriteTournament = tournamentFavorites.firstOrNull {
+                            it.id == match.tournament.id
+                        }?.isFavorite ?: false,
+                        isFavoriteTeam1 = teamFavorites.firstOrNull {
+                            it.id == match.team1.id
+                        }?.isFavorite ?: false,
+                        isFavoriteTeam2 = teamFavorites.firstOrNull {
+                            it.id == match.team2.id
+                        }?.isFavorite ?: false,
+                    )
                 }.let { matchList ->
                     _list.value = matchList
                 }
@@ -93,6 +109,7 @@ class TournamentViewModel(
         }
 
         params = params.copy(additionalId = additionalId, sportId = sportId)
+
 //        Timber.e("komdkmfkdfmlfkmdlkfmf $type")
         when (type) {
             SearchResult.Type.PLAYER -> launch {
