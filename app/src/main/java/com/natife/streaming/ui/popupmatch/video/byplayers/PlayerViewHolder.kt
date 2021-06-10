@@ -1,4 +1,4 @@
-package com.natife.streaming.ui.matchprofile
+package com.natife.streaming.ui.popupmatch.video.byplayers
 
 import android.text.SpannableStringBuilder
 import android.view.View
@@ -6,7 +6,6 @@ import androidx.core.text.bold
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseViewHolder
 import com.natife.streaming.data.matchprofile.Player
-import com.natife.streaming.ext.url
 import com.natife.streaming.ext.urlCircled
 import kotlinx.android.synthetic.main.item_player.view.*
 import timber.log.Timber

@@ -1,6 +1,5 @@
-package com.natife.streaming.ui.matchprofile
+package com.natife.streaming.ui.popupmatch.video.additionaly
 
-import android.graphics.Bitmap
 import android.view.View
 import com.natife.streaming.base.BaseViewHolder
 import com.natife.streaming.data.matchprofile.Episode

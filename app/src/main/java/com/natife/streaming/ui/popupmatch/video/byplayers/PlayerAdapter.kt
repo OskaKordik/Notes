@@ -1,4 +1,4 @@
-package com.natife.streaming.ui.matchprofile
+package com.natife.streaming.ui.popupmatch.video.byplayers
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

@@ -36,4 +36,13 @@
     <string name="october">Октябрь</string>
     <string name="november">Ноябрь</string>
     <string name="december">Декабрь</string>
+    <string name="statistics">Статистика</string>
+    <string name="video">Видео</string>
+    <string-array name="popup_video_names">
+        <item>Смотреть</item>
+        <item>Дополнительно</item>
+        <item>По игрокам</item>
+        <item>События матча</item>
+        <item>Языки</item>
+    </string-array>
 </resources>

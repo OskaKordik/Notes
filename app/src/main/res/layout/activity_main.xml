@@ -112,6 +112,13 @@
             tools:layout_editor_absoluteY="31dp"
             tools:text="Понедельник" />
 
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/main_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:constraint_referenced_ids="score_button, preferences_button, calendar_left, calendar_right, data_text, day_of_weektext_text" />
+
         <ImageView
             android:id="@+id/tournament_logo_image"
             android:layout_width="97dp"
@@ -183,18 +190,91 @@
             app:layout_constraintTop_toTopOf="@+id/tournament_title_text" />
 
         <androidx.constraintlayout.widget.Group
-            android:id="@+id/main_group"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:constraint_referenced_ids="score_button, preferences_button, calendar_left, calendar_right, data_text, day_of_weektext_text"
-            android:visibility="visible" />
-
-        <androidx.constraintlayout.widget.Group
             android:id="@+id/tournament_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:constraint_referenced_ids="tournament_logo_image, tournament_title_text, flag_of_command_country_image_l, country_name_text_l, favorites_button"
-            android:visibility="gone" />
+            android:visibility="gone"
+            app:constraint_referenced_ids="tournament_logo_image, tournament_title_text, flag_of_command_country_image_l, country_name_text_l, favorites_button" />
+
+        <ImageView
+            android:id="@+id/logo_first_team"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_end_first_team"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@drawable/mock_tournament" />
+
+        <TextView
+            android:id="@+id/name_first_team"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:textAllCaps="true"
+            android:textAppearance="@style/TextAppearance.StreamingTheme.Headline2"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/logo_first_team"
+            app:layout_constraintEnd_toStartOf="@+id/logo_first_team"
+            app:layout_constraintTop_toTopOf="@+id/logo_first_team"
+            tools:text="ros" />
+
+        <ImageView
+            android:id="@+id/logo_second_team"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline_start_second_team"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@drawable/mock_tournament" />
+
+        <TextView
+            android:id="@+id/name_second_team"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:textAllCaps="true"
+            android:textAppearance="@style/TextAppearance.StreamingTheme.Headline2"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/logo_second_team"
+            app:layout_constraintStart_toEndOf="@+id/logo_second_team"
+            app:layout_constraintTop_toTopOf="@+id/logo_second_team"
+            tools:text="DOR" />
+
+        <TextView
+            android:id="@+id/score_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="3-2"
+            android:textAllCaps="true"
+            android:textAppearance="@style/TextAppearance.StreamingTheme.Headline2"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/logo_second_team"
+            app:layout_constraintStart_toEndOf="@+id/logo_first_team"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/statistics_button"
+            style="@style/ButtonOutlinedTransparentButton"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_marginEnd="50dp"
+            android:focusable="true"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:nextFocusDown="@+id/log"
+            android:text="@string/statistics"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/popup_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="logo_first_team, name_first_team, logo_second_team, name_second_team, score_text, statistics_button" />
+
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline"
@@ -216,6 +296,20 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_end="362dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_end_first_team"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="388dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_start_second_team"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="388dp" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

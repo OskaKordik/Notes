@@ -133,21 +133,27 @@ class MainActivity : BaseActivity<MainViewModel>() {
         })
 
         router.addListener { controller, destination, arguments ->
-            //Timber.e("mlkmldkmslkd ${resources.getResourceName(destination.id)} ${destination.id ==  R.id.accountFragment || destination.id ==   R.id.searchFragment} ${backGroup.isVisible }")
-//            Timber.tag("TAG").d((destination.id == R.id.mypreferencesFragment || destination.id == R.id.action_global_preferences).toString())
-//          backButton.isVisible = destination.id ==  R.id.accountFragment || destination.id == R.id.searchFragment
-//            textView3.isVisible = destination.id ==  R.id.accountFragment || destination.id == R.id.searchFragment
-            mainMenu.isVisible = visibilityDesttination(destination)
-            topLayout.isVisible = visibilityDesttination(destination)
-            // Timber.e("mlkmldkmslkd  ${backGroup.isVisible }")
+            mainMenu.isVisible = visibilityDesttinationMainMenu(destination)
+            topLayout.isVisible = visibilityDesttinationTopLayout(destination)
         }
-
-//        backButton.setOnClickListener {
-//            viewModel.back()
-//        }
     }
 
-    private fun visibilityDesttination(destination: NavDestination) =
+    private fun visibilityDesttinationMainMenu(destination: NavDestination) =
+        when (destination.id) {
+            R.id.loginFragment,
+            R.id.registerFragment,
+            R.id.mypreferencesFragment,
+            R.id.action_global_preferences,
+            R.id.matchProfileFragment,
+            R.id.matchSettingsFragment,
+            R.id.watchFragment,
+            R.id.playerFragment,
+            R.id.calendarFragment,
+            R.id.popupVideoFragment -> false
+            else -> true
+        }
+
+    private fun visibilityDesttinationTopLayout(destination: NavDestination) =
         when (destination.id) {
             R.id.loginFragment,
             R.id.registerFragment,

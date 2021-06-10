@@ -87,7 +87,7 @@ class HomeViewModelImpl(
     override fun toMatchProfile(match: Match) {
         if (match.hasVideo) {
             router.navigate(
-                HomeFragmentDirections.actionHomeFragmentToMatchProfileFragment(
+                HomeFragmentDirections.actionHomeFragmentToPopupVideoFragment(
                     sportId = match.sportId,
                     matchId = match.id
                 )

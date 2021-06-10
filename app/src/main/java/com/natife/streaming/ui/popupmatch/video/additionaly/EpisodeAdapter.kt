@@ -1,6 +1,5 @@
-package com.natife.streaming.ui.matchprofile
+package com.natife.streaming.ui.popupmatch.video.additionaly
 
-import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil

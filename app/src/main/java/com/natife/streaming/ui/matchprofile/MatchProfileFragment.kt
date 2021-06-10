@@ -8,12 +8,11 @@ import com.natife.streaming.R
 import com.natife.streaming.base.BaseFragment
 import com.natife.streaming.ext.subscribe
 import com.natife.streaming.ext.toDisplayTime
-import kotlinx.android.synthetic.main.activity_main.*
+import com.natife.streaming.ui.popupmatch.video.additionaly.EpisodeAdapter
+import com.natife.streaming.ui.popupmatch.video.byplayers.PlayerAdapter
 import kotlinx.android.synthetic.main.fragment_match_profile.*
-import kotlinx.android.synthetic.main.fragment_match_profile.buttonBack
 import org.koin.core.parameter.ParametersDefinition
 import org.koin.core.parameter.parametersOf
-import timber.log.Timber
 
 class MatchProfileFragment: BaseFragment<MatchProfileViewModel>() {
 

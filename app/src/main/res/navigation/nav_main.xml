@@ -74,11 +74,11 @@
                 android:id="@+id/action_homeFragment_to_calendarFragment"
                 app:destination="@id/calendarFragment" />
             <action
-                android:id="@+id/action_homeFragment_to_matchProfileFragment"
-                app:destination="@id/matchProfileFragment" />
-            <action
                 android:id="@+id/action_homeFragment_to_watchFragment"
                 app:destination="@id/watchFragment" />
+            <action
+                android:id="@+id/action_homeFragment_to_popupVideoFragment"
+                app:destination="@id/popupVideo" />
         </fragment>
         <fragment
             android:id="@+id/playerFragment"
@@ -298,6 +298,53 @@
                 android:id="@+id/action_favoritesFragment_to_tournamentFragment"
                 app:destination="@id/tournamentFragment" />
         </fragment>
+        <navigation
+            android:id="@+id/popupVideo"
+            app:startDestination="@id/popupVideoFragment">
+            <argument
+                android:name="matchId"
+                app:argType="integer" />
+            <argument
+                android:name="sportId"
+                app:argType="integer" />
+            <fragment
+                android:id="@+id/tabMatchEventsFragment"
+                android:name="com.natife.streaming.ui.popupmatch.video.TabMatchEventsFragment"
+                android:label="fragment_tab_match_events"
+                tools:layout="@layout/fragment_tab_match_events" />
+            <fragment
+                android:id="@+id/tabWatchFragment"
+                android:name="com.natife.streaming.ui.popupmatch.video.watch.TabWatchFragment"
+                android:label="fragment_tab_watch"
+                tools:layout="@layout/fragment_tab_watch" />
+            <fragment
+                android:id="@+id/popupVideoFragment"
+                android:name="com.natife.streaming.ui.popupmatch.video.PopupVideoFragment"
+                android:label="fragment_popup_video"
+                tools:layout="@layout/fragment_popup_video">
+                <argument
+                    android:name="matchId"
+                    app:argType="integer" />
+                <argument
+                    android:name="sportId"
+                    app:argType="integer" />
+            </fragment>
+            <fragment
+                android:id="@+id/tabByPlayersFragment"
+                android:name="com.natife.streaming.ui.popupmatch.video.TabByPlayersFragment"
+                android:label="fragment_tab_by_players"
+                tools:layout="@layout/fragment_tab_by_players" />
+            <fragment
+                android:id="@+id/tabLanguagesFragment"
+                android:name="com.natife.streaming.ui.popupmatch.video.TabLanguagesFragment"
+                android:label="fragment_tab_languages"
+                tools:layout="@layout/fragment_tab_languages" />
+            <fragment
+                android:id="@+id/tabAdditionallyFragment"
+                android:name="com.natife.streaming.ui.popupmatch.video.additionaly.TabAdditionallyFragment"
+                android:label="fragment_tab_additionally"
+                tools:layout="@layout/fragment_tab_additionally" />
+        </navigation>
 
     </navigation>
 

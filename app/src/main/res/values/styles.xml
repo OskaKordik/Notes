@@ -108,5 +108,6 @@
         <item name="colorError">@color/light_red</item>
     </style>
 
+    <style name="AppThemeTab" parent="Theme.AppCompat" />
 
 </resources>
