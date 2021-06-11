@@ -66,5 +66,6 @@
         <item>Match events</item>
         <item>Languages</item>
     </string-array>
-
+    <string name="teams">Teams</string>
+    <string name="table">Table</string>
 </resources>

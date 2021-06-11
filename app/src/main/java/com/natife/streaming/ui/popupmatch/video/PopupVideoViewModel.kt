@@ -37,6 +37,7 @@ abstract class PopupVideoViewModel : BaseViewModel() {
     abstract fun fullMatch()
     abstract fun player(player: Player)
     abstract fun play(episode: Episode? = null, playList: List<Episode>? = null)
+    abstract fun onStatisticClicked()
 }
 
 class PopupVideoViewModelImpl(
@@ -161,6 +162,15 @@ class PopupVideoViewModelImpl(
                 )
             )
         )
+    }
+
+    override fun onStatisticClicked() {
+        val direction =
+            PopupVideoFragmentDirections.actionPopupVideoFragmentToPopupStatisticsFragment(
+                sportId = sport,
+                matchId = matchId
+            )
+        router.navigate(direction)
     }
 
     init {

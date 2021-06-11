@@ -45,4 +45,6 @@
         <item>События матча</item>
         <item>Языки</item>
     </string-array>
+    <string name="teams">Команды</string>
+    <string name="table">Tаблица</string>
 </resources>

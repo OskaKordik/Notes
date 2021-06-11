@@ -6,7 +6,7 @@ import androidx.navigation.navGraphViewModels
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseFragment
 import com.natife.streaming.base.EmptyViewModel
-import com.natife.streaming.ui.popupmatch.video.PopupSharedViewModel
+import com.natife.streaming.ui.popupmatch.PopupSharedViewModel
 
 
 class TabMatchEventsFragment : BaseFragment<EmptyViewModel>() {

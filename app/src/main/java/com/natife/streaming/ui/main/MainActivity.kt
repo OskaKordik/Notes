@@ -71,13 +71,10 @@ class MainActivity : BaseActivity<MainViewModel>() {
         }
         score_button.setOnClickListener {
             if (score_button.isChecked) {
-//                score_button.icon = resources.getDrawable(R.drawable.ic_password_off_f, theme)
                 score_button.text = resources.getString(R.string.showe_account)
-//                score_button.icon = resources.getDrawable(R.drawable.ic_password_on_f, theme)
                 viewModel.scoreButtonClicked(true)
             } else {
                 score_button.text = resources.getString(R.string.hide_account)
-//                score_button.icon = resources.getDrawable(R.drawable.ic_password_off_f, theme)
                 viewModel.scoreButtonClicked(false)
             }
         }
@@ -149,7 +146,8 @@ class MainActivity : BaseActivity<MainViewModel>() {
             R.id.watchFragment,
             R.id.playerFragment,
             R.id.calendarFragment,
-            R.id.popupVideoFragment -> false
+            R.id.popupVideoFragment,
+            R.id.popupStatisticsFragment -> false
             else -> true
         }
 

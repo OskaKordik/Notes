@@ -15,6 +15,7 @@ import com.natife.streaming.ext.bindTeamImage
 import com.natife.streaming.ext.predominantColorToGradient
 import com.natife.streaming.ext.subscribe
 import com.natife.streaming.ui.main.MainActivity
+import com.natife.streaming.ui.popupmatch.PopupSharedViewModel
 import com.natife.streaming.ui.popupmatch.video.additionaly.TabAdditionallyFragment
 import com.natife.streaming.ui.popupmatch.video.byplayers.TabByPlayersFragment
 import com.natife.streaming.ui.popupmatch.video.langues.TabLanguagesFragment
@@ -34,12 +35,17 @@ class PopupVideoFragment : BaseFragment<PopupVideoViewModel>() {
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel
-
         (activity as MainActivity).main_group?.visibility = View.GONE
         (activity as MainActivity).popup_group?.visibility = View.VISIBLE
         //Heading in the predominant team color
         (activity as MainActivity).mainMotion?.predominantColorToGradient("#CCCB312A")
+
+        (activity as MainActivity).statistics_button?.apply {
+            setOnClickListener {
+                viewModel.onStatisticClicked()
+            }
+            text = resources.getString(R.string.statistics)
+        }
 
         subscribe(viewModel.match) {
             popupSharedViewModel.setMatch(it)

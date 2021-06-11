@@ -1,4 +1,4 @@
-package com.natife.streaming.ui.popupmatch.video
+package com.natife.streaming.ui.popupmatch
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

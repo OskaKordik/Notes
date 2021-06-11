@@ -44,6 +44,7 @@ import com.natife.streaming.ui.mypreferences.UserPreferencesViewModelImpl
 import com.natife.streaming.ui.player.PlayerFragmentArgs
 import com.natife.streaming.ui.player.PlayerViewModel
 import com.natife.streaming.ui.player.PlayerViewModelImpl
+import com.natife.streaming.ui.popupmatch.statistics.PopupStatisticsFragmentArgs
 import com.natife.streaming.ui.popupmatch.statistics.PopupStatisticsViewModel
 import com.natife.streaming.ui.popupmatch.statistics.PopupStatisticsViewModelImpl
 import com.natife.streaming.ui.popupmatch.video.PopupVideoFragmentArgs
@@ -151,10 +152,11 @@ val viewModelModule = module {
             get()
         )
     }
-    viewModel<PopupStatisticsViewModel> { (args: PopupVideoFragmentArgs) ->
+    viewModel<PopupStatisticsViewModel> { (args: PopupStatisticsFragmentArgs) ->
         PopupStatisticsViewModelImpl(
             args.sportId,
             args.matchId,
+            get()
         )
     }
 

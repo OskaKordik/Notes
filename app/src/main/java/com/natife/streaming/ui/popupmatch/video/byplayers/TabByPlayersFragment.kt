@@ -8,7 +8,7 @@ import com.natife.streaming.R
 import com.natife.streaming.base.BaseFragment
 import com.natife.streaming.base.EmptyViewModel
 import com.natife.streaming.ext.subscribe
-import com.natife.streaming.ui.popupmatch.video.PopupSharedViewModel
+import com.natife.streaming.ui.popupmatch.PopupSharedViewModel
 import kotlinx.android.synthetic.main.fragment_match_profile.*
 
 
