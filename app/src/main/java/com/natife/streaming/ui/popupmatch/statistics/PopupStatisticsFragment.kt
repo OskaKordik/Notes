@@ -33,6 +33,12 @@ class PopupStatisticsFragment : BaseFragment<PopupStatisticsViewModel>() {
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        arguments?.getInt("matchId")?.let {
+            popupSharedViewModel.matchId = it
+        }
+        arguments?.getInt("sportId")?.let {
+            popupSharedViewModel.sportId = it
+        }
         (activity as MainActivity).main_group?.visibility = View.GONE
         (activity as MainActivity).popup_group?.visibility = View.VISIBLE
         //Heading in the predominant team color

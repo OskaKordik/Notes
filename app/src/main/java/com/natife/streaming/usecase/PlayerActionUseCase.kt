@@ -1,9 +1,12 @@
 package com.natife.streaming.usecase
 
+import android.content.Context
 import com.natife.streaming.API_MATCH_INFO
 import com.natife.streaming.API_PLAYERS_ACTIONS
 import com.natife.streaming.API_PLAYER_INFO
+import com.natife.streaming.R
 import com.natife.streaming.api.MainApi
+import com.natife.streaming.data.dto.player.PlayerDTO
 import com.natife.streaming.data.matchprofile.Episode
 import com.natife.streaming.data.matchprofile.toEpisode
 import com.natife.streaming.data.request.*
@@ -15,28 +18,53 @@ interface PlayerActionUseCase {
        suspend fun execute(matchId: Int, sportId: Int, playerId: Int, type: Int = 1): List<Episode>
 }
 
-class PlayerActionUseCaseImpl(private val api: MainApi, private val prefs: MatchSettingsPrefs,private val dao: ActionDao): PlayerActionUseCase {
-    override suspend fun execute(matchId: Int, sportId: Int, playerId: Int, type: Int): List<Episode> {
+class PlayerActionUseCaseImpl(
+    private val api: MainApi,
+    private val prefs: MatchSettingsPrefs,
+    private val dao: ActionDao,
+    private val context: Context
+) : PlayerActionUseCase {
+    override suspend fun execute(
+        matchId: Int,
+        sportId: Int,
+        playerId: Int,
+        type: Int
+    ): List<Episode> {
 
-        val fragments = api.getPlayerActions(BaseRequest(
-            procedure = API_PLAYERS_ACTIONS,
-            params = PlayerActionsRequest(
-                matchId = matchId,
-                playerId = playerId,
-                type = type,
-                actions = if (type == 3){dao.getSelectedActions(sportId).map { it.id }}else{null},
-                offsetStart = if (type == 2 || type == 1){prefs.getAllSecBefore()}else{prefs.getSelectedSecBefore()},
-                offsetEnd = if (type == 2 || type == 1){prefs.getAllSecAfter()}else{prefs.getSelectedSecAfter()}
-            )
-        ),MatchProfileUseCase.getPath(sportId))
-        val player = api.getPlayerInfo(
+        val fragments = api.getPlayerActions(
             BaseRequest(
-            procedure = API_PLAYER_INFO,
+                procedure = API_PLAYERS_ACTIONS,
+                params = PlayerActionsRequest(
+                    matchId = matchId,
+                    playerId = playerId,
+                    type = type,
+                    actions = if (type == 3) {
+                        dao.getSelectedActions(sportId).map { it.id }
+                    } else {
+                        null
+                    },
+                    offsetStart = if (type == 2 || type == 1) {
+                        prefs.getAllSecBefore()
+                    } else {
+                        prefs.getSelectedSecBefore()
+                    },
+                    offsetEnd = if (type == 2 || type == 1) {
+                        prefs.getAllSecAfter()
+                    } else {
+                        prefs.getSelectedSecAfter()
+                    }
+                )
+            ), MatchProfileUseCase.getPath(sportId)
+        )
+        val player: PlayerDTO = api.getPlayerInfo(
+            BaseRequest(
+                procedure = API_PLAYER_INFO,
                 params = PlayerInfoRequest(
                     sportId = sportId,
                     playerId = playerId
                 )
-        ))
+            )
+        )
         val match = api.getMatchInfoGlobal(
             BaseRequest(
                 procedure = API_MATCH_INFO,
@@ -63,7 +91,11 @@ class PlayerActionUseCaseImpl(private val api: MainApi, private val prefs: Match
                     sportId,
                     ImageUrlBuilder.Companion.Type.TOURNAMENT
                 ),
-                title = "${player.firstNameRus} ${player.lastNameRus}"
+                title = when (context.resources.getString(R.string.lang)) {
+                    "en", "EN" -> "${player.firstNameEng} ${player.lastNameEng}" ?: ""
+                    "ru", "RU" -> "${player.firstNameRus} ${player.lastNameRus}" ?: ""
+                    else -> "${player.firstNameEng} ${player.lastNameEng}" ?: ""
+                }
             )
         }.sortedBy { it.start }
     }

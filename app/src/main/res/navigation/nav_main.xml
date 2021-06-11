@@ -39,43 +39,8 @@
             android:label="HomeFragment"
             tools:layout="@layout/fragment_home">
             <action
-                android:id="@+id/action_homeFragment_to_scoreDialog"
-                app:destination="@id/scoreDialog"
-                app:enterAnim="@android:anim/slide_in_left"
-                app:exitAnim="@android:anim/slide_out_right"
-                app:popEnterAnim="@android:anim/slide_in_left"
-                app:popExitAnim="@android:anim/slide_out_right"
-                app:popUpTo="@id/homeFragment" />
-            <action
-                android:id="@+id/action_homeFragment_to_sportDialog"
-                app:destination="@id/sportDialog"
-                app:enterAnim="@android:anim/slide_in_left"
-                app:exitAnim="@android:anim/slide_out_right"
-                app:popEnterAnim="@android:anim/slide_in_left"
-                app:popExitAnim="@android:anim/slide_out_right"
-                app:popUpTo="@id/homeFragment" />
-            <action
-                android:id="@+id/action_homeFragment_to_liveDialog"
-                app:destination="@id/liveDialog"
-                app:enterAnim="@android:anim/slide_in_left"
-                app:exitAnim="@android:anim/slide_out_right"
-                app:popEnterAnim="@android:anim/slide_in_left"
-                app:popExitAnim="@android:anim/slide_out_right"
-                app:popUpTo="@id/homeFragment" />
-            <action
-                android:id="@+id/action_homeFragment_to_tournamentDialog"
-                app:destination="@id/tournamentDialog"
-                app:enterAnim="@android:anim/slide_in_left"
-                app:exitAnim="@android:anim/slide_out_right"
-                app:popEnterAnim="@android:anim/slide_in_left"
-                app:popExitAnim="@android:anim/slide_out_right"
-                app:popUpTo="@id/homeFragment" />
-            <action
                 android:id="@+id/action_homeFragment_to_calendarFragment"
                 app:destination="@id/calendarFragment" />
-            <action
-                android:id="@+id/action_homeFragment_to_watchFragment"
-                app:destination="@id/watchFragment" />
             <action
                 android:id="@+id/action_homeFragment_to_popupVideoFragment"
                 app:destination="@id/popupVideo" />
@@ -290,7 +255,7 @@
             android:id="@+id/favoritesFragment"
             android:name="com.natife.streaming.ui.favorites.FavoritesFragment"
             android:label="FavoritesFragment"
-            tools:layout="@layout/fragment_favorites">
+            tools:layout="@layout/fragment_favorites_new">
             <action
                 android:id="@+id/action_favoritesFragment_to_matchProfileFragment"
                 app:destination="@id/matchProfileFragment" />
@@ -376,6 +341,9 @@
                 android:name="com.natife.streaming.ui.popupmatch.statistics.team.TeamFragment"
                 android:label="fragment_tab_team"
                 tools:layout="@layout/fragment_tab_team" />
+            <action
+                android:id="@+id/action_global_playerFragment"
+                app:destination="@id/playerFragment" />
         </navigation>
 
     </navigation>

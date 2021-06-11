@@ -36,10 +36,10 @@ class TabByPlayersFragment : BaseFragment<EmptyViewModel>() {
         subscribe(popupSharedViewModel.team2, teamAdapter2::submitList)
 
         teamAdapter1.onClick = {
-//            viewModel.player(it)
+            popupSharedViewModel.player(it)
         }
         teamAdapter2.onClick = {
-//            viewModel.player(it)
+            popupSharedViewModel.player(it)
         }
     }
 }

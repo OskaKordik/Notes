@@ -10,7 +10,10 @@ import com.natife.streaming.data.matchprofile.MatchInfo
 import com.natife.streaming.data.matchprofile.Player
 import com.natife.streaming.data.player.PlayerSetup
 import com.natife.streaming.router.Router
-import com.natife.streaming.usecase.*
+import com.natife.streaming.usecase.MatchInfoUseCase
+import com.natife.streaming.usecase.MatchProfileUseCase
+import com.natife.streaming.usecase.PlayerActionUseCase
+import com.natife.streaming.usecase.VideoUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.withContext
@@ -142,7 +145,6 @@ class MatchProfileViewModelImpl(
 
             }
         }
-
     }
 
     override fun play(episode: Episode?, playList: List<Episode>?) {

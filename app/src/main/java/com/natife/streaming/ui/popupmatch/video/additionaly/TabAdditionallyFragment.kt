@@ -29,7 +29,7 @@ class TabAdditionallyFragment : BaseFragment<EmptyViewModel>() {
         additionalMatchRecycler.focusScrollStrategy = BaseGridView.FOCUS_SCROLL_ITEM
         additionalMatchRecycler.adapter = episodeAdapter
         episodeAdapter.onClick = {
-//            viewModel.play(it)
+            popupSharedViewModel.playEpisode(it)
         }
 
         subscribe(popupSharedViewModel.episodes, episodeAdapter::submitList)

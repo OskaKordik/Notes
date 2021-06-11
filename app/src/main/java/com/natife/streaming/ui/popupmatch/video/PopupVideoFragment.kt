@@ -14,6 +14,7 @@ import com.natife.streaming.base.BaseFragment
 import com.natife.streaming.ext.bindTeamImage
 import com.natife.streaming.ext.predominantColorToGradient
 import com.natife.streaming.ext.subscribe
+import com.natife.streaming.ext.subscribeEvent
 import com.natife.streaming.ui.main.MainActivity
 import com.natife.streaming.ui.popupmatch.PopupSharedViewModel
 import com.natife.streaming.ui.popupmatch.video.additionaly.TabAdditionallyFragment
@@ -35,6 +36,12 @@ class PopupVideoFragment : BaseFragment<PopupVideoViewModel>() {
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        arguments?.getInt("matchId")?.let {
+            popupSharedViewModel.matchId = it
+        }
+        arguments?.getInt("sportId")?.let {
+            popupSharedViewModel.sportId = it
+        }
         (activity as MainActivity).main_group?.visibility = View.GONE
         (activity as MainActivity).popup_group?.visibility = View.VISIBLE
         //Heading in the predominant team color
@@ -69,6 +76,13 @@ class PopupVideoFragment : BaseFragment<PopupVideoViewModel>() {
         }
         subscribe(viewModel.team2) {
             popupSharedViewModel.setTeam2(it)
+        }
+
+        subscribeEvent(popupSharedViewModel.playEpisode) {
+            viewModel.play(episode = it)
+        }
+        subscribeEvent(popupSharedViewModel.playPlayList) {
+            viewModel.play(playList = it)
         }
 
 

@@ -255,7 +255,7 @@ val useCaseModule = module {
     factory<SaveSportUseCase> { SaveSportUseCaseImpl(get(), get()) }
     factory<GetLiveUseCase> { GetLiveUseCaseImpl() }
     factory<SaveLiveUseCase> { SaveLiveUseCaseImpl(get()) }
-    factory<MatchProfileUseCase> { MatchProfileUseCaseImpl(get()) }
+    factory<MatchProfileUseCase> { MatchProfileUseCaseImpl(get(), get()) }
     factory<GetThumbnailUseCase> { GetThumbnailUseCaseImpl(get()) }
     factory<ActionsUseCase> { ActionsUseCaseImpl(get(), get()) }
     factory<GetTournamentUseCase> { GetTournamentUseCaseImpl(get(), get()) }
@@ -264,10 +264,10 @@ val useCaseModule = module {
     factory<SearchUseCase> { SearchUseCaseImpl(get(), get()) }
     factory<GenderUseCase> { GenderUseCaseImpl() }
     factory<SearchTypeUseCase> { SearchTypeUseCaseImpl() }
-    factory<MatchInfoUseCase> { MatchInfoUseCaseImpl(get(), get()) }
+    factory<MatchInfoUseCase> { MatchInfoUseCaseImpl(get(), get(), get()) }
     factory<VideoUseCase> { VideoUseCaseImpl(get()) }
     factory<SecondUseCase> { SecondUseCaseImpl(get()) }
-    factory<PlayerActionUseCase> { PlayerActionUseCaseImpl(get(), get(), get()) }
+    factory<PlayerActionUseCase> { PlayerActionUseCaseImpl(get(), get(), get(), get()) }
     factory<LexisUseCase> { LexisUseCaseImpl(get(), get(), get(), androidApplication()) }
     factory<CardUseCase> { CardUseCaseImpl() }
     factory<SubscriptionUseCase> { SubscriptionUseCaseImpl() }

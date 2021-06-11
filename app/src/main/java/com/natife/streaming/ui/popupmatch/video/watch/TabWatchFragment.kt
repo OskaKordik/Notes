@@ -34,17 +34,17 @@ class TabWatchFragment : BaseFragment<EmptyViewModel>() {
             buttonFullMatch.setTime(it.toDisplayTime())
         }
 
-//        buttonGoals.setOnClickListener {
-//            viewModel.goals()
-//        }
-//        buttonReview.setOnClickListener {
-//            viewModel.review()
-//        }
-//        buttonFullMatch.setOnClickListener {
-//            viewModel.fullMatch()
-//        }
-//        buttonCleanTime.setOnClickListener {
-//            viewModel.ballInPlay()
-//        }
+        buttonGoals.setOnClickListener {
+            popupSharedViewModel.goals()
+        }
+        buttonReview.setOnClickListener {
+            popupSharedViewModel.review()
+        }
+        buttonFullMatch.setOnClickListener {
+            popupSharedViewModel.fullMatch()
+        }
+        buttonCleanTime.setOnClickListener {
+            popupSharedViewModel.ballInPlay()
+        }
     }
 }

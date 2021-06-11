@@ -2,6 +2,7 @@ package com.natife.streaming.usecase
 
 import com.natife.streaming.api.MainApi
 import com.natife.streaming.data.Video
+import com.natife.streaming.data.dto.VideoDTO
 import com.natife.streaming.data.request.VideoRequest
 
 interface VideoUseCase {
@@ -10,7 +11,7 @@ interface VideoUseCase {
 
 class VideoUseCaseImpl(private val api: MainApi) : VideoUseCase {
     override suspend fun execute(matchId: Int, sportId: Int): List<Video> {
-        val video = api.getVideoFile(VideoRequest(matchId, sportId))
+        val video: VideoDTO = api.getVideoFile(VideoRequest(matchId, sportId))
         return video.map {
             Video(
                 abc = it.abc,
