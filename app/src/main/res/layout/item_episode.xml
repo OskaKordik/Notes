@@ -3,16 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="215dp"
-    android:focusable="true"
+    android:focusable="false"
     android:layout_height="215dp"
     android:padding="15dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/additional_video"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/item_background"
         android:padding="2dp"
-        android:duplicateParentState="true"
         android:focusable="true">
 
         <ImageView
@@ -26,8 +26,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@tools:sample/backgrounds/scenic" />
-
-
         <TextView
             android:id="@+id/matchTitle"
             android:layout_width="0dp"
@@ -79,6 +77,4 @@
             app:layout_constraintBottom_toBottomOf="@+id/matchImage"
             app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 </FrameLayout>

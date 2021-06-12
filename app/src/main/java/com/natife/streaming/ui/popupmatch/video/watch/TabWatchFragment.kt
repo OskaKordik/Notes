@@ -47,4 +47,14 @@ class TabWatchFragment : BaseFragment<EmptyViewModel>() {
             popupSharedViewModel.ballInPlay()
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        buttonFullMatch.requestFocus()
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+    }
 }

@@ -5,7 +5,8 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.navGraphViewModels
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
@@ -87,16 +88,21 @@ class PopupVideoFragment : BaseFragment<PopupVideoViewModel>() {
 
 
         popupVideoNames = resources.getStringArray(R.array.popup_video_names)
-        val popupVideoAdapter = PopupVideoFragmentAdapter(requireActivity(), popupVideoNames.size)
+        val popupVideoAdapter = PopupVideoFragmentAdapter(
+            childFragmentManager,
+            this.lifecycle, popupVideoNames.size
+        )
         popup_video_pager.adapter = popupVideoAdapter
-        TabLayoutMediator(tab_layout, popup_video_pager) { tab, position ->
+        TabLayoutMediator(tab_layout, popup_video_pager, false) { tab, position ->
             tab.text = popupVideoNames[position]
+            tab.view.isFocusable = true
         }.attach()
     }
 
     override fun getParameters(): ParametersDefinition = {
         parametersOf(PopupVideoFragmentArgs.fromBundle(requireArguments()))
     }
+
 
     override fun onStop() {
         super.onStop()
@@ -106,9 +112,10 @@ class PopupVideoFragment : BaseFragment<PopupVideoViewModel>() {
     }
 
     inner class PopupVideoFragmentAdapter(
-        activity: FragmentActivity,
+        fragmentManager: FragmentManager,
+        lifecycle: Lifecycle,
         private val itemCount: Int
-    ) : FragmentStateAdapter(activity) {
+    ) : FragmentStateAdapter(fragmentManager, lifecycle) {
         override fun getItemCount(): Int {
             return itemCount
         }
@@ -125,4 +132,3 @@ class PopupVideoFragment : BaseFragment<PopupVideoViewModel>() {
         }
     }
 }
-

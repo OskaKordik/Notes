@@ -23,7 +23,4 @@
         android:textSize="14sp"
         android:lines="2"
         tools:text="00 Cristiano Ronaldo"/>
-
-
-
 </LinearLayout>

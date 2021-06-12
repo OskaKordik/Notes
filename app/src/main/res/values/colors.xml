@@ -6,12 +6,9 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
 
-
     <color name="white40">#66FFFFFF</color>
-    <color name="gray">#3F3F3F</color>
     <color name="text_gray">#7A7A7A</color>
     <color name="text_accent">#F1903B</color>
-
     <color name="dialog_gray">#5C5C5C</color>
     <color name="btn">#5C5C5C</color>
     <color name="blueTeam">#2D9CDB</color>
@@ -35,4 +32,5 @@
     <color name="manatee">#929497</color>
     <color name="alert_red">#CC0000</color>
     <color name="gray_400">#666666</color>
+    <color name="gray">#3F3F3F</color>
 </resources>

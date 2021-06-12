@@ -7,39 +7,23 @@
     android:layout_height="match_parent"
     tools:context=".ui.popupmatch.video.watch.TabWatchFragment">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/button22"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="216dp"
-        android:layout_marginTop="32dp"
-        android:background="@color/button_text_w_b_state_new"
-        android:text="Button"
-        android:focusable="true"
-        android:clickable="true"
-        android:textColor="@color/button_text_b_w_state_new"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <com.natife.streaming.custom.TimedButton
-        android:focusable="true"
-        android:clickable="true"
         android:id="@+id/buttonFullMatch"
-        android:layout_width="291dp"
-        android:layout_height="34dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-        app:layout_constraintStart_toStartOf="@+id/guideline_start"
+        android:focusable="false"
+        android:background="@android:color/transparent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.27"
         tools:text="Полный матч"
         tools:time="1:25:17" />
 
     <com.natife.streaming.custom.TimedButton
+        android:focusable="false"
         android:id="@+id/buttonCleanTime"
         android:layout_width="291dp"
         android:layout_height="34dp"
-        app:focusOutFront="true"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline_end"
         app:layout_constraintStart_toStartOf="@+id/guideline_start"
@@ -50,11 +34,10 @@
 
 
     <com.natife.streaming.custom.TimedButton
+        android:focusable="false"
         android:id="@+id/buttonReview"
         android:layout_width="291dp"
         android:layout_height="34dp"
-        android:focusable="true"
-        app:focusOutFront="true"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline_end"
         app:layout_constraintStart_toStartOf="@+id/guideline_start"
