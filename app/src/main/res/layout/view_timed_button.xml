@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="291dp"
     android:layout_height="34dp"
     android:background="@drawable/timed_button_background"
-    android:duplicateParentState="true"
     android:focusable="true"
+    android:id="@+id/button_fill"
+    android:duplicateParentState="true"
     android:paddingHorizontal="12dp"
     android:paddingVertical="8dp">
 
@@ -14,7 +16,6 @@
         android:id="@+id/timedButtonText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:duplicateParentState="true"
         android:textAllCaps="true"
         android:textColor="@color/button_text_b_w_state_new"
         android:textAppearance="@style/TextAppearance.StreamingTheme.Headline6"
@@ -32,7 +33,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:duplicateParentState="true"
         android:textColor="@color/button_text_b_w_state_new"
         android:textAppearance="@style/TextAppearance.StreamingTheme.Headline6"
         app:layout_constraintBaseline_toBaselineOf="@+id/timedButtonText"

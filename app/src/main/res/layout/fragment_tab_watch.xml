@@ -5,73 +5,32 @@
     android:id="@+id/tabWatchFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:nextFocusDown="@+id/buttonFullMatch"
     tools:context=".ui.popupmatch.video.watch.TabWatchFragment">
 
-    <com.natife.streaming.custom.TimedButton
-        android:id="@+id/buttonFullMatch"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:focusable="false"
-        android:background="@android:color/transparent"
+    <androidx.leanback.widget.VerticalGridView
+        android:id="@+id/tab_watch_recycler"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:focusOutFront="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_end"
+        app:layout_constraintStart_toStartOf="@+id/guideline_start"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.27"
-        tools:text="Полный матч"
-        tools:time="1:25:17" />
-
-    <com.natife.streaming.custom.TimedButton
-        android:focusable="false"
-        android:id="@+id/buttonCleanTime"
-        android:layout_width="291dp"
-        android:layout_height="34dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-        app:layout_constraintStart_toStartOf="@+id/guideline_start"
-        app:layout_constraintTop_toBottomOf="@+id/buttonFullMatch"
-        app:layout_constraintWidth_percent="0.27"
-        tools:text="Чистое всемя"
-        tools:time="1:25:17" />
-
-
-    <com.natife.streaming.custom.TimedButton
-        android:focusable="false"
-        android:id="@+id/buttonReview"
-        android:layout_width="291dp"
-        android:layout_height="34dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-        app:layout_constraintStart_toStartOf="@+id/guideline_start"
-        app:layout_constraintTop_toBottomOf="@+id/buttonCleanTime"
-        app:layout_constraintWidth_percent="0.27"
-        tools:text="Обзор"
-        tools:time="1:25:17" />
-
-
-    <com.natife.streaming.custom.TimedButton
-        android:id="@+id/buttonGoals"
-        android:layout_width="291dp"
-        android:layout_height="34dp"
-        android:layout_marginTop="16dp"
-        android:textColor="@color/button_text_w_b_state_new"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="@+id/guideline_start"
-        app:layout_constraintTop_toBottomOf="@+id/buttonReview"
-        app:layout_constraintWidth_percent="0.27"
-        tools:text="Голы"
-        tools:time="1:25:17" />
+        tools:itemCount="4"
+        tools:listitem="@layout/view_timed_button" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="334dp" />
+        app:layout_constraintGuide_begin="0dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_end="334dp" />
+        app:layout_constraintGuide_end="0dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

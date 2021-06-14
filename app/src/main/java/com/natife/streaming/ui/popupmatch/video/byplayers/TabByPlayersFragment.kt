@@ -50,6 +50,7 @@ class TabByPlayersFragment : BaseFragment<EmptyViewModel>() {
 
     override fun onResume() {
         super.onResume()
+        firstTeamRecycler.scrollToPosition(0)
         if (firstTeamRecycler.findViewHolderForAdapterPosition(0)?.itemView != null) {
             (firstTeamRecycler.findViewHolderForAdapterPosition(0)?.itemView as MaterialCardView).requestFocus()
         }

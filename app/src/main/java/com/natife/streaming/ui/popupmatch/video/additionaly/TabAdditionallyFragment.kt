@@ -13,7 +13,6 @@ import com.natife.streaming.base.EmptyViewModel
 import com.natife.streaming.ext.subscribe
 import com.natife.streaming.ui.popupmatch.PopupSharedViewModel
 import kotlinx.android.synthetic.main.fragment_tab_additionally.*
-import kotlinx.android.synthetic.main.item_episode.view.*
 
 
 class TabAdditionallyFragment : BaseFragment<EmptyViewModel>() {
@@ -30,6 +29,7 @@ class TabAdditionallyFragment : BaseFragment<EmptyViewModel>() {
         additionalMatchRecycler.setNumColumns(4)
         additionalMatchRecycler.focusScrollStrategy = BaseGridView.FOCUS_SCROLL_ITEM
         additionalMatchRecycler.adapter = episodeAdapter
+        additionalMatchRecycler.scrollToPosition(0)
         episodeAdapter.onClick = {
             popupSharedViewModel.playEpisode(it)
         }
@@ -37,10 +37,16 @@ class TabAdditionallyFragment : BaseFragment<EmptyViewModel>() {
         subscribe(popupSharedViewModel.episodes, episodeAdapter::submitList)
     }
 
+
+    @SuppressLint("UseCompatLoadingForDrawables")
     override fun onResume() {
         super.onResume()
-        if (additionalMatchRecycler.findViewHolderForAdapterPosition(0)?.itemView != null) {
-            (additionalMatchRecycler.findViewHolderForAdapterPosition(0)?.itemView as FrameLayout).additional_video.requestFocus()
+        additionalMatchRecycler.scrollToPosition(0)
+        val viewHolder = additionalMatchRecycler.findViewHolderForAdapterPosition(0)
+        if (viewHolder?.itemView != null) {
+            (viewHolder.itemView as FrameLayout).requestFocus()
+//            (viewHolder.itemView as FrameLayout).additional_video.background =
+//                (viewHolder.itemView as FrameLayout).context.resources.getDrawable(R.drawable.item_background_wite, null)
         }
     }
 

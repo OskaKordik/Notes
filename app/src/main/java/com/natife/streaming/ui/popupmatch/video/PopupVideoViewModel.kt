@@ -12,7 +12,6 @@ import com.natife.streaming.data.player.PlayerSetup
 import com.natife.streaming.router.Router
 import com.natife.streaming.usecase.MatchInfoUseCase
 import com.natife.streaming.usecase.MatchProfileUseCase
-import com.natife.streaming.usecase.PlayerActionUseCase
 import com.natife.streaming.usecase.VideoUseCase
 
 abstract class PopupVideoViewModel : BaseViewModel() {
@@ -33,7 +32,6 @@ class PopupVideoViewModelImpl(
     private val matchInfoUseCase: MatchInfoUseCase,
     private val router: Router,
     private val videoUseCase: VideoUseCase,
-    private val playerUseCase: PlayerActionUseCase,
 ) : PopupVideoViewModel() {
     private var _match: Match? = null
     override val match = MutableLiveData<Match>()

@@ -67,7 +67,13 @@ class UserPreferencesFragment : BaseFragment<UserPreferencesViewModel>() {
 
         subscribe(viewModel.allUserPreferencesInTournament) {
             temporalList = it.toTournamentTranslateDTO(resources.getString(R.string.lang))
-            tournamentAdapter.submitList(temporalList)
+            if (viewModel.sportsSelected.value != null) {
+                tournamentAdapter.submitList(temporalList?.filter { tournament ->
+                    tournament.sport == viewModel.sportsSelected.value!!.id
+                })
+            } else {
+                tournamentAdapter.submitList(temporalList)
+            }
             viewModel.kindOfSportSelected(viewModel.sportsSelected.value)
             load_progress.visibility = View.GONE
         }

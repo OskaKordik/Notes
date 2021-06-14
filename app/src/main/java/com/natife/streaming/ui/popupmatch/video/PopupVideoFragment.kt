@@ -93,10 +93,10 @@ class PopupVideoFragment : BaseFragment<PopupVideoViewModel>() {
             this.lifecycle, popupVideoNames.size
         )
         popup_video_pager.adapter = popupVideoAdapter
-        TabLayoutMediator(tab_layout, popup_video_pager, false) { tab, position ->
+        TabLayoutMediator(tab_layout, popup_video_pager) { tab, position ->
             tab.text = popupVideoNames[position]
-            tab.view.isFocusable = true
         }.attach()
+        tab_layout.getChildAt(0).requestFocus()
     }
 
     override fun getParameters(): ParametersDefinition = {

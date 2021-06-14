@@ -17,11 +17,12 @@ class SportsAdapter(
     ListAdapter<SportTranslateDTO, SportsAdapter.SportsAdapterViewHolder>(
         SportsAdapterDiffUtilCallback()
     ) {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SportsAdapterViewHolder {
-        val binding =
-            ItemKindsOfSportNewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return SportsAdapterViewHolder(binding)
-    }
+//    private val first = Event(true)
+override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SportsAdapterViewHolder {
+    val binding =
+        ItemKindsOfSportNewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+    return SportsAdapterViewHolder(binding)
+}
 
     override fun onBindViewHolder(holder: SportsAdapterViewHolder, position: Int) {
         holder.bind(currentList[position])
@@ -32,6 +33,7 @@ class SportsAdapter(
         private val binding: ItemKindsOfSportNewBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(data: SportTranslateDTO) {
+//            if (first.getContentIfNotHandled() == true )itemView.requestFocus()
             binding.sportNameText.text = data.text
             binding.checkImage.visibility = if (data.isCheck) View.VISIBLE else View.GONE
             itemView.setOnClickListener {
@@ -41,7 +43,7 @@ class SportsAdapter(
                 if (hasFocus) {
                     onKindOfSportSelectedListener.invoke(data)
                 } else {
-                    onKindOfSportSelectedListener.invoke(null)
+//                    onKindOfSportSelectedListener.invoke(null)
                 }
             }
 
