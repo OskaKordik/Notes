@@ -2,6 +2,7 @@ package com.natife.streaming.ui.popupmatch.video
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.natife.streaming.R
 import com.natife.streaming.base.BaseViewModel
 import com.natife.streaming.data.Video
 import com.natife.streaming.data.match.Match
@@ -23,6 +24,7 @@ abstract class PopupVideoViewModel : BaseViewModel() {
     abstract val match: LiveData<Match>
     abstract fun play(episode: Episode? = null, playList: List<Episode>? = null)
     abstract fun onStatisticClicked()
+    abstract fun onFinishClicked()
 }
 
 class PopupVideoViewModelImpl(
@@ -79,6 +81,10 @@ class PopupVideoViewModelImpl(
                 matchId = matchId
             )
         router.navigate(direction)
+    }
+
+    override fun onFinishClicked() {
+        router.navigate(R.id.action_global_nav_main)
     }
 
     init {

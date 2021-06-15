@@ -4,11 +4,13 @@ package com.natife.streaming.ui.popupmatch.video
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.navGraphViewModels
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseFragment
@@ -33,6 +35,23 @@ class PopupVideoFragment : BaseFragment<PopupVideoViewModel>() {
     override fun getLayoutRes(): Int = R.layout.fragment_popup_video
     private lateinit var popupVideoNames: Array<String>
     private val popupSharedViewModel: PopupSharedViewModel by navGraphViewModels(R.id.popupVideo)
+    private var page = 0
+    val onPage = object : ViewPager2.OnPageChangeCallback() {
+        override fun onPageSelected(position: Int) {
+            super.onPageSelected(position)
+            position.apply {
+                page = this
+                popupSharedViewModel.startViewID.value?.let { start ->
+                    tab_layout.getTabAt(0)?.view?.nextFocusDownId = start[this]
+                    tab_layout.getTabAt(1)?.view?.nextFocusDownId = start[this]
+                    tab_layout.getTabAt(2)?.view?.nextFocusDownId = start[this]
+                    tab_layout.getTabAt(3)?.view?.nextFocusDownId = start[this]
+                    tab_layout.getTabAt(4)?.view?.nextFocusDownId = start[this]
+                }
+
+            }
+        }
+    }
 
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -86,6 +105,15 @@ class PopupVideoFragment : BaseFragment<PopupVideoViewModel>() {
             viewModel.play(playList = it)
         }
 
+        subscribe(popupSharedViewModel.startViewID) { start ->
+            page.apply {
+                tab_layout.getTabAt(0)?.view?.nextFocusDownId = start[this]
+                tab_layout.getTabAt(1)?.view?.nextFocusDownId = start[this]
+                tab_layout.getTabAt(2)?.view?.nextFocusDownId = start[this]
+                tab_layout.getTabAt(3)?.view?.nextFocusDownId = start[this]
+                tab_layout.getTabAt(4)?.view?.nextFocusDownId = start[this]
+            }
+        }
 
         popupVideoNames = resources.getStringArray(R.array.popup_video_names)
         val popupVideoAdapter = PopupVideoFragmentAdapter(
@@ -93,10 +121,16 @@ class PopupVideoFragment : BaseFragment<PopupVideoViewModel>() {
             this.lifecycle, popupVideoNames.size
         )
         popup_video_pager.adapter = popupVideoAdapter
+        popup_video_pager.registerOnPageChangeCallback(onPage)
+
         TabLayoutMediator(tab_layout, popup_video_pager) { tab, position ->
             tab.text = popupVideoNames[position]
         }.attach()
         tab_layout.getChildAt(0).requestFocus()
+        tab_layout.getChildAt(0).isSelected = true
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            viewModel.onFinishClicked()
+        }
     }
 
     override fun getParameters(): ParametersDefinition = {
@@ -109,6 +143,7 @@ class PopupVideoFragment : BaseFragment<PopupVideoViewModel>() {
         (activity as MainActivity).main_group?.visibility = View.VISIBLE
         (activity as MainActivity).popup_group?.visibility = View.GONE
         (activity as MainActivity).mainMotion?.predominantColorToGradient("#3560E1")
+        popup_video_pager.unregisterOnPageChangeCallback(onPage)
     }
 
     inner class PopupVideoFragmentAdapter(

@@ -3,6 +3,7 @@ package com.natife.streaming.ui.popupmatch.statistics
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.navigation.navGraphViewModels
@@ -66,6 +67,10 @@ class PopupStatisticsFragment : BaseFragment<PopupStatisticsViewModel>() {
             TabLayoutMediator(tab_layout_stat, popup_stat_pager) { tab, position ->
                 tab.text = popupStatisticNames[position]
             }.attach()
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            viewModel.onFinishClicked()
         }
     }
 

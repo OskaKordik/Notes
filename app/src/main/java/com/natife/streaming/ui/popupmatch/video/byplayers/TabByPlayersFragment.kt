@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.fragment_tab_by_players.*
 class TabByPlayersFragment : BaseFragment<EmptyViewModel>() {
     override fun getLayoutRes(): Int = R.layout.fragment_tab_by_players
     private val popupSharedViewModel: PopupSharedViewModel by navGraphViewModels(R.id.popupVideo)
-    private val teamAdapter1: PlayerAdapter by lazy { PlayerAdapter() }
+    private val teamAdapter1: PlayerAdapter by lazy { PlayerAdapter(popupSharedViewModel) }
     private val teamAdapter2: PlayerAdapter by lazy { PlayerAdapter() }
 
     @SuppressLint("RestrictedApi")

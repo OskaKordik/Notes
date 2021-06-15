@@ -1,5 +1,6 @@
 package com.natife.streaming.ui.popupmatch
 
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.natife.streaming.base.BaseViewModel
@@ -16,6 +17,19 @@ import org.koin.core.KoinComponent
 import org.koin.core.get
 
 class PopupSharedViewModel : BaseViewModel(), KoinComponent {
+    private val _startViewID = MutableLiveData<ArrayList<Int>>()
+        .apply {
+            postValue(
+                arrayListOf(
+                    View.NO_ID,
+                    View.NO_ID,
+                    View.NO_ID,
+                    View.NO_ID,
+                    View.NO_ID
+                )
+            )
+        }
+    val startViewID: LiveData<ArrayList<Int>> = _startViewID
     private var playerJob: Job? = null
     private val playerUseCase: PlayerActionUseCase = get()
 
@@ -45,6 +59,10 @@ class PopupSharedViewModel : BaseViewModel(), KoinComponent {
 
     private val _playPlayList = MutableLiveData<Event<List<Episode>?>>()
     val playPlayList: LiveData<Event<List<Episode>?>> = _playPlayList
+
+    fun setStartId(startId: ArrayList<Int>) {
+        _startViewID.value = startId
+    }
 
     fun setMatch(math: Match) {
         _match.value = math

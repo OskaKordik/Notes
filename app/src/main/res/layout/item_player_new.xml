@@ -3,17 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/player_card"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_width="392dp"
+    android:layout_height="44dp"
     android:layout_margin="4dp"
     android:elevation="0dp"
     android:focusable="true"
+    android:layout_gravity="center_horizontal"
     app:cardBackgroundColor="@color/button_background_t_w_state_new"
     app:cardForegroundColor="@android:color/transparent"
     app:rippleColor="@android:color/transparent"
     app:shapeAppearance="@style/ShapeAppearance.StreamingTheme.SmallComponent"
-    app:strokeColor="@color/button_background_t_w_state_new"
-    app:strokeWidth="5dp">
+    app:strokeColor="@color/button_background_t_w_state_new">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/player_card_background"

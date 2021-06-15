@@ -9,10 +9,12 @@ import com.google.android.material.card.MaterialCardView
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseListAdapter
 import com.natife.streaming.data.matchprofile.Player
+import com.natife.streaming.ui.popupmatch.PopupSharedViewModel
 import kotlinx.android.synthetic.main.item_player_new.view.*
 
-class PlayerAdapter () : BaseListAdapter<Player, PlayerViewHolder>(PlayerDiffCallback()) {
-    var onClick: ((Player)->Unit)? = null
+class PlayerAdapter(val popupSharedViewModel: PopupSharedViewModel? = null) :
+    BaseListAdapter<Player, PlayerViewHolder>(PlayerDiffCallback()) {
+    var onClick: ((Player) -> Unit)? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlayerViewHolder {
         return PlayerViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.item_player_new, parent, false)
@@ -27,16 +29,33 @@ class PlayerAdapter () : BaseListAdapter<Player, PlayerViewHolder>(PlayerDiffCal
         holder.itemView.setOnClickListener {
             onClick?.invoke(currentList[position])
         }
+        if (holder.layoutPosition == 0) {
+            popupSharedViewModel?.startViewID?.value?.let {
+                val array = it
+                array[2] = holder.itemView.id
+                popupSharedViewModel.setStartId(array)
+            }
+        }
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
     override fun onViewAttachedToWindow(holder: PlayerViewHolder) {
         super.onViewAttachedToWindow(holder)
         holder.itemView.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
-            (view as MaterialCardView).player_card_background.background = if (hasFocus) {
-                view.context.resources.getDrawable(R.drawable.background_button_fild_white, null)
-            } else {
-                view.context.resources.getDrawable(R.drawable.background_button_fild_grey, null)
+            (view as MaterialCardView).apply {
+                if (hasFocus) {
+                    player_card_background.background = view.context.resources.getDrawable(
+                        R.drawable.background_button_fild_white,
+                        null
+                    )
+                    strokeWidth = 5
+                } else {
+                    player_card_background.background = view.context.resources.getDrawable(
+                        R.drawable.background_button_fild_grey,
+                        null
+                    )
+                    strokeWidth = 0
+                }
             }
             (view as MaterialCardView).player_name.setTextColor(
                 if (hasFocus) {

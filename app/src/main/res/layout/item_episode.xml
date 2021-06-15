@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="215dp"
     android:focusable="true"
+    android:id="@+id/episode"
     android:layout_height="215dp"
     android:padding="15dp">
 

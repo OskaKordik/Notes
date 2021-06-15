@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.fragment_tab_additionally.*
 class TabAdditionallyFragment : BaseFragment<EmptyViewModel>() {
     override fun getLayoutRes(): Int = R.layout.fragment_tab_additionally
     private val popupSharedViewModel: PopupSharedViewModel by navGraphViewModels(R.id.popupVideo)
-    private val episodeAdapter: EpisodeAdapter by lazy { EpisodeAdapter() }
+    private val episodeAdapter: EpisodeAdapter by lazy { EpisodeAdapter(popupSharedViewModel) }
 
     @SuppressLint("RestrictedApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -45,8 +45,6 @@ class TabAdditionallyFragment : BaseFragment<EmptyViewModel>() {
         val viewHolder = additionalMatchRecycler.findViewHolderForAdapterPosition(0)
         if (viewHolder?.itemView != null) {
             (viewHolder.itemView as FrameLayout).requestFocus()
-//            (viewHolder.itemView as FrameLayout).additional_video.background =
-//                (viewHolder.itemView as FrameLayout).context.resources.getDrawable(R.drawable.item_background_wite, null)
         }
     }
 

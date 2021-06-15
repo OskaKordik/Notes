@@ -8,9 +8,11 @@ import androidx.recyclerview.widget.DiffUtil
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseListAdapter
 import com.natife.streaming.data.matchprofile.Episode
+import com.natife.streaming.ui.popupmatch.PopupSharedViewModel
 import kotlinx.android.synthetic.main.item_episode.view.*
 
-class EpisodeAdapter : BaseListAdapter<Episode, EpisodeViewHolder>(EpisodeDiffUtil()) {
+class EpisodeAdapter(val popupSharedViewModel: PopupSharedViewModel? = null) :
+    BaseListAdapter<Episode, EpisodeViewHolder>(EpisodeDiffUtil()) {
     var onClick: ((Episode) -> Unit)? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EpisodeViewHolder {
         return EpisodeViewHolder(
@@ -22,6 +24,13 @@ class EpisodeAdapter : BaseListAdapter<Episode, EpisodeViewHolder>(EpisodeDiffUt
         super.onBindViewHolder(holder, position)
         holder.itemView.setOnClickListener {
             onClick?.invoke(currentList[position])
+        }
+        if (holder.layoutPosition == 0) {
+            popupSharedViewModel?.startViewID?.value?.let {
+                val array = it
+                array[1] = holder.itemView.id
+                popupSharedViewModel.setStartId(array)
+            }
         }
     }
 

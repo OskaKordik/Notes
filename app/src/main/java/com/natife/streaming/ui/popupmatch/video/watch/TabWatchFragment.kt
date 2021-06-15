@@ -20,7 +20,7 @@ class TabWatchFragment : BaseFragment<EmptyViewModel>() {
     override fun getLayoutRes(): Int = R.layout.fragment_tab_watch
     private val popupSharedViewModel: PopupSharedViewModel by navGraphViewModels(R.id.popupVideo)
     private val watchList = mutableListOf<WatchFill>()
-    private val adapter: TabWatchAdapter by lazy { TabWatchAdapter() }
+    private val adapter: TabWatchAdapter by lazy { TabWatchAdapter(popupSharedViewModel) }
 
     @SuppressLint("RestrictedApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -51,24 +51,47 @@ class TabWatchFragment : BaseFragment<EmptyViewModel>() {
                 }
             }
 
-            watchList.add(
-                1,
-                WatchFill.BallInPlay(
+            if (watchList.getOrNull(1) == null) {
+                watchList.add(
+                    1, WatchFill.BallInPlay(
+                        it.translates.ballInPlayTranslate,
+                        it.ballInPlayDuration.toDisplayTime()
+                    )
+                )
+            } else {
+                watchList[1] = WatchFill.BallInPlay(
                     it.translates.ballInPlayTranslate,
                     it.ballInPlayDuration.toDisplayTime()
                 )
-            )
-            watchList.add(
-                2,
-                WatchFill.Highlights(
+            }
+            if (watchList.getOrNull(2) == null) {
+                watchList.add(
+                    2,
+                    WatchFill.Highlights(
+                        it.translates.highlightsTranslate,
+                        it.highlightsDuration.toDisplayTime()
+                    )
+                )
+            } else {
+                watchList[2] = WatchFill.Highlights(
                     it.translates.highlightsTranslate,
                     it.highlightsDuration.toDisplayTime()
                 )
-            )
-            watchList.add(
-                3,
-                WatchFill.FieldGoals(it.translates.goalsTranslate, it.goalsDuration.toDisplayTime())
-            )
+            }
+            if (watchList.getOrNull(3) == null) {
+                watchList.add(
+                    3,
+                    WatchFill.FieldGoals(
+                        it.translates.goalsTranslate,
+                        it.goalsDuration.toDisplayTime()
+                    )
+                )
+            } else {
+                watchList[3] = WatchFill.FieldGoals(
+                    it.translates.goalsTranslate,
+                    it.goalsDuration.toDisplayTime()
+                )
+            }
             adapter.submitList(watchList)
             adapter.notifyDataSetChanged()
         }
