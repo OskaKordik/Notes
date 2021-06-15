@@ -47,4 +47,9 @@
     </string-array>
     <string name="teams">Команды</string>
     <string name="table">Tаблица</string>
+    <string-array name="search_names">
+        <item>Игроки</item>
+        <item>Команды</item>
+        <item>Турниры</item>
+    </string-array>
 </resources>

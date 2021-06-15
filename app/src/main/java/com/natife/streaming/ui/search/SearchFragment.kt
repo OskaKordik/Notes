@@ -2,16 +2,32 @@ package com.natife.streaming.ui.search
 
 import android.os.Bundle
 import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView.OnEditorActionListener
+import androidx.core.widget.doOnTextChanged
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.Lifecycle
+import androidx.navigation.navGraphViewModels
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.google.android.material.tabs.TabLayoutMediator
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseFragment
+import com.natife.streaming.ext.hideKeyboard
 import com.natife.streaming.ext.predominantColorToGradient
+import com.natife.streaming.ext.subscribe
 import com.natife.streaming.ui.main.MainActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_search_new.*
 
 
 class SearchFragment : BaseFragment<SearchViewModel>() {
+    override fun getLayoutRes(): Int = R.layout.fragment_search_new
+    private lateinit var searchTabNames: Array<String>
+    private val searchResultViewModel: SearchResultViewModel by navGraphViewModels(R.id.nav_main)
 
-    private val adapter: SearchAdapter by lazy { SearchAdapter() }
+
+//    private val adapter: SearchAdapter by lazy { SearchAdapter() }
 //    private val speechRecognizer: SpeechRecognizer by lazy {
 //        SpeechRecognizer.createSpeechRecognizer(
 //            requireContext()
@@ -45,8 +61,6 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
 //
 //    }
 
-    override fun getLayoutRes(): Int = R.layout.fragment_search_new
-
 //    override fun onResume() {
 //        ((activity as MainActivity).mainMotion as MotionLayout).addTransitionListener(transitionListener)
 //        super.onResume()
@@ -59,7 +73,41 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
         (activity as MainActivity).search_background_group?.visibility = View.VISIBLE
         //Heading in the predominant team color
         (activity as MainActivity).mainMotion?.predominantColorToGradient("#CB312A")
+        searchTabNames = resources.getStringArray(R.array.search_names)
+        val searchFragmentAdapter = SearchFragmentAdapter(
+            childFragmentManager,
+            this.lifecycle,
+            searchTabNames.size
+        )
+        search_pager.adapter = searchFragmentAdapter
+        TabLayoutMediator(search_tab_layout, search_pager) { tab, position ->
+            tab.text = searchTabNames[position]
+        }.attach()
+        search_tab_layout.getChildAt(0).requestFocus()
+        search_tab_layout.getChildAt(0).isSelected = true
 
+
+
+        (activity as MainActivity).search_text_field?.editText?.doOnTextChanged { text, start, before, count ->
+
+        }
+        (activity as MainActivity).search_text_field?.editText?.onFocusChangeListener =
+            View.OnFocusChangeListener { v, hasFocus ->
+                if (!hasFocus) v.hideKeyboard()
+            }
+        (activity as MainActivity).search_text_field?.editText?.setOnEditorActionListener(
+            OnEditorActionListener { v, actionId, event ->
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    v.clearFocus()
+                    viewModel.search((activity as MainActivity).search_text_field?.editText?.text.toString())
+                    return@OnEditorActionListener true
+                }
+                false
+            })
+
+        subscribe(viewModel.resultsTeam, searchResultViewModel::setResultsTeam)
+        subscribe(viewModel.resultsPlayer, searchResultViewModel::setResultsPlayer)
+        subscribe(viewModel.resultsTournament, searchResultViewModel::setResultsTournament)
 
 //        applyAlpha(((activity as MainActivity).mainMotion as MotionLayout).progress)
 
@@ -142,6 +190,10 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
 
     }
 
+    private fun doSearch(text: String) {
+
+    }
+
 //    override fun onPause() {
 //        ((activity as MainActivity).mainMotion as MotionLayout).removeTransitionListener(
 //            transitionListener
@@ -157,11 +209,22 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
         (activity as MainActivity).search_background_group?.visibility = View.GONE
     }
 
-//    override fun onDestroy() {
+    //    override fun onDestroy() {
 //        speechRecognizer.stopListening()
 //
 //        super.onDestroy()
 //    }
+    inner class SearchFragmentAdapter(
+        fragmentManager: FragmentManager,
+        lifecycle: Lifecycle,
+        private val itemCount: Int
+    ) : FragmentStateAdapter(fragmentManager, lifecycle) {
+        override fun getItemCount(): Int {
+            return itemCount
+        }
 
-
+        override fun createFragment(position: Int): Fragment {
+            return SearchResultFragment.newInstance(position)
+        }
+    }
 }

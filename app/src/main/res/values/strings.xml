@@ -68,4 +68,10 @@
     </string-array>
     <string name="teams">Teams</string>
     <string name="table">Table</string>
+    <!-- search -->
+    <string-array name="search_names">
+        <item>Players</item>
+        <item>Teams</item>
+        <item>Tournaments</item>
+    </string-array>
 </resources>

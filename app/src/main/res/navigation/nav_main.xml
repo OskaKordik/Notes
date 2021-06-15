@@ -327,15 +327,23 @@
                 android:name="com.natife.streaming.ui.popupmatch.statistics.table.TabTableFragment"
                 android:label="fragment_tab_table"
                 tools:layout="@layout/fragment_tab_table" />
-            <fragment
-                android:id="@+id/teamFragment"
-                android:name="com.natife.streaming.ui.popupmatch.statistics.team.TeamFragment"
-                android:label="fragment_tab_team"
-                tools:layout="@layout/fragment_tab_team" />
             <action
                 android:id="@+id/action_global_playerFragment"
                 app:destination="@id/playerFragment" />
+            <fragment
+                android:id="@+id/tabTeam1Fragment"
+                android:name="com.natife.streaming.ui.popupmatch.statistics.team.TabTeam1Fragment"
+                android:label="TabTeam1Fragment" />
+            <fragment
+                android:id="@+id/tabTeam2Fragment"
+                android:name="com.natife.streaming.ui.popupmatch.statistics.team.TabTeam2Fragment"
+                android:label="TabTeam2Fragment" />
         </navigation>
+        <fragment
+            android:id="@+id/searchResultFragment"
+            android:name="com.natife.streaming.ui.search.SearchResultFragment"
+            android:label="fragment_search_result"
+            tools:layout="@layout/fragment_search_result" />
 
     </navigation>
 
