@@ -1,6 +1,5 @@
 package com.natife.streaming.ui.popupmatch.video.watch
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,9 +9,7 @@ import com.natife.streaming.R
 import com.natife.streaming.base.BaseListAdapter
 import com.natife.streaming.base.BaseViewHolder
 import com.natife.streaming.ui.popupmatch.PopupSharedViewModel
-import kotlinx.android.synthetic.main.item_timed_button.view.*
-import kotlinx.android.synthetic.main.view_timed_button.view.timedButtonText
-import kotlinx.android.synthetic.main.view_timed_button.view.timedButtonTime
+import kotlinx.android.synthetic.main.view_timed_button.view.*
 
 class TabWatchAdapter(val popupSharedViewModel: PopupSharedViewModel) :
     BaseListAdapter<WatchFill, TabWatchAdapter.WatchFillViewHolder>(TabWatchAdapterDiffUtil()) {
@@ -39,49 +36,10 @@ class TabWatchAdapter(val popupSharedViewModel: PopupSharedViewModel) :
         }
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
     override fun onViewAttachedToWindow(holder: WatchFillViewHolder) {
         super.onViewAttachedToWindow(holder)
         holder.itemView.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
-            (view as MaterialCardView).apply {
-                if (hasFocus) {
-                    timed_card.background = view.context.resources.getDrawable(
-                        R.drawable.background_button_fild_white,
-                        null
-                    )
-                    strokeWidth = 5
-                    timedButtonText.setTextColor(
-                        view.context.resources.getColor(
-                            R.color.black,
-                            null
-                        )
-                    )
-                    timedButtonTime.setTextColor(
-                        view.context.resources.getColor(
-                            R.color.gray,
-                            null
-                        )
-                    )
-                } else {
-                    timed_card.background = view.context.resources.getDrawable(
-                        R.drawable.background_button_fild_grey,
-                        null
-                    )
-                    strokeWidth = 0
-                    timedButtonText.setTextColor(
-                        view.context.resources.getColor(
-                            R.color.white,
-                            null
-                        )
-                    )
-                    timedButtonTime.setTextColor(
-                        view.context.resources.getColor(
-                            R.color.white40,
-                            null
-                        )
-                    )
-                }
-            }
+            (view as MaterialCardView).strokeWidth = if (hasFocus) 5 else 0
         }
     }
     override fun getItemViewType(position: Int): Int {
