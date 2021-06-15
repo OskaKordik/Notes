@@ -3,7 +3,6 @@ package com.natife.streaming.ui.search
 import android.Manifest
 import android.content.Intent
 import android.os.Bundle
-import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import android.view.KeyEvent
@@ -14,15 +13,12 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseFragment
-import com.natife.streaming.ext.doOnResult
-import com.natife.streaming.ext.showToast
-import com.natife.streaming.ext.subscribe
-import com.natife.streaming.ext.withAllPermissions
+import com.natife.streaming.ext.*
 import com.natife.streaming.ui.main.MainActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_popup_video.*
 import kotlinx.android.synthetic.main.fragment_search.*
-import kotlinx.android.synthetic.main.fragment_search.buttonSport
 import kotlinx.android.synthetic.main.keyboard.view.*
 import kotlinx.android.synthetic.main.view_interval.*
 import timber.log.Timber
@@ -73,6 +69,11 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as MainActivity).main_group?.visibility = View.GONE
+        //Heading in the predominant team color
+        (activity as MainActivity).mainMotion?.predominantColorToGradient("#CCCB312A")
+
+
 
         applyAlpha(((activity as MainActivity).mainMotion as MotionLayout).progress)
 
@@ -157,10 +158,17 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
     }
 
     override fun onPause() {
-        ((activity as MainActivity).mainMotion as MotionLayout).removeTransitionListener(transitionListener)
+        ((activity as MainActivity).mainMotion as MotionLayout).removeTransitionListener(
+            transitionListener
+        )
         super.onPause()
     }
 
+    override fun onStop() {
+        super.onStop()
+        (activity as MainActivity).main_group?.visibility = View.VISIBLE
+        (activity as MainActivity).mainMotion?.predominantColorToGradient("#3560E1")
+    }
 
     override fun onDestroy() {
         speechRecognizer.stopListening()
