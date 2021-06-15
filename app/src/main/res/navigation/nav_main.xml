@@ -197,15 +197,6 @@
             android:label="SearchFragment"
             tools:layout="@layout/fragment_search">
             <action
-                android:id="@+id/action_searchFragment_to_sportDialog2"
-                app:destination="@id/sportDialog2" />
-            <action
-                android:id="@+id/action_searchFragment_to_genderDialog"
-                app:destination="@id/genderDialog" />
-            <action
-                android:id="@+id/action_searchFragment_to_typeDialog"
-                app:destination="@id/typeDialog" />
-            <action
                 android:id="@+id/action_searchFragment_to_tournamentFragment"
                 app:destination="@id/tournamentFragment" />
         </fragment>

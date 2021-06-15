@@ -17,18 +17,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/logo_imageView"
-            android:layout_width="81dp"
-            android:layout_height="19dp"
-            android:layout_marginStart="28dp"
-            android:layout_marginTop="28dp"
-            android:backgroundTint="@color/white"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_logo_new"
-            tools:ignore="contentDescription" />
-
         <com.google.android.material.button.MaterialButton
             android:id="@+id/score_button"
             style="@style/ButtonTransparentNoOutlined"
@@ -312,18 +300,117 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ImageView
-        android:id="@+id/bottom_backgrounnd"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:scaleType="centerCrop"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/background_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topLayout"
-        app:layout_goneMarginTop="0dp"
-        app:srcCompat="@drawable/home_background" />
+        app:layout_constraintTop_toTopOf="parent">
 
+        <ImageView
+            android:id="@+id/main_background"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="124dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_goneMarginTop="0dp"
+            app:srcCompat="@drawable/home_background" />
+
+        <ImageView
+            android:id="@+id/search_background"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="70dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_goneMarginTop="0dp"
+            app:srcCompat="@drawable/home_background" />
+
+        <ImageView
+            android:id="@+id/search_gradient_mask"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/vertical_gradient_black_mask"
+            app:layout_constraintBottom_toTopOf="@+id/search_background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_goneMarginTop="0dp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/search_text_field"
+            style="@style/ThemeOverlay.TextInputLayout"
+            android:layout_width="305dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:hint="@string/search"
+            app:startIconDrawable="@drawable/ic_search2"
+            android:textColorHint="@color/hint_text_field_color"
+            app:hintTextColor="@android:color/transparent"
+            app:layout_constraintBottom_toTopOf="@+id/guideline_end_search"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/search_text"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/background_edit_text_filld_w_smoll"
+                android:ellipsize="end"
+                android:focusable="true"
+                android:imeOptions="actionNext"
+                android:inputType="textAutoComplete"
+                android:paddingHorizontal="18dp"
+                android:paddingTop="0dp"
+                android:paddingBottom="0dp"
+                android:privateImeOptions="horizontalAlignment=center"
+                android:textColor="@color/black" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <ImageView
+            android:id="@+id/logo_imageView"
+            android:layout_width="81dp"
+            android:layout_height="19dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="28dp"
+            android:backgroundTint="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_logo_new"
+            tools:ignore="contentDescription" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/main_background_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:constraint_referenced_ids="main_background" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/search_background_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="search_background, search_gradient_mask, search_text_field" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_end_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="124dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.natife.streaming.custom.SideMenu
         android:id="@+id/mainMenu"

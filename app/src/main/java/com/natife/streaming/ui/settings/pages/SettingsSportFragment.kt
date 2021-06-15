@@ -9,8 +9,6 @@ import com.natife.streaming.base.BaseFragment
 import com.natife.streaming.ext.subscribe
 import com.natife.streaming.ui.matchprofile.ActionAdapter
 import com.natife.streaming.ui.settings.SettingsViewModel
-import kotlinx.android.synthetic.main.fragment_search.*
-import kotlinx.android.synthetic.main.fragment_search.title
 import kotlinx.android.synthetic.main.fragment_settings_page.*
 import timber.log.Timber
 

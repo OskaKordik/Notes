@@ -2,7 +2,6 @@ package com.natife.streaming.ui.search
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.natife.streaming.R
 import com.natife.streaming.base.BaseViewModel
 import com.natife.streaming.data.search.SearchResult
 import com.natife.streaming.preferenses.SearchPrefs
@@ -149,15 +148,15 @@ private val prefs: SearchPrefs): SearchViewModel() {
     }
 
     override fun showSportDialog() {
-        router.navigate(R.id.action_searchFragment_to_sportDialog2)
+//        router.navigate(R.id.action_searchFragment_to_sportDialog2)
     }
 
     override fun showGenderDialog() {
-        router.navigate(R.id.action_searchFragment_to_genderDialog)
+//        router.navigate(R.id.action_searchFragment_to_genderDialog)
     }
 
     override fun showTypeDialog() {
-        router.navigate(R.id.action_searchFragment_to_typeDialog)
+//        router.navigate(R.id.action_searchFragment_to_typeDialog)
     }
 
     override fun back() {
