@@ -198,6 +198,51 @@ class LocalSqlDataSourse internal constructor(
             localSqlTasksDao.getPreferencesTournament()
         }
 
+    suspend fun searchPreferencesTournament(
+        queryString: String,
+        id: Int?,
+        lang: String
+    ): List<PreferencesTournament> =
+        withContext(ioDispatcher) {
+            val dbQuery = "%${queryString.replace(' ', '%')}%"
+            when (lang) {
+                "en", "EN" -> if (id == null) localSqlTasksDao.searchENPreferencesTournament(dbQuery) else localSqlTasksDao.searchENPreferencesTournamentSportID(
+                    dbQuery,
+                    id
+                )
+                "ru", "RU" -> if (id == null) localSqlTasksDao.searchRUPreferencesTournament(dbQuery) else localSqlTasksDao.searchRUPreferencesTournamentSportID(
+                    dbQuery,
+                    id
+                )
+                else -> if (id == null) localSqlTasksDao.searchENPreferencesTournament(dbQuery) else localSqlTasksDao.searchENPreferencesTournamentSportID(
+                    dbQuery,
+                    id
+                )
+            }
+        }
+
+    fun searchPreferencesTournamentFlow(
+        queryString: String,
+        id: Int?,
+        lang: String
+    ): Flow<List<PreferencesTournament>> {
+        val dbQuery = "%${queryString.replace(' ', '%')}%"
+        return when (lang) {
+            "en", "EN" -> if (id == null) localSqlTasksDao.searchENPreferencesTournamentFlow(
+                dbQuery
+            ) else localSqlTasksDao.searchENPreferencesTournamentSportIDFlow(dbQuery, id)
+            "ru", "RU" -> if (id == null) localSqlTasksDao.searchRUPreferencesTournamentFlow(
+                dbQuery
+            ) else localSqlTasksDao.searchRUPreferencesTournamentSportIDFlow(dbQuery, id)
+            else -> if (id == null) localSqlTasksDao.searchENPreferencesTournamentFlow(
+                dbQuery
+            ) else localSqlTasksDao.searchENPreferencesTournamentSportIDFlow(
+                dbQuery,
+                id
+            )
+        }
+    }
+
     suspend fun getPreferencesTournamentBySport(sportId: Int): List<PreferencesTournament> =
         withContext(ioDispatcher) {
             localSqlTasksDao.getPreferencesTournamentBySport(sportId)

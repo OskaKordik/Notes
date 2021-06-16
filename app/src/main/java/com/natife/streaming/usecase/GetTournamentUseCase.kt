@@ -19,6 +19,18 @@ interface GetTournamentUseCase {
 
     suspend fun execute(): TournamentListDTO
     suspend fun getAllUserPreferencesInTournament(): List<PreferencesTournament>
+    suspend fun searchUserPreferencesInTournament(
+        queryString: String,
+        id: Int? = null,
+        lang: String
+    ): List<PreferencesTournament>
+
+    fun searchUserPreferencesInTournamentFlow(
+        queryString: String,
+        id: Int? = null,
+        lang: String
+    ): Flow<List<PreferencesTournament>>
+
     fun getAllUserPreferencesInTournamentFlow(): Flow<List<PreferencesTournament>>
 }
 
@@ -49,6 +61,20 @@ class GetTournamentUseCaseImpl(
 
     override suspend fun getAllUserPreferencesInTournament(): List<PreferencesTournament> =
         localSqlDataSourse.getPreferencesTournament()
+
+    override suspend fun searchUserPreferencesInTournament(
+        queryString: String,
+        id: Int?,
+        lang: String
+    ): List<PreferencesTournament> =
+        localSqlDataSourse.searchPreferencesTournament(queryString, id, lang)
+
+    override fun searchUserPreferencesInTournamentFlow(
+        queryString: String,
+        id: Int?,
+        lang: String
+    ): Flow<List<PreferencesTournament>> =
+        localSqlDataSourse.searchPreferencesTournamentFlow(queryString, id, lang)
 
     override fun getAllUserPreferencesInTournamentFlow(): Flow<List<PreferencesTournament>> =
         localSqlDataSourse.getPreferencesTournamentFlow()

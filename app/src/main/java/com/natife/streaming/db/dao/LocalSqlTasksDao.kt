@@ -59,6 +59,45 @@ interface LocalSqlTasksDao {
     @Query("SELECT * FROM 'PreferencesTournament'")
     fun getPreferencesTournament(): List<PreferencesTournament>
 
+
+    @Query("SELECT * FROM 'PreferencesTournament' WHERE nameRus LIKE :queryString OR countryNameRus LIKE :queryString")
+    fun searchRUPreferencesTournament(queryString: String): List<PreferencesTournament>
+
+    @Query("SELECT * FROM 'PreferencesTournament' WHERE nameEng LIKE :queryString OR countryNameEng LIKE :queryString")
+    fun searchENPreferencesTournament(queryString: String): List<PreferencesTournament>
+
+    @Query("SELECT * FROM 'PreferencesTournament' WHERE (nameRus LIKE :queryString OR countryNameRus LIKE :queryString) AND sport == :id")
+    fun searchRUPreferencesTournamentSportID(
+        queryString: String,
+        id: Int
+    ): List<PreferencesTournament>
+
+    @Query("SELECT * FROM 'PreferencesTournament' WHERE (nameEng LIKE :queryString OR countryNameEng LIKE :queryString) AND sport == :id")
+    fun searchENPreferencesTournamentSportID(
+        queryString: String,
+        id: Int
+    ): List<PreferencesTournament>
+
+
+    @Query("SELECT * FROM 'PreferencesTournament' WHERE nameRus LIKE :queryString OR countryNameRus LIKE :queryString")
+    fun searchRUPreferencesTournamentFlow(queryString: String): Flow<List<PreferencesTournament>>
+
+    @Query("SELECT * FROM 'PreferencesTournament' WHERE nameEng LIKE :queryString OR countryNameEng LIKE :queryString")
+    fun searchENPreferencesTournamentFlow(queryString: String): Flow<List<PreferencesTournament>>
+
+    @Query("SELECT * FROM 'PreferencesTournament' WHERE (nameRus LIKE :queryString OR countryNameRus LIKE :queryString) AND sport == :id")
+    fun searchRUPreferencesTournamentSportIDFlow(
+        queryString: String,
+        id: Int
+    ): Flow<List<PreferencesTournament>>
+
+    @Query("SELECT * FROM 'PreferencesTournament' WHERE (nameEng LIKE :queryString OR countryNameEng LIKE :queryString) AND sport == :id")
+    fun searchENPreferencesTournamentSportIDFlow(
+        queryString: String,
+        id: Int
+    ): Flow<List<PreferencesTournament>>
+
+
     @Query("SELECT * FROM 'PreferencesTournament' WHERE id ==:id AND sport ==:sport AND tournamentType ==:tournamentType")
     fun getPreferencesTournamentByID(
         id: Int,

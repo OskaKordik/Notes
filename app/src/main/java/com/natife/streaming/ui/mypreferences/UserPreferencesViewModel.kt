@@ -19,6 +19,7 @@ import com.natife.streaming.usecase.GetSportUseCase
 import com.natife.streaming.usecase.GetTournamentUseCase
 import com.natife.streaming.usecase.SaveSportUseCase
 import com.natife.streaming.usecase.SaveTournamentUseCase
+import kotlinx.coroutines.flow.Flow
 
 
 abstract class UserPreferencesViewModel : BaseViewModel() {
@@ -27,8 +28,9 @@ abstract class UserPreferencesViewModel : BaseViewModel() {
     abstract val sportsSelected: LiveData<SportTranslateDTO>
     abstract val sportsList: LiveData<List<SportTranslateDTO>>
 
+
     abstract fun applyMypreferencesClicked()
-    abstract fun findClicked()
+    abstract fun findClicked(text: String, lang: String): Flow<List<PreferencesTournament>>
     abstract fun kindOfSportClicked(sport: SportTranslateDTO)
     abstract fun kindOfSportSelected(sport: SportTranslateDTO?)
     abstract fun listOfTournamentsClicked(tournament: TournamentTranslateDTO)
@@ -42,10 +44,14 @@ class UserPreferencesViewModelImpl(
     private val tournamentUseCase: GetTournamentUseCase,
     private val saveTournamentUseCase: SaveTournamentUseCase,
     private val api: MainApi,
-    private val router: Router
+    private val router: Router,
 ) : UserPreferencesViewModel() {
     override val sportsList = MutableLiveData<List<SportTranslateDTO>>()
     override val sportsSelected = MutableLiveData<SportTranslateDTO>()
+
+
+    //    private val filtered: LiveData<List<PreferencesTournament>>
+//        get() = tournamentUseCase.searchUserPreferencesInTournamentFlow(text, sportsSelected.value?.id , lang).asLiveData()
     override val allUserPreferencesInTournament: LiveData<List<PreferencesTournament>>
         get() = tournamentUseCase.getAllUserPreferencesInTournamentFlow().asLiveData()
     override val allUserPreferencesInSport: LiveData<List<PreferencesSport>>
@@ -55,9 +61,12 @@ class UserPreferencesViewModelImpl(
         router.navigate(R.id.action_global_nav_main)
     }
 
-    override fun findClicked() {
-//        TODO("Not yet implemented")
-    }
+    override fun findClicked(text: String, lang: String) =
+        tournamentUseCase.searchUserPreferencesInTournamentFlow(
+            text,
+            sportsSelected.value?.id,
+            lang
+        )
 
     override fun kindOfSportClicked(sport: SportTranslateDTO) {
         launch {
@@ -86,10 +95,11 @@ class UserPreferencesViewModelImpl(
     ) {
         launch {
             val translates =
-                api.getTranslate(BaseRequest(procedure = API_TRANSLATE, params = TranslateRequest(
-                    language = lang.toLowerCase(),
-                    params = sports.map { it.lexic }
-                )))
+                api.getTranslate(BaseRequest(procedure = API_TRANSLATE,
+                    params = TranslateRequest(
+                        language = lang.toLowerCase(),
+                        params = sports.map { it.lexic }
+                    )))
             sportsList.value = sports.toSportTranslateDTO(translates)
         }
     }

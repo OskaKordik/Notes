@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:adjustViewBounds="true"
-    android:background="@color/black">
+    android:background="@drawable/home_background">
+    <!--    android:background="@color/black">-->
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/topConstraintLayout"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -82,23 +82,64 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_begin="70dp" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/search_layout"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topConstraintLayout">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/search_pref_text_field"
+            style="@style/ThemeOverlay.TextInputLayout"
+            android:layout_width="305dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textColorHint="@color/hint_text_field_color"
+            app:hintTextColor="@android:color/transparent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:startIconDrawable="@drawable/ic_search2">
+            <!--            android:hint="@string/search"-->
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/search_text"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/background_edit_text_filld_w_smoll"
+                android:ellipsize="end"
+                android:focusable="true"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:paddingHorizontal="18dp"
+                android:paddingTop="0dp"
+                android:paddingBottom="0dp"
+                android:privateImeOptions="horizontalAlignment=center"
+                android:textColor="@color/black" />
+        </com.google.android.material.textfield.TextInputLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="70dp"
-        android:background="@drawable/home_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/search_layout"
+        app:layout_goneMarginTop="0dp">
 
         <ProgressBar
             android:id="@+id/load_progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:indeterminateTint="@color/white"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -110,10 +151,13 @@
             android:id="@+id/kindsOfSportsRecyclerView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginBottom="18dp"
+            android:layout_marginTop="16dp"
             android:focusable="false"
             android:focusableInTouchMode="false"
+            app:focusOutEnd="false"
             app:focusOutFront="true"
+            app:focusOutSideEnd="true"
+            app:focusOutSideStart="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guidelineEndOfSports"
             app:layout_constraintStart_toStartOf="@+id/guidelineStart"
@@ -126,10 +170,13 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="33dp"
-            android:layout_marginBottom="18dp"
+            android:layout_marginTop="16dp"
             android:focusable="false"
             android:focusableInTouchMode="false"
+            app:focusOutEnd="false"
             app:focusOutFront="true"
+            app:focusOutSideEnd="false"
+            app:focusOutSideStart="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guidelineEnd"
             app:layout_constraintStart_toEndOf="@+id/kindsOfSportsRecyclerView"
@@ -157,8 +204,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_percent=".30" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
