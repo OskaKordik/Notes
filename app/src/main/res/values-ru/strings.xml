@@ -47,4 +47,9 @@
     </string-array>
     <string name="teams">Команды</string>
     <string name="table">Tаблица</string>
+    <string name="text_phone">Телефон: </string>
+    <string name="text_email">E-mail: </string>
+    <string name="text_country">Страна: </string>
+    <string name="text_subscriptions">Подписки</string>
+    <string name="text_pay_story">История платежей</string>
 </resources>

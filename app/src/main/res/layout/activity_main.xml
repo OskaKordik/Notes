@@ -231,14 +231,14 @@
             android:id="@+id/score_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="3-2"
             android:textAllCaps="true"
             android:textAppearance="@style/TextAppearance.StreamingTheme.Headline2"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/logo_second_team"
             app:layout_constraintStart_toEndOf="@+id/logo_first_team"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="3-2" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/statistics_button"
@@ -249,10 +249,10 @@
             android:focusable="true"
             android:insetTop="0dp"
             android:insetBottom="0dp"
-            tools:text="@string/statistics"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/statistics" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/popup_group"
@@ -309,6 +309,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/profile_background_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="search_background, search_gradient_mask,profile_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <ImageView
             android:id="@+id/main_background"
             android:layout_width="0dp"
@@ -345,6 +355,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_goneMarginTop="0dp" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/profile_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="TextView"
+            android:textSize="24sp"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toTopOf="@+id/guideline_end_search"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/search_text_field"
@@ -401,7 +423,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:constraint_referenced_ids="search_background, search_gradient_mask, search_text_field" />
+            app:constraint_referenced_ids="search_background, search_gradient_mask, search_text_field"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_end_search"

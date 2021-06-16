@@ -7,6 +7,7 @@ import com.natife.streaming.base.BaseViewModel
 import com.natife.streaming.router.Router
 import com.natife.streaming.usecase.AccountUseCase
 import com.natife.streaming.usecase.LogoutUseCase
+import com.natife.streaming.data.Profile
 
 abstract class AccountViewModel : BaseViewModel() {
     abstract fun logout()
@@ -14,6 +15,7 @@ abstract class AccountViewModel : BaseViewModel() {
 
     abstract val nameLiveData: LiveData<String>
     abstract val emailLiveData: LiveData<String>
+    abstract val profileLiveData: LiveData<Profile>
 }
 
 class AccountViewModelImpl(
@@ -23,12 +25,14 @@ class AccountViewModelImpl(
 ) : AccountViewModel() {
     override val nameLiveData = MutableLiveData<String>()
     override val emailLiveData = MutableLiveData<String>()
+    override val profileLiveData = MutableLiveData<Profile>()
 
     init {
         launch {
             val profile = accountUseCase.getProfile()
             nameLiveData.value = "${profile.firstName} ${profile.lastName}"
             emailLiveData.value = profile.email
+            profileLiveData.value = profile
         }
     }
 

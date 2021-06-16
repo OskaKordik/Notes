@@ -5,86 +5,124 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="30dp"
-        android:text="Аккаунт"
-        android:fontFamily="@font/roboto"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <ImageView
         android:id="@+id/avatar"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:src="@drawable/ic_avatar"
-        app:layout_constraintBottom_toTopOf="@+id/name"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.46"
+        app:layout_constraintHorizontal_bias="0.15"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.45"
+        app:layout_constraintVertical_bias="0.25"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <TextView
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:fontFamily="@font/roboto"
         android:textColor="@color/white"
         android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/email"
-        app:layout_constraintEnd_toEndOf="@+id/avatar"
-        app:layout_constraintStart_toStartOf="@+id/avatar"
-        app:layout_constraintTop_toBottomOf="@+id/avatar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="Иван Иванов" />
-
-    <TextView
-        android:id="@+id/email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:fontFamily="@font/roboto"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/instat"
-        app:layout_constraintEnd_toEndOf="@+id/name"
-        app:layout_constraintStart_toStartOf="@+id/name"
-        app:layout_constraintTop_toBottomOf="@+id/name"
-        tools:text="konstantinopolsky@gmail.com Instat" />
-
-    <TextView
-        android:id="@+id/instat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/instat"
-        android:textColor="@color/white"
-        android:fontFamily="@font/roboto"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/buttonLogout"
-        app:layout_constraintEnd_toEndOf="@+id/name"
-        app:layout_constraintStart_toStartOf="@+id/name"
-        app:layout_constraintTop_toBottomOf="@+id/email" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonLogout"
         style="@style/materialButtonStile"
-        android:fontFamily="@font/roboto"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:fontFamily="@font/roboto"
         android:text="Выйти"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/avatar"
-        app:layout_constraintStart_toStartOf="@+id/avatar"
-        app:layout_constraintTop_toBottomOf="@+id/instat" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.7"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.8" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/avatar">
+
+        <TextView
+            android:id="@+id/text_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:gravity="center"
+            android:text="@string/text_phone"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            tools:text="@string/text_email" />
+
+        <TextView
+            android:id="@+id/text_country"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:gravity="center"
+            android:text="@string/text_country"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="500dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.18">
+
+        <TextView
+            android:id="@+id/button2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:fontFamily="@font/roboto"
+            android:gravity="left|center_vertical"
+            android:text="@string/text_subscriptions"
+            android:button="@null"
+            android:focusable="true"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/button3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:clickable="true"
+            android:focusable="true"
+            android:fontFamily="@font/roboto"
+            android:gravity="left|center_vertical"
+            android:text="@string/text_pay_story"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
