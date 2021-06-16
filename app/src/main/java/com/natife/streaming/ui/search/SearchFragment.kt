@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.navGraphViewModels
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseFragment
@@ -18,14 +19,30 @@ import com.natife.streaming.ext.predominantColorToGradient
 import com.natife.streaming.ext.subscribe
 import com.natife.streaming.ui.main.MainActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_popup_video.*
 import kotlinx.android.synthetic.main.fragment_search_new.*
+import kotlinx.android.synthetic.main.fragment_settings_page.*
 
 
 class SearchFragment : BaseFragment<SearchViewModel>() {
     override fun getLayoutRes(): Int = R.layout.fragment_search_new
     private lateinit var searchTabNames: Array<String>
     private val searchResultViewModel: SearchResultViewModel by navGraphViewModels(R.id.nav_main)
+    private var page = 0
+    val onPage = object : ViewPager2.OnPageChangeCallback() {
+        override fun onPageSelected(position: Int) {
+            super.onPageSelected(position)
+            position.apply {
+                page = this
+                searchResultViewModel.startViewID.value?.let { start ->
+                    search_tab_layout.getTabAt(0)?.view?.nextFocusDownId = start[this]
+                    search_tab_layout.getTabAt(1)?.view?.nextFocusDownId = start[this]
+                    search_tab_layout.getTabAt(2)?.view?.nextFocusDownId = start[this]
+                }
 
+            }
+        }
+    }
 
 //    private val adapter: SearchAdapter by lazy { SearchAdapter() }
 //    private val speechRecognizer: SpeechRecognizer by lazy {
@@ -80,16 +97,20 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
             searchTabNames.size
         )
         search_pager.adapter = searchFragmentAdapter
+        search_pager.registerOnPageChangeCallback(onPage)
+
         TabLayoutMediator(search_tab_layout, search_pager) { tab, position ->
             tab.text = searchTabNames[position]
         }.attach()
-        search_tab_layout.getChildAt(0).requestFocus()
-        search_tab_layout.getChildAt(0).isSelected = true
 
 
 
-        (activity as MainActivity).search_text_field?.editText?.doOnTextChanged { text, start, before, count ->
 
+        (activity as MainActivity).search_text_field?.editText?.doOnTextChanged { _, start, _, count ->
+            with((activity as MainActivity).search_text_field) {
+                hint =
+                    if (start + count > 0) null else context.resources.getString(R.string.search)
+            }
         }
         (activity as MainActivity).search_text_field?.editText?.onFocusChangeListener =
             View.OnFocusChangeListener { v, hasFocus ->
@@ -99,6 +120,8 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
             OnEditorActionListener { v, actionId, event ->
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     v.clearFocus()
+                    search_tab_layout.getChildAt(0).requestFocus()
+                    search_tab_layout.getChildAt(0).isSelected = true
                     viewModel.search((activity as MainActivity).search_text_field?.editText?.text.toString())
                     return@OnEditorActionListener true
                 }
@@ -108,6 +131,14 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
         subscribe(viewModel.resultsTeam, searchResultViewModel::setResultsTeam)
         subscribe(viewModel.resultsPlayer, searchResultViewModel::setResultsPlayer)
         subscribe(viewModel.resultsTournament, searchResultViewModel::setResultsTournament)
+        subscribe(searchResultViewModel.startViewID) { start ->
+            page.apply {
+                search_tab_layout.getTabAt(0)?.view?.nextFocusDownId = start[this]
+                search_tab_layout.getTabAt(1)?.view?.nextFocusDownId = start[this]
+                search_tab_layout.getTabAt(2)?.view?.nextFocusDownId = start[this]
+            }
+        }
+        subscribe(searchResultViewModel.searchResultClicked, viewModel::select)
 
 //        applyAlpha(((activity as MainActivity).mainMotion as MotionLayout).progress)
 
@@ -207,6 +238,7 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
         (activity as MainActivity).mainMotion?.predominantColorToGradient("#3560E1")
         (activity as MainActivity).main_background_group?.visibility = View.VISIBLE
         (activity as MainActivity).search_background_group?.visibility = View.GONE
+        search_pager.unregisterOnPageChangeCallback(onPage)
     }
 
     //    override fun onDestroy() {

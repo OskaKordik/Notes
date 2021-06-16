@@ -5,6 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:id="@+id/search_gradient_mask"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/vertical_gradient_black_mask"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="@+id/include"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_goneMarginTop="0dp" />
+
     <include
         android:id="@+id/include"
         layout="@layout/view_calendar_header"

@@ -54,8 +54,6 @@ import com.natife.streaming.ui.register.RegisterViewModel
 import com.natife.streaming.ui.register.RegisterViewModelImpl
 import com.natife.streaming.ui.search.SearchViewModel
 import com.natife.streaming.ui.search.SearchViewModelImpl
-import com.natife.streaming.ui.search.gender.GenderViewModel
-import com.natife.streaming.ui.search.gender.GenderViewModelImpl
 import com.natife.streaming.ui.settings.SettingsViewModel
 import com.natife.streaming.ui.settings.SettingsViewModelImpl
 import com.natife.streaming.ui.tournament.TournamentFragmentArgs
@@ -185,15 +183,15 @@ val viewModelModule = module {
         )
     }
     viewModel<SearchViewModel> { SearchViewModelImpl(get(), get()) }
-    viewModel<com.natife.streaming.ui.search.sport.SportViewModel> {
-        com.natife.streaming.ui.search.sport.SportViewModelImpl(
-            get(),
-            get(),
-            get()
-        )
-    }
+//    viewModel<com.natife.streaming.ui.search.sport.SportViewModel> {
+//        com.natife.streaming.ui.search.sport.SportViewModelImpl(
+//            get(),
+//            get(),
+//            get()
+//        )
+//    }
 //    viewModel<TypeDialogViewModel> { TypeDialogViewModelImpl(get(), get(), get()) }
-    viewModel<GenderViewModel> { GenderViewModelImpl(get(), get(), get()) }
+//    viewModel<GenderViewModel> { GenderViewModelImpl(get(), get(), get()) }
     viewModel<PlayerViewModel> { (args: PlayerFragmentArgs) -> PlayerViewModelImpl(args.setup) }
     viewModel<SettingsViewModel> { SettingsViewModelImpl(get(), get(), get(), get(), get(), get()) }
     viewModel<FavoriteViewModel> {

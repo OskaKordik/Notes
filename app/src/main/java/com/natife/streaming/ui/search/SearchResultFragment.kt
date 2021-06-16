@@ -17,7 +17,6 @@ class SearchResultFragment : BaseFragment<EmptyViewModel>() {
     override fun getLayoutRes(): Int = R.layout.fragment_search_result
     private val searchResultViewModel: SearchResultViewModel by navGraphViewModels(R.id.nav_main)
     private var typeOfSearch: SearchResult.Type? = null
-    private val adapter: SearchAdapter by lazy { SearchAdapter() }
 
     @SuppressLint("RestrictedApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -30,12 +29,15 @@ class SearchResultFragment : BaseFragment<EmptyViewModel>() {
                 else -> null
             }
         }
-
+        val adapter: SearchAdapter by lazy { SearchAdapter(searchResultViewModel, typeOfSearch) }
         tab_search_recycler.windowAlignment = VerticalGridView.WINDOW_ALIGN_BOTH_EDGE
         tab_search_recycler.isFocusable = false
         tab_search_recycler.setNumColumns(3)
         tab_search_recycler.focusScrollStrategy = BaseGridView.FOCUS_SCROLL_ITEM
         tab_search_recycler.adapter = adapter
+        adapter.onClick = {
+            searchResultViewModel.searchResultClicked(it)
+        }
 
         subscribe(searchResultViewModel.resultsPlayer) {
             if (typeOfSearch == SearchResult.Type.PLAYER) adapter.submitList(it)

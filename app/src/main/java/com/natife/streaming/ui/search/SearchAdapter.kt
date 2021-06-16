@@ -7,11 +7,16 @@ import com.natife.streaming.R
 import com.natife.streaming.base.BaseListAdapter
 import com.natife.streaming.data.search.SearchResult
 
-class SearchAdapter: BaseListAdapter<SearchResult,SearchViewHolder>(SearchDiffUtil()) {
+class SearchAdapter(
+    val searchResultViewModel: SearchResultViewModel,
+    val typeOfSearch: SearchResult.Type?
+) : BaseListAdapter<SearchResult, SearchViewHolder>(SearchDiffUtil()) {
 
-    var onClick: ((SearchResult)->Unit)? = null
+    var onClick: ((SearchResult) -> Unit)? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
-        return SearchViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_search,parent,false))
+        return SearchViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.item_search, parent, false)
+        )
     }
 
     override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
@@ -19,16 +24,31 @@ class SearchAdapter: BaseListAdapter<SearchResult,SearchViewHolder>(SearchDiffUt
         holder.itemView.setOnClickListener {
             onClick?.invoke(currentList[position])
         }
+        if (holder.layoutPosition == 0) {
+            searchResultViewModel.startViewID.value?.let {
+                val array = it
+                when (typeOfSearch) {
+                    SearchResult.Type.PLAYER -> array[0] = holder.itemView.id
+                    SearchResult.Type.TEAM -> array[1] = holder.itemView.id
+                    SearchResult.Type.TOURNAMENT -> array[2] = holder.itemView.id
+                    SearchResult.Type.NON -> {
+                    }
+                }
+                searchResultViewModel.setStartId(array)
+            }
+        }
+
 
     }
 }
-class SearchDiffUtil: DiffUtil.ItemCallback<SearchResult>() {
+
+class SearchDiffUtil : DiffUtil.ItemCallback<SearchResult>() {
     override fun areItemsTheSame(oldItem: SearchResult, newItem: SearchResult): Boolean {
         return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(oldItem: SearchResult, newItem: SearchResult): Boolean {
-       return oldItem == newItem
+        return oldItem == newItem
     }
 
 }

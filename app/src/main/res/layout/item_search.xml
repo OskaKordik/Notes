@@ -6,6 +6,7 @@
     android:background="@drawable/oval_white_simple"
     android:focusable="true"
     android:gravity="center"
+    android:id="@+id/item_search"
     android:layout_marginEnd="8dp"
     android:orientation="horizontal"
     android:paddingHorizontal="4dp"

@@ -187,7 +187,8 @@ class HomeViewModelImpl(
             withContext(Dispatchers.IO) {
                 collect(localSqlDataSourse.getPreferencesTournamentFlow()) {
 //                    prefInTournament.value = listPrefTournament
-                    list.value?.let { setListTournament(it) }
+                    list.value
+                        ?.let { setListTournament(it) }
                 }
             }
         }
