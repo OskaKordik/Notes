@@ -31,10 +31,24 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:focusable="false"
+        app:focusOutEnd="false"
+        app:focusOutFront="true"
         app:focusOutSideEnd="false"
+        app:focusOutSideStart="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline_end"
         app:layout_constraintStart_toStartOf="@+id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@+id/search_tab_layout" />
+
+    <ProgressBar
+        android:id="@+id/load_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/white"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/search_pager"
+        app:layout_constraintEnd_toEndOf="@+id/search_pager"
+        app:layout_constraintStart_toStartOf="@+id/search_pager"
         app:layout_constraintTop_toBottomOf="@+id/search_tab_layout" />
 
     <androidx.constraintlayout.widget.Guideline
@@ -42,6 +56,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:focusable="false"
         app:layout_constraintGuide_begin="30dp" />
 
     <androidx.constraintlayout.widget.Guideline
@@ -49,6 +64,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:focusable="false"
         app:layout_constraintGuide_end="30dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,14 +11,16 @@
         android:id="@+id/tab_search_recycler"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:focusable="false"
+        app:focusOutEnd="false"
         app:focusOutFront="true"
         app:focusOutSideEnd="false"
+        app:focusOutSideStart="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline_end"
         app:layout_constraintStart_toStartOf="@+id/guideline_start"
-        app:layout_constraintTop_toTopOf="parent" />
-    <!--        tools:itemCount="4"-->
-    <!--        tools:listitem="@layout/item_timed_button" />-->
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/item_list_of_tournaments_new" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_start"

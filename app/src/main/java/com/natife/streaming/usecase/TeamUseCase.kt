@@ -44,7 +44,7 @@ class TeamUseCaseImpl(
             gender = 0,
             sport = sportId,
             type = SearchResult.Type.TEAM,
-            countryId = team.country.id,
+            countryId = team.country?.id ?: -1,
             countryName = when (context.resources.getString(R.string.lang)) {
                 "en", "EN" -> team.country.nameEng ?: ""
                 "ru", "RU" -> team.country.nameRus ?: ""

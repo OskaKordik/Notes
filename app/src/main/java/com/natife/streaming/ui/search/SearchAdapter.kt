@@ -8,14 +8,15 @@ import com.natife.streaming.base.BaseListAdapter
 import com.natife.streaming.data.search.SearchResult
 
 class SearchAdapter(
-    val searchResultViewModel: SearchResultViewModel,
-    val typeOfSearch: SearchResult.Type?
+    private val searchResultViewModel: SearchResultViewModel,
+    private val typeOfSearch: SearchResult.Type?
 ) : BaseListAdapter<SearchResult, SearchViewHolder>(SearchDiffUtil()) {
 
     var onClick: ((SearchResult) -> Unit)? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
         return SearchViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_search, parent, false)
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_list_of_tournaments_new, parent, false)
         )
     }
 
@@ -37,8 +38,6 @@ class SearchAdapter(
                 searchResultViewModel.setStartId(array)
             }
         }
-
-
     }
 }
 

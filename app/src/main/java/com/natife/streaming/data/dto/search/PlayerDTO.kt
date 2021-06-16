@@ -1,6 +1,7 @@
 package com.natife.streaming.data.dto.search
 
 import com.google.gson.annotations.SerializedName
+import com.natife.streaming.data.dto.matchprofile.Country
 
 data class PlayerDTO(
     @SerializedName("firstname_eng")
@@ -18,5 +19,7 @@ data class PlayerDTO(
     @SerializedName("nickname_rus")
     val nicknameRus: String,
     val sport: Int,
-    val team: PlayersTeamDTO
+    val team: PlayersTeamDTO,
+    @SerializedName("country")
+    val country: Country? = Country(),
 )

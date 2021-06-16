@@ -7,7 +7,6 @@ import com.natife.streaming.data.search.SearchResult
 import com.natife.streaming.router.Router
 import com.natife.streaming.usecase.SearchUseCase
 import kotlinx.coroutines.Job
-import timber.log.Timber
 
 abstract class SearchViewModel : BaseViewModel() {
 //    abstract val tabList: LiveData<List<String>>
@@ -175,10 +174,10 @@ class SearchViewModelImpl(
 //    }
 
     override fun select(result: SearchResult) {
-        Timber.e("result $result")
-        launchCatching {
-            searchUseCase.execute(result)
-        }
+//        Timber.e("result $result")
+//        launchCatching {
+//            searchUseCase.execute(result)
+//        }
         router.navigate(
             SearchFragmentDirections.actionSearchFragmentToTournamentFragment(
                 result.sport,

@@ -352,13 +352,13 @@
             android:layout_width="305dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
-            android:hint="@string/search"
             app:startIconDrawable="@drawable/ic_search2"
             android:textColorHint="@color/hint_text_field_color"
             app:hintTextColor="@android:color/transparent"
             app:layout_constraintBottom_toTopOf="@+id/guideline_end_search"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
+<!--            android:hint="@string/search"-->
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/search_text"

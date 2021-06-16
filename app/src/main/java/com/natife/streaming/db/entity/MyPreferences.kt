@@ -58,7 +58,7 @@ fun TournamentListDTO.toPreferencesTournament(): List<PreferencesTournament> {
             teamType = it.teamType,
             tournamentType = it.tournamentType,
             gender = it.gender,
-            countryID = it.country.id,
+            countryID = it.country?.id ?: -1,
             countryNameEng = it.country.nameEng ?: "",
             countryNameRus = it.country.nameRus ?: "",
         )

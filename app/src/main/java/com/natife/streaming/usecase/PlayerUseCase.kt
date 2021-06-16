@@ -44,7 +44,7 @@ class PlayerUseCaseImpl(
             number = "0",
             team = 0,
             isFavorite = player.isFavorite,
-            countryId = player.country.id,
+            countryId = player.country?.id ?: -1,
             countryName = when (context.resources.getString(R.string.lang)) {
                 "en", "EN" -> player.country.nameEng ?: ""
                 "ru", "RU" -> player.country.nameRus ?: ""

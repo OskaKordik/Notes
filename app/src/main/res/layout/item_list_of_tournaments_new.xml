@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/round_background_t_w_state_new"
+    android:id="@+id/item_tournament"
     android:focusable="true">
 
     <TextView

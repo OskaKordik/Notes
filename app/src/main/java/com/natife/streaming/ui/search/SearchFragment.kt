@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView.OnEditorActionListener
-import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
@@ -98,39 +97,58 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
         )
         search_pager.adapter = searchFragmentAdapter
         search_pager.registerOnPageChangeCallback(onPage)
+//        search_pager.offscreenPageLimit = 1
 
         TabLayoutMediator(search_tab_layout, search_pager) { tab, position ->
             tab.text = searchTabNames[position]
         }.attach()
 
-
-
-
-        (activity as MainActivity).search_text_field?.editText?.doOnTextChanged { _, start, _, count ->
-            with((activity as MainActivity).search_text_field) {
-                hint =
-                    if (start + count > 0) null else context.resources.getString(R.string.search)
-            }
-        }
+//        (activity as MainActivity).search_text_field?.editText?.doOnTextChanged { _, start, _, count ->
+//            (activity as MainActivity).search_text_field?.hint =
+//                if (start + count > 0) null else requireContext().resources.getString(R.string.search)
+//        }
         (activity as MainActivity).search_text_field?.editText?.onFocusChangeListener =
             View.OnFocusChangeListener { v, hasFocus ->
                 if (!hasFocus) v.hideKeyboard()
             }
         (activity as MainActivity).search_text_field?.editText?.setOnEditorActionListener(
-            OnEditorActionListener { v, actionId, event ->
+            OnEditorActionListener { _, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    v.clearFocus()
-                    search_tab_layout.getChildAt(0).requestFocus()
-                    search_tab_layout.getChildAt(0).isSelected = true
+                    load_progress.visibility = View.VISIBLE
                     viewModel.search((activity as MainActivity).search_text_field?.editText?.text.toString())
+                    (activity as MainActivity).search_text_field?.editText?.apply {
+                        text = null
+                        this.clearFocus()
+                    }
                     return@OnEditorActionListener true
                 }
                 false
             })
 
-        subscribe(viewModel.resultsTeam, searchResultViewModel::setResultsTeam)
-        subscribe(viewModel.resultsPlayer, searchResultViewModel::setResultsPlayer)
-        subscribe(viewModel.resultsTournament, searchResultViewModel::setResultsTournament)
+        subscribe(viewModel.resultsTeam) {
+            searchResultViewModel.setResultsTeam(it)
+            load_progress.visibility = View.GONE
+//            if (it.isNotEmpty()) search_tab_layout.getTabAt(1)?.view?.apply {
+//                this.requestFocus()
+//                isSelected = true
+//            }
+        }
+        subscribe(viewModel.resultsPlayer) {
+            searchResultViewModel.setResultsPlayer(it)
+            load_progress.visibility = View.GONE
+//            if (it.isNotEmpty()) search_tab_layout.getTabAt(0)?.view?.apply {
+//                this.requestFocus()
+//                isSelected = true
+//            }
+        }
+        subscribe(viewModel.resultsTournament) {
+            searchResultViewModel.setResultsTournament(it)
+            load_progress.visibility = View.GONE
+//            if (it.isNotEmpty()) search_tab_layout.getTabAt(2)?.view?.apply {
+//                this.requestFocus()
+//                isSelected = true
+//            }
+        }
         subscribe(searchResultViewModel.startViewID) { start ->
             page.apply {
                 search_tab_layout.getTabAt(0)?.view?.nextFocusDownId = start[this]
@@ -218,12 +236,12 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
 //            viewModel.showSportDialog()
 //        }
 
-
+        search_tab_layout.getTabAt(0)?.view?.apply {
+            this.requestFocus()
+            isSelected = true
+        }
     }
 
-    private fun doSearch(text: String) {
-
-    }
 
 //    override fun onPause() {
 //        ((activity as MainActivity).mainMotion as MotionLayout).removeTransitionListener(

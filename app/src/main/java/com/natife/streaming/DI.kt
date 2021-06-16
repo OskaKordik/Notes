@@ -26,8 +26,6 @@ import com.natife.streaming.ui.favorites.FavoriteViewModel
 import com.natife.streaming.ui.favorites.FavoriteViewModelImpl
 import com.natife.streaming.ui.home.HomeViewModel
 import com.natife.streaming.ui.home.HomeViewModelImpl
-import com.natife.streaming.ui.home.live.LiveViewModel
-import com.natife.streaming.ui.home.live.LiveViewModelImpl
 import com.natife.streaming.ui.home.score.ScoreViewModel
 import com.natife.streaming.ui.home.score.ScoreViewModelImpl
 import com.natife.streaming.ui.home.sport.SportViewModel
@@ -124,7 +122,7 @@ val viewModelModule = module {
     }
     viewModel<ScoreViewModel> { ScoreViewModelImpl(get(), get(), get()) }
     viewModel<SportViewModel> { SportViewModelImpl(get(), get(), get()) }
-    viewModel<LiveViewModel> { LiveViewModelImpl(get(), get(), get()) }
+//    viewModel<LiveViewModel> { LiveViewModelImpl(get(), get(), get()) }
     viewModel<TournamentDialogViewModel> { (args: TournamentDialogArgs) ->
         TournamentDialogViewModelImpl(
             args.thournuments,
@@ -255,7 +253,7 @@ val useCaseModule = module {
     factory<GetTournamentUseCase> { GetTournamentUseCaseImpl(get(), get()) }
     factory<SaveTournamentUseCase> { SaveTournamentUseCaseImpl(get(), get()) }
     factory<TournamentUseCase> { TournamentUseCaseImpl(get(), get()) }
-    factory<SearchUseCase> { SearchUseCaseImpl(get(), get()) }
+    factory<SearchUseCase> { SearchUseCaseImpl(get(), get(), get()) }
     factory<GenderUseCase> { GenderUseCaseImpl() }
     factory<SearchTypeUseCase> { SearchTypeUseCaseImpl() }
     factory<MatchInfoUseCase> { MatchInfoUseCaseImpl(get(), get(), get()) }

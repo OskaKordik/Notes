@@ -95,6 +95,7 @@ class MatchUseCaseImpl(
                     playerId = requestParams?.additionalId
                 )
             }
+
             val matches = api.getMatches(
                 BaseRequest(
                     procedure = when (type) {
