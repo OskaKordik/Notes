@@ -56,6 +56,7 @@ class UserPreferencesFragment : BaseFragment<UserPreferencesViewModel>() {
         listOfTournamentsRecyclerView.adapter = tournamentAdapter
         listOfTournamentsRecyclerView.setNumColumns(2)
         listOfTournamentsRecyclerView.focusScrollStrategy = BaseGridView.FOCUS_SCROLL_ITEM
+        listOfTournamentsRecyclerView.onRequestFocusInDescendants(View.FOCUS_LEFT, null)
 
         search_pref_text_field?.editText?.onFocusChangeListener =
             View.OnFocusChangeListener { v, hasFocus ->
@@ -80,7 +81,7 @@ class UserPreferencesFragment : BaseFragment<UserPreferencesViewModel>() {
                             )
                         }
                     }
-
+                    load_progress.visibility = View.GONE
                     search_pref_text_field?.editText?.apply {
 //                        text = null
                         this.clearFocus()

@@ -1,6 +1,5 @@
 package com.natife.streaming.ext
 
-import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.time.DayOfWeek
 import java.time.LocalDate
@@ -16,6 +15,7 @@ fun Date.dayOfWeek(lang: String): String {
 fun Date.toRequest(): String {
     val sdf0 = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
     val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault())
+//    val sdf = SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.getDefault())
     return sdf.format(sdf0.parse(sdf0.format(this)))
 }
 
@@ -66,7 +66,7 @@ fun Long.toDisplayTime(): String {
 fun daysOfWeekFromLocale(): Array<DayOfWeek> {
     val firstDayOfWeek = WeekFields.of(Locale("ru")).firstDayOfWeek
     var daysOfWeek = DayOfWeek.values()
-    Timber.e("TUTITYTUYTUYT ${firstDayOfWeek} ${daysOfWeek}")
+//    Timber.e("TUTITYTUYTUYT ${firstDayOfWeek} ${daysOfWeek}")
     // Order `daysOfWeek` array so that firstDayOfWeek is at index 0.
     // Only necessary if firstDayOfWeek != DayOfWeek.MONDAY which has ordinal 0.
     if (firstDayOfWeek != DayOfWeek.MONDAY) {
