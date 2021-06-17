@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/live_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.live.LiveFragment">
+
+    <TextView
+        android:id="@+id/title_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="168dp"
+        android:textAppearance="@style/TextAppearance.StreamingTheme.Headline1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Orlando - Maritzburg" />
+
+    <Button
+        android:id="@+id/live_button"
+        android:layout_width="wrap_content"
+        android:layout_height="39dp"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/round_background_t_w_state_selected"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="@string/watch_live_stream"
+        android:textAppearance="@style/TextAppearance.StreamingTheme.Headline4"
+        android:textColor="@color/button_text_b_w_state_new"
+        app:icon="@drawable/ic_live"
+        app:iconGravity="textEnd"
+        app:iconPadding="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_text" />
+
+    <Button
+        android:id="@+id/from_the_start_button"
+        android:layout_width="0dp"
+        android:layout_height="39dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/round_background_t_w_state_selected"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="@string/watch_from_the_start"
+        android:textAppearance="@style/TextAppearance.StreamingTheme.Headline4"
+        android:textColor="@color/button_text_b_w_state_new"
+        app:layout_constraintEnd_toEndOf="@+id/live_button"
+        app:layout_constraintStart_toStartOf="@+id/live_button"
+        app:layout_constraintTop_toBottomOf="@+id/live_button" />
+
+    <Button
+        android:id="@+id/continue_with_button"
+        android:layout_width="0dp"
+        android:layout_height="39dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/round_background_t_w_state_selected"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="@string/continue_with"
+        android:textAppearance="@style/TextAppearance.StreamingTheme.Headline4"
+        android:textColor="@color/button_text_b_w_state_new"
+        app:layout_constraintEnd_toEndOf="@+id/live_button"
+        app:layout_constraintStart_toStartOf="@+id/live_button"
+        app:layout_constraintTop_toBottomOf="@+id/from_the_start_button" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/start_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:constraint_referenced_ids="title_text, live_button, from_the_start_button, continue_with_button" />
+
+    <com.google.android.exoplayer2.ui.PlayerView
+        android:background="@color/black"
+        android:id="@+id/live_video_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

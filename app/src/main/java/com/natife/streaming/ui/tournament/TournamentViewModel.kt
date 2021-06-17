@@ -75,9 +75,10 @@ class TournamentViewModel(
         }
     }
 
-    fun gepProfileColor(sportId: Int, profileType: String, profileId: Int) {
+    //TODO COLOR
+    fun gepProfileColor() {
         launch {
-            val a = profileColorUseCase.execute(sportId, profileType, profileId)
+            val a = profileColorUseCase.execute(sportId, "p_player", additionalId)
         }
     }
 
@@ -114,12 +115,15 @@ class TournamentViewModel(
         when (type) {
             SearchResult.Type.PLAYER -> launch {
                 _player.value = playerUseCase.execute(sportId, additionalId)
+//                val a = profileColorUseCase.execute(sportId, "p_player", additionalId)
             }
             SearchResult.Type.TEAM -> launch {
                 _team.value = teamUseCase.execute(sportId, additionalId)
+//                val a = profileColorUseCase.execute(sportId, "p_team", additionalId)
             }
             SearchResult.Type.TOURNAMENT -> launch {
                 _tournament.value = tournamentUseCase.execute(sportId, additionalId)
+//                val a = profileColorUseCase.execute(sportId, "p_tournament", additionalId)
             }
             SearchResult.Type.NON -> launch { cancel() }
         }

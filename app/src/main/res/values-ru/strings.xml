@@ -52,4 +52,9 @@
         <item>Команды</item>
         <item>Турниры</item>
     </string-array>
+    <string name="watch_live_stream">Смотреть прямую трансляцию</string>
+    <string name="watch_from_the_start">Смотреть с самото начала</string>
+    <string name="continue_with">Продолжить с </string>
+    <string name="alert_text">К сожалению, данный матч \nнедоступен в вашей стране</string>
+    <string name="alert_title">Недоступно</string>
 </resources>

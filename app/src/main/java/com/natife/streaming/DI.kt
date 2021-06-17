@@ -26,6 +26,9 @@ import com.natife.streaming.ui.favorites.FavoriteViewModel
 import com.natife.streaming.ui.favorites.FavoriteViewModelImpl
 import com.natife.streaming.ui.home.HomeViewModel
 import com.natife.streaming.ui.home.HomeViewModelImpl
+import com.natife.streaming.ui.live.LiveFragmentArgs
+import com.natife.streaming.ui.live.LiveViewModel
+import com.natife.streaming.ui.live.LiveViewModelImpl
 import com.natife.streaming.ui.login.LoginViewModel
 import com.natife.streaming.ui.login.LoginViewModelImpl
 import com.natife.streaming.ui.main.MainViewModel
@@ -113,6 +116,15 @@ val viewModelModule = module {
             get(),
         )
     }
+    viewModel<LiveViewModel> { (args: LiveFragmentArgs) ->
+        LiveViewModelImpl(
+            args.matchId,
+            args.sportId,
+            args.title,
+            get(),
+            get()
+        )
+    }
 //    viewModel<ScoreViewModel> { ScoreViewModelImpl(get(), get(), get()) }
 //    viewModel<SportViewModel> { SportViewModelImpl(get(), get(), get()) }
 //    viewModel<LiveViewModel> { LiveViewModelImpl(get(), get(), get()) }
@@ -125,6 +137,7 @@ val viewModelModule = module {
 //            get()
 //        )
 //    }
+
     viewModel<CalendarViewModel> { CalendarViewModelImpl(get(), get()) }
 
 //    @Deprecated("Don't use")
@@ -251,6 +264,7 @@ val useCaseModule = module {
     factory<SearchTypeUseCase> { SearchTypeUseCaseImpl() }
     factory<MatchInfoUseCase> { MatchInfoUseCaseImpl(get(), get(), get()) }
     factory<VideoUseCase> { VideoUseCaseImpl(get()) }
+    factory<GetLiveVideoUseCase> { GetLiveVideoUseCaseImpl(get()) }
     factory<SecondUseCase> { SecondUseCaseImpl(get()) }
     factory<PlayerActionUseCase> { PlayerActionUseCaseImpl(get(), get(), get(), get()) }
     factory<LexisUseCase> { LexisUseCaseImpl(get(), get(), get(), androidApplication()) }

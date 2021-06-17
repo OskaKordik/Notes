@@ -44,6 +44,9 @@
             <action
                 android:id="@+id/action_homeFragment_to_popupVideoFragment"
                 app:destination="@id/popupVideo" />
+            <action
+                android:id="@+id/action_homeFragment_to_liveFragment"
+                app:destination="@id/liveFragment" />
         </fragment>
         <fragment
             android:id="@+id/playerFragment"
@@ -71,6 +74,9 @@
             <action
                 android:id="@+id/action_tournamentFragment_to_matchProfileFragment"
                 app:destination="@id/matchProfileFragment" />
+            <action
+                android:id="@+id/action_tournamentFragment_to_liveFragment"
+                app:destination="@id/liveFragment" />
         </fragment>
 
         <fragment
@@ -311,6 +317,21 @@
             android:name="com.natife.streaming.ui.search.SearchResultFragment"
             android:label="fragment_search_result"
             tools:layout="@layout/fragment_search_result" />
+        <fragment
+            android:id="@+id/liveFragment"
+            android:name="com.natife.streaming.ui.live.LiveFragment"
+            android:label="fragment_live"
+            tools:layout="@layout/fragment_live">
+            <argument
+                android:name="matchId"
+                app:argType="integer" />
+            <argument
+                android:name="sportId"
+                app:argType="integer" />
+            <argument
+                android:name="title"
+                app:argType="string" />
+        </fragment>
 
     </navigation>
 

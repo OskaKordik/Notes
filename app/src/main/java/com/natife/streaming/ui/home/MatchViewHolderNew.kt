@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.view.View
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseViewHolder
+import com.natife.streaming.custom.Alert
 import com.natife.streaming.data.match.Match
 import com.natife.streaming.ext.*
 import kotlinx.android.synthetic.main.item_match_new.view.*
@@ -48,8 +49,8 @@ open class MatchViewHolderNew(private val view: View) : BaseViewHolder<Match>(vi
         itemView.favorite_imageView.visibility =
             if (data.isFavoriteTournament) View.VISIBLE else View.GONE
 
-//        if (!data.access) {
-//            itemView.messageContainer.addView(Alert(itemView.context))
-//        }
+        if (!data.access) {
+            itemView.messageContainer.addView(Alert(itemView.context))
+        }
     }
 }

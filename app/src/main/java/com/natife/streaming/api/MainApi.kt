@@ -52,7 +52,7 @@ interface MainApi {
     suspend fun getTranslate(@Body body: BaseRequest<TranslateRequest>): TranslatesDTO //new
 
     @POST("profile/color")
-    suspend fun getProfileColor(@Body body: BaseRequest<ProfileColorRequest>): ProfileColorDTO //new
+    suspend fun getProfileColor(@Body body: ProfileColorRequest): ProfileColorDTO //new
 
     @POST("data/{sport}")
     suspend fun getMatchInfo(
@@ -63,11 +63,15 @@ interface MainApi {
     @POST("videoapi")
     suspend fun getVideoFile(@Body body: VideoRequest): VideoDTO
 
-    //@POST("video/stream")
-    //suspend fun getVideoStream(@Body body: BaseRequest<VideoRequest>): ???
+    @POST("video/stream")
+    suspend fun getVideoStream(@Body body: VideoRequest): List<String>
 
     @POST("data/{sport}")
-    suspend fun getActions(@Body body: BaseRequest<BaseParams>,@Path("sport") sport: String): ActionsDTO
+    suspend fun getActions(
+        @Body body: BaseRequest<BaseParams>,
+        @Path("sport") sport: String
+    ): ActionsDTO
+
     @POST("data")
     suspend fun getTournamentProfile(@Body body: BaseRequest<TournamentProfileRequest>): TournamentProfileDTO
 

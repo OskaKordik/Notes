@@ -40,6 +40,7 @@ class TournamentFragment : BaseFragment<TournamentViewModel>() {
         (activity as MainActivity).main_group?.visibility = View.GONE
         (activity as MainActivity).tournament_group?.visibility = View.VISIBLE
         //Heading in the predominant team color
+        // TODO запрос цвета
         (activity as MainActivity).mainMotion?.predominantColorToGradient("#CCCB312A")
 
         subscribe(viewModel.tournament) {

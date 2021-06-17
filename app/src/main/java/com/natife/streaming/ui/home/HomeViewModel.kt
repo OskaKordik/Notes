@@ -85,15 +85,26 @@ class HomeViewModelImpl(
 //    }
 
     override fun toMatchProfile(match: Match) {
-        if (match.hasVideo) {
-            router.navigate(
-                HomeFragmentDirections.actionHomeFragmentToPopupVideoFragment(
-                    sportId = match.sportId,
-                    matchId = match.id
+        when {
+            match.live -> {
+                router.navigate(
+                    HomeFragmentDirections.actionHomeFragmentToLiveFragment(
+                        sportId = match.sportId,
+                        matchId = match.id,
+                        title = "${match.team1} - ${match.team2}"
+                    )
                 )
-            )
+            }
+            match.hasVideo -> {
+                router.navigate(
+                    HomeFragmentDirections.actionHomeFragmentToPopupVideoFragment(
+                        sportId = match.sportId,
+                        matchId = match.id
+                    )
+                )
+            }
+            else -> return
         }
-
     }
 
     private fun setListTournament(listMatch: List<Match>) {
