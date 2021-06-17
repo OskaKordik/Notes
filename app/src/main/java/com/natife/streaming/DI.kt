@@ -26,13 +26,6 @@ import com.natife.streaming.ui.favorites.FavoriteViewModel
 import com.natife.streaming.ui.favorites.FavoriteViewModelImpl
 import com.natife.streaming.ui.home.HomeViewModel
 import com.natife.streaming.ui.home.HomeViewModelImpl
-import com.natife.streaming.ui.home.score.ScoreViewModel
-import com.natife.streaming.ui.home.score.ScoreViewModelImpl
-import com.natife.streaming.ui.home.sport.SportViewModel
-import com.natife.streaming.ui.home.sport.SportViewModelImpl
-import com.natife.streaming.ui.home.tournament.TournamentDialogArgs
-import com.natife.streaming.ui.home.tournament.TournamentDialogViewModel
-import com.natife.streaming.ui.home.tournament.TournamentDialogViewModelImpl
 import com.natife.streaming.ui.login.LoginViewModel
 import com.natife.streaming.ui.login.LoginViewModelImpl
 import com.natife.streaming.ui.main.MainViewModel
@@ -120,18 +113,18 @@ val viewModelModule = module {
             get(),
         )
     }
-    viewModel<ScoreViewModel> { ScoreViewModelImpl(get(), get(), get()) }
-    viewModel<SportViewModel> { SportViewModelImpl(get(), get(), get()) }
+//    viewModel<ScoreViewModel> { ScoreViewModelImpl(get(), get(), get()) }
+//    viewModel<SportViewModel> { SportViewModelImpl(get(), get(), get()) }
 //    viewModel<LiveViewModel> { LiveViewModelImpl(get(), get(), get()) }
-    viewModel<TournamentDialogViewModel> { (args: TournamentDialogArgs) ->
-        TournamentDialogViewModelImpl(
-            args.thournuments,
-            get(),
-            get(),
-            get(),
-            get()
-        )
-    }
+//    viewModel<TournamentDialogViewModel> { (args: TournamentDialogArgs) ->
+//        TournamentDialogViewModelImpl(
+//            args.thournuments,
+//            get(),
+//            get(),
+//            get(),
+//            get()
+//        )
+//    }
     viewModel<CalendarViewModel> { CalendarViewModelImpl(get(), get()) }
 
 //    @Deprecated("Don't use")

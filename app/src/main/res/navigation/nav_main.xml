@@ -110,30 +110,6 @@
             app:popUpToInclusive="true"
             app:launchSingleTop="true" />
 
-        <dialog
-            android:id="@+id/scoreDialog"
-            android:name="com.natife.streaming.ui.home.score.ScoreDialog"
-            android:label="ScoreDialog"
-            tools:layout="@layout/dialog_variant" />
-        <dialog
-            android:id="@+id/sportDialog"
-            android:name="com.natife.streaming.ui.home.sport.SportDialog"
-            android:label="SportDialog"
-            tools:layout="@layout/dialog_variant" />
-        <dialog
-            android:id="@+id/liveDialog"
-            android:name="com.natife.streaming.ui.home.live.LiveDialog"
-            android:label="LiveDialog"
-            tools:layout="@layout/dialog_variant" />
-        <dialog
-            android:id="@+id/tournamentDialog"
-            android:name="com.natife.streaming.ui.home.tournament.TournamentDialog"
-            android:label="TournamentDialog"
-            tools:layout="@layout/dialog_variant">
-            <argument
-                android:name="thournuments"
-                app:argType="com.natife.streaming.data.match.Tournament[]" />
-        </dialog>
         <fragment
             android:id="@+id/calendarFragment"
             android:name="com.natife.streaming.ui.calendar.CalendarFragment"
@@ -200,18 +176,6 @@
                 android:id="@+id/action_searchFragment_to_tournamentFragment"
                 app:destination="@id/tournamentFragment" />
         </fragment>
-        <dialog
-            android:id="@+id/sportDialog2"
-            android:name="com.natife.streaming.ui.search.sport.SportDialog"
-            android:label="SportDialog" />
-        <dialog
-            android:id="@+id/genderDialog"
-            android:name="com.natife.streaming.ui.search.gender.GenderDialog"
-            android:label="GenderDialog" />
-        <dialog
-            android:id="@+id/typeDialog"
-            android:name="com.natife.streaming.ui.search.type.TypeDialog"
-            android:label="TypeDialog" />
         <fragment
             android:id="@+id/settingsFragment"
             android:name="com.natife.streaming.ui.settings.SettingsFragment"
@@ -247,12 +211,15 @@
             android:name="com.natife.streaming.ui.favorites.FavoritesFragment"
             android:label="FavoritesFragment"
             tools:layout="@layout/fragment_favorites_new">
-            <action
-                android:id="@+id/action_favoritesFragment_to_matchProfileFragment"
-                app:destination="@id/matchProfileFragment" />
+            <!--            <action-->
+            <!--                android:id="@+id/action_favoritesFragment_to_matchProfileFragment"-->
+            <!--                app:destination="@id/matchProfileFragment" />-->
             <action
                 android:id="@+id/action_favoritesFragment_to_tournamentFragment"
                 app:destination="@id/tournamentFragment" />
+            <action
+                android:id="@+id/action_favoritesFragment_to_popupVideo"
+                app:destination="@id/popupVideo" />
         </fragment>
         <navigation
             android:id="@+id/popupVideo"

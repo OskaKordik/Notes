@@ -91,7 +91,7 @@ class FavoriteViewModelImpl(
 
     override fun goToProfile(match: Match) {
         router.navigate(
-            FavoritesFragmentDirections.actionFavoritesFragmentToMatchProfileFragment(
+            FavoritesFragmentDirections.actionFavoritesFragmentToPopupVideo( // actionFavoritesFragmentToMatchProfileFragment
                 matchId = match.id,
                 sportId = match.sportId
             )
