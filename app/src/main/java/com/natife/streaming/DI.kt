@@ -35,12 +35,16 @@ import com.natife.streaming.ui.home.sport.SportViewModelImpl
 import com.natife.streaming.ui.home.tournament.TournamentDialogArgs
 import com.natife.streaming.ui.home.tournament.TournamentDialogViewModel
 import com.natife.streaming.ui.home.tournament.TournamentDialogViewModelImpl
+import com.natife.streaming.ui.lang.LangViewModel
+import com.natife.streaming.ui.lang.LangViewModelImpl
 import com.natife.streaming.ui.login.LoginViewModel
 import com.natife.streaming.ui.login.LoginViewModelImpl
 import com.natife.streaming.ui.main.MainViewModel
 import com.natife.streaming.ui.matchprofile.*
 import com.natife.streaming.ui.mypreferences.UserPreferencesViewModel
 import com.natife.streaming.ui.mypreferences.UserPreferencesViewModelImpl
+import com.natife.streaming.ui.payStory.PayStoryViewModel
+import com.natife.streaming.ui.payStory.PayStoryViewModelImpl
 import com.natife.streaming.ui.player.PlayerFragmentArgs
 import com.natife.streaming.ui.player.PlayerViewModel
 import com.natife.streaming.ui.player.PlayerViewModelImpl
@@ -60,6 +64,8 @@ import com.natife.streaming.ui.search.type.TypeDialogViewModel
 import com.natife.streaming.ui.search.type.TypeDialogViewModelImpl
 import com.natife.streaming.ui.settings.SettingsViewModel
 import com.natife.streaming.ui.settings.SettingsViewModelImpl
+import com.natife.streaming.ui.subscriptions.SubscriptionsViewModel
+import com.natife.streaming.ui.subscriptions.SubscriptionsViewModelImpl
 import com.natife.streaming.ui.tournament.TournamentFragmentArgs
 import com.natife.streaming.ui.tournament.TournamentViewModel
 import com.natife.streaming.usecase.*
@@ -76,6 +82,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 val viewModelModule = module {
     viewModel { EmptyViewModel() }
+    viewModel<SubscriptionsViewModel> { SubscriptionsViewModelImpl() }
+    viewModel<PayStoryViewModel> { PayStoryViewModelImpl() }
+    viewModel<LangViewModel> { LangViewModelImpl() }
     viewModel<LoginViewModel> { LoginViewModelImpl(get(), get(), get(), get(), get(), get()) }//new
     viewModel<RegisterViewModel> {
         RegisterViewModelImpl(
@@ -100,7 +109,7 @@ val viewModelModule = module {
     }//new
 
     viewModel { MainViewModel(get(), get(), get(), get()) }
-    viewModel<AccountViewModel> { AccountViewModelImpl(get(), get(), get()) }
+    viewModel<AccountViewModel> { AccountViewModelImpl(get(), get(), get(), get()) }
     viewModel { (args: TournamentFragmentArgs) ->
         TournamentViewModel(
             args.sportId,

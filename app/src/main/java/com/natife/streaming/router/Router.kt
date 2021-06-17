@@ -64,7 +64,6 @@ class Router : KoinComponent {
 
     fun toAccount() {
         navigate(R.id.action_main_accountFragment)
-
     }
 
     fun toHome() {

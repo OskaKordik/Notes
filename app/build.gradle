@@ -14,8 +14,8 @@ android {
         applicationId "com.natife.streaming"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 3
-        versionName "1.0.6"
+        versionCode 4
+        versionName "1.0.7"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

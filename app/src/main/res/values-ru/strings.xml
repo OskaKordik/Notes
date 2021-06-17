@@ -52,4 +52,18 @@
     <string name="text_country">Страна: </string>
     <string name="text_subscriptions">Подписки</string>
     <string name="text_pay_story">История платежей</string>
+    <string name="text_visibly_pay">Скрыть счет</string>
+    <string name="text_lenguage">Язык</string>
+    <string name="text_yes">Да</string>
+    <string name="text_no">Нет</string>
+    <string name="text_language">Русский</string>
+    <string name="text_exit">Выход</string>
+    <string name="text_football">Футбол</string>
+    <string name="text_hockey">Хокей</string>
+    <string name="text_basketball">Баскетбол</string>
+    <string name="text_data_pay">Дата платежа</string>
+    <string name="text_subscribe">Подписка</string>
+    <string name="text_type">Тип</string>
+    <string name="text_sum">Сумма</string>
+    <string name="pay_story">История платежей</string>
 </resources>

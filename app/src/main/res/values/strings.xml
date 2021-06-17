@@ -68,9 +68,27 @@
     </string-array>
     <string name="teams">Teams</string>
     <string name="table">Table</string>
-    <string name="text_phone">Телефон: </string>
+    <string name="text_phone">Phone: </string>
     <string name="text_email">E-mail: </string>
-    <string name="text_country">Страна: </string>
-    <string name="text_subscriptions">Подписки</string>
-    <string name="text_pay_story">История платежей</string>
+    <string name="text_country">Country: </string>
+    <string name="text_subscriptions">Subscriptions</string>
+    <string name="text_pay_story">Payment history</string>
+    <string name="text_visibly_pay">Hide account</string>
+    <string name="text_lenguage">Language</string>
+    <string name="text_yes">Yes</string>
+    <string name="text_no">No</string>
+    <string name="text_language">English</string>
+    <string name="text_exit">Exit</string>
+    <string name="text_football">Football</string>
+    <string name="text_hockey">Hockey</string>
+    <string name="text_basketball">Basketball</string>
+    <string name="text_data_pay">Payment date</string>
+    <string name="text_subscribe">Subscription</string>
+    <string name="text_type">Type</string>
+    <string name="text_sum">Sum</string>
+    <string name="pay_story">Payment history</string>
+    <string-array name="languages">
+        <item>English</item>
+        <item>Русский</item>
+    </string-array>
 </resources>

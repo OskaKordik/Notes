@@ -1,39 +1,81 @@
 package com.natife.streaming.ui.account
 
 import android.annotation.SuppressLint
-import android.os.Bundle
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.constraintlayout.motion.widget.MotionLayout
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.Group
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseFragment
+import com.natife.streaming.db.entity.Lang
 import com.natife.streaming.ext.predominantColorToGradient
-import com.natife.streaming.ext.subscribe
 import kotlinx.android.synthetic.main.fragment_account.*
+import timber.log.Timber
 
 class AccountFragment : BaseFragment<AccountViewModel>() {
     override fun getLayoutRes() = R.layout.fragment_account
 
+    private val listener = object: AdapterView.OnItemSelectedListener{
+        override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            viewModel.setLang(position)
+            Timber.e(position.toString())
+        }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-//        (activity as MainActivity).logo.isVisible = true
+        override fun onNothingSelected(parent: AdapterView<*>?) {
+            TODO("Not yet implemented")
+        }
 
+    }
+
+    override fun onStart(){
+        super.onStart()
 
         requireActivity().findViewById<Group>(R.id.main_group).visibility = View.GONE
         requireActivity().findViewById<Group>(R.id.main_background_group).visibility = View.GONE
         requireActivity().findViewById<Group>(R.id.search_background_group).visibility = View.GONE
         requireActivity().findViewById<Group>(R.id.profile_background_group).visibility = View.VISIBLE
-        //Heading in the predominant team color
-        requireActivity().findViewById<MotionLayout>(R.id.mainMotion).predominantColorToGradient("#3560E1")
+        requireActivity().findViewById<MotionLayout>(R.id.mainMotion).predominantColorToGradient("#CB312A")
+
+        button_subscriptions.requestFocus()
 
         buttonLogout.setOnClickListener {
             viewModel.logout()
         }
 
+        viewModel.initialization(resources.getString(R.string.lang))
+
+        val adapter = ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.languages,
+            R.layout.item_spinner_lang,
+        )
+
+        text_language.adapter = adapter
+        text_language.onItemSelectedListener = listener
+
+        button_subscriptions.setOnClickListener { viewModel.toSubscriptions() }
+        button_pay_story.setOnClickListener { viewModel.toPayStory() }
+        button_language.setOnClickListener {
+            text_language.performClick()
+        }
+
+        button_score_visible.setOnClickListener {
+            viewModel.setScore()
+            val button = requireActivity().findViewById<com.google.android.material.button.MaterialButton>(R.id.score_button)
+            if(viewModel.settings.value!!.showScore){
+                button.isChecked = true
+                button.text = resources.getString(R.string.showe_account)
+            }else{
+                button.isChecked = false
+                button.text = resources.getString(R.string.hide_account)
+            }
+        }
+
+
         subscribeLiveData()
+
     }
 
     @SuppressLint("SetTextI18n")
@@ -44,7 +86,21 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
             text_country.text = "${getString(R.string.text_country)} ${profile.country?.nameEng}"
             email.text = "${getString(R.string.text_email)} ${profile.email}"
         })
+
+        viewModel.settings.observe(viewModelLifecycleOwner, {setting->
+            if(setting.showScore) text_visible_score.text = getText(R.string.text_no)
+            else text_visible_score.text = getText(R.string.text_yes)
+            if (setting.lang == Lang.EN) { text_language.setSelection(0)}
+            else { text_language.setSelection(1)}
+        })
     }
 
+    override fun onStop() {
+        super.onStop()
+        requireActivity().findViewById<Group>(R.id.profile_background_group).visibility = View.GONE
+        requireActivity().findViewById<Group>(R.id.main_group).visibility = View.VISIBLE
+        requireActivity().findViewById<Group>(R.id.main_background_group).visibility = View.VISIBLE
+        requireActivity().findViewById<MotionLayout>(R.id.mainMotion).predominantColorToGradient("#3560E1")
+    }
 
 }

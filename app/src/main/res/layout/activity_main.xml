@@ -319,6 +319,39 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/profile_lang_background_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="main_background, search_gradient_mask"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/profile_subscriptions_background_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="search_background, search_gradient_mask, textView2, button_subscriptions_football, button_subscriptions_basketball, button_subscriptions_hockey"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/profile_pay_history_background_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="search_background, search_gradient_mask, textView14, textView15, textView16, textView17, textView18, view2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <ImageView
             android:id="@+id/main_background"
             android:layout_width="0dp"
@@ -356,6 +389,18 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_goneMarginTop="0dp" />
 
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="@string/text_subscriptions"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/profile_name"
             android:layout_width="wrap_content"
@@ -364,6 +409,131 @@
             android:text="TextView"
             android:textSize="24sp"
             android:textColor="@color/white"
+            app:layout_constraintBottom_toTopOf="@+id/guideline_end_search"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_subscriptions_football"
+            style="@style/ButtonTransparentNoOutlinedProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="200dp"
+            android:layout_marginBottom="10dp"
+            android:button="@null"
+            android:clickable="true"
+            android:focusable="true"
+            android:fontFamily="@font/roboto"
+            android:gravity="left|center_vertical"
+            android:text="@string/text_football"
+            android:textAllCaps="false"
+            app:layout_constraintBottom_toBottomOf="@id/guideline_end_search"
+            app:layout_constraintEnd_toStartOf="@+id/button_subscriptions_hockey"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_subscriptions_hockey"
+            style="@style/ButtonTransparentNoOutlinedProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:button="@null"
+            android:clickable="true"
+            android:focusable="true"
+            android:fontFamily="@font/roboto"
+            android:gravity="left|center_vertical"
+            android:text="@string/text_hockey"
+            android:textAllCaps="false"
+            app:layout_constraintBottom_toBottomOf="@id/guideline_end_search"
+            app:layout_constraintEnd_toStartOf="@+id/button_subscriptions_basketball"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/button_subscriptions_football" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_subscriptions_basketball"
+            style="@style/ButtonTransparentNoOutlinedProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="200dp"
+            android:layout_marginBottom="10dp"
+            android:button="@null"
+            android:clickable="true"
+            android:focusable="true"
+            android:fontFamily="@font/roboto"
+            android:gravity="left|center_vertical"
+            android:text="@string/text_basketball"
+            android:textAllCaps="false"
+            app:layout_constraintBottom_toBottomOf="@id/guideline_end_search"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/button_subscriptions_hockey" />
+
+        <TextView
+            android:id="@+id/textView18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="@string/pay_story"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="60dp"
+            android:layout_marginBottom="20dp"
+            android:text="@string/text_data_pay"
+            android:textAllCaps="true"
+            android:textColor="@color/white40"
+            app:layout_constraintBottom_toTopOf="@+id/view2"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/textView15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="73dp"
+            android:layout_marginBottom="20dp"
+            android:text="@string/text_subscribe"
+            android:textAllCaps="true"
+            android:textColor="@color/white40"
+            app:layout_constraintBottom_toTopOf="@+id/view2"
+            app:layout_constraintStart_toEndOf="@+id/textView14" />
+
+        <TextView
+            android:id="@+id/textView16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="200dp"
+            android:layout_marginBottom="20dp"
+            android:text="@string/text_type"
+            android:textAllCaps="true"
+            android:textColor="@color/white40"
+            app:layout_constraintBottom_toTopOf="@+id/view2"
+            app:layout_constraintEnd_toStartOf="@+id/textView17" />
+
+        <TextView
+            android:id="@+id/textView17"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="140dp"
+            android:layout_marginBottom="20dp"
+            android:text="@string/text_sum"
+            android:textAllCaps="true"
+            android:textColor="@color/white40"
+            app:layout_constraintBottom_toTopOf="@+id/view2"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/white"
             app:layout_constraintBottom_toTopOf="@+id/guideline_end_search"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
