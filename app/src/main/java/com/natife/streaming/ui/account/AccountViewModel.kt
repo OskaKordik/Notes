@@ -19,7 +19,6 @@ abstract class AccountViewModel : BaseViewModel() {
     abstract fun setLang(lang: Int)
     abstract fun toSubscriptions()
     abstract fun toPayStory()
-    abstract fun toLanguage()
     abstract fun initialization(lang: String)
 
     abstract val nameLiveData: LiveData<String>
@@ -69,10 +68,7 @@ class AccountViewModelImpl(
 
 
     override fun logout() {
-        launch {
             logoutUseCase.execute(true)
-            router.navigate(R.id.action_global_nav_auth)
-        }
     }
 
     override fun back() {
@@ -86,9 +82,6 @@ class AccountViewModelImpl(
         router.navigate(R.id.action_accountFragment_to_payStoryFragment)
     }
 
-    override fun toLanguage() {
-        router.navigate(R.id.action_accountFragment_to_langFragment)
-    }
 
     override fun setScore() {
         launch{

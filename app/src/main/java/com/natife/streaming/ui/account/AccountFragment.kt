@@ -22,10 +22,7 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
             viewModel.setLang(position)
             Timber.e(position.toString())
         }
-
-        override fun onNothingSelected(parent: AdapterView<*>?) {
-            TODO("Not yet implemented")
-        }
+        override fun onNothingSelected(parent: AdapterView<*>?) {}
 
     }
 
@@ -34,7 +31,6 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
 
         requireActivity().findViewById<Group>(R.id.main_group).visibility = View.GONE
         requireActivity().findViewById<Group>(R.id.main_background_group).visibility = View.GONE
-        requireActivity().findViewById<Group>(R.id.search_background_group).visibility = View.GONE
         requireActivity().findViewById<Group>(R.id.profile_background_group).visibility = View.VISIBLE
         requireActivity().findViewById<MotionLayout>(R.id.mainMotion).predominantColorToGradient("#CB312A")
 
@@ -83,7 +79,7 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
         viewModel.profileLiveData.observe(viewLifecycleOwner, {profile ->
             requireActivity().findViewById<TextView>(R.id.profile_name).text = "${profile.lastName} ${profile.firstName}"
             text_phone.text = "${getString(R.string.text_phone)} ${profile.phone}"
-            text_country.text = "${getString(R.string.text_country)} ${profile.country?.nameEng}"
+            text_country.text = "${getString(R.string.text_country)} ${profile.country?.nameEng?: ""}"
             email.text = "${getString(R.string.text_email)} ${profile.email}"
         })
 
@@ -97,10 +93,10 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
 
     override fun onStop() {
         super.onStop()
-        requireActivity().findViewById<Group>(R.id.profile_background_group).visibility = View.GONE
         requireActivity().findViewById<Group>(R.id.main_group).visibility = View.VISIBLE
         requireActivity().findViewById<Group>(R.id.main_background_group).visibility = View.VISIBLE
         requireActivity().findViewById<MotionLayout>(R.id.mainMotion).predominantColorToGradient("#3560E1")
+        requireActivity().findViewById<Group>(R.id.profile_background_group).visibility = View.GONE
     }
 
 }

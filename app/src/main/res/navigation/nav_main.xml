@@ -84,9 +84,6 @@
             <action
                 android:id="@+id/action_accountFragment_to_payStoryFragment"
                 app:destination="@id/payStoryFragment" />
-            <action
-                android:id="@+id/action_accountFragment_to_langFragment"
-                app:destination="@id/langFragment" />
         </fragment>
 
 
@@ -357,11 +354,6 @@
             android:name="com.natife.streaming.ui.payStory.PayStoryFragment"
             android:label="fragment_pay_story"
             tools:layout="@layout/fragment_pay_story" />
-        <fragment
-            android:id="@+id/langFragment"
-            android:name="com.natife.streaming.ui.lang.LangFragment"
-            android:label="fragment_lang"
-            tools:layout="@layout/fragment_lang" />
 
     </navigation>
 

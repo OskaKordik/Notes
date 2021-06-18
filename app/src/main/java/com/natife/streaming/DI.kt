@@ -35,8 +35,6 @@ import com.natife.streaming.ui.home.sport.SportViewModelImpl
 import com.natife.streaming.ui.home.tournament.TournamentDialogArgs
 import com.natife.streaming.ui.home.tournament.TournamentDialogViewModel
 import com.natife.streaming.ui.home.tournament.TournamentDialogViewModelImpl
-import com.natife.streaming.ui.lang.LangViewModel
-import com.natife.streaming.ui.lang.LangViewModelImpl
 import com.natife.streaming.ui.login.LoginViewModel
 import com.natife.streaming.ui.login.LoginViewModelImpl
 import com.natife.streaming.ui.main.MainViewModel
@@ -84,7 +82,6 @@ val viewModelModule = module {
     viewModel { EmptyViewModel() }
     viewModel<SubscriptionsViewModel> { SubscriptionsViewModelImpl() }
     viewModel<PayStoryViewModel> { PayStoryViewModelImpl() }
-    viewModel<LangViewModel> { LangViewModelImpl() }
     viewModel<LoginViewModel> { LoginViewModelImpl(get(), get(), get(), get(), get(), get()) }//new
     viewModel<RegisterViewModel> {
         RegisterViewModelImpl(
