@@ -9,24 +9,12 @@ import com.natife.streaming.usecase.SearchUseCase
 import kotlinx.coroutines.Job
 
 abstract class SearchViewModel : BaseViewModel() {
-//    abstract val tabList: LiveData<List<String>>
-
-
     abstract val resultsTeam: LiveData<List<SearchResult>>
     abstract val resultsPlayer: LiveData<List<SearchResult>>
     abstract val resultsTournament: LiveData<List<SearchResult>>
-//    abstract val sportLiveDate: LiveData<String>
-//    abstract val genderLiveDate: LiveData<String>
-//    abstract val typeLiveDate: LiveData<String>
 
 
     abstract fun search(text: String)
-
-    //    abstract fun searchLocal(text: String)
-//    abstract fun showSportDialog()
-//    abstract fun showGenderDialog()
-//    abstract fun showTypeDialog()
-//    abstract fun back()
     abstract fun select(result: SearchResult)
 
 }
@@ -34,12 +22,7 @@ abstract class SearchViewModel : BaseViewModel() {
 class SearchViewModelImpl(
     private val searchUseCase: SearchUseCase,
     private val router: Router,
-//    private val sportUseCase: GetSportUseCase,
-//    private val genderUseCase: GenderUseCase,
-//    private val typeUseCase: SearchTypeUseCase,
-//    private val prefs: SearchPrefs,
 ) : SearchViewModel() {
-    //    override val tabList = MutableLiveData<List<String>>()
     override val resultsTeam = MutableLiveData<List<SearchResult>>()
     override val resultsPlayer = MutableLiveData<List<SearchResult>>()
     override val resultsTournament = MutableLiveData<List<SearchResult>>()
@@ -148,11 +131,7 @@ class SearchViewModelImpl(
     private fun filter(sourceList: List<SearchResult>) {
         launch {
             resultsTeam.value = sourceList.filter { it.type == SearchResult.Type.TEAM }
-        }
-        launch {
             resultsPlayer.value = sourceList.filter { it.type == SearchResult.Type.PLAYER }
-        }
-        launch {
             resultsTournament.value = sourceList.filter { it.type == SearchResult.Type.TOURNAMENT }
         }
     }

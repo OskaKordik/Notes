@@ -7,24 +7,34 @@
     android:focusable="false"
     tools:context=".ui.popupmatch.video.PopupVideoFragment">
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/search_tab_layout"
+    <androidx.leanback.widget.BrowseFrameLayout
+        android:id="@+id/tab_layout_search"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
         android:focusable="true"
-        app:focusOutEnd="true"
-        app:focusOutFront="true"
-        app:focusOutSideEnd="true"
-        app:focusOutSideStart="true"
+        android:descendantFocusability="afterDescendants"
         app:layout_constraintEnd_toStartOf="@+id/guideline_end"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tabIndicatorColor="@android:color/transparent"
-        app:tabIndicatorHeight="0dp"
-        app:tabRippleColor="@color/tab_background"
-        app:tabSelectedTextColor="@color/white"
-        app:tabTextColor="@color/white40" />
+        app:tabIndicatorColor="@android:color/transparent">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/search_tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:focusable="false"
+            app:focusOutEnd="true"
+            app:focusOutFront="true"
+            app:focusOutSideEnd="true"
+            app:focusOutSideStart="true"
+            app:tabIndicatorColor="@android:color/transparent"
+            app:tabIndicatorHeight="0dp"
+            app:tabRippleColor="@color/tab_background"
+            app:tabSelectedTextColor="@color/white"
+            app:tabTextColor="@color/white40" />
+    </androidx.leanback.widget.BrowseFrameLayout>
+
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/search_pager"
@@ -38,7 +48,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline_end"
         app:layout_constraintStart_toStartOf="@+id/guideline_start"
-        app:layout_constraintTop_toBottomOf="@+id/search_tab_layout" />
+        app:layout_constraintTop_toBottomOf="@+id/tab_layout_search" />
 
     <ProgressBar
         android:id="@+id/load_progress"
@@ -49,7 +59,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/search_pager"
         app:layout_constraintEnd_toEndOf="@+id/search_pager"
         app:layout_constraintStart_toStartOf="@+id/search_pager"
-        app:layout_constraintTop_toBottomOf="@+id/search_tab_layout" />
+        app:layout_constraintTop_toBottomOf="@+id/tab_layout_search" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_start"

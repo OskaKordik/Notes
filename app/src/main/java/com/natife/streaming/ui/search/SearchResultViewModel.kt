@@ -50,6 +50,18 @@ class SearchResultViewModel() : BaseViewModel() {
         _startViewID.value = startId
     }
 
+    fun resetStartId() {
+        _startViewID.postValue(
+            arrayListOf(
+                View.NO_ID,
+                View.NO_ID,
+                View.NO_ID,
+                View.NO_ID,
+                View.NO_ID
+            )
+        )
+    }
+
     fun searchResultClicked(searchResultClicked: SearchResult) {
         _searchResultClicked.value = searchResultClicked
     }
