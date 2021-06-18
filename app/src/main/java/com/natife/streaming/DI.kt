@@ -35,6 +35,8 @@ import com.natife.streaming.ui.main.MainViewModel
 import com.natife.streaming.ui.matchprofile.*
 import com.natife.streaming.ui.mypreferences.UserPreferencesViewModel
 import com.natife.streaming.ui.mypreferences.UserPreferencesViewModelImpl
+import com.natife.streaming.ui.payStory.PayStoryViewModel
+import com.natife.streaming.ui.payStory.PayStoryViewModelImpl
 import com.natife.streaming.ui.player.PlayerFragmentArgs
 import com.natife.streaming.ui.player.PlayerViewModel
 import com.natife.streaming.ui.player.PlayerViewModelImpl
@@ -50,6 +52,8 @@ import com.natife.streaming.ui.search.SearchViewModel
 import com.natife.streaming.ui.search.SearchViewModelImpl
 import com.natife.streaming.ui.settings.SettingsViewModel
 import com.natife.streaming.ui.settings.SettingsViewModelImpl
+import com.natife.streaming.ui.subscriptions.SubscriptionsViewModel
+import com.natife.streaming.ui.subscriptions.SubscriptionsViewModelImpl
 import com.natife.streaming.ui.tournament.TournamentFragmentArgs
 import com.natife.streaming.ui.tournament.TournamentViewModel
 import com.natife.streaming.usecase.*
@@ -66,6 +70,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 val viewModelModule = module {
     viewModel { EmptyViewModel() }
+    viewModel<SubscriptionsViewModel> { SubscriptionsViewModelImpl() }
+    viewModel<PayStoryViewModel> { PayStoryViewModelImpl() }
     viewModel<LoginViewModel> { LoginViewModelImpl(get(), get(), get(), get(), get(), get()) }//new
     viewModel<RegisterViewModel> {
         RegisterViewModelImpl(
@@ -90,7 +96,7 @@ val viewModelModule = module {
     }//new
 
     viewModel { MainViewModel(get(), get(), get(), get()) }
-    viewModel<AccountViewModel> { AccountViewModelImpl(get(), get(), get()) }
+    viewModel<AccountViewModel> { AccountViewModelImpl(get(), get(), get(), get()) }
     viewModel { (args: TournamentFragmentArgs) ->
         TournamentViewModel(
             args.sportId,

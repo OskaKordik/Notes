@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_global"
-    app:startDestination="@id/splashFragment">
+    app:startDestination="@id/nav_main">
 
     <fragment
         android:id="@+id/splashFragment"
@@ -83,7 +83,20 @@
             android:id="@+id/accountFragment"
             android:name="com.natife.streaming.ui.account.AccountFragment"
             android:label="AccountFragment"
-            tools:layout="@layout/fragment_account" />
+            tools:layout="@layout/fragment_account" >
+            <action
+                android:id="@+id/action_accountFragment_to_subscriptionFragment"
+                app:destination="@id/subscriptionFragment" />
+            <action
+                android:id="@+id/action_accountFragment_to_payStoryFragment"
+                app:destination="@id/payStoryFragment" />
+        </fragment>
+
+
+        <fragment
+            android:id="@+id/subscriptionFragment"
+            android:name="com.natife.streaming.ui.subscriptions.SubscriptionsFragment" />
+
         <action
             android:id="@+id/action_main_searchFragment"
             app:popUpToInclusive="true"
@@ -332,6 +345,11 @@
                 android:name="title"
                 app:argType="string" />
         </fragment>
+        <fragment
+            android:id="@+id/payStoryFragment"
+            android:name="com.natife.streaming.ui.payStory.PayStoryFragment"
+            android:label="fragment_pay_story"
+            tools:layout="@layout/fragment_pay_story" />
 
     </navigation>
 

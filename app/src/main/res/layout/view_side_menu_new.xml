@@ -119,7 +119,7 @@
     <LinearLayout
         android:id="@+id/menuAccount"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:background="@drawable/menu_item_state"
         android:focusable="true"
         android:gravity="center_vertical"
@@ -134,8 +134,8 @@
             android:layout_width="17dp"
             android:layout_height="17dp"
             android:layout_marginStart="19dp"
-            android:scaleType="centerInside"
             android:duplicateParentState="true"
+            android:scaleType="centerInside"
             android:src="@drawable/ic_account_icon_new"
             app:tint="@color/menu_item_state_icon" />
 
