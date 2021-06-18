@@ -1,6 +1,7 @@
 package com.natife.streaming.ui.account
 
 import android.annotation.SuppressLint
+import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -27,6 +28,15 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
 
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        button_subscriptions.apply {
+            this.requestFocus()
+            isSelected = true
+        }
+
+    }
+
     override fun onStart(){
         super.onStart()
 
@@ -35,7 +45,6 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
         requireActivity().findViewById<Group>(R.id.profile_background_group).visibility = View.VISIBLE
         requireActivity().findViewById<MotionLayout>(R.id.mainMotion).predominantColorToGradient("#CB312A")
 
-        button_subscriptions.requestFocus()
 
         buttonLogout.setOnClickListener {
             viewModel.logout()

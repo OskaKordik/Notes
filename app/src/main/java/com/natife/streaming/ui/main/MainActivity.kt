@@ -142,9 +142,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
 
     private fun getLastDestination(destination: NavDestination){
         lastDestination = when (destination.id) {
-            R.id.mypreferencesFragment,
             R.id.favoritesFragment,
-            R.id.searchFragment,
             R.id.homeFragment,
             R.id.accountFragment -> true
             else -> false

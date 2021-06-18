@@ -11,6 +11,7 @@ import com.natife.streaming.base.BaseFragment
 import com.natife.streaming.ext.subscribe
 import com.natife.streaming.ui.home.MatchAdapter
 import kotlinx.android.synthetic.main.fragment_favorites_new.*
+import kotlinx.android.synthetic.main.fragment_home.*
 
 class FavoritesFragment : BaseFragment<FavoriteViewModel>() {
     override fun getLayoutRes(): Int = R.layout.fragment_favorites_new
@@ -30,6 +31,10 @@ class FavoritesFragment : BaseFragment<FavoriteViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.initialization()
+        favoritesRecycler.apply {
+            this.requestFocus()
+            isSelected = true
+        }
 
         favoritesRecycler.adapter = favoriteAdapter
         favoritesRecycler.focusScrollStrategy = BaseGridView.FOCUS_SCROLL_ITEM

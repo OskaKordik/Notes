@@ -9,6 +9,7 @@ import com.natife.streaming.R
 import com.natife.streaming.base.BaseFragment
 import com.natife.streaming.ext.subscribe
 import com.natife.streaming.ext.subscribeEvent
+import kotlinx.android.synthetic.main.fragment_account.*
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : BaseFragment<HomeViewModel>() {
@@ -19,7 +20,10 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
         super.onViewCreated(view, savedInstanceState)
         val adapter = TournamentAdapter(viewModel)
         homeRecycler.windowAlignment = VerticalGridView.WINDOW_ALIGN_BOTH_EDGE;
-
+        homeRecycler.apply {
+            this.requestFocus()
+            isSelected = true
+        }
         homeRecycler.isFocusable = false
         homeRecycler.adapter = adapter
         homeRecycler.setNumColumns(1)
