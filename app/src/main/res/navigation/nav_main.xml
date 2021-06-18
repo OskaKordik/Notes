@@ -71,12 +71,15 @@
             <argument
                 android:name="type"
                 app:argType="com.natife.streaming.data.search.SearchResult$Type" />
-            <action
-                android:id="@+id/action_tournamentFragment_to_matchProfileFragment"
-                app:destination="@id/matchProfileFragment" />
+            <!--            <action-->
+            <!--                android:id="@+id/action_tournamentFragment_to_matchProfileFragment"-->
+            <!--                app:destination="@id/matchProfileFragment" />-->
             <action
                 android:id="@+id/action_tournamentFragment_to_liveFragment"
                 app:destination="@id/liveFragment" />
+            <action
+                android:id="@+id/action_tournamentFragment_to_popupVideo"
+                app:destination="@id/popupVideo" />
         </fragment>
 
         <fragment
@@ -96,11 +99,12 @@
         <fragment
             android:id="@+id/subscriptionFragment"
             android:name="com.natife.streaming.ui.subscriptions.SubscriptionsFragment" />
-
         <action
             android:id="@+id/action_main_searchFragment"
+            app:destination="@id/searchFragment"
+            app:popUpTo="@id/nav_main"
             app:popUpToInclusive="true"
-            app:destination="@id/searchFragment" />
+            app:launchSingleTop="true" />
         <action
             android:id="@+id/action_main_accountFragment"
             app:popUpTo="@id/nav_main"

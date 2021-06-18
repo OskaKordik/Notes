@@ -30,11 +30,18 @@ class TournamentFragment : BaseFragment<TournamentViewModel>() {
 
     @SuppressLint("RestrictedApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val WBColorStateList = ColorStateList(
+        val wBColorStateList = ColorStateList(
             arrayOf(intArrayOf(android.R.attr.state_focused), intArrayOf()),
             intArrayOf(
                 requireContext().resources.getColor(R.color.black, requireContext().theme),
                 requireContext().resources.getColor(R.color.white, requireContext().theme)
+            )
+        )
+        val bW70ColorStateList = ColorStateList(
+            arrayOf(intArrayOf(android.R.attr.state_focused), intArrayOf()),
+            intArrayOf(
+                requireContext().resources.getColor(R.color.black, requireContext().theme),
+                requireContext().resources.getColor(R.color.white70, requireContext().theme)
             )
         )
         (activity as MainActivity).main_group?.visibility = View.GONE
@@ -57,30 +64,20 @@ class TournamentFragment : BaseFragment<TournamentViewModel>() {
                                 requireContext().theme
                             )
                         )
-                        iconTint = WBColorStateList
-                        setTextColor(WBColorStateList)
+                        iconTint = wBColorStateList
+                        setTextColor(wBColorStateList)
                     }
                     false -> {
                         icon =
                             ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_outline)
                         strokeColor = ColorStateList.valueOf(
                             resources.getColor(
-                                R.color.black_transparent_30,
+                                R.color.white70,
                                 requireContext().theme
                             )
                         )
-                        iconTint = ColorStateList.valueOf(
-                            resources.getColor(
-                                R.color.black_transparent_30,
-                                requireContext().theme
-                            )
-                        )
-                        setTextColor(
-                            resources.getColor(
-                                R.color.black_transparent_30,
-                                requireContext().theme
-                            )
-                        )
+                        iconTint = bW70ColorStateList
+                        setTextColor(bW70ColorStateList)
                     }
                 }
                 (activity as MainActivity).flag_of_command_country_image_l?.bindFlagImage(it.countryId)
@@ -104,30 +101,20 @@ class TournamentFragment : BaseFragment<TournamentViewModel>() {
                                 requireContext().theme
                             )
                         )
-                        iconTint = WBColorStateList
-                        setTextColor(WBColorStateList)
+                        iconTint = wBColorStateList
+                        setTextColor(wBColorStateList)
                     }
                     false -> {
                         icon =
                             ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_outline)
                         strokeColor = ColorStateList.valueOf(
                             resources.getColor(
-                                R.color.black_transparent_30,
+                                R.color.white70,
                                 requireContext().theme
                             )
                         )
-                        iconTint = ColorStateList.valueOf(
-                            resources.getColor(
-                                R.color.black_transparent_30,
-                                requireContext().theme
-                            )
-                        )
-                        setTextColor(
-                            resources.getColor(
-                                R.color.black_transparent_30,
-                                requireContext().theme
-                            )
-                        )
+                        iconTint = bW70ColorStateList
+                        setTextColor(bW70ColorStateList)
                     }
                 }
             }
@@ -150,30 +137,20 @@ class TournamentFragment : BaseFragment<TournamentViewModel>() {
                                 requireContext().theme
                             )
                         )
-                        iconTint = WBColorStateList
-                        setTextColor(WBColorStateList)
+                        iconTint = wBColorStateList
+                        setTextColor(wBColorStateList)
                     }
                     false -> {
                         icon =
                             ContextCompat.getDrawable(requireContext(), R.drawable.ic_star_outline)
                         strokeColor = ColorStateList.valueOf(
                             resources.getColor(
-                                R.color.black_transparent_30,
+                                R.color.white70,
                                 requireContext().theme
                             )
                         )
-                        iconTint = ColorStateList.valueOf(
-                            resources.getColor(
-                                R.color.black_transparent_30,
-                                requireContext().theme
-                            )
-                        )
-                        setTextColor(
-                            resources.getColor(
-                                R.color.black_transparent_30,
-                                requireContext().theme
-                            )
-                        )
+                        iconTint = bW70ColorStateList
+                        setTextColor(bW70ColorStateList)
                     }
                 }
             }

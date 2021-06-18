@@ -117,7 +117,7 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
                     load_progress.visibility = View.VISIBLE
                     viewModel.search((activity as MainActivity).search_text_field?.editText?.text.toString())
                     (activity as MainActivity).search_text_field?.editText?.apply {
-                        text = null
+//                        text = null
                         this.clearFocus()
                     }
                     return@OnEditorActionListener true

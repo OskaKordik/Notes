@@ -115,15 +115,15 @@ class TournamentViewModel(
         when (type) {
             SearchResult.Type.PLAYER -> launch {
                 _player.value = playerUseCase.execute(sportId, additionalId)
-//                val a = profileColorUseCase.execute(sportId, "p_player", additionalId)
+//                val a = profileColorUseCase.execute(sportId, "player", additionalId)
             }
             SearchResult.Type.TEAM -> launch {
                 _team.value = teamUseCase.execute(sportId, additionalId)
-//                val a = profileColorUseCase.execute(sportId, "p_team", additionalId)
+//                val a = profileColorUseCase.execute(sportId, "team", additionalId)
             }
             SearchResult.Type.TOURNAMENT -> launch {
                 _tournament.value = tournamentUseCase.execute(sportId, additionalId)
-//                val a = profileColorUseCase.execute(sportId, "p_tournament", additionalId)
+//                val a = profileColorUseCase.execute(sportId, "tournament", additionalId)
             }
             SearchResult.Type.NON -> launch { cancel() }
         }
@@ -206,7 +206,7 @@ class TournamentViewModel(
 
     fun toProfile(match: Match) {
         router.navigate(
-            TournamentFragmentDirections.actionTournamentFragmentToMatchProfileFragment(
+            TournamentFragmentDirections.actionTournamentFragmentToPopupVideo(      //    old ver     actionTournamentFragmentToMatchProfileFragment
                 match.id,
                 match.sportId
             )

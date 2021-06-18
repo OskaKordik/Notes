@@ -52,7 +52,7 @@ interface MainApi {
     suspend fun getTranslate(@Body body: BaseRequest<TranslateRequest>): TranslatesDTO //new
 
     @POST("profile/color")
-    suspend fun getProfileColor(@Body body: ProfileColorRequest): ProfileColorDTO //new
+    suspend fun getProfileColor(@Body body: BaseRequest<ProfileColorRequest>): ProfileColorDTO //new
 
     @POST("data/{sport}")
     suspend fun getMatchInfo(
