@@ -106,13 +106,14 @@
     <ProgressBar
         android:id="@+id/progress_icon"
         android:layout_width="wrap_content"
-        android:layout_height="1dp"
+        android:layout_height="wrap_content"
         android:indeterminateTint="@color/white"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/homeRecycler"
         app:layout_constraintEnd_toEndOf="@+id/homeRecycler"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/homeRecycler" />
+        app:layout_constraintTop_toTopOf="@+id/homeRecycler"
+        app:layout_constraintVertical_bias="0.4" />
 
     <androidx.leanback.widget.VerticalGridView
         android:id="@+id/homeRecycler"

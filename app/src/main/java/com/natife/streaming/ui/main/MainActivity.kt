@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.View
+import android.app.AlertDialog
+import android.content.DialogInterface
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.view.isVisible
 import androidx.leanback.widget.BrowseFrameLayout
@@ -22,6 +24,8 @@ class MainActivity : BaseActivity<MainViewModel>() {
     override fun getLayoutRes() = R.layout.activity_main
 
     override fun getNavHostId() = R.id.globalNavFragment
+
+    private var lastDestination = true
 
     @SuppressLint("UseCompatLoadingForDrawables")
     @ExperimentalStdlibApi
@@ -45,7 +49,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
             }
         }
         subscribe(viewModel.settings) {
-            if (it.showScore) {
+            if (!it.showScore) {
                 score_button.isChecked = false
                 score_button.text = resources.getString(R.string.hide_account)
             } else {
@@ -70,7 +74,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
             viewModel.preferences()
         }
         score_button.setOnClickListener {
-            if (score_button.isChecked) {
+            if (!score_button.isChecked) {
                 score_button.text = resources.getString(R.string.showe_account)
                 viewModel.scoreButtonClicked(true)
             } else {
@@ -93,7 +97,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
             }
 
         }
-        contentBrowse.onChildFocusListener = object : BrowseFrameLayout.OnChildFocusListener{
+        contentBrowse.onChildFocusListener = object : BrowseFrameLayout.OnChildFocusListener {
             override fun onRequestFocusInDescendants(
                 direction: Int,
                 previouslyFocusedRect: Rect?
@@ -106,7 +110,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
             }
 
         }
-        mainMotion.setTransitionListener(object: MotionLayout.TransitionListener {
+        mainMotion.setTransitionListener(object : MotionLayout.TransitionListener {
             override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {
             }
 
@@ -114,11 +118,11 @@ class MainActivity : BaseActivity<MainViewModel>() {
             }
 
             override fun onTransitionCompleted(p0: MotionLayout?, p1: Int) {
-                when (p1){
-                    R.id.start ->{
+                when (p1) {
+                    R.id.start -> {
                         mainMenu.setCloseStyle()
                     }
-                    R.id.end ->{
+                    R.id.end -> {
                         mainMenu.setOpenStyle()
                     }
                 }
@@ -130,9 +134,22 @@ class MainActivity : BaseActivity<MainViewModel>() {
         })
 
         router.addListener { controller, destination, arguments ->
+            getLastDestination(destination)
             mainMenu.isVisible = visibilityDesttinationMainMenu(destination)
             topLayout.isVisible = visibilityDesttinationTopLayout(destination)
         }
+    }
+
+    private fun getLastDestination(destination: NavDestination){
+        lastDestination = when (destination.id) {
+            R.id.mypreferencesFragment,
+            R.id.favoritesFragment,
+            R.id.searchFragment,
+            R.id.homeFragment,
+            R.id.accountFragment -> true
+            else -> false
+        }
+
     }
 
     private fun visibilityDesttinationMainMenu(destination: NavDestination) =
@@ -164,6 +181,48 @@ class MainActivity : BaseActivity<MainViewModel>() {
             R.id.calendarFragment -> false
             else -> true
         }
+
+    override fun onBackPressed() {
+
+        if (lastDestination) {
+            val alert = AlertDialog.Builder(this).apply {
+                setTitle(getString(R.string.text_close_app_title))
+                setMessage(getString(R.string.text_close_app))
+
+                setPositiveButton(getString(R.string.text_yes)) { _, _ ->
+                    super.onBackPressed()
+                }
+
+                setNegativeButton(getString(R.string.text_no)) { _, _ ->
+                }
+                setCancelable(true)
+            }.create()
+            alert.show()
+            val buttonPos = alert.getButton(DialogInterface.BUTTON_POSITIVE)
+            buttonPos.setOnFocusChangeListener { v, hasFocus ->
+                if (hasFocus) {
+                    buttonPos.setBackgroundColor(resources.getColor(R.color.gray_400))
+                } else {
+                    buttonPos.setBackgroundColor(resources.getColor(R.color.white))
+                }
+            }
+            buttonPos.setTextColor(resources.getColor(R.color.black))
+            buttonPos.setBackgroundColor(resources.getColor(R.color.white))
+            val buttonNeg = alert.getButton(DialogInterface.BUTTON_NEGATIVE)
+            buttonNeg.setOnFocusChangeListener { v, hasFocus ->
+                if (hasFocus) {
+                    buttonNeg.setBackgroundColor(resources.getColor(R.color.gray_400))
+                } else {
+                    buttonNeg.setBackgroundColor(resources.getColor(R.color.white))
+                }
+            }
+            buttonNeg.requestFocus()
+            buttonNeg.setTextColor(resources.getColor(R.color.black))
+            buttonNeg.setBackgroundColor(resources.getColor(R.color.gray_400))
+        }
+        else super.onBackPressed()
+
+    }
 
 
 }

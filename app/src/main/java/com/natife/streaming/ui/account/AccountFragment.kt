@@ -7,6 +7,7 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.widget.Group
+import androidx.core.view.isVisible
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseFragment
 import com.natife.streaming.db.entity.Lang
@@ -61,10 +62,10 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
             viewModel.setScore()
             val button = requireActivity().findViewById<com.google.android.material.button.MaterialButton>(R.id.score_button)
             if(viewModel.settings.value!!.showScore){
-                button.isChecked = true
+                button.isChecked = false
                 button.text = resources.getString(R.string.showe_account)
             }else{
-                button.isChecked = false
+                button.isChecked = true
                 button.text = resources.getString(R.string.hide_account)
             }
         }
@@ -84,11 +85,15 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
         })
 
         viewModel.settings.observe(viewModelLifecycleOwner, {setting->
-            if(setting.showScore) text_visible_score.text = getText(R.string.text_no)
+            if(!setting.showScore) text_visible_score.text = getText(R.string.text_no)
             else text_visible_score.text = getText(R.string.text_yes)
             if (setting.lang == Lang.EN) { text_language.setSelection(0)}
             else { text_language.setSelection(1)}
         })
+        viewModel.loadersLiveData.observe(viewLifecycleOwner) {
+            progressBar_account.isVisible = it
+            profile_layout.isVisible = !it
+        }
     }
 
     override fun onStop() {

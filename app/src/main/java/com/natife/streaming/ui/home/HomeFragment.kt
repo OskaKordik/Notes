@@ -37,4 +37,6 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
             progress_icon.visibility = if (it) View.GONE else View.VISIBLE
         }
     }
+
+
 }
