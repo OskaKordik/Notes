@@ -21,8 +21,7 @@ abstract class AccountViewModel : BaseViewModel() {
     abstract fun toPayStory()
     abstract fun initialization(lang: String)
 
-    abstract val nameLiveData: LiveData<String>
-    abstract val emailLiveData: LiveData<String>
+    abstract val loadersLiveData: LiveData<Boolean>
     abstract val profileLiveData: LiveData<Profile>
     abstract val settings: LiveData<GlobalSettings>
 }
@@ -33,8 +32,7 @@ class AccountViewModelImpl(
     private val accountUseCase: AccountUseCase,
     private val localSqlDataSourse: LocalSqlDataSourse
 ) : AccountViewModel() {
-    override val nameLiveData = MutableLiveData<String>()
-    override val emailLiveData = MutableLiveData<String>()
+    override val loadersLiveData = MutableLiveData<Boolean>(true)
     override val profileLiveData = MutableLiveData<Profile>()
     override val settings = MutableLiveData<GlobalSettings>()
 
@@ -42,10 +40,10 @@ class AccountViewModelImpl(
 
     init {
         launch {
+            loadersLiveData.value = true
             val profile = accountUseCase.getProfile()
-            nameLiveData.value = "${profile.firstName} ${profile.lastName}"
-            emailLiveData.value = profile.email
             profileLiveData.value = profile
+            loadersLiveData.value = false
         }
     }
 
@@ -68,7 +66,9 @@ class AccountViewModelImpl(
 
 
     override fun logout() {
+        loadersLiveData.value = true
             logoutUseCase.execute(true)
+        loadersLiveData.value = false
     }
 
     override fun back() {

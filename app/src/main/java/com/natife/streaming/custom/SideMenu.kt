@@ -68,8 +68,7 @@ class SideMenu @JvmOverloads constructor(
         accountIcon.imageTintList = resources.getColorStateList(R.color.menu_item_state_icon, null)
         iconSearch.imageTintList = resources.getColorStateList(R.color.menu_item_state_icon, null)
         iconHome.imageTintList = resources.getColorStateList(R.color.menu_item_state_icon, null)
-        iconFavorites.imageTintList =
-            resources.getColorStateList(R.color.menu_item_state_icon, null)
+        iconFavorites.imageTintList = resources.getColorStateList(R.color.menu_item_state_icon, null)
 //        iconSettings.imageTintList = resources.getColorStateList(R.color.menu_item_state_icon, null)
         view.imageTintList =
             resources.getColorStateList(R.color.menu_item_state_icon_selected, null)

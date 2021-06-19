@@ -24,10 +24,10 @@ class AccountUseCaseImpl(private val api: MainApi, private val authPrefs: AuthPr
         val profileDTO =
             api.getProfile(BaseRequest(procedure = API_ACCOUNT, params = EmptyRequest()))
         val profile = Profile(
-            firstName = profileDTO.firstname ?: "Иван",
-            lastName = profileDTO.lastname ?: "Иванов",
+            firstName = profileDTO.firstname ?: "",
+            lastName = profileDTO.lastname ?: "",
             email = profileDTO.email ?: "",
-            phone = profileDTO.phone ?: "+380293944935",
+            phone = profileDTO.phone ?: "",
             country = profileDTO.country ?: AccountDTO.CountryDTO(0,"",""),
 
         )

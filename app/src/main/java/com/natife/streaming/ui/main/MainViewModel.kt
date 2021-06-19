@@ -2,6 +2,7 @@ package com.natife.streaming.ui.main
 
 import androidx.lifecycle.MutableLiveData
 import com.natife.streaming.R
+import androidx.navigation.NavDestination
 import com.natife.streaming.base.BaseViewModel
 import com.natife.streaming.db.LocalSqlDataSourse
 import com.natife.streaming.db.entity.GlobalSettings

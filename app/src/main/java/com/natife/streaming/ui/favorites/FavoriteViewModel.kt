@@ -100,7 +100,7 @@ class FavoriteViewModelImpl(
 
     override fun initialization() {
         //tracking global settings
-        launchCatching {
+        launch {
             withContext(Dispatchers.IO) {
                 collect(localSqlDataSourse.getGlobalSettingsFlow()) { globalSetings ->
                     showScore.value = globalSetings?.showScore
@@ -115,7 +115,7 @@ class FavoriteViewModelImpl(
             }
         }
 
-        launchCatching {
+        launch {
             val favorites = favoritesUseCase.execute()
             val tournamentFavorites: List<SearchResult> =
                 favorites.filter { it.type == SearchResult.Type.TOURNAMENT }
@@ -140,7 +140,7 @@ class FavoriteViewModelImpl(
             }
         }
 
-        launchCatching {
+        launch {
             withContext(Dispatchers.IO) {
                 collect(settingsPrefs.getDateFlow()) {
                     it?.let {
@@ -157,7 +157,7 @@ class FavoriteViewModelImpl(
             }
         }
 
-        launchCatching {
+        launch {
             loadNext()
             val _favorites = favoritesUseCase.execute()
             val groups = _favorites.groupBy { it.type }

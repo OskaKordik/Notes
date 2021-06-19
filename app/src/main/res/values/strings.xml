@@ -99,6 +99,8 @@
     <string name="text_subscribe">Subscription</string>
     <string name="text_type">Type</string>
     <string name="text_sum">Sum</string>
+    <string name="text_close_app">Are you sure you want to exit the program?</string>
+    <string name="text_close_app_title">Confirmation</string>
     <string name="pay_story">Payment history</string>
     <string-array name="languages">
         <item>English</item>

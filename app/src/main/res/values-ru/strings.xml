@@ -76,4 +76,6 @@
     <string name="text_type">Тип</string>
     <string name="text_sum">Сумма</string>
     <string name="pay_story">История платежей</string>
+    <string name="text_close_app">Вы уверены, что хотите выйти из программы?</string>
+    <string name="text_close_app_title">Подтверждение</string>
 </resources>
