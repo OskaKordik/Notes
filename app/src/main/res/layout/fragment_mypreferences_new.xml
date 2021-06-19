@@ -126,10 +126,11 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.leanback.widget.BrowseFrameLayout
         android:id="@+id/listItem"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:descendantFocusability="afterDescendants"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -140,18 +141,17 @@
             android:id="@+id/load_progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginTop="16dp"
             android:indeterminateTint="@color/white"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/listOfTournamentsRecyclerView"
-            app:layout_constraintStart_toStartOf="@+id/kindsOfSportsRecyclerView"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:visibility="visible" />
 
         <androidx.leanback.widget.VerticalGridView
             android:id="@+id/kindsOfSportsRecyclerView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="276dp"
+            android:paddingStart="33dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
             android:layout_marginTop="16dp"
             android:focusable="false"
             android:focusableInTouchMode="false"
@@ -159,30 +159,22 @@
             app:focusOutFront="true"
             app:focusOutSideEnd="true"
             app:focusOutSideStart="false"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/guidelineEndOfSports"
-            app:layout_constraintStart_toStartOf="@+id/guidelineStart"
-            app:layout_constraintTop_toTopOf="parent"
             tools:itemCount="10"
             tools:listitem="@layout/item_kinds_of_sport_new" />
 
         <androidx.leanback.widget.VerticalGridView
             android:id="@+id/listOfTournamentsRecyclerView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="33dp"
+            android:layout_width="673dp"
+            android:paddingEnd="33dp"
+            android:layout_height="match_parent"
             android:layout_marginTop="16dp"
+            android:layout_gravity="end"
             android:focusable="false"
             android:focusableInTouchMode="false"
-            android:descendantFocusability="afterDescendants"
             app:focusOutEnd="false"
             app:focusOutFront="true"
             app:focusOutSideEnd="false"
             app:focusOutSideStart="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/guidelineEnd"
-            app:layout_constraintStart_toEndOf="@+id/kindsOfSportsRecyclerView"
-            app:layout_constraintTop_toTopOf="parent"
             tools:itemCount="10"
             tools:listitem="@layout/item_list_of_tournaments_new" />
 
@@ -206,6 +198,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_percent=".30" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.leanback.widget.BrowseFrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

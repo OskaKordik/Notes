@@ -26,13 +26,14 @@ abstract class UserPreferencesViewModel : BaseViewModel() {
     abstract val allUserPreferencesInTournament: LiveData<List<PreferencesTournament>>
     abstract val allUserPreferencesInSport: LiveData<List<PreferencesSport>>
     abstract val sportsSelected: LiveData<SportTranslateDTO>
+    abstract val sportsViewSelected: LiveData<Int>
     abstract val sportsList: LiveData<List<SportTranslateDTO>>
 
 
     abstract fun applyMypreferencesClicked()
     abstract fun findClicked(text: String, lang: String): Flow<List<PreferencesTournament>>
     abstract fun kindOfSportClicked(sport: SportTranslateDTO)
-    abstract fun kindOfSportSelected(sport: SportTranslateDTO?)
+    abstract fun kindOfSportSelected(sport: SportTranslateDTO?, viewId: Int?)
     abstract fun listOfTournamentsClicked(tournament: TournamentTranslateDTO)
     abstract fun onFinishClicked()
     abstract fun getTranslateLexic(sports: List<PreferencesSport>, lang: String)
@@ -48,10 +49,7 @@ class UserPreferencesViewModelImpl(
 ) : UserPreferencesViewModel() {
     override val sportsList = MutableLiveData<List<SportTranslateDTO>>()
     override val sportsSelected = MutableLiveData<SportTranslateDTO>()
-
-
-    //    private val filtered: LiveData<List<PreferencesTournament>>
-//        get() = tournamentUseCase.searchUserPreferencesInTournamentFlow(text, sportsSelected.value?.id , lang).asLiveData()
+    override val sportsViewSelected = MutableLiveData<Int>()
     override val allUserPreferencesInTournament: LiveData<List<PreferencesTournament>>
         get() = tournamentUseCase.getAllUserPreferencesInTournamentFlow().asLiveData()
     override val allUserPreferencesInSport: LiveData<List<PreferencesSport>>
@@ -74,8 +72,9 @@ class UserPreferencesViewModelImpl(
         }
     }
 
-    override fun kindOfSportSelected(sport: SportTranslateDTO?) {
-        sportsSelected.value = sport
+    override fun kindOfSportSelected(sport: SportTranslateDTO?, viewId: Int?) {
+        sportsSelected.postValue(sport)
+        sportsViewSelected.postValue(viewId)
     }
 
     override fun listOfTournamentsClicked(tournament: TournamentTranslateDTO) {

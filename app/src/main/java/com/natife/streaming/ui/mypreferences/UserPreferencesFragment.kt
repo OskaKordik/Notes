@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.activity.addCallback
 import androidx.core.view.isVisible
 import androidx.leanback.widget.BaseGridView
+import androidx.leanback.widget.BrowseFrameLayout
 import androidx.lifecycle.lifecycleScope
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseFragment
@@ -20,9 +21,11 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_mypreferences_new.*
 import kotlinx.android.synthetic.main.fragment_mypreferences_new.load_progress
 import kotlinx.android.synthetic.main.fragment_search_new.*
+import kotlinx.android.synthetic.main.fragment_settings.view.*
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 
 class UserPreferencesFragment : BaseFragment<UserPreferencesViewModel>() {
@@ -42,7 +45,6 @@ class UserPreferencesFragment : BaseFragment<UserPreferencesViewModel>() {
     @SuppressLint("RestrictedApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         //Heading in the predominant team color
         topConstraintLayout.predominantColorToGradient("#CB312A")
         load_progress.visibility = View.VISIBLE
@@ -51,19 +53,14 @@ class UserPreferencesFragment : BaseFragment<UserPreferencesViewModel>() {
         kindsOfSportsRecyclerView.setNumColumns(1)
         kindsOfSportsRecyclerView.focusScrollStrategy = BaseGridView.FOCUS_SCROLL_ITEM
 
-
         listOfTournamentsRecyclerView.isFocusable = false
         listOfTournamentsRecyclerView.adapter = tournamentAdapter
         listOfTournamentsRecyclerView.setNumColumns(2)
         listOfTournamentsRecyclerView.focusScrollStrategy = BaseGridView.FOCUS_SCROLL_ITEM
         listOfTournamentsRecyclerView.onRequestFocusInDescendants(View.FOCUS_LEFT, null)
 
-        search_pref_text_field?.editText?.onFocusChangeListener =
-            View.OnFocusChangeListener { v, hasFocus ->
-                if (!hasFocus) v.hideKeyboard()
-            }
         search_pref_text_field?.editText?.setOnEditorActionListener(
-            TextView.OnEditorActionListener { _, actionId, _ ->
+            TextView.OnEditorActionListener { v, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     load_progress.visibility = View.VISIBLE
                     searchJob?.cancel()
@@ -82,10 +79,7 @@ class UserPreferencesFragment : BaseFragment<UserPreferencesViewModel>() {
                         }
                     }
                     load_progress.visibility = View.GONE
-                    search_pref_text_field?.editText?.apply {
-//                        text = null
-                        this.clearFocus()
-                    }
+                    v.hideKeyboard()
                     return@OnEditorActionListener true
                 }
                 false
@@ -100,25 +94,23 @@ class UserPreferencesFragment : BaseFragment<UserPreferencesViewModel>() {
         }
 
         subscribe(viewModel.sportsSelected) { selected ->
-            if (!isSearchMode) {
-                sortJob?.cancel()
-                sortJob = lifecycleScope.launch {
-                    load_progress.visibility = View.VISIBLE
-                    kindsOfSportsRecyclerView.scrollToPosition(selected.id - 1)
-                    viewModel.sportsList.value?.forEach { s ->
-                        kindsOfSportsRecyclerView.layoutManager?.findViewByPosition(s.id - 1)
-                            ?.apply {
-                                isSelected = s.id == selected.id
-                            }
-                    }
-                    val list = temporalList?.filter { tournament ->
-                        tournament.sport == selected.id
-                    }
-
-                    tournamentAdapter.submitList(list)
-                    load_progress.visibility = View.GONE
+            sortJob?.cancel()
+            sortJob = lifecycleScope.launch {
+                load_progress.visibility = View.VISIBLE
+                kindsOfSportsRecyclerView.scrollToPosition(selected.id - 1)
+                viewModel.sportsList.value?.forEach { s ->
+                    kindsOfSportsRecyclerView.layoutManager?.findViewByPosition(s.id - 1)
+                        ?.apply {
+                            isSelected = s.id == selected.id
+                        }
                 }
-            } else sortJob?.cancel()
+                val list = temporalList?.filter { tournament ->
+                    tournament.sport == selected.id
+                }
+
+                tournamentAdapter.submitList(list)
+                load_progress.visibility = View.GONE
+            }
         }
 
         subscribe(viewModel.allUserPreferencesInTournament) {
@@ -133,7 +125,10 @@ class UserPreferencesFragment : BaseFragment<UserPreferencesViewModel>() {
                     } else {
                         tournamentAdapter.submitList(temporalList)
                     }
-                    viewModel.kindOfSportSelected(viewModel.sportsSelected.value)
+                    viewModel.kindOfSportSelected(
+                        viewModel.sportsSelected.value,
+                        viewModel.sportsViewSelected.value
+                    )
                     load_progress.visibility = View.GONE
                 }
             } else sortJob?.cancel()
@@ -154,6 +149,19 @@ class UserPreferencesFragment : BaseFragment<UserPreferencesViewModel>() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             viewModel.onFinishClicked()
         }
+
+        listItem.onFocusSearchListener =
+            BrowseFrameLayout.OnFocusSearchListener { focused, direction ->
+                Timber.tag("TAG").d("$focused, $direction")
+                if (listOfTournamentsRecyclerView.hasFocus() && direction == 17) {
+                    val temp = (viewModel.sportsViewSelected.value) ?: 0
+                    kindsOfSportsRecyclerView.scrollToPosition(temp)
+                    return@OnFocusSearchListener kindsOfSportsRecyclerView.getChildAt(
+                        kindsOfSportsRecyclerView.selectedPosition
+                    )
+                } else
+                    return@OnFocusSearchListener null
+            }
     }
 }
 
