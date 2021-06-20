@@ -23,10 +23,10 @@ import kotlinx.coroutines.flow.Flow
 
 
 abstract class UserPreferencesViewModel : BaseViewModel() {
-    abstract val allUserPreferencesInTournament: LiveData<List<PreferencesTournament>>
+    //    abstract val allUserPreferencesInTournament: LiveData<List<PreferencesTournament>>
     abstract val allUserPreferencesInSport: LiveData<List<PreferencesSport>>
     abstract val sportsSelected: LiveData<SportTranslateDTO>
-    abstract val sportsViewSelected: LiveData<Int>
+    abstract val sportsViewSelectedPosition: Int?
     abstract val sportsList: LiveData<List<SportTranslateDTO>>
 
 
@@ -49,9 +49,10 @@ class UserPreferencesViewModelImpl(
 ) : UserPreferencesViewModel() {
     override val sportsList = MutableLiveData<List<SportTranslateDTO>>()
     override val sportsSelected = MutableLiveData<SportTranslateDTO>()
-    override val sportsViewSelected = MutableLiveData<Int>()
-    override val allUserPreferencesInTournament: LiveData<List<PreferencesTournament>>
-        get() = tournamentUseCase.getAllUserPreferencesInTournamentFlow().asLiveData()
+    override var sportsViewSelectedPosition: Int? = null
+
+    //    override val allUserPreferencesInTournament: LiveData<List<PreferencesTournament>>
+//        get() = tournamentUseCase.getAllUserPreferencesInTournamentFlow().asLiveData()
     override val allUserPreferencesInSport: LiveData<List<PreferencesSport>>
         get() = getSportUseCase.getAllUserPreferencesInSportFlow().asLiveData()
 
@@ -73,8 +74,13 @@ class UserPreferencesViewModelImpl(
     }
 
     override fun kindOfSportSelected(sport: SportTranslateDTO?, viewId: Int?) {
+//        if (sport ==null && viewId ==null) {
+//            sportsSelected.value = sport
+//            sportsViewSelectedPosition = viewId
+//        } else{
         sportsSelected.postValue(sport)
-        sportsViewSelected.postValue(viewId)
+        sportsViewSelectedPosition = viewId
+//        }
     }
 
     override fun listOfTournamentsClicked(tournament: TournamentTranslateDTO) {

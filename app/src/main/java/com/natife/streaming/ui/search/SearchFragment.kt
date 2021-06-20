@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView.OnEditorActionListener
+import androidx.constraintlayout.widget.Group
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.leanback.widget.BrowseFrameLayout
@@ -91,6 +92,7 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
         (activity as MainActivity).search_background_group?.visibility = View.VISIBLE
         //Heading in the predominant team color
         (activity as MainActivity).mainMotion?.predominantColorToGradient("#CB312A")
+        (activity as MainActivity).search_text_field?.editText?.setText("")
         searchTabNames = resources.getStringArray(R.array.search_names)
         val searchFragmentAdapter = SearchFragmentAdapter(
             childFragmentManager,
@@ -134,9 +136,12 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
                                 else -> return@OnFocusSearchListener focused
                             }
                         }
-                        else -> {
-                            return@OnFocusSearchListener tab_layout_search.view
+                        17 -> {
+                            if (focused == search_tab_layout.getTabAt(0)?.view) return@OnFocusSearchListener requireActivity().findViewById<Group>(
+                                R.id.menuHome
+                            ) else return@OnFocusSearchListener null
                         }
+                        else -> return@OnFocusSearchListener null
                     }
                 else
                     return@OnFocusSearchListener null

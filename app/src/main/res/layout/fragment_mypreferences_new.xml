@@ -144,7 +144,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="16dp"
             android:indeterminateTint="@color/white"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
         <androidx.leanback.widget.VerticalGridView
             android:id="@+id/kindsOfSportsRecyclerView"

@@ -1,11 +1,11 @@
 <resources>
-    <string name="app_name" translatable="false">Streaming</string>
-    <string name="login" translatable="false">Login</string>
-    <string name="e_mail" translatable="false">E-mail</string>
-    <string name="instat_tv" translatable="false">Если у Вас нет логина и пароля, то пройдите на сайт <a href="https://staging.instat.tv/login">instat.tv</a> и зарегистрируйтесь</string>
-    <string name="instat" translatable="false">Instat</string>
-    <string name="score" translatable="false">Счет</string>
-    <string name="add_to_favorite" translatable="false">Добавить в избранное</string>
+    <!--    <string name="app_name" translatable="false">Streaming</string>-->
+    <!--    <string name="login" translatable="false">Login</string>-->
+    <!--    <string name="e_mail" translatable="false">E-mail</string>-->
+    <!--    <string name="instat_tv" translatable="false">Если у Вас нет логина и пароля, то пройдите на сайт <a href="https://staging.instat.tv/login">instat.tv</a> и зарегистрируйтесь</string>-->
+    <!--    <string name="instat" translatable="false">Instat</string>-->
+    <!--    <string name="score" translatable="false">Счет</string>-->
+    <!--    <string name="add_to_favorite" translatable="false">Добавить в избранное</string>-->
     <string name="whitespace" translatable="false">Пробел</string>
     <string name="clear" translatable="false">Очистить</string>
 
@@ -81,6 +81,7 @@
     <!--Alert-->
     <string name="alert_text">Sorry, this match is \nnot available in your country</string>
     <string name="alert_title">Not available</string>
+    <!--Account -->
     <string name="text_phone">Phone: </string>
     <string name="text_email">E-mail: </string>
     <string name="text_country">Country: </string>

@@ -7,20 +7,29 @@
     android:layout_height="match_parent"
     tools:context=".ui.search.SearchResultFragment">
 
-    <androidx.leanback.widget.VerticalGridView
-        android:id="@+id/tab_search_recycler"
+    <androidx.leanback.widget.BrowseFrameLayout
+        android:id="@+id/tab_search_recycler_layout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:focusable="false"
-        app:focusOutEnd="false"
-        app:focusOutFront="true"
-        app:focusOutSideEnd="false"
-        app:focusOutSideStart="false"
+        android:descendantFocusability="afterDescendants"
+        android:focusable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-        app:layout_constraintStart_toStartOf="@+id/guideline_start"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/item_list_of_tournaments_new" />
+        app:tabIndicatorColor="@android:color/transparent">
+
+        <androidx.leanback.widget.VerticalGridView
+            android:id="@+id/tab_search_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:focusable="false"
+            app:focusOutEnd="false"
+            app:focusOutFront="true"
+            app:focusOutSideEnd="false"
+            app:focusOutSideStart="true"
+            tools:listitem="@layout/item_list_of_tournaments_new" />
+    </androidx.leanback.widget.BrowseFrameLayout>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_start"
