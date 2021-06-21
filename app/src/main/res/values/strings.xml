@@ -107,4 +107,5 @@
         <item>English</item>
         <item>Русский</item>
     </string-array>
+    <string name="text_choose_quality">Choose quality</string>
 </resources>

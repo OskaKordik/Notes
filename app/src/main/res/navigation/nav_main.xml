@@ -55,7 +55,20 @@
             <argument
                 android:name="setup"
                 app:argType="com.natife.streaming.data.player.PlayerSetup" />
+            <action
+                android:id="@+id/action_playerFragment_to_videoQualityDialog"
+                app:destination="@id/videoQualityDialog" />
         </fragment>
+
+        <dialog
+            android:id="@+id/videoQualityDialog"
+            android:name="com.natife.streaming.ui.player.menu.quality.VideoQualityDialog"
+            android:label="VideoQualityDialog"
+            tools:layout="@layout/dialog_video_quality">
+            <argument
+                android:name="params"
+                app:argType="com.natife.streaming.ui.player.menu.quality.VideoQualityParams" />
+        </dialog>
 
         <fragment
             android:id="@+id/tournamentFragment"

@@ -40,6 +40,9 @@ import com.natife.streaming.ui.payStory.PayStoryViewModelImpl
 import com.natife.streaming.ui.player.PlayerFragmentArgs
 import com.natife.streaming.ui.player.PlayerViewModel
 import com.natife.streaming.ui.player.PlayerViewModelImpl
+import com.natife.streaming.ui.player.menu.quality.VideoQualityDialogArgs
+import com.natife.streaming.ui.player.menu.quality.VideoQualityViewModel
+import com.natife.streaming.ui.player.menu.quality.VideoQualityViewModelImpl
 import com.natife.streaming.ui.popupmatch.statistics.PopupStatisticsFragmentArgs
 import com.natife.streaming.ui.popupmatch.statistics.PopupStatisticsViewModel
 import com.natife.streaming.ui.popupmatch.statistics.PopupStatisticsViewModelImpl
@@ -202,7 +205,12 @@ val viewModelModule = module {
 //    }
 //    viewModel<TypeDialogViewModel> { TypeDialogViewModelImpl(get(), get(), get()) }
 //    viewModel<GenderViewModel> { GenderViewModelImpl(get(), get(), get()) }
-    viewModel<PlayerViewModel> { (args: PlayerFragmentArgs) -> PlayerViewModelImpl(args.setup) }
+    viewModel<PlayerViewModel> { (args: PlayerFragmentArgs) ->
+        PlayerViewModelImpl(
+            args.setup,
+            get()
+        )
+    }
     viewModel<SettingsViewModel> { SettingsViewModelImpl(get(), get(), get(), get(), get(), get()) }
     viewModel<FavoriteViewModel> {
         FavoriteViewModelImpl(
@@ -213,6 +221,10 @@ val viewModelModule = module {
             get(),
             get()
         )
+    }
+
+    viewModel<VideoQualityViewModel> { (args: VideoQualityDialogArgs) ->
+        VideoQualityViewModelImpl(args.params)
     }
 }
 
@@ -282,7 +294,7 @@ val useCaseModule = module {
     factory<PlayerUseCase> { PlayerUseCaseImpl(get(), get()) }
     factory<ProfileUseCase> { ProfileUseCaseImpl(get(), get(), get(), get()) }
     factory<ProfileColorUseCase> { ProfileColorUseCaseImpl(get()) }
-
+    factory<GetVideoQualityUseCase> { GetVideoQualityImpl() }
 }
 
 val mockModule = module {
