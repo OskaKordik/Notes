@@ -1,5 +1,5 @@
 <resources>
-    <!--    <string name="app_name" translatable="false">Streaming</string>-->
+        <string name="app_name" translatable="false">Streaming</string>
     <!--    <string name="login" translatable="false">Login</string>-->
     <!--    <string name="e_mail" translatable="false">E-mail</string>-->
     <!--    <string name="instat_tv" translatable="false">Если у Вас нет логина и пароля, то пройдите на сайт <a href="https://staging.instat.tv/login">instat.tv</a> и зарегистрируйтесь</string>-->
