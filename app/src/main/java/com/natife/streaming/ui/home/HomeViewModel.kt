@@ -56,37 +56,9 @@ class HomeViewModelImpl(
         }
     }
 
-//    private fun filterLive(data: List<Match>): List<Match> {
-//
-//        return when (live) {
-//            LiveType.LIVE -> data.filter { it.live }
-//            LiveType.SOON -> data.filter { it.date.fromResponse().time - Date().time in 0..(1000 * 60 * 60) }
-//            LiveType.FINISHED -> data.filter { Date().time - it.date.fromResponse().time > 0 || it.storage || it.hasVideo }
-//            else -> data
-//        }
-//    }
-
-//    override fun toCalendar() {
-//        router.navigate(R.id.action_homeFragment_to_calendarFragment)
-//    }
-//
-//    override fun nextDay() {
-//        val calendar = Calendar.getInstance()
-//        calendar.time = settingsPrefs.getDate()?.toDate() ?: Date()
-//        calendar.add(Calendar.DAY_OF_YEAR, 1)
-//        settingsPrefs.saveDate(calendar.time.time)
-//    }
-//
-//    override fun previousDay() {
-//        val calendar = Calendar.getInstance()
-//        calendar.time = settingsPrefs.getDate()?.toDate() ?: Date()
-//        calendar.add(Calendar.DAY_OF_YEAR, -1)
-//        settingsPrefs.saveDate(calendar.time.time)
-//    }
-
     override fun toMatchProfile(match: Match) {
         when {
-            match.live -> {
+            (match.live && match.subscribed) -> {
                 router.navigate(
                     HomeFragmentDirections.actionHomeFragmentToLiveFragment(
                         sportId = match.sportId,
@@ -95,11 +67,32 @@ class HomeViewModelImpl(
                     )
                 )
             }
-            match.hasVideo -> {
+            (match.hasVideo && match.subscribed) -> {
                 router.navigate(
                     HomeFragmentDirections.actionHomeFragmentToPopupVideoFragment(
                         sportId = match.sportId,
                         matchId = match.id
+                    )
+                )
+            }
+            (match.live && !match.subscribed) -> {
+                router.navigate(
+                    HomeFragmentDirections.actionHomeFragmentToBillingFragment(
+                        sportId = match.sportId,
+                        matchId = match.id,
+                        live = match.live,
+                        title = "${match.team1} - ${match.team2}"
+                    )
+                )
+            }
+            (match.hasVideo && !match.subscribed) -> {
+                router.navigate(
+                    HomeFragmentDirections.actionHomeFragmentToBillingFragment(
+                        sportId = match.sportId,
+                        matchId = match.id,
+                        live = false,
+                        title = "${match.team1} - ${match.team2}"
+
                     )
                 )
             }

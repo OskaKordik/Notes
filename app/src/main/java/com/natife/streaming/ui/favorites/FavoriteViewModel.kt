@@ -90,12 +90,49 @@ class FavoriteViewModelImpl(
 
 
     override fun goToProfile(match: Match) {
-        router.navigate(
-            FavoritesFragmentDirections.actionFavoritesFragmentToPopupVideo( // actionFavoritesFragmentToMatchProfileFragment
-                matchId = match.id,
-                sportId = match.sportId
-            )
-        )
+        when {
+            (match.live && match.subscribed) -> {
+                router.navigate(
+                    FavoritesFragmentDirections.actionFavoritesFragmentToLiveFragment(
+                        sportId = match.sportId,
+                        matchId = match.id,
+                        title = "${match.team1} - ${match.team2}"
+                    )
+                )
+            }
+            (match.hasVideo && match.subscribed) -> {
+                router.navigate(
+                    FavoritesFragmentDirections.actionFavoritesFragmentToPopupVideo(
+                        sportId = match.sportId,
+                        matchId = match.id
+                    )
+                )
+            }
+            (match.live && !match.subscribed) -> {
+                router.navigate(
+                    FavoritesFragmentDirections.actionFavoritesFragmentToBillingFragment(
+                        sportId = match.sportId,
+                        matchId = match.id,
+                        live = match.live,
+                        title = "${match.team1} - ${match.team2}"
+                    )
+                )
+            }
+            (match.hasVideo && !match.subscribed) -> {
+                router.navigate(
+                    FavoritesFragmentDirections.actionFavoritesFragmentToBillingFragment(
+                        sportId = match.sportId,
+                        matchId = match.id,
+                        live = false,
+                        title = "${match.team1} - ${match.team2}"
+
+                    )
+                )
+            }
+            else -> return
+        }
+
+
     }
 
     override fun initialization() {

@@ -20,6 +20,9 @@ import com.natife.streaming.preferenses.*
 import com.natife.streaming.router.Router
 import com.natife.streaming.ui.account.AccountViewModel
 import com.natife.streaming.ui.account.AccountViewModelImpl
+import com.natife.streaming.ui.billing.BillingFragmentArgs
+import com.natife.streaming.ui.billing.BillingViewModel
+import com.natife.streaming.ui.billing.BillingViewModelImpl
 import com.natife.streaming.ui.calendar.CalendarViewModel
 import com.natife.streaming.ui.calendar.CalendarViewModelImpl
 import com.natife.streaming.ui.favorites.FavoriteViewModel
@@ -174,6 +177,14 @@ val viewModelModule = module {
             get(),
             get(),
             get(),
+        )
+    }
+
+    viewModel<BillingViewModel> { (args: BillingFragmentArgs) ->
+        BillingViewModelImpl(
+            args.sportId,
+            args.matchId,
+            get()
         )
     }
 

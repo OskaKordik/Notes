@@ -47,6 +47,9 @@
             <action
                 android:id="@+id/action_homeFragment_to_liveFragment"
                 app:destination="@id/liveFragment" />
+            <action
+                android:id="@+id/action_homeFragment_to_billingFragment"
+                app:destination="@id/billingFragment" />
         </fragment>
         <fragment
             android:id="@+id/playerFragment"
@@ -80,6 +83,9 @@
             <action
                 android:id="@+id/action_tournamentFragment_to_popupVideo"
                 app:destination="@id/popupVideo" />
+            <action
+                android:id="@+id/action_tournamentFragment_to_billingFragment"
+                app:destination="@id/billingFragment" />
         </fragment>
 
         <fragment
@@ -243,6 +249,12 @@
             <action
                 android:id="@+id/action_favoritesFragment_to_popupVideo"
                 app:destination="@id/popupVideo" />
+            <action
+                android:id="@+id/action_favoritesFragment_to_billingFragment"
+                app:destination="@id/billingFragment" />
+            <action
+                android:id="@+id/action_favoritesFragment_to_liveFragment"
+                app:destination="@id/liveFragment" />
         </fragment>
         <navigation
             android:id="@+id/popupVideo"
@@ -354,6 +366,31 @@
             android:name="com.natife.streaming.ui.payStory.PayStoryFragment"
             android:label="fragment_pay_story"
             tools:layout="@layout/fragment_pay_story" />
+        <fragment
+            android:id="@+id/billingFragment"
+            android:name="com.natife.streaming.ui.billing.BillingFragment"
+            android:label="fragment_billing"
+            tools:layout="@layout/fragment_billing">
+            <argument
+                android:name="matchId"
+                app:argType="integer" />
+            <argument
+                android:name="sportId"
+                app:argType="integer" />
+            <argument
+                android:name="live"
+                app:argType="boolean"
+                android:defaultValue="false" />
+            <argument
+                android:name="title"
+                app:argType="string" />
+            <action
+                android:id="@+id/action_billingFragment_to_popupVideo"
+                app:destination="@id/popupVideo" />
+            <action
+                android:id="@+id/action_billingFragment_to_liveFragment"
+                app:destination="@id/liveFragment" />
+        </fragment>
 
     </navigation>
 

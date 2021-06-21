@@ -78,4 +78,9 @@
     <string name="pay_story">История платежей</string>
     <string name="text_close_app">Вы уверены, что хотите выйти из программы?</string>
     <string name="text_close_app_title">Подтверждение</string>
+    <string-array name="billing_type_names">
+        <item>Месяц</item>
+        <item>Год</item>
+        <item>Плата за просмотр</item>
+    </string-array>
 </resources>

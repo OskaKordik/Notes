@@ -211,5 +211,48 @@ class TournamentViewModel(
                 match.sportId
             )
         )
+
+
+        when {
+            (match.live && match.subscribed) -> {
+                router.navigate(
+                    TournamentFragmentDirections.actionTournamentFragmentToLiveFragment(
+                        sportId = match.sportId,
+                        matchId = match.id,
+                        title = "${match.team1} - ${match.team2}"
+                    )
+                )
+            }
+            (match.hasVideo && match.subscribed) -> {
+                router.navigate(
+                    TournamentFragmentDirections.actionTournamentFragmentToPopupVideo(
+                        sportId = match.sportId,
+                        matchId = match.id
+                    )
+                )
+            }
+            (match.live && !match.subscribed) -> {
+                router.navigate(
+                    TournamentFragmentDirections.actionTournamentFragmentToBillingFragment(
+                        sportId = match.sportId,
+                        matchId = match.id,
+                        live = match.live,
+                        title = "${match.team1} - ${match.team2}"
+                    )
+                )
+            }
+            (match.hasVideo && !match.subscribed) -> {
+                router.navigate(
+                    TournamentFragmentDirections.actionTournamentFragmentToBillingFragment(
+                        sportId = match.sportId,
+                        matchId = match.id,
+                        live = false,
+                        title = "${match.team1} - ${match.team2}"
+
+                    )
+                )
+            }
+            else -> return
+        }
     }
 }

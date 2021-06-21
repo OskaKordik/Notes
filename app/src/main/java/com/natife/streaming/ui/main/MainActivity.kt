@@ -1,11 +1,11 @@
 package com.natife.streaming.ui.main
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.View
-import android.app.AlertDialog
-import android.content.DialogInterface
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.view.isVisible
 import androidx.leanback.widget.BrowseFrameLayout
@@ -162,7 +162,8 @@ class MainActivity : BaseActivity<MainViewModel>() {
             R.id.playerFragment,
             R.id.calendarFragment,
             R.id.popupVideoFragment,
-            R.id.popupStatisticsFragment -> false
+            R.id.popupStatisticsFragment,
+            R.id.billingFragment -> false
             else -> true
         }
 
@@ -176,7 +177,8 @@ class MainActivity : BaseActivity<MainViewModel>() {
             R.id.matchSettingsFragment,
             R.id.watchFragment,
             R.id.playerFragment,
-            R.id.calendarFragment -> false
+            R.id.calendarFragment,
+            R.id.billingFragment -> false
             else -> true
         }
 
