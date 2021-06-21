@@ -34,6 +34,15 @@ class Router : KoinComponent {
         navController.navigateUp()
     }
 
+    fun popBackStack() {
+        try {
+            val navController = activity?.findNavController(navHostId!!)
+            navController?.popBackStack()
+        } catch (exc: Exception) {
+            Timber.e(exc)
+        }
+    }
+
     fun navigate(@IdRes resId: Int) {
         Timber.e(" ${activity} $navHostId ")
         try {

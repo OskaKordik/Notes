@@ -3,8 +3,9 @@ package com.natife.streaming.ui.search
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.widget.LinearLayout
 import android.widget.TextView.OnEditorActionListener
-import androidx.constraintlayout.widget.Group
+import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.leanback.widget.BrowseFrameLayout
@@ -30,6 +31,7 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
     override fun getLayoutRes(): Int = R.layout.fragment_search_new
     private lateinit var searchTabNames: Array<String>
     private val searchResultViewModel: SearchResultViewModel by navGraphViewModels(R.id.nav_main)
+    private var positionMotionLayout: String? = null
     private var page = 0
     val onPage = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
@@ -57,33 +59,48 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
 //        //putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale("RU"))
 //    }
 
-//    private fun applyAlpha(alpha: Float){
+    //    private fun applyAlpha(alpha: Float){
 ////        (activity as MainActivity).logo?.alpha = alpha
 //        buttonType?.alpha = 1 - alpha
 //        buttonSport?.alpha = 1 - alpha
 //        buttonGender?.alpha = 1 - alpha
 //    }
-//    private val transitionListener = object :
-//        MotionLayout.TransitionListener {
-//        override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {
-//        }
-//
-//        override fun onTransitionChange(p0: MotionLayout?, p1: Int, p2: Int, p3: Float) {
-//            applyAlpha(p3)
-//        }
-//
-//        override fun onTransitionCompleted(p0: MotionLayout?, p1: Int) {
-//        }
-//
-//        override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {
-//        }
-//
-//    }
+    private val transitionListener = object :
+        MotionLayout.TransitionListener {
+        override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {
+        }
 
-//    override fun onResume() {
-//        ((activity as MainActivity).mainMotion as MotionLayout).addTransitionListener(transitionListener)
-//        super.onResume()
-//    }
+        override fun onTransitionChange(p0: MotionLayout?, p1: Int, p2: Int, p3: Float) {
+        }
+
+        override fun onTransitionCompleted(p0: MotionLayout?, p1: Int) {
+            when (p1) {
+                R.id.start -> {
+                    if (positionMotionLayout.equals("end")) {
+                        search_tab_layout?.getTabAt(0)?.view?.let {
+                            it.requestFocus()
+                            it.isSelected = true
+                        }
+                    }
+                    positionMotionLayout = "start"
+                }
+                R.id.end -> {
+                    positionMotionLayout = "end"
+                }
+            }
+        }
+
+        override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {
+        }
+
+    }
+
+    override fun onResume() {
+        ((activity as MainActivity).mainMotion as MotionLayout).addTransitionListener(
+            transitionListener
+        )
+        super.onResume()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -137,9 +154,11 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
                             }
                         }
                         17 -> {
-                            if (focused == search_tab_layout.getTabAt(0)?.view) return@OnFocusSearchListener requireActivity().findViewById<Group>(
-                                R.id.menuHome
-                            ) else return@OnFocusSearchListener null
+                            if (focused == search_tab_layout.getTabAt(0)?.view) {
+                                return@OnFocusSearchListener requireActivity().findViewById<LinearLayout>(
+                                    R.id.menuHome
+                                )
+                            } else return@OnFocusSearchListener null
                         }
                         else -> return@OnFocusSearchListener null
                     }
@@ -297,11 +316,6 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
         search_pager.unregisterOnPageChangeCallback(onPage)
     }
 
-    //    override fun onDestroy() {
-//        speechRecognizer.stopListening()
-//
-//        super.onDestroy()
-//    }
     inner class SearchFragmentAdapter(
         fragmentManager: FragmentManager,
         lifecycle: Lifecycle,

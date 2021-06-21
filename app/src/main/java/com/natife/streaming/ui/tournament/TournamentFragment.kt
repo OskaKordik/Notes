@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
+import androidx.activity.addCallback
 import androidx.core.content.ContextCompat
 import androidx.leanback.widget.BaseGridView
 import com.natife.streaming.R
@@ -169,6 +170,10 @@ class TournamentFragment : BaseFragment<TournamentViewModel>() {
 
 
         subscribe(viewModel.list, adapter::submitList)
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            viewModel.onFinishClicked()
+        }
     }
 
     override fun getParameters(): ParametersDefinition = {
