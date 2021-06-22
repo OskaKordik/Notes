@@ -40,3 +40,6 @@ const val  API_PLAYER_MATCHES = "get_player_matches"
 const val  API_TEAM_MATCHES = "get_team_matches"
 const val  API_TEAM_INFO = "get_team_info"
 
+const val VIDEO_1080 = "1080"
+const val VIDEO_720 = "720"
+const val VIDEO_480 = "480"

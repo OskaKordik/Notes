@@ -21,8 +21,8 @@
         style="@style/ExoMediaButton.Pause"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="4dp"
         android:focusable="true"
+        android:padding="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,24 +39,14 @@
             android:id="@+id/menuPlayer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_menu_player"
-            android:focusable="false"
-            android:nextFocusDown="@+id/progress"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.google.android.exoplayer2.ui.DefaultTimeBar
-            android:id="@+id/exo_progress"
-            android:layout_width="match_parent"
-            android:layout_height="26dp"
-            android:layout_weight="1"
+            android:backgroundTint="@color/button_menu_background_state"
             android:focusable="true"
-            app:played_color="#EACB6F"
-            app:scrubber_drawable="@drawable/player_seekbar_thumb"
-            android:progressTint="#EACB6F"
-            android:nextFocusUp="@+id/menuPlayer"
-            android:thumbTint="@color/white"
-            app:layout_constraintTop_toBottomOf="@+id/menuPlayer" />
+            android:background="@drawable/background_menu_button_plater"
+            android:nextFocusDown="@+id/progress"
+            android:src="@drawable/ic_menu_player"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="contentDescription" />
 
         <SeekBar
             android:id="@+id/progress"
@@ -64,9 +54,9 @@
             android:layout_height="26dp"
             android:layout_weight="1"
             android:focusable="true"
-            android:thumb="@drawable/player_seekbar_thumb"
-            android:progressTint="#EACB6F"
             android:nextFocusUp="@+id/menuPlayer"
+            android:progressTint="#EACB6F"
+            android:thumb="@drawable/player_seekbar_thumb"
             app:layout_constraintTop_toBottomOf="@+id/menuPlayer" />
 
         <TextView
@@ -77,6 +67,7 @@
             app:layout_constraintEnd_toStartOf="@+id/slashTextView"
             app:layout_constraintTop_toTopOf="@+id/slashTextView"
             tools:text="00:00" />
+
         <TextView
             android:id="@+id/exo_position"
             android:layout_width="wrap_content"
@@ -85,6 +76,7 @@
             app:layout_constraintEnd_toStartOf="@+id/slashTextView1"
             app:layout_constraintTop_toTopOf="@+id/slashTextView1"
             tools:text="00:00" />
+
         <TextView
             android:id="@+id/slashTextView"
             android:layout_width="wrap_content"
@@ -93,6 +85,7 @@
             android:textColor="@color/white"
             app:layout_constraintEnd_toStartOf="@+id/duration"
             app:layout_constraintTop_toTopOf="@+id/duration" />
+
         <TextView
             android:id="@+id/slashTextView1"
             android:layout_width="wrap_content"
@@ -101,6 +94,7 @@
             android:textColor="@color/white"
             app:layout_constraintEnd_toStartOf="@+id/exo_duration"
             app:layout_constraintTop_toTopOf="@+id/exo_duration" />
+
         <TextView
             android:id="@+id/exo_duration"
             android:layout_width="wrap_content"
@@ -127,12 +121,26 @@
             android:id="@+id/groupFragments"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:constraint_referenced_ids="slashTextView,position,progress,duration"/>
+            app:constraint_referenced_ids="slashTextView,position,progress,duration" />
+
         <androidx.constraintlayout.widget.Group
             android:id="@+id/groupFull"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:constraint_referenced_ids="slashTextView1,exo_position,exo_progress,exo_duration"/>
+            app:constraint_referenced_ids="slashTextView1,exo_position,exo_progress,exo_duration" />
+
+        <com.google.android.exoplayer2.ui.DefaultTimeBar
+            android:id="@+id/exo_progress"
+            android:layout_width="match_parent"
+            android:layout_height="26dp"
+            android:layout_weight="1"
+            android:focusable="true"
+            android:nextFocusUp="@+id/menuPlayer"
+            android:progressTint="#EACB6F"
+            android:thumbTint="@color/white"
+            app:layout_constraintTop_toBottomOf="@+id/menuPlayer"
+            app:played_color="#EACB6F"
+            app:scrubber_drawable="@drawable/player_seekbar_thumb" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

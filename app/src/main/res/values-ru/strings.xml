@@ -83,4 +83,5 @@
         <item>Год</item>
         <item>Плата за просмотр</item>
     </string-array>
+    <string name="text_choose_quality">Выберите качество</string>
 </resources>
