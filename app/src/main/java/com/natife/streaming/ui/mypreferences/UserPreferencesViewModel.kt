@@ -50,9 +50,6 @@ class UserPreferencesViewModelImpl(
     override val sportsList = MutableLiveData<List<SportTranslateDTO>>()
     override val sportsSelected = MutableLiveData<SportTranslateDTO>()
     override var sportsViewSelectedPosition: Int? = null
-
-    //    override val allUserPreferencesInTournament: LiveData<List<PreferencesTournament>>
-//        get() = tournamentUseCase.getAllUserPreferencesInTournamentFlow().asLiveData()
     override val allUserPreferencesInSport: LiveData<List<PreferencesSport>>
         get() = getSportUseCase.getAllUserPreferencesInSportFlow().asLiveData()
 
@@ -74,13 +71,8 @@ class UserPreferencesViewModelImpl(
     }
 
     override fun kindOfSportSelected(sport: SportTranslateDTO?, viewId: Int?) {
-//        if (sport ==null && viewId ==null) {
-//            sportsSelected.value = sport
-//            sportsViewSelectedPosition = viewId
-//        } else{
         sportsSelected.postValue(sport)
         sportsViewSelectedPosition = viewId
-//        }
     }
 
     override fun listOfTournamentsClicked(tournament: TournamentTranslateDTO) {

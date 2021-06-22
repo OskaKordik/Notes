@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.activity.addCallback
 import androidx.core.view.isVisible
@@ -24,7 +25,7 @@ import kotlinx.android.synthetic.main.fragment_mypreferences_new.*
 import kotlinx.android.synthetic.main.fragment_search_new.*
 import kotlinx.android.synthetic.main.fragment_settings.view.*
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 
@@ -91,8 +92,8 @@ class UserPreferencesFragment : BaseFragment<UserPreferencesViewModel>() {
 
         subscribe(viewModel.sportsSelected) { selected ->
             (0..(viewModel.sportsList.value?.size ?: 0)).forEach { position ->
-                kindsOfSportsRecyclerView.layoutManager?.findViewByPosition(position)?.apply {
-                    isSelected = (position) == viewModel.sportsViewSelectedPosition
+                kindsOfSportsRecyclerView?.layoutManager?.findViewByPosition(position)?.let {
+                    it.isSelected = (position) == viewModel.sportsViewSelectedPosition
                 }
             }
             loadTournament(searchText)
@@ -123,15 +124,17 @@ class UserPreferencesFragment : BaseFragment<UserPreferencesViewModel>() {
                     viewModel.sportsViewSelectedPosition?.let {
                         kindsOfSportsRecyclerView.selectedPosition = it
                     }
-                    return@OnFocusSearchListener kindsOfSportsRecyclerView.getChildAt(
-                        kindsOfSportsRecyclerView.selectedPosition
-                    )
+                    return@OnFocusSearchListener if (kindsOfSportsRecyclerView?.selectedPosition != null) kindsOfSportsRecyclerView?.selectedPosition?.let {
+                        kindsOfSportsRecyclerView?.getChildAt(
+                            it
+                        )
+                    } else null
                 } else if (kindsOfSportsRecyclerView.hasFocus() && direction == 33) {
                     viewModel.kindOfSportSelected(null, null)
                     (0..(viewModel.sportsList.value?.size ?: 0)).forEach { position ->
-                        kindsOfSportsRecyclerView.layoutManager?.findViewByPosition(position)
-                            ?.apply {
-                                isSelected = (position) == viewModel.sportsViewSelectedPosition
+                        kindsOfSportsRecyclerView?.layoutManager?.findViewByPosition(position)
+                            ?.let {
+                                it.isSelected = (position) == viewModel.sportsViewSelectedPosition
                             }
                     }
                     return@OnFocusSearchListener null
@@ -141,23 +144,38 @@ class UserPreferencesFragment : BaseFragment<UserPreferencesViewModel>() {
     }
 
     private fun loadTournament(text: String) {
-//        load_progress.visibility = View.VISIBLE
+        requireActivity().findViewById<ProgressBar>(
+            R.id.load_progress
+        ).visibility = View.VISIBLE
+
+        tournamentAdapter.submitList(
+            null
+        )
         searchJob?.cancel()
         searchJob = lifecycleScope.launch {
             viewModel.findClicked(
                 text, resources.getString(R.string.lang)
-            ).collectLatest {
-                tournamentAdapter.submitList(
-                    it.toTournamentTranslateDTO(
-                        resources.getString(
-                            R.string.lang
-                        )
+            ).collect {
+                if (it.isEmpty()) {
+                    requireActivity().findViewById<ProgressBar>(
+                        R.id.load_progress
+                    ).visibility = View.VISIBLE
+                } else {
+                    requireActivity().findViewById<ProgressBar>(
+                        R.id.load_progress
+                    ).visibility = View.GONE
+                }
+                val list = it.toTournamentTranslateDTO(
+                    resources.getString(
+                        R.string.lang
                     )
                 )
-//                load_progress.visibility = View.GONE
+                tournamentAdapter.submitList(
+                    list
+                )
+                listOfTournamentsRecyclerView.scrollToPosition(0)
             }
         }
-
     }
 }
 

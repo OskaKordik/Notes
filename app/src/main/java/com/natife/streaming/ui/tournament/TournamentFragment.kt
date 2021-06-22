@@ -7,12 +7,10 @@ import android.view.View
 import androidx.activity.addCallback
 import androidx.core.content.ContextCompat
 import androidx.leanback.widget.BaseGridView
+import androidx.navigation.findNavController
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseFragment
-import com.natife.streaming.ext.bindFlagImage
-import com.natife.streaming.ext.predominantColorToGradient
-import com.natife.streaming.ext.subscribe
-import com.natife.streaming.ext.url
+import com.natife.streaming.ext.*
 import com.natife.streaming.ui.main.MainActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_tournament.*
@@ -172,7 +170,13 @@ class TournamentFragment : BaseFragment<TournamentViewModel>() {
         subscribe(viewModel.list, adapter::submitList)
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            viewModel.onFinishClicked()
+            if (requireActivity().findNavController(R.id.globalNavFragment)
+                    .isOnBackStack(R.id.favoritesFragment)
+            ) {
+                viewModel.onBackToFavoritesClicked()
+            } else {
+                viewModel.onBackToSearchClicked()
+            }
         }
     }
 

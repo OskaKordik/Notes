@@ -2,7 +2,6 @@ package com.natife.streaming.ui.tournament
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.natife.streaming.R
 import com.natife.streaming.base.BaseViewModel
 import com.natife.streaming.data.Tournament
 import com.natife.streaming.data.match.Match
@@ -257,7 +256,11 @@ class TournamentViewModel(
         }
     }
 
-    fun onFinishClicked() {
-        router.navigate(R.id.action_global_nav_main)
+    fun onBackToSearchClicked() {
+        router.toSearch()
+    }
+
+    fun onBackToFavoritesClicked() {
+        router.navigateUp()
     }
 }

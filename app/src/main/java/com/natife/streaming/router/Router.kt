@@ -110,6 +110,4 @@ class Router : KoinComponent {
         val activity = activity ?: return
         toast(activity.getString(res))
     }
-
-
 }
