@@ -8,9 +8,9 @@ import android.widget.TextView.OnEditorActionListener
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.activityViewModels
 import androidx.leanback.widget.BrowseFrameLayout
 import androidx.lifecycle.Lifecycle
+import androidx.navigation.navGraphViewModels
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
@@ -19,6 +19,7 @@ import com.natife.streaming.base.BaseFragment
 import com.natife.streaming.ext.hideKeyboard
 import com.natife.streaming.ext.predominantColorToGradient
 import com.natife.streaming.ext.subscribe
+import com.natife.streaming.ext.subscribeEvent
 import com.natife.streaming.ui.main.MainActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_popup_video.*
@@ -30,9 +31,9 @@ import kotlinx.android.synthetic.main.fragment_settings_page.*
 class SearchFragment : BaseFragment<SearchViewModel>() {
     override fun getLayoutRes(): Int = R.layout.fragment_search_new
     private lateinit var searchTabNames: Array<String>
-    private val searchResultViewModel: SearchResultViewModel by activityViewModels()// не работает
+    private val searchResultViewModel: SearchResultViewModel by navGraphViewModels(R.id.nav_main)
 
-    //    private val searchResultViewModel: SearchResultViewModel by navGraphViewModels(R.id.nav_main) // работает
+    //    private val searchResultViewModel: SearchResultViewModel by activityViewModels()
     private var positionMotionLayout: String? = null
     private var page = 0
     val onPage = object : ViewPager2.OnPageChangeCallback() {
@@ -161,15 +162,17 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     load_progress.visibility = View.VISIBLE
                     viewModel.search((activity as MainActivity).search_text_field?.editText?.text.toString())
+                    searchResultViewModel.setSearchText((activity as MainActivity).search_text_field?.editText?.text.toString())
                     searchResultViewModel.resetStartId()
-                    (activity as MainActivity).search_text_field?.editText?.apply {
-//                        text = null
-                        this.clearFocus()
-                    }
+                    (activity as MainActivity).search_text_field?.editText?.clearFocus()
                     return@OnEditorActionListener true
                 }
                 false
             })
+
+        subscribe(searchResultViewModel.searchText) {
+            (activity as MainActivity).search_text_field?.editText?.setText(it)
+        }
 
         subscribe(viewModel.resultsTeam) {
             searchResultViewModel.setResultsTeam(it)
@@ -197,7 +200,7 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
                 search_tab_layout.getTabAt(2)?.view?.nextFocusDownId = start[this]
             }
         }
-        subscribe(searchResultViewModel.searchResultClicked, viewModel::select)
+        subscribeEvent(searchResultViewModel.searchResultClicked, viewModel::select)
 
         search_tab_layout.getTabAt(0)?.view?.apply {
             this.requestFocus()

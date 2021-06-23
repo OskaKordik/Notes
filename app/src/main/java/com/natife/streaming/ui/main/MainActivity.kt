@@ -20,12 +20,11 @@ import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
 class MainActivity : BaseActivity<MainViewModel>() {
-
     override fun getLayoutRes() = R.layout.activity_main
-
     override fun getNavHostId() = R.id.globalNavFragment
 
     private var lastDestination = true
+
 
     @SuppressLint("UseCompatLoadingForDrawables")
     @ExperimentalStdlibApi
@@ -132,7 +131,6 @@ class MainActivity : BaseActivity<MainViewModel>() {
             }
 
         })
-
         router.addListener { controller, destination, arguments ->
             getLastDestination(destination)
             mainMenu.isVisible = visibilityDesttinationMainMenu(destination)

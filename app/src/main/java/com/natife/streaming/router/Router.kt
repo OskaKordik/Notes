@@ -44,7 +44,6 @@ class Router : KoinComponent {
     }
 
     fun navigate(@IdRes resId: Int) {
-        Timber.e(" ${activity} $navHostId ")
         try {
             val activity = activity ?: return
             activity.hideKeyboard()

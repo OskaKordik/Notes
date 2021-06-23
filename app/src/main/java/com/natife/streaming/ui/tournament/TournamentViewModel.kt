@@ -262,7 +262,8 @@ class TournamentViewModel(
     }
 
     fun onBackToSearchClicked() {
-        router.toSearch()
+//        router.toSearch()
+        router.navigate(TournamentFragmentDirections.actionTournamentFragmentToSearchFragment())
     }
 
     fun onBackToFavoritesClicked() {
