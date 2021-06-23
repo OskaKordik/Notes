@@ -11,8 +11,8 @@
         <!-- (2) -->
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
-    
-    
+
+
     <!-- new -->
     <style name="CardView" parent="Widget.MaterialComponents.CardView">
         <item name="android:paddingTop">8dp</item>
@@ -23,6 +23,13 @@
 
     <style name="Button" parent="Widget.MaterialComponents.Button">
         <item name="backgroundTint">@color/button_background_blue_w_state</item>
+        <item name="android:textColor">@color/button_text_b_w_state_new</item>
+        <item name="android:textAppearance">@style/TextAppearance.StreamingTheme.Button</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.StreamingTheme.LargeComponent</item>
+    </style>
+
+    <style name="ButtonBilling" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/button_background_g_w30_state</item>
         <item name="android:textColor">@color/button_text_b_w_state_new</item>
         <item name="android:textAppearance">@style/TextAppearance.StreamingTheme.Button</item>
         <item name="shapeAppearance">@style/ShapeAppearance.StreamingTheme.LargeComponent</item>

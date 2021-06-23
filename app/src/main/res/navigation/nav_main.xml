@@ -20,7 +20,7 @@
             tools:layout="@layout/fragment_login_new">
             <action
                 android:id="@+id/action_loginFragment_to_registerFragment"
-                app:destination="@id/registerFragment"/>
+                app:destination="@id/registerFragment" />
         </fragment>
         <fragment
             android:id="@+id/registerFragment"
@@ -49,12 +49,12 @@
                 app:destination="@id/liveFragment" />
             <action
                 android:id="@+id/action_homeFragment_to_billingFragment"
-                app:destination="@id/billingFragment" />
+                app:destination="@id/billing" />
         </fragment>
         <fragment
             android:id="@+id/playerFragment"
             android:name="com.natife.streaming.ui.player.PlayerFragment"
-            android:label="PlayerFragment" >
+            android:label="PlayerFragment">
             <argument
                 android:name="setup"
                 app:argType="com.natife.streaming.data.player.PlayerSetup" />
@@ -98,14 +98,14 @@
                 app:destination="@id/popupVideo" />
             <action
                 android:id="@+id/action_tournamentFragment_to_billingFragment"
-                app:destination="@id/billingFragment" />
+                app:destination="@id/billing" />
         </fragment>
 
         <fragment
             android:id="@+id/accountFragment"
             android:name="com.natife.streaming.ui.account.AccountFragment"
             android:label="AccountFragment"
-            tools:layout="@layout/fragment_account" >
+            tools:layout="@layout/fragment_account">
             <action
                 android:id="@+id/action_accountFragment_to_subscriptionFragment"
                 app:destination="@id/subscriptionFragment" />
@@ -121,14 +121,14 @@
         <action
             android:id="@+id/action_main_searchFragment"
             app:destination="@id/searchFragment"
+            app:launchSingleTop="true"
             app:popUpTo="@id/nav_main"
-            app:popUpToInclusive="true"
-            app:launchSingleTop="true" />
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_main_accountFragment"
+            app:destination="@id/accountFragment"
             app:popUpTo="@id/nav_main"
-            app:popUpToInclusive="true"
-            app:destination="@id/accountFragment" />
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_main_loginFragment"
             app:destination="@id/loginFragment"
@@ -136,21 +136,21 @@
         <action
             android:id="@+id/action_main_homeFragment"
             app:destination="@id/homeFragment"
+            app:launchSingleTop="true"
             app:popUpTo="@id/nav_main"
-            app:popUpToInclusive="true"
-            app:launchSingleTop="true" />
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_main_favoriteFragment"
             app:destination="@id/favoritesFragment"
+            app:launchSingleTop="true"
             app:popUpTo="@id/nav_main"
-            app:popUpToInclusive="true"
-            app:launchSingleTop="true" />
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_main_settingsFragment"
             app:destination="@id/settingsFragment"
+            app:launchSingleTop="true"
             app:popUpTo="@id/nav_main"
-            app:popUpToInclusive="true"
-            app:launchSingleTop="true" />
+            app:popUpToInclusive="true" />
 
         <fragment
             android:id="@+id/calendarFragment"
@@ -221,7 +221,7 @@
         <fragment
             android:id="@+id/settingsFragment"
             android:name="com.natife.streaming.ui.settings.SettingsFragment"
-            android:label="SettingsFragment" >
+            android:label="SettingsFragment">
             <action
                 android:id="@+id/action_settingsFragment_to_countryDialog"
                 app:destination="@id/countryDialog" />
@@ -243,7 +243,7 @@
         <dialog
             android:id="@+id/aditionalDialog"
             android:name="com.natife.streaming.ui.settings.pages.additionaldialog.AditionalDialog"
-            android:label="AditionalDialog" >
+            android:label="AditionalDialog">
             <argument
                 android:name="subscriptions"
                 app:argType="com.natife.streaming.data.Subscription[]" />
@@ -264,7 +264,7 @@
                 app:destination="@id/popupVideo" />
             <action
                 android:id="@+id/action_favoritesFragment_to_billingFragment"
-                app:destination="@id/billingFragment" />
+                app:destination="@id/billing" />
             <action
                 android:id="@+id/action_favoritesFragment_to_liveFragment"
                 app:destination="@id/liveFragment" />
@@ -379,11 +379,10 @@
             android:name="com.natife.streaming.ui.payStory.PayStoryFragment"
             android:label="fragment_pay_story"
             tools:layout="@layout/fragment_pay_story" />
-        <fragment
-            android:id="@+id/billingFragment"
-            android:name="com.natife.streaming.ui.billing.BillingFragment"
-            android:label="fragment_billing"
-            tools:layout="@layout/fragment_billing">
+
+        <navigation
+            android:id="@+id/billing"
+            app:startDestination="@id/billingFragment">
             <argument
                 android:name="matchId"
                 app:argType="integer" />
@@ -391,19 +390,60 @@
                 android:name="sportId"
                 app:argType="integer" />
             <argument
-                android:name="live"
-                app:argType="boolean"
-                android:defaultValue="false" />
+                android:name="tournamentId"
+                app:argType="integer" />
             <argument
-                android:name="title"
+                android:name="tournamentTitle"
                 app:argType="string" />
-            <action
-                android:id="@+id/action_billingFragment_to_popupVideo"
-                app:destination="@id/popupVideo" />
-            <action
-                android:id="@+id/action_billingFragment_to_liveFragment"
-                app:destination="@id/liveFragment" />
-        </fragment>
+            <argument
+                android:name="live"
+                android:defaultValue="false"
+                app:argType="boolean" />
+            <argument
+                android:name="team1"
+                app:argType="string" />
+            <argument
+                android:name="team2"
+                app:argType="string" />
+            <fragment
+                android:id="@+id/billingFragment"
+                android:name="com.natife.streaming.ui.billing.BillingFragment"
+                android:label="fragment_billing"
+                tools:layout="@layout/fragment_billing">
+                <argument
+                    android:name="matchId"
+                    app:argType="integer" />
+                <argument
+                    android:name="sportId"
+                    app:argType="integer" />
+                <argument
+                    android:name="tournamentId"
+                    app:argType="integer" />
+                <argument
+                    android:name="tournamentTitle"
+                    app:argType="string" />
+                <argument
+                    android:name="live"
+                    android:defaultValue="false"
+                    app:argType="boolean" />
+                <argument
+                    android:name="team1"
+                    app:argType="string" />
+                <argument
+                    android:name="team2"
+                    app:argType="string" />
+                <action
+                    android:id="@+id/action_billingFragment_to_popupVideo"
+                    app:destination="@id/popupVideo" />
+                <action
+                    android:id="@+id/action_billingFragment_to_liveFragment"
+                    app:destination="@id/liveFragment" />
+            </fragment>
+            <fragment
+                android:id="@+id/billingTypeListFragment"
+                android:name="com.natife.streaming.ui.billing.BillingTypeListFragment"
+                android:label="BillingTypeListFragment" />
+        </navigation>
 
     </navigation>
 

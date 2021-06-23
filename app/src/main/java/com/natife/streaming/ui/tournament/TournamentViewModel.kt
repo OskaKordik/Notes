@@ -236,8 +236,11 @@ class TournamentViewModel(
                     TournamentFragmentDirections.actionTournamentFragmentToBillingFragment(
                         sportId = match.sportId,
                         matchId = match.id,
+                        tournamentId = match.tournament.id,
+                        tournamentTitle = match.tournament.name,
                         live = match.live,
-                        title = "${match.team1} - ${match.team2}"
+                        team1 = match.team1.name,
+                        team2 = match.team2.name
                     )
                 )
             }
@@ -246,9 +249,11 @@ class TournamentViewModel(
                     TournamentFragmentDirections.actionTournamentFragmentToBillingFragment(
                         sportId = match.sportId,
                         matchId = match.id,
-                        live = false,
-                        title = "${match.team1} - ${match.team2}"
-
+                        tournamentId = match.tournament.id,
+                        tournamentTitle = match.tournament.name,
+                        live = match.live,
+                        team1 = match.team1.name,
+                        team2 = match.team2.name
                     )
                 )
             }

@@ -185,8 +185,13 @@ val viewModelModule = module {
 
     viewModel<BillingViewModel> { (args: BillingFragmentArgs) ->
         BillingViewModelImpl(
-            args.sportId,
             args.matchId,
+            args.sportId,
+            args.tournamentId,
+            args.tournamentTitle,
+            args.live,
+            args.team1,
+            args.team2,
             get()
         )
     }

@@ -48,23 +48,6 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
         }
     }
 
-//    private val adapter: SearchAdapter by lazy { SearchAdapter() }
-//    private val speechRecognizer: SpeechRecognizer by lazy {
-//        SpeechRecognizer.createSpeechRecognizer(
-//            requireContext()
-//        )
-//    }
-//    private val speechRecognizerIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
-//        putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-//        //putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale("RU"))
-//    }
-
-    //    private fun applyAlpha(alpha: Float){
-////        (activity as MainActivity).logo?.alpha = alpha
-//        buttonType?.alpha = 1 - alpha
-//        buttonSport?.alpha = 1 - alpha
-//        buttonGender?.alpha = 1 - alpha
-//    }
     private val transitionListener = object :
         MotionLayout.TransitionListener {
         override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {
@@ -118,7 +101,6 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
         )
         search_pager.adapter = searchFragmentAdapter
         search_pager.registerOnPageChangeCallback(onPage)
-//        search_pager.offscreenPageLimit = 1
 
         TabLayoutMediator(search_tab_layout, search_pager) { tab, position ->
             tab.text = searchTabNames[position]
@@ -215,97 +197,11 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
         }
         subscribe(searchResultViewModel.searchResultClicked, viewModel::select)
 
-//        applyAlpha(((activity as MainActivity).mainMotion as MotionLayout).progress)
-
-
-//        searchRecycler.layoutManager = LinearLayoutManager(context)
-//        searchRecycler.adapter = adapter
-//        searchRecycler.isFocusable = false
-//        adapter.onClick = {
-//            viewModel.select(it)
-//        }
-
-
-//        subscribe(viewModel.results, adapter::submitList)
-//        subscribe(viewModel.genderLiveDate,buttonGender::setText)
-//        subscribe(viewModel.sportLiveDate,buttonSport::setText)
-//        subscribe(viewModel.typeLiveDate,buttonType::setText)
-
-
-//        keyboardView2.attachInput(searchInput)
-//        keyboardView2.enableSearch(true)
-//        keyboardView2.searchBtn.setOnClickListener {
-//            searchInput.text?.let {
-//                if (it.isNotEmpty()) {
-//                    viewModel.search(it.toString())
-//                }
-//            }
-//        }
-//        searchInput.requestFocus()
-//        searchInput.doAfterTextChanged {
-//            it?.let {
-//                    viewModel.searchLocal(it.toString())
-//            }
-//
-//        }
-
-
-//        var lastAction = KeyEvent.ACTION_UP
-//        voiceInput.setOnKeyListener { _, keyCode, event ->
-//            Timber.e("$event")
-//            if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER) {
-//                context?.withAllPermissions(Manifest.permission.RECORD_AUDIO) {
-//                    when (event.action) {
-//                        KeyEvent.ACTION_DOWN -> {
-//                            if (lastAction != KeyEvent.ACTION_DOWN) {
-//                                speechRecognizer.startListening(speechRecognizerIntent)
-//                                lastAction = KeyEvent.ACTION_DOWN
-//                            }
-//                        }
-//                        KeyEvent.ACTION_UP -> {
-//                            //speechRecognizer.stopListening()
-//                            lastAction = KeyEvent.ACTION_UP
-//                        }
-//                    }
-//                }
-//
-//            }
-//            return@setOnKeyListener false
-//        }
-//
-//        speechRecognizer.doOnResult({
-//            searchInput.setText(it)
-//        }, {
-//            speechProgress.isVisible = true
-//        }, {
-//            speechProgress.isVisible = false
-//        }, {
-//            showToast("Can not recognize")
-//        })
-//
-//        buttonType.setOnClickListener {
-//            viewModel.showTypeDialog()
-//        }
-//        buttonGender.setOnClickListener {
-//            viewModel.showGenderDialog()
-//        }
-//        buttonSport.setOnClickListener {
-//            viewModel.showSportDialog()
-//        }
-
         search_tab_layout.getTabAt(0)?.view?.apply {
             this.requestFocus()
             isSelected = true
         }
     }
-
-
-//    override fun onPause() {
-//        ((activity as MainActivity).mainMotion as MotionLayout).removeTransitionListener(
-//            transitionListener
-//        )
-//        super.onPause()
-//    }
 
     override fun onStop() {
         super.onStop()
