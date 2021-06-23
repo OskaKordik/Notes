@@ -5,10 +5,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.Group
+import androidx.fragment.app.activityViewModels
 import androidx.leanback.widget.BaseGridView
 import androidx.leanback.widget.BrowseFrameLayout
 import androidx.leanback.widget.VerticalGridView
-import androidx.navigation.navGraphViewModels
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseFragment
 import com.natife.streaming.base.EmptyViewModel
@@ -23,7 +23,9 @@ import timber.log.Timber
 
 class SearchResultFragment : BaseFragment<EmptyViewModel>() {
     override fun getLayoutRes(): Int = R.layout.fragment_search_result
-    private val searchResultViewModel: SearchResultViewModel by navGraphViewModels(R.id.nav_main)
+    private val searchResultViewModel: SearchResultViewModel by activityViewModels() // не работает
+
+    //    private val searchResultViewModel: SearchResultViewModel by navGraphViewModels(R.id.nav_main) // работает
     private var typeOfSearch: SearchResult.Type? = null
 
     @SuppressLint("RestrictedApi")

@@ -8,9 +8,9 @@ import android.widget.TextView.OnEditorActionListener
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.activityViewModels
 import androidx.leanback.widget.BrowseFrameLayout
 import androidx.lifecycle.Lifecycle
-import androidx.navigation.navGraphViewModels
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
@@ -30,7 +30,9 @@ import kotlinx.android.synthetic.main.fragment_settings_page.*
 class SearchFragment : BaseFragment<SearchViewModel>() {
     override fun getLayoutRes(): Int = R.layout.fragment_search_new
     private lateinit var searchTabNames: Array<String>
-    private val searchResultViewModel: SearchResultViewModel by navGraphViewModels(R.id.nav_main)
+    private val searchResultViewModel: SearchResultViewModel by activityViewModels()// не работает
+
+    //    private val searchResultViewModel: SearchResultViewModel by navGraphViewModels(R.id.nav_main) // работает
     private var positionMotionLayout: String? = null
     private var page = 0
     val onPage = object : ViewPager2.OnPageChangeCallback() {
