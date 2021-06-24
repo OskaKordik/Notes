@@ -124,7 +124,7 @@
 
     <!--Player-->
     <style name="ExoStyledControlsCustom" parent="Widget.MaterialComponents.Button.OutlinedButton">
-        <item name="iconTint">@color/button_text_b_w_state_new</item>
+        <item name="iconTint">@color/white</item>
         <item name="backgroundTint">@android:color/transparent</item>
         <item name="background">@android:color/transparent</item>
         <item name="iconPadding">0dp</item>
@@ -137,7 +137,7 @@
     </style>
 
     <style name="ExoStyledControlsCustom_play" parent="Widget.MaterialComponents.Button.OutlinedButton">
-        <item name="iconTint">@color/button_text_b_w_state_new</item>
+        <item name="iconTint">@color/white</item>
         <item name="backgroundTint">@android:color/transparent</item>
         <item name="background">@android:color/transparent</item>
         <item name="iconPadding">0dp</item>

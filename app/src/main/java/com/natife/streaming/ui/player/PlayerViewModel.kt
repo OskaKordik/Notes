@@ -22,6 +22,7 @@ abstract class PlayerViewModel : BaseViewModel() {
     abstract fun isLastEpisode(): Boolean
     abstract fun openVideoQualityMenu()
     abstract fun changeVideoQuality(videoQuality: String)
+    abstract fun onBackClicked()
 
     abstract val videoLiveData: LiveData<List<Pair<String, Long>>>
     abstract val matchInfoLiveData: LiveData<Match>
@@ -132,5 +133,9 @@ class PlayerViewModelImpl(
             ?.filter { it.abc == "0" }
             ?.groupBy { it.quality }!![videoQuality]
             ?.map { it.url to it.duration }
+    }
+
+    override fun onBackClicked() {
+        router.navigateUp()
     }
 }

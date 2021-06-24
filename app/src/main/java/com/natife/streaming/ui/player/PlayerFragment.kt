@@ -9,6 +9,7 @@ import android.os.Looper
 import android.view.View
 import android.view.WindowManager
 import android.widget.SeekBar
+import androidx.activity.addCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.setFragmentResultListener
 import androidx.leanback.widget.BrowseFrameLayout.OnChildFocusListener
@@ -323,6 +324,11 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
         exo_interval_forward_5.setOnClickListener {
             simpleExoPlayer?.currentPosition?.plus(5000)
                 ?.let { it1 -> simpleExoPlayer?.seekTo(it1) }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            if (playerView.isControllerVisible) playerView.hideController() else {
+                viewModel.onBackClicked()
+            }
         }
     }
 
