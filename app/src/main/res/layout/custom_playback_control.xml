@@ -5,28 +5,128 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@id/exo_play"
-        style="@style/ExoMediaButton.Play"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="4dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@id/exo_pause"
-        style="@style/ExoMediaButton.Pause"
+    <com.google.android.material.button.MaterialButton
+        android:id="@id/exo_rew"
+        style="@style/ExoStyledControlsCustom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:focusable="true"
-        android:padding="4dp"
+        app:icon="@drawable/ic_rewind"
+        app:layout_constraintBottom_toBottomOf="@+id/exo_play"
+        app:layout_constraintEnd_toStartOf="@+id/exo_interval_rewind_30"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/exo_play"
+        app:strokeWidth="0dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/exo_interval_rewind_30"
+        style="@style/ExoStyledControlsCustom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        app:icon="@drawable/ic_interval_rewind_30"
+        app:iconSize="62dp"
+        app:layout_constraintBottom_toBottomOf="@+id/exo_play"
+        app:layout_constraintEnd_toStartOf="@+id/exo_interval_rewind_5"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/exo_rew"
+        app:layout_constraintTop_toTopOf="@+id/exo_play"
+        app:strokeWidth="0dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/exo_interval_rewind_5"
+        style="@style/ExoStyledControlsCustom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:focusable="true"
+        app:icon="@drawable/ic_interval_rewind_5"
+        app:iconSize="62dp"
+        app:layout_constraintBottom_toBottomOf="@+id/exo_play"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_half"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/exo_interval_rewind_30"
+        app:layout_constraintTop_toTopOf="@+id/exo_play"
+        app:strokeWidth="0dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@id/exo_play"
+        style="@style/ExoStyledControlsCustom_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:nextFocusLeft="@drawable/ic_interval_rewind_5"
+        android:nextFocusRight="@drawable/ic_interval_forward_5"
+        app:icon="@drawable/ic_play"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeWidth="0dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@id/exo_pause"
+        style="@style/ExoStyledControlsCustom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:nextFocusLeft="@drawable/ic_interval_rewind_5"
+        android:nextFocusRight="@drawable/ic_interval_forward_5"
+        app:icon="@drawable/ic_pause"
+        app:iconSize="62dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeWidth="0dp" />
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/exo_interval_forward_5"
+        style="@style/ExoStyledControlsCustom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:focusable="true"
+        app:icon="@drawable/ic_interval_forward_5"
+        app:iconSize="62dp"
+        app:layout_constraintBottom_toBottomOf="@+id/exo_play"
+        app:layout_constraintEnd_toStartOf="@+id/exo_interval_forward_30"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/guideline_half"
+        app:layout_constraintTop_toTopOf="@+id/exo_play"
+        app:strokeWidth="0dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/exo_interval_forward_30"
+        style="@style/ExoStyledControlsCustom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        app:icon="@drawable/ic_interval_forward_30"
+        app:iconSize="62dp"
+        app:layout_constraintBottom_toBottomOf="@+id/exo_play"
+        app:layout_constraintEnd_toStartOf="@+id/exo_ffwd"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/exo_interval_forward_5"
+        app:layout_constraintTop_toTopOf="@+id/exo_play"
+        app:strokeWidth="0dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@id/exo_ffwd"
+        style="@style/ExoStyledControlsCustom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        app:icon="@drawable/ic_fast_forward"
+        app:layout_constraintBottom_toBottomOf="@+id/exo_play"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/exo_interval_forward_30"
+        app:layout_constraintTop_toTopOf="@+id/exo_play"
+        app:strokeWidth="0dp" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -39,9 +139,9 @@
             android:id="@+id/menuPlayer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/background_menu_button_plater"
             android:backgroundTint="@color/button_menu_background_state"
             android:focusable="true"
-            android:background="@drawable/background_menu_button_plater"
             android:nextFocusDown="@+id/progress"
             android:src="@drawable/ic_menu_player"
             app:layout_constraintStart_toStartOf="parent"
@@ -143,4 +243,11 @@
             app:scrubber_drawable="@drawable/player_seekbar_thumb" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_half"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent=".5" />
 </androidx.constraintlayout.widget.ConstraintLayout>

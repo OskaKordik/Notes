@@ -6,15 +6,19 @@ import android.graphics.Rect
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.KeyEvent
 import android.view.View
 import android.view.WindowManager
 import android.widget.SeekBar
 import androidx.core.view.isVisible
 import androidx.fragment.app.setFragmentResultListener
 import androidx.leanback.widget.BrowseFrameLayout.OnChildFocusListener
-import com.google.android.exoplayer2.*
-import com.google.android.exoplayer2.source.*
+import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.Player
+import com.google.android.exoplayer2.Renderer
+import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.android.exoplayer2.source.ClippingMediaSource
+import com.google.android.exoplayer2.source.ConcatenatingMediaSource
+import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -71,69 +75,69 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
                 viewModel.changeVideoQuality(videoQuality)
             }
         }
-
-        //Focus for progress
-        progress.setOnFocusChangeListener { v, _ ->
-            v.nextFocusDownId = R.id.recyclerViewVideos
-            v.nextFocusUpId = R.id.menuPlayer
-            if (v.isFocused) {
-                //Timeout for hiding video player controls
-                playerView.controllerShowTimeoutMs = 5000
-                bottomSheetBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED
-            }
-        }
-        //Focus for progress full match
-        exo_progress.setOnFocusChangeListener { v, _ ->
-            v.nextFocusDownId = R.id.recyclerViewVideos
-            v.nextFocusUpId = R.id.menuPlayer
-            if (v.isFocused) {
-                //Timeout for hiding video player controls
-                playerView.controllerShowTimeoutMs = 5000
-
-                bottomSheetBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED
-            }
-        }
-
-
-        exo_play.setOnKeyListener { v, keyCode, event ->
-            if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
-                if (end >= 0) {
-                    progress.requestFocus()
-                } else {
-                    exo_progress.requestFocus()
-                }
-                return@setOnKeyListener true
-            }
-            if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
-                if (end >= 0) {
-                    progress.requestFocus()
-                } else {
-                    exo_progress.requestFocus()
-                }
-                return@setOnKeyListener true
-            }
-            return@setOnKeyListener false
-        }
-
-        exo_pause.setOnKeyListener { v, keyCode, event ->
-            if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
-                if (end >= 0) {
-                    progress.requestFocus()
-                } else {
-                    exo_progress.requestFocus()
-                }
-                return@setOnKeyListener true
-            }
-            if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
-                if (end >= 0) {
-                    progress.requestFocus()
-                } else {
-                    exo_progress.requestFocus()
-                }
-                return@setOnKeyListener true
-            }
-            return@setOnKeyListener false
-        }
+//
+//        //Focus for progress
+//        progress.setOnFocusChangeListener { v, _ ->
+//            v.nextFocusDownId = R.id.recyclerViewVideos
+//            v.nextFocusUpId = R.id.menuPlayer
+//            if (v.isFocused) {
+//                //Timeout for hiding video player controls
+//                playerView.controllerShowTimeoutMs = 5000
+//                bottomSheetBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED
+//            }
+//        }
+//        //Focus for progress full match
+//        exo_progress.setOnFocusChangeListener { v, _ ->
+//            v.nextFocusDownId = R.id.recyclerViewVideos
+//            v.nextFocusUpId = R.id.menuPlayer
+//            if (v.isFocused) {
+//                //Timeout for hiding video player controls
+//                playerView.controllerShowTimeoutMs = 5000
+//
+//                bottomSheetBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED
+//            }
+//        }
+//
+//
+//        exo_play.setOnKeyListener { v, keyCode, event ->
+//            if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
+//                if (end >= 0) {
+//                    progress.requestFocus()
+//                } else {
+//                    exo_progress.requestFocus()
+//                }
+//                return@setOnKeyListener true
+//            }
+//            if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
+//                if (end >= 0) {
+//                    progress.requestFocus()
+//                } else {
+//                    exo_progress.requestFocus()
+//                }
+//                return@setOnKeyListener true
+//            }
+//            return@setOnKeyListener false
+//        }
+//
+//        exo_pause.setOnKeyListener { v, keyCode, event ->
+//            if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
+//                if (end >= 0) {
+//                    progress.requestFocus()
+//                } else {
+//                    exo_progress.requestFocus()
+//                }
+//                return@setOnKeyListener true
+//            }
+//            if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
+//                if (end >= 0) {
+//                    progress.requestFocus()
+//                } else {
+//                    exo_progress.requestFocus()
+//                }
+//                return@setOnKeyListener true
+//            }
+//            return@setOnKeyListener false
+//        }
 
 
         progress.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
@@ -302,6 +306,23 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
         subscribe(viewModel.matchInfoLiveData) { matchInfo ->
             smallGameTitle.text = matchInfo.info
             bigGameTitle.text = "${matchInfo.team1.name} : ${matchInfo.team2.name}"
+        }
+
+        exo_interval_rewind_30.setOnClickListener {
+            simpleExoPlayer?.currentPosition?.minus(30000)
+                ?.let { it1 -> simpleExoPlayer?.seekTo(it1) }
+        }
+        exo_interval_rewind_5.setOnClickListener {
+            simpleExoPlayer?.currentPosition?.minus(5000)
+                ?.let { it1 -> simpleExoPlayer?.seekTo(it1) }
+        }
+        exo_interval_forward_30.setOnClickListener {
+            simpleExoPlayer?.currentPosition?.plus(30000)
+                ?.let { it1 -> simpleExoPlayer?.seekTo(it1) }
+        }
+        exo_interval_forward_5.setOnClickListener {
+            simpleExoPlayer?.currentPosition?.plus(5000)
+                ?.let { it1 -> simpleExoPlayer?.seekTo(it1) }
         }
     }
 
