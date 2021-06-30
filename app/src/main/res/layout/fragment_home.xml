@@ -109,25 +109,35 @@
         android:layout_height="wrap_content"
         android:indeterminateTint="@color/white"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/homeRecycler"
-        app:layout_constraintEnd_toEndOf="@+id/homeRecycler"
+        app:layout_constraintBottom_toBottomOf="@+id/home_recycler_layout"
+        app:layout_constraintEnd_toEndOf="@+id/home_recycler_layout"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/homeRecycler"
+        app:layout_constraintTop_toTopOf="@+id/home_recycler_layout"
         app:layout_constraintVertical_bias="0.4" />
 
-    <androidx.leanback.widget.VerticalGridView
-        android:id="@+id/homeRecycler"
+    <androidx.leanback.widget.BrowseFrameLayout
+        android:id="@+id/home_recycler_layout"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="25dp"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        app:focusOutFront="true"
+        android:descendantFocusability="afterDescendants"
+        android:focusable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0">
+
+        <androidx.leanback.widget.VerticalGridView
+            android:id="@+id/homeRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            app:focusOutFront="true" />
+
+    </androidx.leanback.widget.BrowseFrameLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
