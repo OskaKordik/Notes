@@ -149,4 +149,9 @@
         <item name="android:minHeight">86dp</item>
     </style>
 
+    <style name="slider" parent="Widget.MaterialComponents.Slider">
+        <item name="paddingEnd">0dp</item>
+        <item name="paddingStart">0dp</item>
+    </style>
+
 </resources>

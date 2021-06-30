@@ -2,15 +2,19 @@ package com.natife.streaming.ui.player
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.gson.Gson
 import com.natife.streaming.VIDEO_1080
 import com.natife.streaming.VIDEO_480
 import com.natife.streaming.VIDEO_720
 import com.natife.streaming.base.BaseViewModel
 import com.natife.streaming.data.match.Match
 import com.natife.streaming.data.matchprofile.Episode
+import com.natife.streaming.data.player.PlayerBottomBarSetup
 import com.natife.streaming.data.player.PlayerSetup
+import com.natife.streaming.data.player.toInitBottomData
 import com.natife.streaming.router.Router
 import com.natife.streaming.ui.player.menu.quality.VideoQualityParams
+import timber.log.Timber
 
 abstract class PlayerViewModel : BaseViewModel() {
     abstract fun showMatchInfo()
@@ -28,8 +32,11 @@ abstract class PlayerViewModel : BaseViewModel() {
     abstract val matchInfoLiveData: LiveData<Match>
     abstract val sourceLiveData: LiveData<Map<String, List<Episode>>>
     abstract val currentEpisode: LiveData<Episode>
-    abstract val currentPlaylist: LiveData<List<Episode>>
+
+    //    abstract val currentPlaylist: LiveData<List<Episode>>
     abstract val videoQualityListLiveData: LiveData<List<String>>
+    abstract val initBottomBarData: LiveData<PlayerBottomBarSetup>
+    abstract var currentWindow: Int
 }
 
 class PlayerViewModelImpl(
@@ -41,17 +48,25 @@ class PlayerViewModelImpl(
     override val matchInfoLiveData = MutableLiveData<Match>()
     override val sourceLiveData = MutableLiveData<Map<String, List<Episode>>>()
     override val currentEpisode = MutableLiveData<Episode>()
-    override val currentPlaylist = MutableLiveData<List<Episode>>()
+    private val currentPlaylist = MutableLiveData<List<Episode>>()
     override val videoQualityListLiveData = MutableLiveData<List<String>>()
+    override val initBottomBarData = MutableLiveData<PlayerBottomBarSetup>()
+    override var currentWindow: Int = 0
+        set(value) {
+            field = if (value >= 0) value else 0
+        }
 
     init {
+        initBottomBarData.value = setup.toInitBottomData()
+        currentPlaylist.value =
+            setup.currentPlaylist?.sortedWith(compareBy({ it.half }, { it.start }))
 
         sourceLiveData.value = setup.playlist
         videoLiveData.value = setup.video?.filter { it.abc == "0" }
             ?.groupBy { it.quality }!!["720"]/*maxByOrNull { it.key.toInt() }*/?.map { it.url to it.duration }
-        currentEpisode.value = setup.currentEpisode ?: setup.currentPlaylist?.get(0)
+//        currentEpisode.value = setup.currentEpisode ?: setup.currentPlaylist?.sortedWith(compareBy({ it.half }, { it.start }))?.get(0)
+        currentEpisode.value = setup.toInitBottomData()?.playlist?.get(0)
         matchInfoLiveData.value = setup.match
-        currentPlaylist.value = setup.currentPlaylist
 
         showVideo()
         showMatches()
@@ -84,8 +99,9 @@ class PlayerViewModelImpl(
     }
 
     override fun play(it: Episode, playlist: List<Episode>?) {
+        Timber.tag("TAG").d(Gson().toJson(it))
         currentEpisode.value = it
-        currentPlaylist.value = playlist
+//        currentPlaylist.value = playlist
     }
 
     override fun toNextEpisode() {
@@ -139,3 +155,4 @@ class PlayerViewModelImpl(
         router.navigateUp()
     }
 }
+

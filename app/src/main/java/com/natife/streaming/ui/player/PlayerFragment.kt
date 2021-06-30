@@ -2,13 +2,17 @@ package com.natife.streaming.ui.player
 
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.graphics.Insets
 import android.graphics.Rect
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.DisplayMetrics
 import android.view.View
+import android.view.WindowInsets
 import android.view.WindowManager
-import android.widget.SeekBar
 import androidx.activity.addCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.setFragmentResultListener
@@ -27,7 +31,6 @@ import com.natife.streaming.R
 import com.natife.streaming.base.BaseFragment
 import com.natife.streaming.ext.dp
 import com.natife.streaming.ext.subscribe
-import com.natife.streaming.ext.toDisplayTime
 import com.natife.streaming.ui.player.menu.quality.VideoQualityDialog
 import kotlinx.android.synthetic.main.custom_playback_control.*
 import kotlinx.android.synthetic.main.fragment_player.*
@@ -50,7 +53,8 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
     private var start = 0L
     private var end = 0L
     private var playWhenReady = false
-    private var currentWindow = 0
+
+    //    private var currentWindow = 0
     private var playbackPosition: Long = 0
     var animation: ValueAnimator? = null
     private val handler = Handler(Looper.getMainLooper())
@@ -141,26 +145,26 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
 //        }
 
 
-        progress.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(
-                seekBar: SeekBar?,
-                progress: Int,
-                fromUser: Boolean
-            ) {
-                if (fromUser) {
-                    simpleExoPlayer?.seekTo((start + progress) * 1000)
-                }
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {
-                handler.removeCallbacks(timerRunnable)
-            }
-
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                handler.postDelayed(timerRunnable, 1000)
-            }
-
-        })
+//        progress.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+//            override fun onProgressChanged(
+//                seekBar: SeekBar?,
+//                progress: Int,
+//                fromUser: Boolean
+//            ) {
+//                if (fromUser) {
+//                    simpleExoPlayer?.seekTo((start + progress) * 1000)
+//                }
+//            }
+//
+//            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+////                handler.removeCallbacks(timerRunnable)
+//            }
+//
+//            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+////                handler.postDelayed(timerRunnable, 1000)
+//            }
+//
+//        })
 
 
         var isShow = false
@@ -189,7 +193,7 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
                             animation!!.start()
                             isShow = false
                         }
-                        playerView.controllerShowTimeoutMs = 5000
+                        playerView.controllerShowTimeoutMs = 50000
                     }
                 } catch (e: Exception) {
 
@@ -233,32 +237,56 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
         subscribe(viewModel.videoLiveData) { videoUrl ->
             initializePlayer(videoUrl)
 
+            subscribe(viewModel.initBottomBarData) {
+//                Timber.tag("TAG").d(Gson().toJson(it))
+                player_bottom_bar.initVideoUrl(
+                    it,
+                    getScreenWidth(requireActivity()),
+                    simpleExoPlayer,
+                    viewModel
+                )  // todo!!!
+                simpleExoPlayer?.playWhenReady = true
+            }
+
+
+
             subscribe(viewModel.currentEpisode) {
-                if (it.start >= 0 && it.end > 0) {
-                    groupFragments.isVisible = true
-                    groupFull.isVisible = false
-                    start = it.start
-                    end = it.end
-                    currentWindow = it.half
-                    val max = (it.end - it.start)
-                    progress.max = max.toInt()
-                    duration.text = max.toDisplayTime()
-                    simpleExoPlayer?.seekTo((it.half - 1).toInt(), it.start * 1000)
-                    handler.removeCallbacks(timerRunnable)
-                    handler.postDelayed(timerRunnable, 1000)
+//                if (it.start >= 0 && it.end > 0) {
+//                    groupFragments.isVisible = true
+                groupFull.isVisible = false
+                start = it.start
+                end = it.end
+                viewModel.currentWindow = it.half
+//                    currentWindow = if (it.half == -1 ) 0 else it.half
+//                    val max = (it.end - it.start)
+//                    progress.max = max.toInt()
+//                    duration.text = max.toDisplayTime()
+                if (it.half == -1) {
+                    simpleExoPlayer?.seekTo(it.start)
                 } else {
-                    groupFragments.isVisible = false
-                    groupFull.isVisible = true
-                    //  val max = simpleExoPlayer!!.duration
-                    start = it.start
-                    end = it.end
-
-
-                    // progress.max = max.toInt()
-                    simpleExoPlayer?.seekTo((it.half).toInt(), it.start * 1000)
-                    handler.removeCallbacks(timerRunnable)
-                    handler.postDelayed(timerRunnable, 1000)
+                    simpleExoPlayer?.seekTo(it.half, it.start * 1000)
                 }
+
+
+//                } else {
+////                    groupFragments.isVisible = false
+//                    groupFull.isVisible = true
+//                    //  val max = simpleExoPlayer!!.duration
+//                    start = it.start
+//                    end = simpleExoPlayer!!.duration
+//
+//
+//                    // progress.max = max.toInt()
+//                    simpleExoPlayer?.seekTo(it.start)
+//                }
+                //update SeekBar
+//                player_bottom_bar.updatePosition(currentWindow, simpleExoPlayer?.contentPosition)
+                player_bottom_bar.updatePosition(
+                    viewModel.currentWindow,
+                    simpleExoPlayer?.contentPosition
+                )
+                handler.removeCallbacks(timerRunnable)
+                handler.postDelayed(timerRunnable, 1000)
 
                 simpleExoPlayer?.playWhenReady = true
             }
@@ -339,9 +367,9 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
     }
 
     private fun showControls(show: Boolean) {
-        progress.isVisible = show
-        duration.isVisible = show
-        position.isVisible = show
+//        progress.isVisible = show
+//        duration.isVisible = show
+//        position.isVisible = show
         exo_play.isVisible = show
         exo_pause.isVisible = show
         menuPlayer.isVisible = show
@@ -351,11 +379,15 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
     private val timerRunnable: Runnable = object : Runnable {
         override fun run() {
             if (end > 0) {
-                progress.progress =
-                    ((simpleExoPlayer?.contentPosition?.div(1000))?.minus(start))?.toInt() ?: 0
-                position.text =
-                    (((simpleExoPlayer?.contentPosition?.div(1000))?.minus(start))
-                        ?: 0).toDisplayTime()
+                player_bottom_bar.updatePosition(
+                    viewModel.currentWindow,
+                    simpleExoPlayer?.contentPosition
+                )
+//                progress.progress =
+//                    ((simpleExoPlayer?.contentPosition?.div(1000))?.minus(start))?.toInt() ?: 0
+//                position.text =
+//                    (((simpleExoPlayer?.contentPosition?.div(1000))?.minus(start))
+//                        ?: 0).toDisplayTime()
                 if (simpleExoPlayer?.contentPosition?.div(1000)!! >= end) {
                     simpleExoPlayer?.playWhenReady = false
                     viewModel.toNextEpisode()
@@ -419,7 +451,6 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
                 }
                 super.onPlayWhenReadyChanged(playWhenReady, reason)
             }
-
         })
         playerView.setShowMultiWindowTimeBar(true)
         simpleExoPlayer?.prepare()
@@ -450,7 +481,7 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
         if (simpleExoPlayer != null) {
             playWhenReady = simpleExoPlayer?.playWhenReady!!
             playbackPosition = simpleExoPlayer?.currentPosition!!
-            currentWindow = simpleExoPlayer?.currentWindowIndex!!
+            viewModel.currentWindow = simpleExoPlayer?.currentWindowIndex!!
             simpleExoPlayer?.release()
             simpleExoPlayer = null
         }
@@ -458,5 +489,18 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
 
     override fun getParameters(): ParametersDefinition = {
         parametersOf(PlayerFragmentArgs.fromBundle(requireArguments()))
+    }
+
+    private fun getScreenWidth(activity: Activity): Int {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val windowMetrics = activity.windowManager.currentWindowMetrics
+            val insets: Insets = windowMetrics.windowInsets
+                .getInsetsIgnoringVisibility(WindowInsets.Type.systemBars())
+            windowMetrics.bounds.width() - insets.left - insets.right
+        } else {
+            val displayMetrics = DisplayMetrics()
+            activity.windowManager.defaultDisplay.getMetrics(displayMetrics)
+            displayMetrics.widthPixels
+        }
     }
 }

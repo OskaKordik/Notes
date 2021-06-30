@@ -13,6 +13,7 @@ data class Episode(
     val image: String = "",
     val placeholder: String = ""
 ): Parcelable
+
 fun MatchInfoEpisodeDTO.toEpisode():Episode{
     return Episode(
         end = this.e,
