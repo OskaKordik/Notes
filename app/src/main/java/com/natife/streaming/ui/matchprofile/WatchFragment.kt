@@ -14,8 +14,8 @@ import org.koin.core.parameter.parametersOf
 
 class WatchFragment: BaseFragment<WatchViewModel>() {
     override fun getLayoutRes(): Int = R.layout.fragment_match_prewatch
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onStart(){
+        super.onStart()
 
         subscribe(viewModel.title,title::setText)
         buttonBack.setOnClickListener {

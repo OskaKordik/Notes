@@ -157,12 +157,28 @@ class UserPreferencesFragment : BaseFragment<UserPreferencesViewModel>() {
                 text, resources.getString(R.string.lang)
             ).collect {
                 if (it.isEmpty()) {
-                    requireActivity().findViewById<ProgressBar>(
-                        R.id.load_progress
-                    ).visibility = View.VISIBLE
+                    if (viewModel.defaultLoadingLiveData?.value == true){
+                        requireActivity().findViewById<ProgressBar>(
+                            R.id.load_progress
+                        ).visibility = View.VISIBLE
+                        requireActivity().findViewById<TextView>(
+                            R.id.textView_match_not_find_preference
+                        ).visibility = View.GONE
+                    }else{
+                        requireActivity().findViewById<ProgressBar>(
+                            R.id.load_progress
+                        ).visibility = View.GONE
+                        requireActivity().findViewById<TextView>(
+                            R.id.textView_match_not_find_preference
+                        ).visibility = View.VISIBLE
+                    }
+
                 } else {
                     requireActivity().findViewById<ProgressBar>(
                         R.id.load_progress
+                    ).visibility = View.GONE
+                    requireActivity().findViewById<TextView>(
+                        R.id.textView_match_not_find_preference
                     ).visibility = View.GONE
                 }
                 val list = it.toTournamentTranslateDTO(

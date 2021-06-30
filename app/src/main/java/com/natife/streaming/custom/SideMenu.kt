@@ -122,13 +122,13 @@ class SideMenu @JvmOverloads constructor(
 
     fun setOpenStyle() {
         this.accountIcon.imageTintList =
-            resources.getColorStateList(R.color.menu_item_state_icon_selected, null)
+            resources.getColorStateList(R.color.menu_item_state_icon, null)
         this.iconSearch.imageTintList =
-            resources.getColorStateList(R.color.menu_item_state_icon_selected, null)
+            resources.getColorStateList(R.color.menu_item_state_icon, null)
         this.iconHome.imageTintList =
-            resources.getColorStateList(R.color.menu_item_state_icon_selected, null)
+            resources.getColorStateList(R.color.menu_item_state_icon, null)
         this.iconFavorites.imageTintList =
-            resources.getColorStateList(R.color.menu_item_state_icon_selected, null)
+            resources.getColorStateList(R.color.menu_item_state_icon, null)
 //        this.iconSettings.imageTintList =
 //            resources.getColorStateList(R.color.menu_item_state_icon_selected, null)
         currentSelected.imageTintList =

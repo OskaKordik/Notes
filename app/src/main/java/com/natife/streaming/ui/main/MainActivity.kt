@@ -140,6 +140,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
 
     private fun getLastDestination(destination: NavDestination){
         lastDestination = when (destination.id) {
+            R.id.searchFragment,
             R.id.favoritesFragment,
             R.id.homeFragment,
             R.id.accountFragment -> true
@@ -188,7 +189,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
                 setMessage(getString(R.string.text_close_app))
 
                 setPositiveButton(getString(R.string.text_yes)) { _, _ ->
-                    super.onBackPressed()
+                    finish()
                 }
 
                 setNegativeButton(getString(R.string.text_no)) { _, _ ->

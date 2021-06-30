@@ -15,6 +15,7 @@ import com.natife.streaming.router.Router
 import com.natife.streaming.usecase.FavoritesUseCase
 import com.natife.streaming.usecase.MatchUseCase
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
@@ -27,6 +28,7 @@ abstract class HomeViewModel : BaseViewModel() {
 
     abstract val listTournament: LiveData<List<TournamentItem>>
     abstract val isLoadData: LiveData<Event<Boolean>>
+    abstract var load: Boolean
 }
 
 class HomeViewModelImpl(
@@ -38,21 +40,23 @@ class HomeViewModelImpl(
 ) : HomeViewModel() {
     override val listTournament = MutableLiveData<List<TournamentItem>>()
     override val isLoadData = MutableLiveData(Event(false))
+    override var load = true
     private val list = MutableLiveData<List<Match>>()
     private val showScore = MutableLiveData<Boolean>()
     private val prefInTournament = MutableLiveData<List<PreferencesTournament>>()
     private val date = MutableLiveData<Date>()
     private val mutex = Mutex()
     private var isLoading = AtomicBoolean(false)
+    private var job: Job? = null
 
     override fun loadList() {
-        launch {
-            mutex.withLock {
-                if (isLoading.get()) return@launch
-            }
+        job?.cancel()
+        job = launch {
             isLoading.set(true)
+            load = true
             matchUseCase.load()
             isLoading.set(false)
+            load = false
         }
     }
 
@@ -106,7 +110,6 @@ class HomeViewModelImpl(
     }
 
     private fun setListTournament(listMatch: List<Match>) {
-        if (listMatch.isEmpty()) return
         launch {
             val res = hashMapOf<Int, List<Match>>()
             listMatch.forEach { it ->

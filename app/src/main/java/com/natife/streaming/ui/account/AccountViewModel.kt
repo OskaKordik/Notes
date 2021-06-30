@@ -24,6 +24,8 @@ abstract class AccountViewModel : BaseViewModel() {
     abstract val loadersLiveData: LiveData<Boolean>
     abstract val profileLiveData: LiveData<Profile>
     abstract val settings: LiveData<GlobalSettings>
+    abstract var lastposition: Int?
+
 }
 
 class AccountViewModelImpl(
@@ -35,6 +37,7 @@ class AccountViewModelImpl(
     override val loadersLiveData = MutableLiveData<Boolean>(true)
     override val profileLiveData = MutableLiveData<Profile>()
     override val settings = MutableLiveData<GlobalSettings>()
+    override var lastposition: Int? = null
 
     val language = arrayOf(Lang.EN, Lang.RU)
 

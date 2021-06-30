@@ -54,8 +54,10 @@ class PopupVideoFragment : BaseFragment<PopupVideoViewModel>() {
     }
 
     @SuppressLint("SetTextI18n")
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onStart(){
+        super.onStart()
+        popap_layout.visibility = View.VISIBLE
+        (activity as MainActivity).score_text?.text = ""
         arguments?.getInt("matchId")?.let {
             popupSharedViewModel.matchId = it
         }
@@ -80,7 +82,9 @@ class PopupVideoFragment : BaseFragment<PopupVideoViewModel>() {
             (activity as MainActivity).name_first_team?.text = it.team1.name.take(3)
             (activity as MainActivity).logo_second_team?.bindTeamImage(it.sportId, it.team2.id)
             (activity as MainActivity).name_second_team?.text = it.team2.name.take(3)
-            (activity as MainActivity).score_text?.text = "${it.team1.score} - ${it.team2.score}"
+            (activity as MainActivity).score_text?.text =
+                if(it.isShowScore) "${it.team1.score} - ${it.team2.score}"
+                else ""
         }
         subscribe(viewModel.info) {
             popupSharedViewModel.setMatchInfo(it)

@@ -22,8 +22,8 @@ class MatchProfileFragment: BaseFragment<MatchProfileViewModel>() {
 
     override fun getLayoutRes(): Int = R.layout.fragment_match_profile
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onStart(){
+        super.onStart()
 
         firstTeamRecycler.layoutManager = GridLayoutManager(context,5,GridLayoutManager.VERTICAL,false)
         firstTeamRecycler.adapter = teamAdapter1

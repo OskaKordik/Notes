@@ -16,8 +16,8 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
     override fun getLayoutRes() = R.layout.fragment_home
 
     @SuppressLint("RestrictedApi")
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onStart(){
+        super.onStart()
         val adapter = TournamentAdapter(viewModel)
         homeRecycler.windowAlignment = VerticalGridView.WINDOW_ALIGN_BOTH_EDGE;
         homeRecycler.apply {
@@ -30,12 +30,13 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
         homeRecycler.focusScrollStrategy = BaseGridView.FOCUS_SCROLL_ITEM
 
 
-        adapter.onBind = {
-            val a = adapter.itemCount
             viewModel.loadList()
-        }
+
         subscribe(viewModel.listTournament) {
             adapter.submitList(it)
+            if ((it.isEmpty()) && (!viewModel.load))
+                textView_match_not_find.visibility = View.VISIBLE
+            else textView_match_not_find.visibility = View.GONE
         }
         subscribeEvent(viewModel.isLoadData) {
             progress_icon.visibility = if (it) View.GONE else View.VISIBLE

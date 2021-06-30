@@ -88,8 +88,10 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
         super.onResume()
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+
+
+    override fun onStart(){
+        super.onStart()
         (activity as MainActivity).main_group?.visibility = View.GONE
         (activity as MainActivity).main_background_group?.visibility = View.GONE
         (activity as MainActivity).search_background_group?.visibility = View.VISIBLE

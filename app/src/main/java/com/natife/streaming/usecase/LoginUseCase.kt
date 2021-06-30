@@ -56,18 +56,9 @@ class LoginUseCaseImpl(
                 val body = Gson().fromJson(e.body, LoginDTO::class.java)
                 when (body.status) {
                     2, 3 -> {
-                        val answer = api.getTranslate(
-                            BaseRequest(
-                                procedure = API_TRANSLATE, params = TranslateRequest(
-                                    language = context.resources.getString(R.string.lang),
-                                    listOf(context.resources.getInteger(R.integer.wrong_login_or_password))
-                                )
-                            )
-                        )
                         onComplete(
                             Result.error<String>(
-                                answer[context.resources.getInteger(R.integer.wrong_login_or_password)
-                                    .toString()]?.text
+                                context.resources.getString(R.string.wrong_login_or_password)
                             )
                         )
                     }

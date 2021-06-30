@@ -21,8 +21,8 @@ class TabByPlayersFragment : BaseFragment<EmptyViewModel>() {
     private val teamAdapter2: PlayerAdapter by lazy { PlayerAdapter() }
 
     @SuppressLint("RestrictedApi")
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onStart(){
+        super.onStart()
         firstTeamRecycler.windowAlignment = BaseGridView.WINDOW_ALIGN_BOTH_EDGE
         firstTeamRecycler.isFocusable = false
         firstTeamRecycler.setNumColumns(1)

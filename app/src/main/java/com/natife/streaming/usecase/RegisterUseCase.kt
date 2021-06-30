@@ -47,18 +47,9 @@ class RegisterUseCaseImpl(
             when (body.status) {
                 //TODO Надо прописать новые ответы
                 else -> {
-                    val answer = api.getTranslate(
-                        BaseRequest(
-                            procedure = API_TRANSLATE, params = TranslateRequest(
-                                language = context.resources.getString(R.string.lang),
-                                listOf(context.resources.getInteger(R.integer.wrong_login_or_password))
-                            )
-                        )
-                    )
                     onComplete(
                         Result.error<String>(
-                            answer[context.resources.getInteger(R.integer.wrong_login_or_password)
-                                .toString()]?.text
+                            context.resources.getString(R.string.this_login_is_already_used)
                         )
                     )
                 }

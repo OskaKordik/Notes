@@ -28,7 +28,8 @@ class TournamentFragment : BaseFragment<TournamentViewModel>() {
     override fun getLayoutRes() = R.layout.fragment_tournament
 
     @SuppressLint("RestrictedApi")
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onStart(){
+        super.onStart()
         val wBColorStateList = ColorStateList(
             arrayOf(intArrayOf(android.R.attr.state_focused), intArrayOf()),
             intArrayOf(

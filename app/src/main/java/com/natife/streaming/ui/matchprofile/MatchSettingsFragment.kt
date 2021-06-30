@@ -19,8 +19,8 @@ class MatchSettingsFragment: BaseFragment<MatchSettingsViewModel>() {
 
     override fun getLayoutRes(): Int = R.layout.fragment_match_profile_settings
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onStart(){
+        super.onStart()
         adapter = ActionAdapter(onCheck ={
             viewModel.select(it)
         } )

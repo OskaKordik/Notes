@@ -32,8 +32,8 @@ class PopupStatisticsFragment : BaseFragment<PopupStatisticsViewModel>() {
     private val popupSharedViewModel: PopupSharedViewModel by navGraphViewModels(R.id.popupVideo)
 
     @SuppressLint("SetTextI18n")
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onStart(){
+        super.onStart()
         arguments?.getInt("matchId")?.let {
             popupSharedViewModel.matchId = it
         }

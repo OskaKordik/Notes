@@ -21,8 +21,8 @@ class TabAdditionallyFragment : BaseFragment<EmptyViewModel>() {
     private val episodeAdapter: EpisodeAdapter by lazy { EpisodeAdapter(popupSharedViewModel) }
 
     @SuppressLint("RestrictedApi")
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onStart(){
+        super.onStart()
 
         additionalMatchRecycler.windowAlignment = VerticalGridView.WINDOW_ALIGN_BOTH_EDGE
         additionalMatchRecycler.isFocusable = false

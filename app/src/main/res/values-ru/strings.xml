@@ -76,7 +76,8 @@
     <string name="text_type">Тип</string>
     <string name="text_sum">Сумма</string>
     <string name="pay_story">История платежей</string>
-    <string name="text_close_app">Вы уверены, что хотите выйти из программы?</string>
+    <string name="text_close_app">Вы уверены, что хотите выйти из приложения?\nАвторизация будет сохранена.</string>
+    <string name="text_logout">Вы уверены, что хотите выйти из аккаунта?</string>
     <string name="text_close_app_title">Подтверждение</string>
     <string-array name="billing_type_names">
         <item>Месяц</item>
@@ -84,4 +85,8 @@
         <item>Плата за просмотр</item>
     </string-array>
     <string name="text_choose_quality">Выберите качество</string>
+    <string name="text_not_find_match">Матчи не найдены</string>
+    <string name="text_not_find_tour">Турниры не найдены</string>
+    <string name="wrong_login_or_password">Неверный логин или пароль!</string>
+    <string name="this_login_is_already_used">Пользователь с таким логином уже существует!</string>
 </resources>
