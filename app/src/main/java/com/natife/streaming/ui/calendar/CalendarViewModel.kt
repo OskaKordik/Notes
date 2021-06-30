@@ -12,7 +12,7 @@ import kotlinx.coroutines.withContext
 import java.time.LocalDate
 import java.util.*
 
-abstract class CalendarViewModel: BaseViewModel() {
+abstract class CalendarViewModel : BaseViewModel() {
     abstract val date: LiveData<Date>
     abstract fun select(time: LocalDate)
     abstract fun onProceedButtonClicked()
@@ -24,9 +24,10 @@ class CalendarViewModelImpl(
     private val router: Router,
 ) : CalendarViewModel() {
 
-    override val date = MutableLiveData<Date>().apply {
-        value = Date()
-    }
+    override val date = MutableLiveData<Date>()
+//        .apply {
+//            value = Date()
+//        }
 
     override fun select(time: LocalDate) {
         settingsPrefs.saveDate(time.fromCalendar()?.time ?: Date().time)
