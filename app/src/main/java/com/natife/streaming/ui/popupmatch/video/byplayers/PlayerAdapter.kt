@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
-import com.google.android.material.card.MaterialCardView
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseListAdapter
 import com.natife.streaming.data.matchprofile.Player
@@ -36,7 +35,7 @@ class PlayerAdapter(val popupSharedViewModel: PopupSharedViewModel? = null) :
     override fun onViewAttachedToWindow(holder: PlayerViewHolder) {
         super.onViewAttachedToWindow(holder)
         holder.itemView.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
-            (view as MaterialCardView).strokeWidth = if (hasFocus) 5 else 0
+//            (view as MaterialCardView).strokeWidth = if (hasFocus) 5 else 0
         }
     }
 }
