@@ -12,7 +12,8 @@ import kotlinx.android.synthetic.main.item_match_new.view.*
 open class MatchViewHolderNew(private val view: View) : BaseViewHolder<Match>(view) {
     @SuppressLint("UseCompatLoadingForDrawables")
     override fun onBind(data: Match) {
-        itemView.match_imageView.url(data.image, data.placeholder)
+        itemView.match_imageView.url(data.image)
+//        itemView.match_imageView.url(data.image, data.placeholder)
         itemView.flag_of_command_country_image_l.bindFlagImage(data.countryId)
         itemView.type_of_game_image_l.bindSportImage(data.sportId)
         if (data.live) {
