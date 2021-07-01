@@ -43,9 +43,10 @@ abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity() {
             Locale.setDefault(locale)
             val configuration = Configuration()
             configuration.setLocale(locale)
-//        this.resources.updateConfiguration(configuration, this.resources.displayMetrics)
-            resources.displayMetrics.setTo(resources.displayMetrics)
-            resources.configuration.setTo(configuration)
+            this.resources.updateConfiguration(configuration, this.resources.displayMetrics)
+            // Если поставить то что закоментировано на эмуляторе глюки
+//            resources.displayMetrics.setTo(resources.displayMetrics)
+//            resources.configuration.setTo(configuration)
         }
 
         super.onCreate(savedInstanceState)

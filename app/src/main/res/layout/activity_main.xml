@@ -75,6 +75,19 @@
             app:layout_constraintTop_toTopOf="@+id/data_text" />
 
         <TextView
+            android:id="@+id/year_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            style="@style/TextStyle"
+            android:textColor="@color/menu_item_state_text"
+            android:textAppearance="@style/TextAppearance.StreamingTheme.Headline4"
+            app:layout_constraintBottom_toTopOf="@+id/data_text"
+            app:layout_constraintEnd_toEndOf="@+id/day_of_weektext_text"
+            app:layout_constraintStart_toStartOf="@+id/day_of_weektext_text"
+            tools:text="2021" />
+
+        <TextView
             android:id="@+id/data_text"
             style="@style/TextStyle"
             android:layout_width="wrap_content"
@@ -105,7 +118,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="visible"
-            app:constraint_referenced_ids="score_button, preferences_button, calendar_left, calendar_right, data_text, day_of_weektext_text" />
+            app:constraint_referenced_ids="year_text,score_button, preferences_button, calendar_left, calendar_right, data_text, day_of_weektext_text" />
 
         <ImageView
             android:id="@+id/tournament_logo_image"

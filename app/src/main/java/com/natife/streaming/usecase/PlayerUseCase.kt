@@ -41,6 +41,11 @@ class PlayerUseCaseImpl(
                 "ru", "RU" -> "${player.firstNameRus} ${player.lastNameRus}" ?: ""
                 else -> "${player.firstNameEng} ${player.lastNameEng}" ?: ""
             },
+            nickname = when (context.resources.getString(R.string.lang)) {
+                "en", "EN" -> "${player.nicknameEng}" ?: ""
+                "ru", "RU" -> "${player.nicknameRus}" ?: ""
+                else -> "${player.firstNameEng} ${player.lastNameEng}" ?: ""
+            },
             number = "0",
             team = 0,
             isFavorite = player.isFavorite,

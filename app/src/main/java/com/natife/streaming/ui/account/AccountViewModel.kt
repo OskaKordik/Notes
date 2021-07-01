@@ -101,7 +101,7 @@ class AccountViewModelImpl(
             val globalSettings = localSqlDataSourse.getGlobalSettings()
             if (globalSettings == null) {
                 localSqlDataSourse.setGlobalSettings(
-                    showScore = false,
+                    showScore = true,
                     lang = settings?.value?.lang ?: Lang.EN
                 )
                 settings.value = localSqlDataSourse.getGlobalSettings()

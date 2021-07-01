@@ -11,6 +11,9 @@ fun Date.dayOfWeek(lang: String): String {
     return SimpleDateFormat("EEEE", Locale(lang)).format(this)
 }
 
+fun Date.year(lang: String): String {
+    return SimpleDateFormat("yyyy", Locale(lang)).format(this)
+}
 
 fun Date.toRequest(): String {
     val sdf0 = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
