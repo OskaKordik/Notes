@@ -4,105 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--    <ImageView-->
-    <!--        android:id="@+id/dateLeft"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginStart="12dp"-->
-    <!--        android:clickable="true"-->
-    <!--        android:focusable="true"-->
-    <!--        android:rotation="180"-->
-    <!--        android:src="@drawable/ic_back"-->
-    <!--        app:layout_constraintBottom_toBottomOf="@+id/buttonLock"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="@+id/buttonLock"-->
-    <!--        app:tint="@color/button_background_state" />-->
-
-    <!--    <TextView-->
-    <!--        android:id="@+id/dateText"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginStart="8dp"-->
-    <!--        android:background="@drawable/text_selector"-->
-    <!--        android:clickable="true"-->
-    <!--        android:focusable="true"-->
-    <!--        android:textColor="@color/white"-->
-    <!--        android:textSize="18dp"-->
-    <!--        app:layout_constraintBottom_toBottomOf="@+id/dateLeft"-->
-    <!--        app:layout_constraintEnd_toStartOf="@+id/dateRight"-->
-    <!--        app:layout_constraintStart_toEndOf="@+id/dateLeft"-->
-    <!--        app:layout_constraintTop_toTopOf="@+id/dateLeft"-->
-    <!--        tools:text="2020" />-->
-
-    <!--    <ImageView-->
-    <!--        android:id="@+id/dateRight"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginStart="8dp"-->
-    <!--        android:clickable="true"-->
-    <!--        android:focusable="true"-->
-    <!--        android:src="@drawable/ic_back"-->
-    <!--        app:layout_constraintBottom_toBottomOf="@+id/dateLeft"-->
-    <!--        app:layout_constraintStart_toEndOf="@+id/dateText"-->
-    <!--        app:layout_constraintTop_toTopOf="@+id/dateLeft"-->
-    <!--        app:tint="@color/button_background_state" />-->
-
-
-    <!--    <com.google.android.material.button.MaterialButton-->
-    <!--        android:id="@+id/buttonSport"-->
-    <!--        style="@style/materialButtonStile"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginTop="12dp"-->
-    <!--        android:layout_marginEnd="18dp"-->
-    <!--        android:text="спорт"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent" />-->
-
-    <!--    <com.google.android.material.button.MaterialButton-->
-    <!--        android:id="@+id/buttonScore"-->
-    <!--        style="@style/materialButtonStile"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginTop="12dp"-->
-    <!--        android:layout_marginEnd="10dp"-->
-    <!--        android:text="счет"-->
-    <!--        app:layout_constraintEnd_toStartOf="@+id/buttonSport"-->
-    <!--        app:layout_constraintTop_toTopOf="parent" />-->
-
-    <!--    <com.google.android.material.button.MaterialButton-->
-    <!--        android:id="@+id/buttonLive"-->
-    <!--        style="@style/materialButtonStile"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginTop="12dp"-->
-    <!--        android:layout_marginEnd="10dp"-->
-    <!--        android:text="live"-->
-    <!--        app:layout_constraintEnd_toStartOf="@+id/buttonScore"-->
-    <!--        app:layout_constraintTop_toTopOf="parent" />-->
-
-    <!--    <com.google.android.material.button.MaterialButton-->
-    <!--        android:id="@+id/buttonTourney"-->
-    <!--        style="@style/materialButtonStile"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginTop="12dp"-->
-    <!--        android:layout_marginEnd="10dp"-->
-    <!--        android:text="турнир"-->
-    <!--        app:layout_constraintEnd_toStartOf="@+id/buttonLive"-->
-    <!--        app:layout_constraintTop_toTopOf="parent" />-->
-
-    <!--    <ImageView-->
-    <!--        android:id="@+id/buttonLock"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="0dp"-->
-    <!--        android:layout_marginEnd="5dp"-->
-    <!--        android:focusable="true"-->
-
-    <!--        android:src="@drawable/button_lock"-->
-    <!--        app:layout_constraintBottom_toBottomOf="@+id/buttonTourney"-->
-    <!--        app:layout_constraintEnd_toStartOf="@+id/buttonTourney"-->
-    <!--        app:layout_constraintTop_toTopOf="@+id/buttonTourney" />-->
     <ProgressBar
         android:id="@+id/progress_icon"
         android:layout_width="wrap_content"
@@ -114,6 +15,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/home_recycler_layout"
         app:layout_constraintVertical_bias="0.4" />
+
+    <TextView
+        android:id="@+id/textView_match_not_find"
+        style="@style/TextAppearance.StreamingTheme.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_not_find_match"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/home_recycler_layout"
+        app:layout_constraintEnd_toEndOf="@+id/home_recycler_layout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/home_recycler_layout"
+        app:layout_constraintVertical_bias="0.3" />
+
 
     <androidx.leanback.widget.BrowseFrameLayout
         android:id="@+id/home_recycler_layout"
@@ -128,24 +43,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
-
-    <TextView
-        android:id="@+id/textView_match_not_find"
-        style="@style/TextAppearance.StreamingTheme.Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/text_not_find_match"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.47"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.3" />
-
-<!--        app:layout_constraintVertical_bias="0.0">-->
+        app:layout_constraintVertical_bias="0.0">
 
         <androidx.leanback.widget.VerticalGridView
             android:id="@+id/homeRecycler"
