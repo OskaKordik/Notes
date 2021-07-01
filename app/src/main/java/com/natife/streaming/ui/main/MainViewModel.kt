@@ -63,6 +63,7 @@ class MainViewModel(
         launch {
             val globalSettings = localSqlDataSourse.getGlobalSettings()
             if (globalSettings == null) {
+                settingsPrefs.saveLanguage(lang.uppercase()) // TODO продублировал в преференс тк не нашел решения как брать из бд при загрузке в
                 localSqlDataSourse.setGlobalSettings(
                     showScore = false,
                     lang = Lang.valueOf(lang.uppercase())

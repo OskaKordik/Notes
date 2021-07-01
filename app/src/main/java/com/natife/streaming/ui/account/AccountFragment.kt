@@ -1,17 +1,17 @@
 package com.natife.streaming.ui.account
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
-import android.content.DialogInterface
 import android.app.AlarmManager
+import android.app.AlertDialog
 import android.app.PendingIntent
+import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
-import android.content.Context
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.widget.Group
 import androidx.core.view.isVisible
@@ -19,6 +19,7 @@ import com.natife.streaming.R
 import com.natife.streaming.base.BaseFragment
 import com.natife.streaming.db.entity.Lang
 import com.natife.streaming.ext.predominantColorToGradient
+import com.natife.streaming.ext.subscribeEvent
 import kotlinx.android.synthetic.main.fragment_account.*
 import timber.log.Timber
 
@@ -30,20 +31,6 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
             viewModel.setLang(position)
             Timber.e(position.toString())
-            if ((viewModel.lastposition != null)&&(viewModel.lastposition != position)) {
-                val mStartActivity: Intent = Intent(requireContext(), com.natife.streaming.ui.main.MainActivity::class.java)
-                val mPendingIntentId: Int = 123456
-                val mPendingIntent: PendingIntent = PendingIntent.getActivity(
-                    requireContext(),
-                    mPendingIntentId,
-                    mStartActivity,
-                    PendingIntent.FLAG_CANCEL_CURRENT
-                )
-                val mgr: AlarmManager =
-                    requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
-                mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 200, mPendingIntent)
-                System.exit(0)
-            }
             viewModel.lastposition = position
         }
 
@@ -70,6 +57,23 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
         requireActivity().findViewById<MotionLayout>(R.id.mainMotion)
             .predominantColorToGradient("#CB312A")
 
+        subscribeEvent(viewModel.restart) {
+            if (it) {
+                val mStartActivity: Intent =
+                    Intent(requireContext(), com.natife.streaming.ui.main.MainActivity::class.java)
+                val mPendingIntentId: Int = 123456
+                val mPendingIntent: PendingIntent = PendingIntent.getActivity(
+                    requireContext(),
+                    mPendingIntentId,
+                    mStartActivity,
+                    PendingIntent.FLAG_CANCEL_CURRENT
+                )
+                val mgr: AlarmManager =
+                    requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 200, mPendingIntent)
+                System.exit(0)
+            }
+        }
 
         buttonLogout.setOnClickListener {
 

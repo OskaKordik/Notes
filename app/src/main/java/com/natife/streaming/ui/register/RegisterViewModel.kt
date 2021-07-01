@@ -58,6 +58,7 @@ class RegisterViewModelImpl(
                                             Date().time
                                         )
                                     }
+                                    settingsPrefs.saveLanguage(lang.uppercase()) // TODO продублировал в преференс тк не нашел решения как брать из бд при загрузке в BaseActivity
                                     localSqlDataSourse.setGlobalSettings(
                                         showScore = false,
                                         lang = Lang.valueOf(lang.uppercase())

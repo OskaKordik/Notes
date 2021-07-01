@@ -18,7 +18,6 @@ interface SettingsPrefs: BasePrefs {
     fun saveSubOnly(show: Boolean): Boolean
     fun saveDate(time:Long): Boolean
 
-    @Deprecated("localSqlDataSourse.getGlobalSettings()")
     fun saveLanguage(lang: String): Boolean
     fun saveCard(id: Int): Boolean
     fun saveSubscription(id: Int): Boolean
@@ -33,7 +32,6 @@ interface SettingsPrefs: BasePrefs {
     fun getSubOnly(): Boolean
     fun getDate():Long?
 
-    @Deprecated("localSqlDataSourse.getGlobalSettings()")
     fun getLanguage(): String
     fun getCard(): Int?
     fun getSubscription(): Int?
@@ -77,7 +75,6 @@ class SettingsPrefsImpl(private val prefs: SharedPreferences): SettingsPrefs{
     override fun saveSubOnly(show: Boolean): Boolean = prefs.edit().putBoolean(SUB_ONLY, show).commit()
     override fun saveDate(time: Long): Boolean =prefs.edit().putLong(DATE,time).commit()
 
-    @Deprecated("localSqlDataSourse.getGlobalSettings()")
     override fun saveLanguage(lang: String) = prefs.edit().putString(LANG,lang).commit()
     override fun saveCard(id: Int) = prefs.edit().putInt(CARD,id).commit()
     override fun saveSubscription(id: Int) = prefs.edit().putInt(SUB,id).commit()
@@ -125,7 +122,6 @@ class SettingsPrefsImpl(private val prefs: SharedPreferences): SettingsPrefs{
         }
     }
 
-    @Deprecated("localSqlDataSourse.getGlobalSettings()")
     override fun getLanguage(): String = prefs.getString(LANG,"ru")?:"ru"
     override fun getCard(): Int?  {
         val card = prefs.getInt(CARD, -1)
