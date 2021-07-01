@@ -184,14 +184,14 @@ class BillingViewModelImpl(
 }
 
 data class OfferData(
-    val matchId: Int,
-    val sportId: Int,
-    val tournamentId: Int,
+    val matchId: Int = 0,
+    val sportId: Int = 0,
+    val tournamentId: Int = 0,
     val offerTitle: String = "",
     val teamLeagueName: String = "",
     val description: String = "",
     val billingOfferCurrency: String = "",
     val billingOfferPrice: Int = 0,
-    val isLive: Boolean,
-    val titleForLivePlayer: String
+    val isLive: Boolean = false,
+    val titleForLivePlayer: String = ""
 )

@@ -2,6 +2,7 @@ package com.natife.streaming.ui.main
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.view.KeyEvent
 import android.content.DialogInterface
 import android.graphics.Rect
 import android.os.Bundle
@@ -24,6 +25,19 @@ class MainActivity : BaseActivity<MainViewModel>() {
     override fun getNavHostId() = R.id.globalNavFragment
 
     private var lastDestination = true
+
+
+    private var lastClicked = 0L
+    private var clickInterval = 300L
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        val now = System.currentTimeMillis()
+        return if (now - lastClicked > clickInterval) {
+            lastClicked = now
+            super.onKeyDown(keyCode, event)
+        } else {
+            true
+        }
+    }
 
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -222,6 +236,8 @@ class MainActivity : BaseActivity<MainViewModel>() {
         else super.onBackPressed()
 
     }
+
+
 
 
 }

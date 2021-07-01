@@ -132,9 +132,6 @@ class PopupVideoFragment : BaseFragment<PopupVideoViewModel>() {
         }.attach()
         tab_layout.getChildAt(0).requestFocus()
         tab_layout.getChildAt(0).isSelected = true
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            viewModel.onFinishClicked()
-        }
     }
 
     override fun getParameters(): ParametersDefinition = {

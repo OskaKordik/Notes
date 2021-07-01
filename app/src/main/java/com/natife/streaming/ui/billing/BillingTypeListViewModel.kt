@@ -50,4 +50,8 @@ class BillingTypeListViewModel() : BaseViewModel() {
     fun searchResultClicked(searchResultClicked: OfferData) {
         _searchResultClicked.value = searchResultClicked
     }
+
+    fun select(){
+        _searchResultClicked.value = OfferData()
+    }
 }

@@ -149,4 +149,9 @@
         <item name="android:minHeight">86dp</item>
     </style>
 
+    <style name="CustomTabText" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
 </resources>

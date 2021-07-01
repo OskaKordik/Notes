@@ -3,6 +3,7 @@ package com.natife.streaming.ui.home
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.leanback.widget.BaseGridView
 import androidx.leanback.widget.BrowseFrameLayout
 import androidx.leanback.widget.VerticalGridView
@@ -38,9 +39,7 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
 
         subscribe(viewModel.listTournament) {
             adapter.submitList(it)
-            if ((it.isEmpty()) && (!viewModel.load))
-                textView_match_not_find.visibility = View.VISIBLE
-            else textView_match_not_find.visibility = View.GONE
+            textView_match_not_find.isVisible = (it.isEmpty()) && (!viewModel.load)
         }
         subscribeEvent(viewModel.isLoadData) {
             progress_icon.visibility = if (it) View.GONE else View.VISIBLE

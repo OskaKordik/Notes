@@ -1,7 +1,11 @@
 package com.natife.streaming.ui.search
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import android.content.Context
+import android.app.Activity
+import android.view.inputmethod.InputMethodManager
 import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
 import android.widget.TextView.OnEditorActionListener
@@ -65,7 +69,6 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
                     if (positionMotionLayout.equals("end")) {
                         search_tab_layout?.getTabAt(0)?.view?.let {
                             it.requestFocus()
-                            it.isSelected = true
                         }
                     }
                     positionMotionLayout = "start"
@@ -81,23 +84,10 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
 
     }
 
-    override fun onResume() {
-        ((activity as MainActivity).mainMotion as MotionLayout).addTransitionListener(
-            transitionListener
-        )
-        super.onResume()
-    }
+    @SuppressLint("RestrictedApi")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-
-
-    override fun onStart(){
-        super.onStart()
-        (activity as MainActivity).main_group?.visibility = View.GONE
-        (activity as MainActivity).main_background_group?.visibility = View.GONE
-        (activity as MainActivity).search_background_group?.visibility = View.VISIBLE
-        //Heading in the predominant team color
-        (activity as MainActivity).mainMotion?.predominantColorToGradient("#CB312A")
-        (activity as MainActivity).search_text_field?.editText?.setText("")
         searchTabNames = resources.getStringArray(R.array.search_names)
         val searchFragmentAdapter = SearchFragmentAdapter(
             childFragmentManager,
@@ -111,6 +101,34 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
             tab.text = searchTabNames[position]
         }.attach()
 
+        search_tab_layout.getTabAt(0)?.view?.apply {
+            this.requestFocus()
+            isSelected = true
+        }
+
+    }
+
+    override fun onResume() {
+        ((activity as MainActivity).mainMotion as MotionLayout).addTransitionListener(
+            transitionListener
+        )
+        requireActivity().mainMenu.isFocusable = false
+        requireActivity().mainMenu.isFocusable = true
+        super.onResume()
+    }
+
+
+
+    override fun onStart(){
+        super.onStart()
+        (activity as MainActivity).main_group?.visibility = View.GONE
+        (activity as MainActivity).main_background_group?.visibility = View.GONE
+        (activity as MainActivity).search_background_group?.visibility = View.VISIBLE
+        //Heading in the predominant team color
+        (activity as MainActivity).mainMotion?.predominantColorToGradient("#CB312A")
+        (activity as MainActivity).search_text_field?.editText?.setText(searchResultViewModel.searchText.value?: "")
+
+
 
 
         tab_layout_search.onFocusSearchListener =
@@ -121,20 +139,38 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
                             when (focused) {
                                 search_tab_layout.getTabAt(0)?.view -> {
                                     val temp = searchResultViewModel.startViewID.value?.get(0) ?: -1
-                                    if (temp > 0) return@OnFocusSearchListener tab_layout_search.findViewById(
+                                    val temp1 = searchResultViewModel.startViewID.value?.get(1) ?: -1
+                                    val temp2 = searchResultViewModel.startViewID.value?.get(2) ?: -1
+                                    if (temp >= 0) return@OnFocusSearchListener tab_layout_search.findViewById(
                                         temp
+                                    ) else if(temp1>=0) return@OnFocusSearchListener tab_layout_search.findViewById(
+                                        temp1
+                                    ) else if(temp2>=0) return@OnFocusSearchListener tab_layout_search.findViewById(
+                                        temp2
                                     ) else return@OnFocusSearchListener focused
                                 }
                                 search_tab_layout.getTabAt(1)?.view -> {
-                                    val temp = searchResultViewModel.startViewID.value?.get(1) ?: -1
-                                    if (temp > 0) return@OnFocusSearchListener tab_layout_search.findViewById(
+                                    val temp = searchResultViewModel.startViewID.value?.get(0) ?: -1
+                                    val temp1 = searchResultViewModel.startViewID.value?.get(1) ?: -1
+                                    val temp2 = searchResultViewModel.startViewID.value?.get(2) ?: -1
+                                    if (temp >= 0) return@OnFocusSearchListener tab_layout_search.findViewById(
                                         temp
+                                    ) else if(temp1>=0) return@OnFocusSearchListener tab_layout_search.findViewById(
+                                        temp1
+                                    ) else if(temp2>=0) return@OnFocusSearchListener tab_layout_search.findViewById(
+                                        temp2
                                     ) else return@OnFocusSearchListener focused
                                 }
                                 search_tab_layout.getTabAt(2)?.view -> {
-                                    val temp = searchResultViewModel.startViewID.value?.get(2) ?: -1
-                                    if (temp > 0) return@OnFocusSearchListener tab_layout_search.findViewById(
+                                    val temp = searchResultViewModel.startViewID.value?.get(0) ?: -1
+                                    val temp1 = searchResultViewModel.startViewID.value?.get(1) ?: -1
+                                    val temp2 = searchResultViewModel.startViewID.value?.get(2) ?: -1
+                                    if (temp >= 0) return@OnFocusSearchListener tab_layout_search.findViewById(
                                         temp
+                                    ) else if(temp1>=0) return@OnFocusSearchListener tab_layout_search.findViewById(
+                                        temp1
+                                    ) else if(temp2>=0) return@OnFocusSearchListener tab_layout_search.findViewById(
+                                        temp2
                                     ) else return@OnFocusSearchListener focused
                                 }
                                 else -> return@OnFocusSearchListener focused
@@ -162,37 +198,27 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
         (activity as MainActivity).search_text_field?.editText?.setOnEditorActionListener(
             OnEditorActionListener { _, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    (activity as MainActivity).search_text_field?.editText?.clearFocus()
                     load_progress.visibility = View.VISIBLE
                     viewModel.search((activity as MainActivity).search_text_field?.editText?.text.toString())
                     searchResultViewModel.setSearchText((activity as MainActivity).search_text_field?.editText?.text.toString())
-                    searchResultViewModel.resetStartId()
-                    (activity as MainActivity).search_text_field?.editText?.clearFocus()
                     return@OnEditorActionListener true
                 }
                 false
             })
 
-        subscribe(searchResultViewModel.searchText) {
-            (activity as MainActivity).search_text_field?.editText?.setText(it)
-        }
 
         subscribe(viewModel.resultsTeam) {
             searchResultViewModel.setResultsTeam(it)
             load_progress.visibility = View.GONE
-//            search_tab_layout.getTabAt(1)?.view?.requestFocus()
-//            search_tab_layout.getTabAt(1)?.select()
         }
         subscribe(viewModel.resultsPlayer) {
             searchResultViewModel.setResultsPlayer(it)
             load_progress.visibility = View.GONE
-            search_tab_layout.getTabAt(0)?.view?.requestFocus()
-            search_tab_layout.getTabAt(0)?.select()
         }
         subscribe(viewModel.resultsTournament) {
             searchResultViewModel.setResultsTournament(it)
             load_progress.visibility = View.GONE
-//            search_tab_layout.getTabAt(2)?.view?.requestFocus()
-//            search_tab_layout.getTabAt(2)?.select()
         }
 
         subscribe(searchResultViewModel.startViewID) { start ->
@@ -203,11 +229,6 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
             }
         }
         subscribeEvent(searchResultViewModel.searchResultClicked, viewModel::select)
-
-        search_tab_layout.getTabAt(0)?.view?.apply {
-            this.requestFocus()
-            isSelected = true
-        }
     }
 
     override fun onStop() {

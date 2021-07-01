@@ -83,7 +83,13 @@ class BillingFragment : BaseFragment<BillingViewModel>() {
         }
 
 
-        subscribe(sharedBillingViewModel.searchResultClicked, viewModel::select)
+        sharedBillingViewModel.searchResultClicked.observe(viewLifecycleOwner){
+            if (it.matchId != 0) {
+                viewModel.select(it)
+                sharedBillingViewModel.select()
+            }
+        }
+
 
         tab_billing_layout.getChildAt(0).requestFocus()
         tab_billing_layout.getChildAt(0).isSelected = true

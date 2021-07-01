@@ -49,6 +49,10 @@ class HomeViewModelImpl(
     private var isLoading = AtomicBoolean(false)
     private var job: Job? = null
 
+    init{
+        load = true
+    }
+
     override fun loadList() {
         job?.cancel()
         job = launch {

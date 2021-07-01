@@ -205,12 +205,12 @@ class TournamentViewModel(
     }
 
     fun toProfile(match: Match) {
-        router.navigate(
-            TournamentFragmentDirections.actionTournamentFragmentToPopupVideo(      //    old ver     actionTournamentFragmentToMatchProfileFragment
-                match.id,
-                match.sportId
-            )
-        )
+//        router.navigate(
+//            TournamentFragmentDirections.actionTournamentFragmentToPopupVideo(      //    old ver     actionTournamentFragmentToMatchProfileFragment
+//                match.id,
+//                match.sportId
+//            )
+//        )
 
 
         when {

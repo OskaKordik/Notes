@@ -45,8 +45,8 @@ class UserPreferencesFragment : BaseFragment<UserPreferencesViewModel>() {
 
 
     @SuppressLint("RestrictedApi")
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onStart() {
+        super.onStart()
         //Heading in the predominant team color
         topConstraintLayout.predominantColorToGradient("#CB312A")
         kindsOfSportsRecyclerView.isFocusable = false
@@ -153,26 +153,22 @@ class UserPreferencesFragment : BaseFragment<UserPreferencesViewModel>() {
         )
         searchJob?.cancel()
         searchJob = lifecycleScope.launch {
+            requireActivity().findViewById<ProgressBar>(
+                R.id.load_progress
+            ).visibility = View.VISIBLE
+            requireActivity().findViewById<TextView>(
+                R.id.textView_match_not_find_preference
+            ).visibility = View.GONE
             viewModel.findClicked(
                 text, resources.getString(R.string.lang)
             ).collect {
                 if (it.isEmpty()) {
-                    if (viewModel.defaultLoadingLiveData?.value == true){
-                        requireActivity().findViewById<ProgressBar>(
-                            R.id.load_progress
-                        ).visibility = View.VISIBLE
-                        requireActivity().findViewById<TextView>(
-                            R.id.textView_match_not_find_preference
-                        ).visibility = View.GONE
-                    }else{
                         requireActivity().findViewById<ProgressBar>(
                             R.id.load_progress
                         ).visibility = View.GONE
                         requireActivity().findViewById<TextView>(
                             R.id.textView_match_not_find_preference
                         ).visibility = View.VISIBLE
-                    }
-
                 } else {
                     requireActivity().findViewById<ProgressBar>(
                         R.id.load_progress
