@@ -32,10 +32,10 @@ import java.util.*
 
 class CalendarFragment : BaseFragment<CalendarViewModel>() {
     override fun getLayoutRes(): Int = R.layout.fragment_calendar
-
     private var currentMonth: YearMonth = YearMonth.now()
-    private var firstMonth = currentMonth.minusMonths(0)
-    private var lastMonth = currentMonth.plusMonths(0)
+
+    //    private var firstMonth = currentMonth.minusMonths(0)
+//    private var lastMonth = currentMonth.plusMonths(0)
     private var firstDayOfWeek = WeekFields.of(Locale.getDefault()).firstDayOfWeek
 
 
@@ -48,7 +48,14 @@ class CalendarFragment : BaseFragment<CalendarViewModel>() {
             calendarView.daySize = Size(calendarView.width / 7, (calendarView.height - 40.dp) / 6)
         }
 
-        subscribe(viewModel.date) {
+        subscribe(viewModel.date) { date ->
+            // start calendar
+            Calendar.getInstance().let {
+                it.time = date
+                currentMonth =
+                    (YearMonth.of(it.get(Calendar.YEAR), it.get(Calendar.MONTH))).plusMonths(1)
+            }
+            setup()
             calendarView.notifyCalendarChanged()
         }
 
@@ -141,13 +148,13 @@ class CalendarFragment : BaseFragment<CalendarViewModel>() {
         proceed_button.setOnClickListener {
             viewModel.onProceedButtonClicked()
         }
-        // start calendar
-        setup()
+
+
     }
 
     private fun setup() {
-        firstMonth = currentMonth.minusMonths(0)
-        lastMonth = currentMonth.plusMonths(0)
+        val firstMonth = currentMonth.minusMonths(0)
+        val lastMonth = currentMonth.plusMonths(0)
         calendarView.setup(firstMonth, lastMonth, firstDayOfWeek)
         calendarView.scrollToMonth(currentMonth)
     }

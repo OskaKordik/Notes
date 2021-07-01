@@ -2,7 +2,6 @@ package com.natife.streaming.ui.main
 
 import androidx.lifecycle.MutableLiveData
 import com.natife.streaming.R
-import androidx.navigation.NavDestination
 import com.natife.streaming.base.BaseViewModel
 import com.natife.streaming.db.LocalSqlDataSourse
 import com.natife.streaming.db.entity.GlobalSettings
@@ -37,19 +36,15 @@ class MainViewModel(
                 router.navigate(R.id.action_global_nav_auth)
             }
         }
-//        launch {
-//            collect(authPrefs.getProfileFlow()) {
-//
-//                name.value = "${it?.firstName ?: ""} ${it?.lastName ?: ""}"
-//            }
-//        }
+        setPrefToday() // при каждом заходе в приложение всегда сбиваем дату на текущюю
+        date.value = Date()
 
-        val date = settingsPrefs.getDate()
-        if (date == null) {
-            this.date.value = Date()
-        } else {
-            this.date.value = Date(date)
-        }
+//        val date = settingsPrefs.getDate()
+//        if (date == null) {
+//            this.date.value = Date()
+//        } else {
+//            this.date.value = Date(date)
+//        }
 
         launchCatching {
             withContext(Dispatchers.IO) {
@@ -78,6 +73,12 @@ class MainViewModel(
             }
         }
 
+    private fun setPrefToday() {
+        val calendar = Calendar.getInstance()
+        calendar.time = Date()
+        settingsPrefs.saveDate(calendar.time.time)
+    }
+
     fun toCalendar() {
         router.navigate(R.id.action_homeFragment_to_calendarFragment)
     }
@@ -97,7 +98,6 @@ class MainViewModel(
     }
 
     fun preferences() {
-
         router.navigate(R.id.action_global_preferences)
     }
 
