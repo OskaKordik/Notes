@@ -18,7 +18,7 @@ class PlayerViewHolder(view: View) : BaseViewHolder<Player>(view) {
             .bold { this.append(data.number) }
             .append(" ")
             .append(data.name)
-        itemView.player_name.text = span
-//        itemView.player_name.text = if (span.length > 35) "${span.take(32)}..." else span
+//        itemView.player_name.text = span
+        itemView.player_name.text = if (span.length > 35) "${span.take(32)}..." else span
     }
 }
