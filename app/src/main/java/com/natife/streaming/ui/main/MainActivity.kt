@@ -13,10 +13,7 @@ import androidx.leanback.widget.BrowseFrameLayout
 import androidx.navigation.NavDestination
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseActivity
-import com.natife.streaming.ext.dayOfWeek
-import com.natife.streaming.ext.predominantColorToGradient
-import com.natife.streaming.ext.subscribe
-import com.natife.streaming.ext.toDisplay
+import com.natife.streaming.ext.*
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
@@ -54,15 +51,21 @@ class MainActivity : BaseActivity<MainViewModel>() {
         mainMenu.setProfile(resources.getString(R.string.account))
 //        }
         subscribe(viewModel.date) {
-            data_text.text =
-                it.toDisplay(resources.getString(R.string.lang)).capitalize(Locale.getDefault())
             if (it != null) {
+                data_text.text =
+                    it.toDisplay(resources.getString(R.string.lang)).capitalize(Locale.getDefault())
                 day_of_weektext_text.text =
                     it.dayOfWeek(resources.getString(R.string.lang)).capitalize(Locale.getDefault())
+                year_text.text = if (Date().year(resources.getString(R.string.lang)) != it.year(
+                        resources.getString(R.string.lang)
+                    )
+                )
+                    it.year(resources.getString(R.string.lang))
+                        .capitalize(Locale.getDefault()) else ""
             }
         }
         subscribe(viewModel.settings) {
-            if (!it.showScore) {
+            if (it.showScore) {
                 score_button.isChecked = false
                 score_button.text = resources.getString(R.string.hide_account)
             } else {
@@ -88,11 +91,13 @@ class MainActivity : BaseActivity<MainViewModel>() {
         }
         score_button.setOnClickListener {
             if (!score_button.isChecked) {
-                score_button.text = resources.getString(R.string.showe_account)
-                viewModel.scoreButtonClicked(true)
-            } else {
+                score_button.isChecked = false
                 score_button.text = resources.getString(R.string.hide_account)
                 viewModel.scoreButtonClicked(false)
+            } else {
+                score_button.isChecked = true
+                score_button.text = resources.getString(R.string.showe_account)
+                viewModel.scoreButtonClicked(true)
             }
         }
 
@@ -152,7 +157,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
         }
     }
 
-    private fun getLastDestination(destination: NavDestination){
+    private fun getLastDestination(destination: NavDestination) {
         lastDestination = when (destination.id) {
             R.id.searchFragment,
             R.id.favoritesFragment,
@@ -232,8 +237,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
             buttonNeg.requestFocus()
             buttonNeg.setTextColor(resources.getColor(R.color.black))
             buttonNeg.setBackgroundColor(resources.getColor(R.color.gray_400))
-        }
-        else super.onBackPressed()
+        } else super.onBackPressed()
 
     }
 

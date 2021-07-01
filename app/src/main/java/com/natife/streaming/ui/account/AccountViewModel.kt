@@ -4,13 +4,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseViewModel
-import com.natife.streaming.router.Router
-import com.natife.streaming.usecase.AccountUseCase
-import com.natife.streaming.usecase.LogoutUseCase
 import com.natife.streaming.data.Profile
 import com.natife.streaming.db.LocalSqlDataSourse
 import com.natife.streaming.db.entity.GlobalSettings
 import com.natife.streaming.db.entity.Lang
+import com.natife.streaming.ext.Event
+import com.natife.streaming.preferenses.SettingsPrefs
+import com.natife.streaming.router.Router
+import com.natife.streaming.usecase.AccountUseCase
+import com.natife.streaming.usecase.LogoutUseCase
 
 abstract class AccountViewModel : BaseViewModel() {
     abstract fun logout()
@@ -25,6 +27,7 @@ abstract class AccountViewModel : BaseViewModel() {
     abstract val profileLiveData: LiveData<Profile>
     abstract val settings: LiveData<GlobalSettings>
     abstract var lastposition: Int?
+    abstract val restart: LiveData<Event<Boolean>>
 
 }
 
@@ -32,9 +35,11 @@ class AccountViewModelImpl(
     private val router: Router,
     private val logoutUseCase: LogoutUseCase,
     private val accountUseCase: AccountUseCase,
-    private val localSqlDataSourse: LocalSqlDataSourse
+    private val localSqlDataSourse: LocalSqlDataSourse,
+    private val settingsPrefs: SettingsPrefs
 ) : AccountViewModel() {
     override val loadersLiveData = MutableLiveData<Boolean>(true)
+    override val restart = MutableLiveData<Event<Boolean>>()
     override val profileLiveData = MutableLiveData<Profile>()
     override val settings = MutableLiveData<GlobalSettings>()
     override var lastposition: Int? = null
@@ -51,10 +56,11 @@ class AccountViewModelImpl(
     }
 
     @ExperimentalStdlibApi
-    override fun initialization(lang: String){
-        launch{
+    override fun initialization(lang: String) {
+        launch {
             val globalSettings = localSqlDataSourse.getGlobalSettings()
             if (globalSettings == null) {
+                settingsPrefs.saveLanguage(lang.uppercase()) // TODO продублировал в преференс тк не нашел решения как брать из бд при загрузке в BaseActivity
                 localSqlDataSourse.setGlobalSettings(
                     showScore = false,
                     lang = Lang.valueOf(lang.uppercase())
@@ -67,16 +73,16 @@ class AccountViewModelImpl(
     }
 
 
-
     override fun logout() {
         loadersLiveData.value = true
-            logoutUseCase.execute(true)
+        logoutUseCase.execute(true)
         loadersLiveData.value = false
     }
 
     override fun back() {
         router.navigateUp()
     }
+
     override fun toSubscriptions() {
         router.navigate(R.id.action_accountFragment_to_subscriptionFragment)
     }
@@ -87,16 +93,16 @@ class AccountViewModelImpl(
 
 
     override fun setScore() {
-        launch{
+        launch {
             localSqlDataSourse.updateGlobalSettings(
-                showScore = !settings.value!!.showScore?: false,
-                lang = settings?.value?.lang?: Lang.EN
+                showScore = !settings.value!!.showScore ?: false,
+                lang = settings?.value?.lang ?: Lang.EN
             )
             val globalSettings = localSqlDataSourse.getGlobalSettings()
             if (globalSettings == null) {
                 localSqlDataSourse.setGlobalSettings(
-                    showScore = false,
-                    lang = settings?.value?.lang?: Lang.EN
+                    showScore = true,
+                    lang = settings?.value?.lang ?: Lang.EN
                 )
                 settings.value = localSqlDataSourse.getGlobalSettings()
             } else {
@@ -107,11 +113,13 @@ class AccountViewModelImpl(
 
 
     override fun setLang(lang: Int) {
-        launch{
+        if ((lastposition != null) && (lastposition != lang)) launch {
+            settingsPrefs.saveLanguage(language[lang].name) // TODO продублировал в преференс тк не нашел решения как брать из бд при загрузке в BaseActivity
             localSqlDataSourse.updateGlobalSettings(
-                showScore = settings.value!!.showScore?: false,
+                showScore = settings.value!!.showScore ?: false,
                 lang = language[lang]
             )
+            restart.value = Event(true)
         }
     }
 }

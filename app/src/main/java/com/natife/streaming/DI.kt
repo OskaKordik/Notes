@@ -102,7 +102,7 @@ val viewModelModule = module {
     }//new
 
     viewModel { MainViewModel(get(), get(), get(), get()) }
-    viewModel<AccountViewModel> { AccountViewModelImpl(get(), get(), get(), get()) }
+    viewModel<AccountViewModel> { AccountViewModelImpl(get(), get(), get(), get(), get()) }
     viewModel { (args: TournamentFragmentArgs) ->
         TournamentViewModel(
             args.sportId,

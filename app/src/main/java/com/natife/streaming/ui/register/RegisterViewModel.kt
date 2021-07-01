@@ -58,8 +58,9 @@ class RegisterViewModelImpl(
                                             Date().time
                                         )
                                     }
+                                    settingsPrefs.saveLanguage(lang.uppercase()) // TODO продублировал в преференс тк не нашел решения как брать из бд при загрузке в BaseActivity
                                     localSqlDataSourse.setGlobalSettings(
-                                        showScore = false,
+                                        showScore = true,
                                         lang = Lang.valueOf(lang.uppercase())
                                     )
                                     router.navigate(R.id.action_global_preferences)

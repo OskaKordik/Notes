@@ -63,8 +63,9 @@ class MainViewModel(
         launch {
             val globalSettings = localSqlDataSourse.getGlobalSettings()
             if (globalSettings == null) {
+                settingsPrefs.saveLanguage(lang.uppercase()) // TODO продублировал в преференс тк не нашел решения как брать из бд при загрузке в
                 localSqlDataSourse.setGlobalSettings(
-                    showScore = false,
+                    showScore = true,
                     lang = Lang.valueOf(lang.uppercase())
                 )
                 settings.value = localSqlDataSourse.getGlobalSettings()
@@ -72,6 +73,12 @@ class MainViewModel(
                 settings.value = localSqlDataSourse.getGlobalSettings()
             }
         }
+
+    fun getGlobalSettings() {
+        launch {
+            settings.value = localSqlDataSourse.getGlobalSettings()
+        }
+    }
 
     private fun setPrefToday() {
         val calendar = Calendar.getInstance()
@@ -104,8 +111,10 @@ class MainViewModel(
     fun scoreButtonClicked(b: Boolean) {
         if (b) launch {
             localSqlDataSourse.updateShowScore(false)
+            settings.value = localSqlDataSourse.getGlobalSettings()
         } else launch {
             localSqlDataSourse.updateShowScore(true)
+            settings.value = localSqlDataSourse.getGlobalSettings()
         }
 
     }

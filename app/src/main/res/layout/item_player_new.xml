@@ -45,7 +45,7 @@
             android:duplicateParentState="true"
             android:gravity="center_horizontal"
             android:maxLines="1"
-            android:maxLength="35"
+            android:maxLength="40"
             android:textAppearance="@style/TextAppearance.StreamingTheme.Headline5"
             android:textColor="@color/button_text_b_w_state_new"
             app:layout_constraintBottom_toBottomOf="parent"

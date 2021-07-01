@@ -42,8 +42,9 @@ class LoginViewModelImpl(
                         accountUseCase.getProfile()
                         //проверка всех настроек если клиент вошел под старым аккаунтом на новую установку
                         if (localSqlDataSourse.getGlobalSettings() == null) {
+                            settingsPrefs.saveLanguage(application.resources.getString(R.string.lang)) // TODO продублировал в преференс тк не нашел решения как брать из бд при загрузке в BaseActivity
                             localSqlDataSourse.setGlobalSettings(
-                                showScore = false,
+                                showScore = true,
                                 lang = Lang.valueOf(application.resources.getString(R.string.lang))
                             )
                         }
