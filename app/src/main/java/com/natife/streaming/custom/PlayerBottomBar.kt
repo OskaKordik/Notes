@@ -43,7 +43,7 @@ class PlayerBottomBar @JvmOverloads constructor(
         simpleExoPlayer: SimpleExoPlayer?,
         viewModel: PlayerViewModel,
     ) {
-        sliders_plase.removeAllViews()
+        sliders_place.removeAllViews()
         //paddings
         val padding = when (video.playlist.size) {
             in 0..3 -> 25
@@ -89,7 +89,7 @@ class PlayerBottomBar @JvmOverloads constructor(
                     }
                 }
             }
-            sliders_plase.addView(
+            sliders_place.addView(
                 initSliderBars(
                     index,
                     episode,

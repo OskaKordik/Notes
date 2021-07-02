@@ -14,8 +14,11 @@ import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.activity.addCallback
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.setFragmentResultListener
+import androidx.leanback.widget.BrowseFrameLayout
 import androidx.leanback.widget.BrowseFrameLayout.OnChildFocusListener
+import androidx.transition.TransitionManager
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.Renderer
@@ -34,9 +37,11 @@ import com.natife.streaming.ext.toDisplayTime
 import com.natife.streaming.ui.player.menu.quality.VideoQualityDialog
 import kotlinx.android.synthetic.main.custom_playback_control.*
 import kotlinx.android.synthetic.main.fragment_player.*
+import kotlinx.android.synthetic.main.fragment_settings.view.*
 import kotlinx.android.synthetic.main.view_player_bottom_bar.*
 import org.koin.core.parameter.ParametersDefinition
 import org.koin.core.parameter.parametersOf
+import timber.log.Timber
 
 
 class PlayerFragment : BaseFragment<PlayerViewModel>() {
@@ -57,6 +62,7 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
     private var playbackPosition: Long = 0
     var animation: ValueAnimator? = null
     private val handler = Handler(Looper.getMainLooper())
+    private lateinit var constraintSetWithoutTransformation: ConstraintSet
 
 
     override fun onResume() {
@@ -103,7 +109,25 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
 //        }
 //
 //
-//        exo_play.setOnKeyListener { v, keyCode, event ->
+//        sliders_place.setOnKeyListener { v, keyCode, event ->
+//            when (keyCode) {
+//                KeyEvent.KEYCODE_DPAD_DOWN -> {
+//                    menuPlayer.visibility = View.GONE
+//                    menuPlayer.requestFocus()
+//                    return@setOnKeyListener true
+//                }
+//                else -> return@setOnKeyListener false
+//            }
+//            if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
+//                if (end >= 0) {
+//                    progress.requestFocus()
+//                } else {
+//                    exo_progress.requestFocus()
+//                }
+//                return@setOnKeyListener true
+//            }
+//            return@setOnKeyListener false
+//
 //            if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
 //                if (end >= 0) {
 //                    progress.requestFocus()
@@ -112,6 +136,7 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
 //                }
 //                return@setOnKeyListener true
 //            }
+//
 //            if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
 //                if (end >= 0) {
 //                    progress.requestFocus()
@@ -165,7 +190,6 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
 //
 //        })
 
-
         var isShow = false
         parentLayout.onChildFocusListener = object : OnChildFocusListener {
             override fun onRequestFocusInDescendants(
@@ -200,7 +224,97 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
             }
 
         }
+
+        second_bottom_menu_layout.onFocusSearchListener =
+            BrowseFrameLayout.OnFocusSearchListener { focused, direction ->
+                Timber.tag("TAG").d("$focused, $direction")
+                when (direction) {
+                    33 -> { //верх
+                        //трансформируем
+                        TransitionManager.beginDelayedTransition(custom_control_layout)
+                        constraintSetWithoutTransformation.applyTo(custom_control_layout)
+                        //увеличиваем кнопки
+                        exo_play.iconSize = 62
+                        exo_pause.iconSize = 62
+                        exo_rew.iconSize = 62
+                        exo_interval_rewind_30.iconSize = 62
+                        exo_interval_rewind_5.iconSize = 62
+                        exo_interval_forward_5.iconSize = 62
+                        exo_interval_forward_30.iconSize = 62
+                        exo_ffwd.iconSize = 62
+                        bigGameTitle.visibility = View.GONE
+                        sight_of_bottom.visibility = View.VISIBLE
+                        menuPlayer.visibility = View.GONE
+                        return@OnFocusSearchListener null
+                    }
+                    else -> return@OnFocusSearchListener null
+                }
+            }
+
+        sliders_place_layout.onFocusSearchListener =
+            BrowseFrameLayout.OnFocusSearchListener { focused, direction ->
+//            Timber.tag("TAG").d("$focused, $direction")
+                when (direction) {
+                    130 -> { //низ
+                        //трансформируем
+                        val set = ConstraintSet()
+                        set.clone(custom_control_layout)
+                        //сохраним для возврата
+                        constraintSetWithoutTransformation = set
+                        changeCustomControlLayout(set)
+                        TransitionManager.beginDelayedTransition(custom_control_layout)
+                        set.applyTo(custom_control_layout)
+                        //уменьшаем кнопки
+                        exo_play.iconSize = 27
+                        exo_pause.iconSize = 27
+                        exo_rew.iconSize = 27
+                        exo_interval_rewind_30.iconSize = 27
+                        exo_interval_rewind_5.iconSize = 27
+                        exo_interval_forward_5.iconSize = 27
+                        exo_interval_forward_30.iconSize = 27
+                        exo_ffwd.iconSize = 27
+
+                        bigGameTitle.visibility = View.VISIBLE
+                        sight_of_bottom.visibility = View.GONE
+                        menuPlayer.visibility = View.VISIBLE
+                        menuPlayer.requestFocus()
+                        return@OnFocusSearchListener null
+                    }
+                    else -> return@OnFocusSearchListener null
+                }
+            }
     }
+
+
+    private fun changeCustomControlLayout(set: ConstraintSet) {
+        // увеличиваем меню
+        set.clear(R.id.player_bottom_bar, ConstraintSet.BOTTOM)
+        set.connect(
+            R.id.player_bottom_bar,
+            ConstraintSet.BOTTOM,
+            ConstraintSet.PARENT_ID,
+            ConstraintSet.BOTTOM,
+            184.dp
+        )
+        //переносим кнопки
+        set.clear(R.id.exo_play, ConstraintSet.TOP)
+        set.connect(
+            R.id.exo_play,
+            ConstraintSet.TOP,
+            R.id.player_bottom_bar,
+            ConstraintSet.BOTTOM,
+            0.dp
+        )
+        set.clear(R.id.exo_pause, ConstraintSet.TOP)
+        set.connect(
+            R.id.exo_pause,
+            ConstraintSet.TOP,
+            R.id.player_bottom_bar,
+            ConstraintSet.BOTTOM,
+            0.dp
+        )
+    }
+
 
     fun getShowAnimation(): ValueAnimator {
 

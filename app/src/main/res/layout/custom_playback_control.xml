@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/custom_control_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -198,31 +198,52 @@
 
     <!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
 
+
     <com.natife.streaming.custom.PlayerBottomBar
         android:id="@+id/player_bottom_bar"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginBottom="49dp"
+        android:layout_marginBottom="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
-
-    <ImageView
-        android:id="@+id/menuPlayer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <androidx.leanback.widget.BrowseFrameLayout
+        android:id="@+id/second_bottom_menu_layout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="24dp"
-        android:background="@drawable/background_menu_button_plater"
-        android:backgroundTint="@color/button_menu_background_state"
-        android:focusable="true"
-        android:visibility="gone"
-        android:src="@drawable/ic_menu_player"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:descendantFocusability="afterDescendants"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/player_bottom_bar"
         app:layout_constraintStart_toStartOf="@+id/player_bottom_bar"
-        app:layout_constraintTop_toBottomOf="@+id/player_bottom_bar"
-        tools:ignore="contentDescription" />
+        app:layout_constraintTop_toBottomOf="@+id/player_bottom_bar">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/second_bottom_menu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/menuPlayer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_menu_button_plater"
+                android:backgroundTint="@color/button_menu_background_state"
+                android:focusable="true"
+                android:src="@drawable/ic_menu_player"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.leanback.widget.BrowseFrameLayout>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_half"
