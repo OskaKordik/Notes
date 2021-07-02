@@ -1,46 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="100dp">
+    android:layout_height="match_parent">
 
-    <FrameLayout
-        android:id="@+id/previewFrameLayout"
+    <!--    <FrameLayout-->
+    <!--        android:id="@+id/previewFrameLayout"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="60dp"-->
+    <!--        android:layout_marginStart="16dp"-->
+    <!--        android:layout_marginEnd="16dp"-->
+    <!--        android:background="@color/white10"-->
+    <!--        app:layout_constraintDimensionRatio="16:9"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.0"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:layout_constraintWidth_default="percent"-->
+    <!--        app:layout_constraintWidth_percent="0.35">-->
+
+    <!--        <ImageView-->
+    <!--            android:id="@+id/preloadImage"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="match_parent"-->
+    <!--            android:layout_margin="10dp"-->
+    <!--            android:src="@drawable/ic_star"-->
+    <!--            android:scaleType="fitXY" />-->
+    <!--    </FrameLayout>-->
+
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/smallGameTitle"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginStart="32dp"-->
+    <!--        android:layout_marginTop="32dp"-->
+    <!--        android:textColor="@color/white"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        tools:text="Футзал  |  Россия  |  Суперлига  |  34 тур" />-->
+
+    <TextView
+        android:id="@+id/bigGameTitle"
         android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@color/white10"
-        app:layout_constraintDimensionRatio="16:9"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:textAppearance="@style/TextAppearance.StreamingTheme.Headline1"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/duration"
+        app:layout_constraintEnd_toStartOf="@+id/position"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_default="percent"
-        app:layout_constraintWidth_percent="0.35">
+        app:layout_constraintTop_toTopOf="@+id/duration"
+        tools:text="КПРФ-Футзал : Сибиряк Новосибирск" />
 
-        <ImageView
-            android:id="@+id/preloadImage"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:src="@drawable/ic_star"
-            android:scaleType="fitXY" />
-    </FrameLayout>
+
+    <ImageView
+        android:id="@+id/sight_of_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toBottomOf="@+id/duration"
+        app:layout_constraintEnd_toEndOf="@+id/duration"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/duration"
+        app:srcCompat="@drawable/ic_sight_of_bottom" />
+
+    <TextView
+        android:id="@+id/position"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.StreamingTheme.Headline6"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toStartOf="@+id/slashTextView"
+        app:layout_constraintTop_toTopOf="@+id/slashTextView"
+        tools:text="00:00" />
+
+    <TextView
+        android:id="@+id/slashTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_slash"
+        android:textAppearance="@style/TextAppearance.StreamingTheme.Headline6"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toStartOf="@+id/duration"
+        app:layout_constraintTop_toTopOf="@+id/duration" />
+
+    <TextView
+        android:id="@+id/duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="20dp"
+        android:textAppearance="@style/TextAppearance.StreamingTheme.Headline6"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/sliders_plase"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="00:00" />
+
 
     <LinearLayout
         android:id="@+id/sliders_plase"
-        android:clipChildren="false"
         android:layout_width="match_parent"
         android:layout_height="15dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
         android:layout_margin="0dp"
+        android:clipChildren="false"
+        android:gravity="center"
+        android:orientation="horizontal"
         android:padding="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/previewFrameLayout" />
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

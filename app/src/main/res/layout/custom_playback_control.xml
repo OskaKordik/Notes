@@ -5,15 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.natife.streaming.custom.PlayerBottomBar
-        android:id="@+id/player_bottom_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/exo_play"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
 
     <com.google.android.material.button.MaterialButton
         android:id="@id/exo_rew"
@@ -137,121 +128,101 @@
         app:layout_constraintTop_toTopOf="@+id/exo_play"
         app:strokeWidth="0dp" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+    <!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginHorizontal="32dp"-->
+    <!--        android:layout_marginBottom="80dp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent">-->
+
+    <!--        <ImageView-->
+    <!--            android:id="@+id/menuPlayer"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:background="@drawable/background_menu_button_plater"-->
+    <!--            android:backgroundTint="@color/button_menu_background_state"-->
+    <!--            android:focusable="true"-->
+    <!--            android:nextFocusDown="@+id/progress"-->
+    <!--            android:src="@drawable/ic_menu_player"-->
+    <!--            app:layout_constraintStart_toStartOf="parent"-->
+    <!--            app:layout_constraintTop_toTopOf="parent"-->
+    <!--            tools:ignore="contentDescription" />-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/exo_position"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:textColor="@color/white"-->
+    <!--            app:layout_constraintEnd_toStartOf="@+id/slashTextView1"-->
+    <!--            app:layout_constraintTop_toTopOf="@+id/slashTextView1"-->
+    <!--            tools:text="00:00" />-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/slashTextView1"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:text="@string/text_slash"-->
+    <!--            android:textColor="@color/white"-->
+    <!--            app:layout_constraintEnd_toStartOf="@+id/exo_duration"-->
+    <!--            app:layout_constraintTop_toTopOf="@+id/exo_duration" />-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/exo_duration"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginEnd="8dp"-->
+    <!--            android:textColor="@color/white"-->
+    <!--            app:layout_constraintBottom_toBottomOf="@+id/menuPlayer"-->
+    <!--            app:layout_constraintEnd_toEndOf="parent"-->
+    <!--            app:layout_constraintTop_toTopOf="@id/menuPlayer"-->
+    <!--            tools:text="00:00" />-->
+
+    <!--        <androidx.constraintlayout.widget.Group-->
+    <!--            android:id="@+id/groupFull"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            app:constraint_referenced_ids="slashTextView1,exo_position,exo_progress,exo_duration" />-->
+
+    <!--        <com.google.android.exoplayer2.ui.DefaultTimeBar-->
+    <!--            android:id="@+id/exo_progress"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="26dp"-->
+    <!--            android:layout_weight="1"-->
+    <!--            android:focusable="true"-->
+    <!--            android:nextFocusUp="@+id/menuPlayer"-->
+    <!--            android:progressTint="#EACB6F"-->
+    <!--            android:thumbTint="@color/white"-->
+    <!--            app:layout_constraintTop_toBottomOf="@+id/menuPlayer"-->
+    <!--            app:played_color="#EACB6F"-->
+    <!--            app:scrubber_drawable="@drawable/player_seekbar_thumb" />-->
+
+    <!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+    <com.natife.streaming.custom.PlayerBottomBar
+        android:id="@+id/player_bottom_bar"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="49dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <ImageView
+        android:id="@+id/menuPlayer"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="32dp"
-        android:layout_marginBottom="80dp"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <ImageView
-            android:id="@+id/menuPlayer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/background_menu_button_plater"
-            android:backgroundTint="@color/button_menu_background_state"
-            android:focusable="true"
-            android:nextFocusDown="@+id/progress"
-            android:src="@drawable/ic_menu_player"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="contentDescription" />
-
-        <!--        <SeekBar-->
-        <!--            android:id="@+id/progress"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="26dp"-->
-        <!--            android:layout_weight="1"-->
-        <!--            android:focusable="true"-->
-        <!--            android:nextFocusUp="@+id/menuPlayer"-->
-        <!--            android:progressTint="#EACB6F"-->
-        <!--            android:thumb="@drawable/player_seekbar_thumb"-->
-        <!--            app:layout_constraintTop_toBottomOf="@+id/menuPlayer" />-->
-
-        <!--        <TextView-->
-        <!--            android:id="@+id/position"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:textColor="@color/white"-->
-        <!--            app:layout_constraintEnd_toStartOf="@+id/slashTextView"-->
-        <!--            app:layout_constraintTop_toTopOf="@+id/slashTextView"-->
-        <!--            tools:text="00:00" />-->
-
-        <TextView
-            android:id="@+id/exo_position"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toStartOf="@+id/slashTextView1"
-            app:layout_constraintTop_toTopOf="@+id/slashTextView1"
-            tools:text="00:00" />
-
-        <!--        <TextView-->
-        <!--            android:id="@+id/slashTextView"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:text="@string/text_slash"-->
-        <!--            android:textColor="@color/white"-->
-        <!--            app:layout_constraintEnd_toStartOf="@+id/duration"-->
-        <!--            app:layout_constraintTop_toTopOf="@+id/duration" />-->
-
-        <TextView
-            android:id="@+id/slashTextView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/text_slash"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toStartOf="@+id/exo_duration"
-            app:layout_constraintTop_toTopOf="@+id/exo_duration" />
-
-        <TextView
-            android:id="@+id/exo_duration"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="@+id/menuPlayer"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/menuPlayer"
-            tools:text="00:00" />
-
-        <!--        <TextView-->
-        <!--            android:id="@+id/duration"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginEnd="8dp"-->
-        <!--            android:textColor="@color/white"-->
-        <!--            app:layout_constraintBottom_toBottomOf="@+id/menuPlayer"-->
-        <!--            app:layout_constraintEnd_toEndOf="parent"-->
-        <!--            app:layout_constraintTop_toTopOf="@id/menuPlayer"-->
-        <!--            tools:text="00:00" />-->
-
-        <!--        <androidx.constraintlayout.widget.Group-->
-        <!--            android:id="@+id/groupFragments"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            app:constraint_referenced_ids="slashTextView,position,progress,duration" />-->
-
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/groupFull"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:constraint_referenced_ids="slashTextView1,exo_position,exo_progress,exo_duration" />
-
-        <com.google.android.exoplayer2.ui.DefaultTimeBar
-            android:id="@+id/exo_progress"
-            android:layout_width="match_parent"
-            android:layout_height="26dp"
-            android:layout_weight="1"
-            android:focusable="true"
-            android:nextFocusUp="@+id/menuPlayer"
-            android:progressTint="#EACB6F"
-            android:thumbTint="@color/white"
-            app:layout_constraintTop_toBottomOf="@+id/menuPlayer"
-            app:played_color="#EACB6F"
-            app:scrubber_drawable="@drawable/player_seekbar_thumb" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_marginStart="24dp"
+        android:background="@drawable/background_menu_button_plater"
+        android:backgroundTint="@color/button_menu_background_state"
+        android:focusable="true"
+        android:visibility="gone"
+        android:src="@drawable/ic_menu_player"
+        app:layout_constraintStart_toStartOf="@+id/player_bottom_bar"
+        app:layout_constraintTop_toBottomOf="@+id/player_bottom_bar"
+        tools:ignore="contentDescription" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_half"

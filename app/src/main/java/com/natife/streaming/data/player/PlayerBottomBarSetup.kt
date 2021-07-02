@@ -12,11 +12,14 @@ fun PlayerSetup.toInitBottomData(): PlayerBottomBarSetup? {
     var startTimeEpisode = 0L
     return when {
         currentPlaylist != null -> {
-//                    Timber.tag("TAG").d(Gson().toJson(currentPlaylist))
-//            Timber.tag("TAG").d(currentPlaylist.sortedWith(compareBy({ it.half }, { it.start })).toString())
+//            Timber.tag("TAG").d(Gson().toJson(currentPlaylist))
+//            Timber.tag("TAG")
+//                .d(currentPlaylist.sortedWith(compareBy({ it.half }, { it.start })).map {
+//                    it.copy(end = it.end * 1000, start = it.start * 1000, half = it.half-1)
+//                }.toString())
             PlayerBottomBarSetup(
                 playlist = currentPlaylist.sortedWith(compareBy({ it.half }, { it.start })).map {
-                    it.copy(end = it.end * 1000, start = it.start * 1000)
+                    it.copy(end = it.end * 1000, start = it.start * 1000, half = it.half - 1)
                 }
             )
         }
@@ -30,9 +33,9 @@ fun PlayerSetup.toInitBottomData(): PlayerBottomBarSetup? {
                     endTimeEpisode += (video.duration)
                     Episode(
                         title = this.currentEpisode.title,
-                        end = endTimeEpisode,
+                        end = endTimeEpisode - startTimeEpisode,
                         half = (video.period) - 1,
-                        start = startTimeEpisode,
+                        start = 0,
                         image = this.currentEpisode.image,
                         placeholder = this.currentEpisode.placeholder
                     )

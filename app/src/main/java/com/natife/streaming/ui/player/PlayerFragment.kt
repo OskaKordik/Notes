@@ -14,7 +14,6 @@ import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.activity.addCallback
-import androidx.core.view.isVisible
 import androidx.fragment.app.setFragmentResultListener
 import androidx.leanback.widget.BrowseFrameLayout.OnChildFocusListener
 import com.google.android.exoplayer2.MediaItem
@@ -31,9 +30,11 @@ import com.natife.streaming.R
 import com.natife.streaming.base.BaseFragment
 import com.natife.streaming.ext.dp
 import com.natife.streaming.ext.subscribe
+import com.natife.streaming.ext.toDisplayTime
 import com.natife.streaming.ui.player.menu.quality.VideoQualityDialog
 import kotlinx.android.synthetic.main.custom_playback_control.*
 import kotlinx.android.synthetic.main.fragment_player.*
+import kotlinx.android.synthetic.main.view_player_bottom_bar.*
 import org.koin.core.parameter.ParametersDefinition
 import org.koin.core.parameter.parametersOf
 
@@ -53,8 +54,6 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
     private var start = 0L
     private var end = 0L
     private var playWhenReady = false
-
-    //    private var currentWindow = 0
     private var playbackPosition: Long = 0
     var animation: ValueAnimator? = null
     private val handler = Handler(Looper.getMainLooper())
@@ -193,7 +192,7 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
                             animation!!.start()
                             isShow = false
                         }
-                        playerView.controllerShowTimeoutMs = 50000
+                        playerView.controllerShowTimeoutMs = 5000
                     }
                 } catch (e: Exception) {
 
@@ -241,10 +240,10 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
 //                Timber.tag("TAG").d(Gson().toJson(it))
                 player_bottom_bar.initVideoUrl(
                     it,
-                    getScreenWidth(requireActivity()),
+                    getScreenWidth(requireActivity()) - 100.dp, // плавающий отступ в макете для компенсации округления при выборе длинны
                     simpleExoPlayer,
                     viewModel
-                )  // todo!!!
+                )
                 simpleExoPlayer?.playWhenReady = true
             }
 
@@ -253,34 +252,19 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
             subscribe(viewModel.currentEpisode) {
 //                if (it.start >= 0 && it.end > 0) {
 //                    groupFragments.isVisible = true
-                groupFull.isVisible = false
+//                groupFull.isVisible = true
                 start = it.start
                 end = it.end
                 viewModel.currentWindow = it.half
-//                    currentWindow = if (it.half == -1 ) 0 else it.half
-//                    val max = (it.end - it.start)
-//                    progress.max = max.toInt()
-//                    duration.text = max.toDisplayTime()
-                if (it.half == -1) {
-                    simpleExoPlayer?.seekTo(it.start)
-                } else {
-                    simpleExoPlayer?.seekTo(it.half, it.start * 1000)
-                }
+                val max = (it.end - it.start)
+                duration.text = (max / 1000).toDisplayTime()
+                simpleExoPlayer?.seekTo(it.half, it.start)
 
-
-//                } else {
-////                    groupFragments.isVisible = false
-//                    groupFull.isVisible = true
-//                    //  val max = simpleExoPlayer!!.duration
-//                    start = it.start
-//                    end = simpleExoPlayer!!.duration
-//
-//
-//                    // progress.max = max.toInt()
-//                    simpleExoPlayer?.seekTo(it.start)
-//                }
                 //update SeekBar
-//                player_bottom_bar.updatePosition(currentWindow, simpleExoPlayer?.contentPosition)
+                player_bottom_bar.updatePosition(
+                    simpleExoPlayer?.currentWindowIndex ?: viewModel.currentWindow,
+                    simpleExoPlayer?.contentPosition
+                )
                 player_bottom_bar.updatePosition(
                     viewModel.currentWindow,
                     simpleExoPlayer?.contentPosition
@@ -333,7 +317,8 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
         }
 
         subscribe(viewModel.matchInfoLiveData) { matchInfo ->
-            smallGameTitle.text = matchInfo.info
+            //todo
+//            smallGameTitle.text = matchInfo.info
             bigGameTitle.text = "${matchInfo.team1.name} : ${matchInfo.team2.name}"
         }
 
@@ -361,36 +346,38 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
     }
 
     private fun showContent(show: Boolean) {
-        smallGameTitle.isVisible = show
-        bigGameTitle.isVisible = show
-        recyclerViewVideos.isVisible = show
+
+        //todo
+//        smallGameTitle.isVisible = show
+//        bigGameTitle.isVisible = show
+//        recyclerViewVideos.isVisible = show
     }
 
-    private fun showControls(show: Boolean) {
-//        progress.isVisible = show
-//        duration.isVisible = show
-//        position.isVisible = show
-        exo_play.isVisible = show
-        exo_pause.isVisible = show
-        menuPlayer.isVisible = show
-    }
+//    private fun showControls(show: Boolean) {
+////        progress.isVisible = show
+////        duration.isVisible = show
+////        position.isVisible = show
+//        exo_play.isVisible = show
+//        exo_pause.isVisible = show
+//        menuPlayer.isVisible = show
+//    }
 
     // Timer for episode seekbar
     private val timerRunnable: Runnable = object : Runnable {
         override fun run() {
             if (end > 0) {
                 player_bottom_bar.updatePosition(
-                    viewModel.currentWindow,
+                    simpleExoPlayer?.currentWindowIndex ?: viewModel.currentWindow,
                     simpleExoPlayer?.contentPosition
                 )
-//                progress.progress =
-//                    ((simpleExoPlayer?.contentPosition?.div(1000))?.minus(start))?.toInt() ?: 0
-//                position.text =
-//                    (((simpleExoPlayer?.contentPosition?.div(1000))?.minus(start))
-//                        ?: 0).toDisplayTime()
-                if (simpleExoPlayer?.contentPosition?.div(1000)!! >= end) {
+
+                // todo нет обновления общего временни когда мы сменли вручную секбаром
+                position.text =
+                    (((simpleExoPlayer?.contentPosition?.div(1000))?.minus(start))
+                        ?: 0).toDisplayTime()
+                if (simpleExoPlayer?.contentPosition!! >= end) {
                     simpleExoPlayer?.playWhenReady = false
-                    viewModel.toNextEpisode()
+//                    viewModel.toNextEpisode()
                 } else {
                     handler.postDelayed(this, 1000)
                 }

@@ -9,18 +9,16 @@ import android.view.LayoutInflater
 import android.widget.LinearLayout
 import android.widget.SeekBar
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.setMargins
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.natife.streaming.R
 import com.natife.streaming.data.matchprofile.Episode
 import com.natife.streaming.data.player.PlayerBottomBarSetup
 import com.natife.streaming.databinding.ViewPlayerBottomBarBinding
 import com.natife.streaming.ext.dp
-import com.natife.streaming.ext.toDate
-import com.natife.streaming.ext.toDisplay3
 import com.natife.streaming.ui.player.PlayerViewModel
 import kotlinx.android.synthetic.main.view_player_bottom_bar.view.*
 import timber.log.Timber
+import kotlin.math.ceil
 
 
 class PlayerBottomBar @JvmOverloads constructor(
@@ -31,6 +29,7 @@ class PlayerBottomBar @JvmOverloads constructor(
     private var _binding: ViewPlayerBottomBarBinding? = null
     private val binding get() = _binding!!
     private val sliderIds = mutableMapOf<Int, Episode>()
+    private lateinit var viewModel: PlayerViewModel
 
 
     init {
@@ -45,61 +44,97 @@ class PlayerBottomBar @JvmOverloads constructor(
         viewModel: PlayerViewModel,
     ) {
         sliders_plase.removeAllViews()
+        //paddings
+        val padding = when (video.playlist.size) {
+            in 0..3 -> 25
+            in 4..10 -> 7
+            in 10..20 -> 3
+            else -> 1
+        }
+        //Width SeekBar
+        val widthSeekBar = when (video.playlist.size) {
+            in 0..20 -> {
+                ceil(w.toDouble() / video.playlist.size.toDouble()).toInt()
+            }
+            in 20..40 -> {
+                ceil((w - (video.playlist.size)).toDouble() / video.playlist.size.toDouble()).toInt()
+            }
+            else -> {
+                ceil((w - (video.playlist.size + 20)).toDouble() / video.playlist.size.toDouble()).toInt()
+            }
+        }
+
         video.playlist.forEachIndexed { index, episode ->
             sliderIds[index] = episode.copy(
-                end = if (episode.half != -1) episode.end * 1000 else episode.end,
-                start = if (episode.half != -1) episode.start * 1000 else episode.start
+                end = episode.end,
+                start = episode.start
             )
-            val lp = LinearLayout.LayoutParams(
-                w / video.playlist.size,
-                4.dp
-            ) //ViewGroup.LayoutParams.WRAP_CONTENT
-            lp.setMargins(0)
-            lp.gravity = Gravity.CENTER
-
+            val lp = when (index) {
+                0 -> {
+                    LinearLayout.LayoutParams(
+                        widthSeekBar,
+                        4.dp
+                    ).apply {
+                        setMargins(padding, 0, padding, 0)
+                        gravity = Gravity.CENTER
+                    }
+                }
+                else -> {
+                    LinearLayout.LayoutParams(
+                        widthSeekBar,
+                        4.dp
+                    ).apply {
+                        setMargins(0, 0, padding, 0)
+                        gravity = Gravity.CENTER
+                    }
+                }
+            }
             sliders_plase.addView(
                 initSliderBars(
                     index,
                     episode,
-                    w / video.playlist.size,
-                    video.playlist.size,
                     simpleExoPlayer,
                     viewModel
                 ), lp
             )
         }
+        Timber.tag("TAG").d(sliderIds.toString())
     }
 
-    fun updatePosition(half: Int, i: Long?) {
-        Timber.tag("TAG").d("${(half)} ---${(i)} ---${(i)?.toDate()?.toDisplay3("ru")}")
+    fun startPlayingVideo(play: Episode) {
+        viewModel.play(play)
+    }
+
+    fun updatePosition(half: Int, time: Long?) {
+//        Timber.tag("TAG").d("${(half)} ---${(time)} ---${(time)?.toDate()?.toDisplay3("ru")}")
+        val sliderIdForUpdate = sliderIds.filterValues {
+            it.half == half && time in it.start..it.end
+        }.keys.firstOrNull()
+        sliderIdForUpdate?.let {
+            findViewById<SeekBar>(sliderIdForUpdate)?.let {
+                it.progress = time?.toInt() ?: 0
+            }
+        }
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun initSliderBars(
         index: Int,
         episode: Episode,
-        w: Int,
-        size: Int,
         simpleExoPlayer: SimpleExoPlayer?,
         viewModel: PlayerViewModel
     ): SeekBar {
+        this.viewModel = viewModel
+        if (index == 0) viewModel.play(episode)
         return SeekBar(context).apply {
-            setPadding((w * 0.05).toInt().dp, 0, (w * 0.05).toInt().dp, 0)
+            setPadding(0, 0, 0, 0)
             contentDescription = ""
             id = index
             thumb = resources.getDrawable(R.drawable.player_seekbar_thumb_new, null)
             progressDrawable = resources.getDrawable(R.drawable.player_progress, null)
+            progressBackgroundTintList
             progress = 0
             max = (episode.end - episode.start).toInt()
-//            nextFocusLeftId = when (index) {
-//                size - 1 -> -1
-//                else -> index + 1
-//            }
-//            nextFocusRightId = when (index) {
-//                size - 1 -> -1
-//                else -> index - 1
-//            }
-
 
             setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(
@@ -108,65 +143,20 @@ class PlayerBottomBar @JvmOverloads constructor(
                     fromUser: Boolean
                 ) {
                     if (fromUser) {
-//                         if (episode.half == -1) {
-////                             Timber.tag("TAG").d("${(start + progress)} ---${((start + progress)).toDate().toDisplay3("ru")}")
-//                             simpleExoPlayer?.seekTo(((episode.start + progress)))
-//                         }
-//                        else {
-//                             Timber.tag("TAG").d("${(start + progress)*1000} ---${((start + progress)*1000).toDate().toDisplay3("ru")}")
                         simpleExoPlayer?.seekTo(episode.half, (episode.start + progress))
                         viewModel.currentWindow = episode.half
+                        // todo нет обновления общего временни когда мы сменли вручную секбаром
                     }
                 }
 
                 override fun onStartTrackingTouch(seekBar: SeekBar?) {
-//                    simpleExoPlayer?.pause()
+                    if (simpleExoPlayer?.isPlaying != false) simpleExoPlayer?.pause()
                 }
 
                 override fun onStopTrackingTouch(seekBar: SeekBar?) {
-//                    simpleExoPlayer?.play()
+                    if (simpleExoPlayer?.isPlaying != true) simpleExoPlayer?.play()
                 }
             })
-
-
-//            addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
-//                override fun onStartTrackingTouch(slider: Slider) {
-////                    binding.previewFrameLayout.visibility = View.VISIBLE
-////                    binding.imageView23.setImageResource(R.drawable.ic_basketball_new)
-//                }
-//
-//                override fun onStopTrackingTouch(slider: Slider) {
-////                    binding.previewFrameLayout.visibility = View.GONE
-////                    binding.imageView23.setImageResource(R.drawable.ic_footbool_new)
-//                }
-//            })
-
-//            this.addOnChangeListener { rangeSlider, value, fromUser ->
-//                if (fromUser) {
-//                    rangeSlider.rootView.preloadImage.bindFlagImage(25)
-//                    rangeSlider.rootView.preloadImage.bindPreloadFromUrl(url,value.toLong())
-//                    invalidate()
-
-//                    Glide.with(context).load(url).apply(RequestOptions().frame(1000*(value.toLong())))
-//                        .into(rangeSlider.rootView.preloadImage)
-
-//                    Glide.with(context).asBitmap().load(url.toUri().pathSegments.last()).apply(RequestOptions().frame(1000*(value.toLong())))
-//                        .into(rangeSlider.rootView.preloadImage)
-//                    invalidate()
-
-//                    var microSecond = (value.toLong())* 1000
-//                    var options =  RequestOptions().frame(microSecond).override(35.dp, 35.dp)
-//                    options.isMemoryCacheable
-//                    var thumb=Glide.with(context).load(url).apply(RequestOptions().frame(microSecond).override(35.dp))
-//                    Glide.with(context).load(url)
-//                        .thumbnail(thumb)
-//                        .apply(options)
-//                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-//                        .into(rangeSlider.rootView.preloadImage)
-
-//
-//                }
-//            }
         }
     }
 }
