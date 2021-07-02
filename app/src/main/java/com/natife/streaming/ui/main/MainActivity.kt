@@ -25,7 +25,7 @@ class MainActivity : BaseActivity<MainViewModel>() {
 
 
     private var lastClicked = 0L
-    private var clickInterval = 300L
+    private var clickInterval = 200L
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         val now = System.currentTimeMillis()
         return if (now - lastClicked > clickInterval) {

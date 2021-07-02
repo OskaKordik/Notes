@@ -68,10 +68,8 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
                     mStartActivity,
                     PendingIntent.FLAG_CANCEL_CURRENT
                 )
-                val mgr: AlarmManager =
-                    requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
-                mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 200, mPendingIntent)
-                System.exit(0)
+                requireActivity().finish()
+                requireActivity().startActivity(mStartActivity)
             }
         }
 

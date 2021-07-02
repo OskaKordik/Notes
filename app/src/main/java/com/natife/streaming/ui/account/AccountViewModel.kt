@@ -75,7 +75,7 @@ class AccountViewModelImpl(
 
     override fun logout() {
         loadersLiveData.value = true
-        logoutUseCase.execute(true)
+        logoutUseCase.execute(false)
         loadersLiveData.value = false
     }
 
