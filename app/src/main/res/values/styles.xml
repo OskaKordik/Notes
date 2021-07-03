@@ -130,10 +130,12 @@
         <item name="iconPadding">0dp</item>
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
         <item name="android:paddingLeft">12dp</item>
         <item name="android:paddingRight">12dp</item>
-        <item name="android:minWidth">86dp</item>
-        <item name="android:minHeight">86dp</item>
+        <item name="android:minWidth">27dp</item>
+        <item name="android:minHeight">27dp</item>
     </style>
 
     <style name="ExoStyledControlsCustom_play" parent="Widget.MaterialComponents.Button.OutlinedButton">
@@ -143,11 +145,15 @@
         <item name="iconPadding">0dp</item>
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
         <item name="android:paddingLeft">18dp</item>
         <item name="android:paddingRight">6dp</item>
-        <item name="android:minWidth">86dp</item>
-        <item name="android:minHeight">86dp</item>
+        <item name="android:minWidth">27dp</item>
+        <item name="android:minHeight">27dp</item>
     </style>
+    <!--    <item name="android:minHeight">86dp</item>-->
+
 
     <style name="slider" parent="Widget.MaterialComponents.Slider">
         <item name="paddingEnd">0dp</item>

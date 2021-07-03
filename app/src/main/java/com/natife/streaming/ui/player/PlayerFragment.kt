@@ -1,10 +1,8 @@
 package com.natife.streaming.ui.player
 
-import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.graphics.Insets
-import android.graphics.Rect
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -15,9 +13,11 @@ import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.activity.addCallback
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.view.isVisible
 import androidx.fragment.app.setFragmentResultListener
 import androidx.leanback.widget.BrowseFrameLayout
-import androidx.leanback.widget.BrowseFrameLayout.OnChildFocusListener
+import androidx.transition.AutoTransition
+import androidx.transition.Transition
 import androidx.transition.TransitionManager
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
@@ -28,7 +28,6 @@ import com.google.android.exoplayer2.source.ConcatenatingMediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseFragment
 import com.natife.streaming.ext.dp
@@ -41,7 +40,6 @@ import kotlinx.android.synthetic.main.fragment_settings.view.*
 import kotlinx.android.synthetic.main.view_player_bottom_bar.*
 import org.koin.core.parameter.ParametersDefinition
 import org.koin.core.parameter.parametersOf
-import timber.log.Timber
 
 
 class PlayerFragment : BaseFragment<PlayerViewModel>() {
@@ -55,14 +53,14 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
         }
     }
 
-    private var bottomSheetBehavior: BottomSheetBehavior<*>? = null
+    //    private var bottomSheetBehavior: BottomSheetBehavior<*>? = null
     private var start = 0L
     private var end = 0L
     private var playWhenReady = false
     private var playbackPosition: Long = 0
-    var animation: ValueAnimator? = null
+
+    //    var animation: ValueAnimator? = null
     private val handler = Handler(Looper.getMainLooper())
-    private lateinit var constraintSetWithoutTransformation: ConstraintSet
 
 
     override fun onResume() {
@@ -190,94 +188,102 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
 //
 //        })
 
-        var isShow = false
-        parentLayout.onChildFocusListener = object : OnChildFocusListener {
-            override fun onRequestFocusInDescendants(
-                direction: Int,
-                previouslyFocusedRect: Rect?
-            ): Boolean {
-                return false
-            }
-
-            override fun onRequestChildFocus(child: View?, focused: View?) {
-                try {
-                    if (child?.id == recyclerViewVideos.id) {
-                        if (!isShow) {
-                            animation?.cancel()
-                            animation = getShowAnimation()
-                            animation!!.start()
-                            isShow = true
-                        }
-                        playerView.controllerShowTimeoutMs = -1
-                    } else {
-                        if (isShow) {
-                            animation?.cancel()
-                            animation = getHideAnimation()
-                            animation!!.start()
-                            isShow = false
-                        }
-                        playerView.controllerShowTimeoutMs = 5000
-                    }
-                } catch (e: Exception) {
-
-                }
-            }
-
-        }
-
-        second_bottom_menu_layout.onFocusSearchListener =
-            BrowseFrameLayout.OnFocusSearchListener { focused, direction ->
-                Timber.tag("TAG").d("$focused, $direction")
-                when (direction) {
-                    33 -> { //верх
-                        //трансформируем
-                        TransitionManager.beginDelayedTransition(custom_control_layout)
-                        constraintSetWithoutTransformation.applyTo(custom_control_layout)
-                        //увеличиваем кнопки
-                        exo_play.iconSize = 62
-                        exo_pause.iconSize = 62
-                        exo_rew.iconSize = 62
-                        exo_interval_rewind_30.iconSize = 62
-                        exo_interval_rewind_5.iconSize = 62
-                        exo_interval_forward_5.iconSize = 62
-                        exo_interval_forward_30.iconSize = 62
-                        exo_ffwd.iconSize = 62
-                        bigGameTitle.visibility = View.GONE
-                        sight_of_bottom.visibility = View.VISIBLE
-                        menuPlayer.visibility = View.GONE
-                        return@OnFocusSearchListener null
-                    }
-                    else -> return@OnFocusSearchListener null
-                }
-            }
+//        var isShow = false
+//        parentLayout.onChildFocusListener = object : OnChildFocusListener {
+//            override fun onRequestFocusInDescendants(
+//                direction: Int,
+//                previouslyFocusedRect: Rect?
+//            ): Boolean {
+//                return false
+//            }
+//
+//            override fun onRequestChildFocus(child: View?, focused: View?) {
+//                try {
+//                    if (child?.id == recyclerViewVideos.id) {
+//
+//                        if (!isShow) {
+//                            animation?.cancel()
+//                            animation = getShowAnimation()
+//                            animation!!.start()
+//                            isShow = true
+//                        }
+//                        playerView.controllerShowTimeoutMs = -1
+//                    } else {
+//                        if (isShow) {
+//                            animation?.cancel()
+//                            animation = getHideAnimation()
+//                            animation!!.start()
+//                            isShow = false
+//                        }
+//                        playerView.controllerShowTimeoutMs = 5000
+//                    }
+//                } catch (e: Exception) {
+//
+//                }
+//            }
+//
+//        }
 
         sliders_place_layout.onFocusSearchListener =
             BrowseFrameLayout.OnFocusSearchListener { focused, direction ->
-//            Timber.tag("TAG").d("$focused, $direction")
                 when (direction) {
                     130 -> { //низ
                         //трансформируем
                         val set = ConstraintSet()
                         set.clone(custom_control_layout)
-                        //сохраним для возврата
-                        constraintSetWithoutTransformation = set
-                        changeCustomControlLayout(set)
-                        TransitionManager.beginDelayedTransition(custom_control_layout)
-                        set.applyTo(custom_control_layout)
-                        //уменьшаем кнопки
-                        exo_play.iconSize = 27
-                        exo_pause.iconSize = 27
-                        exo_rew.iconSize = 27
-                        exo_interval_rewind_30.iconSize = 27
-                        exo_interval_rewind_5.iconSize = 27
-                        exo_interval_forward_5.iconSize = 27
-                        exo_interval_forward_30.iconSize = 27
-                        exo_ffwd.iconSize = 27
+                        changeToSmollCustomControlLayout(set)
+                        val autoTransition = AutoTransition()
+//                        autoTransition.duration = 1000
+                        autoTransition.addListener(object : Transition.TransitionListener {
+                            override fun onTransitionStart(transition: Transition) {
+                            }
 
-                        bigGameTitle.visibility = View.VISIBLE
-                        sight_of_bottom.visibility = View.GONE
-                        menuPlayer.visibility = View.VISIBLE
-                        menuPlayer.requestFocus()
+                            override fun onTransitionEnd(transition: Transition) {
+                                set.applyTo(custom_control_layout)
+                                //уменьшаем кнопки
+                                exo_play.apply {
+                                    iconSize = 27.dp
+                                }
+                                exo_pause.apply {
+                                    iconSize = 27.dp
+                                }
+                                exo_rew.apply {
+                                    iconSize = 27.dp
+                                }
+                                exo_interval_rewind_30.apply {
+                                    iconSize = 27.dp
+                                }
+                                exo_interval_rewind_5.apply {
+                                    iconSize = 27.dp
+                                }
+                                exo_interval_forward_5.apply {
+                                    iconSize = 27.dp
+                                }
+                                exo_interval_forward_30.apply {
+                                    iconSize = 27.dp
+                                }
+                                exo_ffwd.apply {
+                                    iconSize = 27.dp
+                                }
+
+                                bigGameTitle.visibility = View.VISIBLE
+                                sight_of_bottom.visibility = View.GONE
+                                menuPlayer.visibility = View.VISIBLE
+                                if (exo_play.isVisible) exo_play.requestFocus() else exo_pause.requestFocus()
+                            }
+
+                            override fun onTransitionCancel(transition: Transition) {}
+                            override fun onTransitionPause(transition: Transition) {}
+                            override fun onTransitionResume(transition: Transition) {}
+                        })
+                        TransitionManager.beginDelayedTransition(
+                            custom_control_layout,
+                            autoTransition
+                        )
+                        return@OnFocusSearchListener null
+                    }
+                    33 -> { //top
+                        TransformCustomControlLayoutToBigState()
                         return@OnFocusSearchListener null
                     }
                     else -> return@OnFocusSearchListener null
@@ -285,8 +291,62 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
             }
     }
 
+    private fun TransformCustomControlLayoutToBigState() {
+        //трансформируем
+        val set = ConstraintSet()
+        set.clone(custom_control_layout)
+        changeToBigCustomControlLayout(set)
+        val autoTransition = AutoTransition()
+        //                        autoTransition.duration = 1000
+        autoTransition.addListener(object : Transition.TransitionListener {
+            override fun onTransitionStart(transition: Transition) {
 
-    private fun changeCustomControlLayout(set: ConstraintSet) {
+            }
+
+            override fun onTransitionEnd(transition: Transition) {
+                set.applyTo(custom_control_layout)
+                //уменьшаем кнопки
+                exo_play.apply {
+                    iconSize = 62.dp
+                }
+                exo_pause.apply {
+                    iconSize = 62.dp
+                }
+                exo_rew.apply {
+                    iconSize = 62.dp
+                }
+                exo_interval_rewind_30.apply {
+                    iconSize = 62.dp
+                }
+                exo_interval_rewind_5.apply {
+                    iconSize = 62.dp
+                }
+                exo_interval_forward_5.apply {
+                    iconSize = 62.dp
+                }
+                exo_interval_forward_30.apply {
+                    iconSize = 62.dp
+                }
+                exo_ffwd.apply {
+                    iconSize = 62.dp
+                }
+                bigGameTitle.visibility = View.GONE
+                sight_of_bottom.visibility = View.VISIBLE
+                menuPlayer.visibility = View.GONE
+                if (exo_play.isVisible) exo_play.requestFocus() else exo_pause.requestFocus()
+            }
+
+            override fun onTransitionCancel(transition: Transition) {}
+            override fun onTransitionPause(transition: Transition) {}
+            override fun onTransitionResume(transition: Transition) {}
+        })
+        TransitionManager.beginDelayedTransition(
+            custom_control_layout,
+            autoTransition
+        )
+    }
+
+    private fun changeToBigCustomControlLayout(set: ConstraintSet) {
         // увеличиваем меню
         set.clear(R.id.player_bottom_bar, ConstraintSet.BOTTOM)
         set.connect(
@@ -294,55 +354,151 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
             ConstraintSet.BOTTOM,
             ConstraintSet.PARENT_ID,
             ConstraintSet.BOTTOM,
-            184.dp
+            48.dp
         )
         //переносим кнопки
         set.clear(R.id.exo_play, ConstraintSet.TOP)
+        set.clear(R.id.exo_play, ConstraintSet.BOTTOM)
         set.connect(
             R.id.exo_play,
             ConstraintSet.TOP,
-            R.id.player_bottom_bar,
+            R.id.center_max_control_panel_guideline,
+            ConstraintSet.TOP,
+            0.dp
+        )
+        set.connect(
+            R.id.exo_play,
+            ConstraintSet.BOTTOM,
+            R.id.center_max_control_panel_guideline,
             ConstraintSet.BOTTOM,
             0.dp
         )
         set.clear(R.id.exo_pause, ConstraintSet.TOP)
+        set.clear(R.id.exo_pause, ConstraintSet.BOTTOM)
         set.connect(
             R.id.exo_pause,
             ConstraintSet.TOP,
-            R.id.player_bottom_bar,
+            R.id.center_max_control_panel_guideline,
+            ConstraintSet.TOP,
+            0.dp
+        )
+        set.connect(
+            R.id.exo_pause,
             ConstraintSet.BOTTOM,
+            R.id.center_max_control_panel_guideline,
+            ConstraintSet.BOTTOM,
+            0.dp
+        )
+        // переносим боковые привязки
+        set.clear(R.id.exo_rew, ConstraintSet.START)
+        set.connect(
+            R.id.exo_rew,
+            ConstraintSet.START,
+            ConstraintSet.PARENT_ID,
+            ConstraintSet.START,
+            0.dp
+        )
+        set.clear(R.id.exo_ffwd, ConstraintSet.END)
+        set.connect(
+            R.id.exo_ffwd,
+            ConstraintSet.END,
+            ConstraintSet.PARENT_ID,
+            ConstraintSet.END,
             0.dp
         )
     }
 
 
-    fun getShowAnimation(): ValueAnimator {
-
-        return ValueAnimator.ofInt(
-            recyclerViewVideos.height,
-            requireActivity().windowManager.defaultDisplay.height / 2
-        ).apply {
-            addUpdateListener { animator ->
-                val lp = recyclerViewVideos.layoutParams
-                recyclerViewVideos.layoutParams =
-                    lp.apply { height = animator.animatedValue as Int }
-            }
-            duration = 500
-        }
-
+    private fun changeToSmollCustomControlLayout(set: ConstraintSet) {
+        // увеличиваем меню
+        set.clear(R.id.player_bottom_bar, ConstraintSet.BOTTOM)
+        set.connect(
+            R.id.player_bottom_bar,
+            ConstraintSet.BOTTOM,
+            ConstraintSet.PARENT_ID,
+            ConstraintSet.BOTTOM,
+            200.dp
+        )
+        //переносим кнопки
+        set.clear(R.id.exo_play, ConstraintSet.TOP)
+        set.clear(R.id.exo_play, ConstraintSet.BOTTOM)
+        set.connect(
+            R.id.exo_play,
+            ConstraintSet.TOP,
+            R.id.top_mini_control_panel_guideline,
+            ConstraintSet.TOP,
+            0.dp
+        )
+        set.connect(
+            R.id.exo_play,
+            ConstraintSet.BOTTOM,
+            R.id.top_mini_control_panel_guideline,
+            ConstraintSet.BOTTOM,
+            0.dp
+        )
+        set.clear(R.id.exo_pause, ConstraintSet.TOP)
+        set.clear(R.id.exo_pause, ConstraintSet.BOTTOM)
+        set.connect(
+            R.id.exo_pause,
+            ConstraintSet.TOP,
+            R.id.top_mini_control_panel_guideline,
+            ConstraintSet.TOP,
+            0.dp
+        )
+        set.connect(
+            R.id.exo_pause,
+            ConstraintSet.BOTTOM,
+            R.id.top_mini_control_panel_guideline,
+            ConstraintSet.BOTTOM,
+            0.dp
+        )
+        // переносим боковые привязки
+        set.clear(R.id.exo_rew, ConstraintSet.START)
+        set.connect(
+            R.id.exo_rew,
+            ConstraintSet.START,
+            R.id.left_mini_control_panel_guideline,
+            ConstraintSet.START,
+            0.dp
+        )
+        set.clear(R.id.exo_ffwd, ConstraintSet.END)
+        set.connect(
+            R.id.exo_ffwd,
+            ConstraintSet.END,
+            R.id.right_mini_control_panel_guideline,
+            ConstraintSet.END,
+            0.dp
+        )
     }
 
-    fun getHideAnimation(): ValueAnimator {
-        return ValueAnimator.ofInt(recyclerViewVideos.height, 80.dp).apply {
-            addUpdateListener { animator ->
-                val lp = recyclerViewVideos.layoutParams
-                recyclerViewVideos.layoutParams =
-                    lp.apply { height = animator.animatedValue as Int }
-            }
-            duration = 500
-        }
 
-    }
+//    fun getShowAnimation(): ValueAnimator {
+//
+//        return ValueAnimator.ofInt(
+//            recyclerViewVideos.height,
+//            requireActivity().windowManager.defaultDisplay.height / 2
+//        ).apply {
+//            addUpdateListener { animator ->
+//                val lp = recyclerViewVideos.layoutParams
+//                recyclerViewVideos.layoutParams =
+//                    lp.apply { height = animator.animatedValue as Int }
+//            }
+//            duration = 500
+//        }
+//
+//    }
+//
+//    fun getHideAnimation(): ValueAnimator {
+//        return ValueAnimator.ofInt(recyclerViewVideos.height, 80.dp).apply {
+//            addUpdateListener { animator ->
+//                val lp = recyclerViewVideos.layoutParams
+//                recyclerViewVideos.layoutParams =
+//                    lp.apply { height = animator.animatedValue as Int }
+//            }
+//            duration = 500
+//        }
+//
+//    }
 
 
     @SuppressLint("RestrictedApi")
@@ -366,7 +522,7 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
             subscribe(viewModel.currentEpisode) {
 //                if (it.start >= 0 && it.end > 0) {
 //                    groupFragments.isVisible = true
-//                groupFull.isVisible = true
+                groupFull.isVisible = true
                 start = it.start
                 end = it.end
                 viewModel.currentWindow = it.half
@@ -534,7 +690,16 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
                 showContent(true)
             } else if (visibility == View.GONE) {
                 showContent(false)
-                bottomSheetBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED
+//                //трансформируем
+//                val set = ConstraintSet()
+//                set.clone(custom_control_layout)
+//                changeToBigCustomControlLayout(set)
+//                TransitionManager.beginDelayedTransition(custom_control_layout)
+//                set.applyTo(custom_control_layout)
+                TransformCustomControlLayoutToBigState()
+
+
+//                bottomSheetBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED
             }
         }
 
