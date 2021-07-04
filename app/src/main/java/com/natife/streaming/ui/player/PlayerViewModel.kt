@@ -20,11 +20,13 @@ abstract class PlayerViewModel : BaseViewModel() {
 //    abstract fun showMatches()
 //    abstract fun onMatchClicked(match: Match)
 abstract fun play(it: Episode, playlist: List<Episode>? = null)
-    abstract fun toNextEpisode()
-    abstract fun isLastEpisode(): Boolean
+
+    //    abstract fun toNextEpisode()
+//    abstract fun isLastEpisode(): Boolean
     abstract fun openVideoQualityMenu()
     abstract fun changeVideoQuality(videoQuality: String)
     abstract fun onBackClicked()
+    abstract fun setCurrentSeekBarId(id: Int)
 
     abstract val videoLiveData: LiveData<List<Pair<String, Long>>>
     abstract val matchInfoLiveData: LiveData<Match>
@@ -35,6 +37,7 @@ abstract fun play(it: Episode, playlist: List<Episode>? = null)
     abstract val videoQualityListLiveData: LiveData<List<String>>
     abstract val initBottomBarData: LiveData<PlayerBottomBarSetup>
     abstract var currentWindow: Int
+    abstract val currentSeekBarId: LiveData<Int>
 }
 
 class PlayerViewModelImpl(
@@ -53,6 +56,7 @@ class PlayerViewModelImpl(
         set(value) {
             field = if (value >= 0) value else 0
         }
+    override val currentSeekBarId = MutableLiveData<Int>()
 
     init {
         initBottomBarData.value = setup.toInitBottomData()
@@ -99,28 +103,7 @@ class PlayerViewModelImpl(
 //    }
 
     override fun play(it: Episode, playlist: List<Episode>?) {
-//        Timber.tag("TAG").d(Gson().toJson(it))
         currentEpisode.value = it
-//        currentPlaylist.value = playlist
-    }
-
-    override fun toNextEpisode() {
-        currentPlaylist.value?.let {
-            val currentIndex = it.indexOf(currentEpisode.value)
-            if (it.size > currentIndex + 1) {
-                currentEpisode.value = it[currentIndex + 1]
-            }
-        }
-    }
-
-    override fun isLastEpisode(): Boolean {
-        currentPlaylist.value?.let {
-            val currentIndex = it.indexOf(currentEpisode.value)
-            if (it.size > currentIndex + 1) {
-                return false
-            }
-        }
-        return true
     }
 
     override fun openVideoQualityMenu() {
@@ -153,6 +136,10 @@ class PlayerViewModelImpl(
 
     override fun onBackClicked() {
         router.navigateUp()
+    }
+
+    override fun setCurrentSeekBarId(id: Int) {
+        currentSeekBarId.value = id
     }
 }
 

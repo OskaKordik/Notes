@@ -28,6 +28,7 @@ import com.google.android.exoplayer2.source.ConcatenatingMediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
+import com.google.android.material.button.MaterialButton
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseFragment
 import com.natife.streaming.ext.dp
@@ -81,6 +82,40 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
         setFragmentResultListener(VideoQualityDialog.KEY_QUALITY) { _, bundle ->
             bundle.getString(VideoQualityDialog.KEY_QUALITY)?.let { videoQuality ->
                 viewModel.changeVideoQuality(videoQuality)
+            }
+        }
+        subscribe(viewModel.currentSeekBarId) { id ->
+            view.findViewById<MaterialButton>(R.id.exo_play)?.let { button ->
+                button.nextFocusDownId = id
+                button.nextFocusUpId = id
+            }
+            view.findViewById<MaterialButton>(R.id.exo_pause)?.let { button ->
+                button.nextFocusDownId = id
+                button.nextFocusUpId = id
+            }
+            view.findViewById<MaterialButton>(R.id.exo_rew)?.let { button ->
+                button.nextFocusDownId = id
+                button.nextFocusUpId = id
+            }
+            view.findViewById<MaterialButton>(R.id.exo_interval_rewind_30)?.let { button ->
+                button.nextFocusDownId = id
+                button.nextFocusUpId = id
+            }
+            view.findViewById<MaterialButton>(R.id.exo_interval_rewind_5)?.let { button ->
+                button.nextFocusDownId = id
+                button.nextFocusUpId = id
+            }
+            view.findViewById<MaterialButton>(R.id.exo_interval_forward_5)?.let { button ->
+                button.nextFocusDownId = id
+                button.nextFocusUpId = id
+            }
+            view.findViewById<MaterialButton>(R.id.exo_interval_forward_30)?.let { button ->
+                button.nextFocusDownId = id
+                button.nextFocusUpId = id
+            }
+            view.findViewById<MaterialButton>(R.id.exo_ffwd)?.let { button ->
+                button.nextFocusDownId = id
+                button.nextFocusUpId = id
             }
         }
 //
@@ -232,14 +267,11 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
                         val set = ConstraintSet()
                         set.clone(custom_control_layout)
                         changeToSmollCustomControlLayout(set)
+                        set.applyTo(custom_control_layout)
                         val autoTransition = AutoTransition()
-//                        autoTransition.duration = 1000
+                        autoTransition.duration = 100
                         autoTransition.addListener(object : Transition.TransitionListener {
                             override fun onTransitionStart(transition: Transition) {
-                            }
-
-                            override fun onTransitionEnd(transition: Transition) {
-                                set.applyTo(custom_control_layout)
                                 //уменьшаем кнопки
                                 exo_play.apply {
                                     iconSize = 27.dp
@@ -265,7 +297,9 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
                                 exo_ffwd.apply {
                                     iconSize = 27.dp
                                 }
+                            }
 
+                            override fun onTransitionEnd(transition: Transition) {
                                 bigGameTitle.visibility = View.VISIBLE
                                 sight_of_bottom.visibility = View.GONE
                                 menuPlayer.visibility = View.VISIBLE
@@ -296,15 +330,11 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
         val set = ConstraintSet()
         set.clone(custom_control_layout)
         changeToBigCustomControlLayout(set)
+        set.applyTo(custom_control_layout)
         val autoTransition = AutoTransition()
-        //                        autoTransition.duration = 1000
+        autoTransition.duration = 100
         autoTransition.addListener(object : Transition.TransitionListener {
             override fun onTransitionStart(transition: Transition) {
-
-            }
-
-            override fun onTransitionEnd(transition: Transition) {
-                set.applyTo(custom_control_layout)
                 //уменьшаем кнопки
                 exo_play.apply {
                     iconSize = 62.dp
@@ -330,6 +360,9 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
                 exo_ffwd.apply {
                     iconSize = 62.dp
                 }
+            }
+
+            override fun onTransitionEnd(transition: Transition) {
                 bigGameTitle.visibility = View.GONE
                 sight_of_bottom.visibility = View.VISIBLE
                 menuPlayer.visibility = View.GONE
@@ -503,6 +536,7 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
 
     @SuppressLint("RestrictedApi")
     private fun subscribeViewModels() {
+
         subscribe(viewModel.videoLiveData) { videoUrl ->
             initializePlayer(videoUrl)
 
@@ -540,7 +574,7 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
                     simpleExoPlayer?.contentPosition
                 )
                 handler.removeCallbacks(timerRunnable)
-                handler.postDelayed(timerRunnable, 1000)
+                handler.postDelayed(timerRunnable, 500)
 
                 simpleExoPlayer?.playWhenReady = true
             }
@@ -635,7 +669,14 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
     // Timer for episode seekbar
     private val timerRunnable: Runnable = object : Runnable {
         override fun run() {
-            if (end > 0) {
+            if (end > 0 && simpleExoPlayer?.contentPosition!! >= end) {
+                simpleExoPlayer?.playWhenReady = false
+                // next episode
+                player_bottom_bar.nextEpisode(
+                    simpleExoPlayer?.currentWindowIndex ?: viewModel.currentWindow,
+                    simpleExoPlayer?.contentPosition
+                )
+            } else {
                 player_bottom_bar.updatePosition(
                     simpleExoPlayer?.currentWindowIndex ?: viewModel.currentWindow,
                     simpleExoPlayer?.contentPosition
@@ -645,14 +686,8 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
                 position.text =
                     (((simpleExoPlayer?.contentPosition?.div(1000))?.minus(start))
                         ?: 0).toDisplayTime()
-                if (simpleExoPlayer?.contentPosition!! >= end) {
-                    simpleExoPlayer?.playWhenReady = false
-//                    viewModel.toNextEpisode()
-                } else {
-                    handler.postDelayed(this, 1000)
-                }
+                handler.postDelayed(this, 500)
             }
-
         }
 
     }
@@ -708,12 +743,13 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
 
         simpleExoPlayer?.addListener(object : Player.EventListener {
             override fun onPlayWhenReadyChanged(playWhenReady: Boolean, reason: Int) {
-                if (playWhenReady && simpleExoPlayer!!.currentPosition / 1000 >= end) {
-                    if (viewModel.isLastEpisode() && end > 0) {
-                        simpleExoPlayer!!.seekTo(start * 1000)
-                    }
+                if (playWhenReady && simpleExoPlayer!!.currentPosition >= end) {
+//                    if (viewModel.isLastEpisode() && end > 0) { //TODO
+//                        simpleExoPlayer!!.seekTo(start * 1000)
+//                    }
+
                     handler.removeCallbacks(timerRunnable)
-                    handler.postDelayed(timerRunnable, 1000)
+                    handler.postDelayed(timerRunnable, 500)
                 }
                 super.onPlayWhenReadyChanged(playWhenReady, reason)
             }

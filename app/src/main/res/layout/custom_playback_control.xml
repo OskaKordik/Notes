@@ -55,10 +55,11 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@id/exo_play"
-        style="@style/ExoStyledControlsCustom_play"
+        style="@style/ExoStyledControlsCustom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:focusable="true"
+        app:iconSize="62dp"
         android:nextFocusLeft="@drawable/ic_interval_rewind_5"
         android:nextFocusRight="@drawable/ic_interval_forward_5"
         app:icon="@drawable/ic_play"

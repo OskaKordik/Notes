@@ -17,7 +17,6 @@ import com.natife.streaming.databinding.ViewPlayerBottomBarBinding
 import com.natife.streaming.ext.dp
 import com.natife.streaming.ui.player.PlayerViewModel
 import kotlinx.android.synthetic.main.view_player_bottom_bar.view.*
-import timber.log.Timber
 import kotlin.math.ceil
 
 
@@ -98,11 +97,7 @@ class PlayerBottomBar @JvmOverloads constructor(
                 ), lp
             )
         }
-        Timber.tag("TAG").d(sliderIds.toString())
-    }
-
-    fun startPlayingVideo(play: Episode) {
-        viewModel.play(play)
+//        Timber.tag("TAG").d(sliderIds.toString())
     }
 
     fun updatePosition(half: Int, time: Long?) {
@@ -111,8 +106,9 @@ class PlayerBottomBar @JvmOverloads constructor(
             it.half == half && time in it.start..it.end
         }.keys.firstOrNull()
         sliderIdForUpdate?.let {
-            findViewById<SeekBar>(sliderIdForUpdate)?.let {
-                it.progress = time?.toInt() ?: 0
+            findViewById<SeekBar>(sliderIdForUpdate)?.let { curentSeekBar ->
+                curentSeekBar.progress = time?.toInt() ?: 0
+                viewModel.setCurrentSeekBarId(curentSeekBar.id)
             }
         }
     }
@@ -130,11 +126,13 @@ class PlayerBottomBar @JvmOverloads constructor(
             setPadding(0, 0, 0, 0)
             contentDescription = ""
             id = index
+            viewModel.setCurrentSeekBarId(index)
             thumb = resources.getDrawable(R.drawable.player_seekbar_thumb_new, null)
             progressDrawable = resources.getDrawable(R.drawable.player_progress, null)
             progressBackgroundTintList
             progress = 0
             max = (episode.end - episode.start).toInt()
+
 
             setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(
@@ -157,6 +155,16 @@ class PlayerBottomBar @JvmOverloads constructor(
                     if (simpleExoPlayer?.isPlaying != true) simpleExoPlayer?.play()
                 }
             })
+        }
+    }
+
+    fun nextEpisode(half: Int, time: Long?) {
+        if (time == null) return
+        val nextEpisodeForUpdate = sliderIds.filterValues {
+            half <= it.half && time < it.start && time < it.end
+        }.values.firstOrNull()
+        if (nextEpisodeForUpdate != null) {
+            viewModel.play(nextEpisodeForUpdate)
         }
     }
 }
