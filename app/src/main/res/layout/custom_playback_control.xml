@@ -179,6 +179,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:scaleType="centerInside"
+        android:focusable="true"
         app:layout_constraintBottom_toBottomOf="@+id/exo_duration"
         app:layout_constraintEnd_toEndOf="@+id/exo_duration"
         app:layout_constraintStart_toStartOf="parent"
@@ -228,6 +229,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
+
+
+    <com.natife.streaming.custom.BottomButtonLine
+        android:id="@+id/bottom_button_line_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="32dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/player_bottom_bar"
+        app:layout_constraintStart_toStartOf="@+id/player_bottom_bar" />
 
     <ImageView
         android:id="@+id/menuPlayer"

@@ -46,20 +46,10 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
     override fun getLayoutRes(): Int = R.layout.fragment_player
 
     private var simpleExoPlayer: SimpleExoPlayer? = null
-
-    private val adapter: BottomPlaylistAdapter by lazy {
-        BottomPlaylistAdapter() { episode, playlist ->
-            viewModel.play(episode, playlist)
-        }
-    }
-
-    //    private var bottomSheetBehavior: BottomSheetBehavior<*>? = null
     private var start = 0L
     private var end = 0L
     private var playWhenReady = false
     private var playbackPosition: Long = 0
-
-    //    var animation: ValueAnimator? = null
     private val handler = Handler(Looper.getMainLooper())
 
 
@@ -72,8 +62,6 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
         super.onViewCreated(view, savedInstanceState)
 
         subscribeViewModels()
-        recyclerViewVideos.adapter = adapter
-
         menuPlayer.setOnClickListener {
             viewModel.openVideoQualityMenu()
         }
@@ -117,30 +105,8 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
                 button.nextFocusUpId = id
             }
         }
-//
-//        //Focus for progress
-//        progress.setOnFocusChangeListener { v, _ ->
-//            v.nextFocusDownId = R.id.recyclerViewVideos
-//            v.nextFocusUpId = R.id.menuPlayer
-//            if (v.isFocused) {
-//                //Timeout for hiding video player controls
-//                playerView.controllerShowTimeoutMs = 5000
-//                bottomSheetBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED
-//            }
-//        }
-//        //Focus for progress full match
-//        exo_progress.setOnFocusChangeListener { v, _ ->
-//            v.nextFocusDownId = R.id.recyclerViewVideos
-//            v.nextFocusUpId = R.id.menuPlayer
-//            if (v.isFocused) {
-//                //Timeout for hiding video player controls
-//                playerView.controllerShowTimeoutMs = 5000
-//
-//                bottomSheetBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED
-//            }
-//        }
-//
-//
+
+
 //        sliders_place.setOnKeyListener { v, keyCode, event ->
 //            when (keyCode) {
 //                KeyEvent.KEYCODE_DPAD_DOWN -> {
@@ -200,27 +166,6 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
 //            return@setOnKeyListener false
 //        }
 
-
-//        progress.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-//            override fun onProgressChanged(
-//                seekBar: SeekBar?,
-//                progress: Int,
-//                fromUser: Boolean
-//            ) {
-//                if (fromUser) {
-//                    simpleExoPlayer?.seekTo((start + progress) * 1000)
-//                }
-//            }
-//
-//            override fun onStartTrackingTouch(seekBar: SeekBar?) {
-////                handler.removeCallbacks(timerRunnable)
-//            }
-//
-//            override fun onStopTrackingTouch(seekBar: SeekBar?) {
-////                handler.postDelayed(timerRunnable, 1000)
-//            }
-//
-//        })
 
 //        var isShow = false
 //        parentLayout.onChildFocusListener = object : OnChildFocusListener {
@@ -299,6 +244,7 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
                             }
 
                             override fun onTransitionEnd(transition: Transition) {
+                                bottom_button_line_layout.visibility = View.VISIBLE
                                 bigGameTitle.visibility = View.VISIBLE
                                 sight_of_bottom.visibility = View.GONE
                                 menuPlayer.visibility = View.VISIBLE
@@ -362,6 +308,7 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
             }
 
             override fun onTransitionEnd(transition: Transition) {
+                bottom_button_line_layout.visibility = View.GONE
                 bigGameTitle.visibility = View.GONE
                 sight_of_bottom.visibility = View.VISIBLE
                 menuPlayer.visibility = View.GONE
@@ -573,49 +520,13 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
             }
 
         }
-        // bottom playlist
+        // bottom buttons
         subscribe(viewModel.sourceLiveData) { source ->
-
-            adapter.submitList(source.toList())
-//                playlistsContainer.removeAllViews()
-//                source.toList().forEach { pair ->
-//                    val title = TextView(context).apply {
-//                        layoutParams = ViewGroup.LayoutParams(
-//                            ViewGroup.LayoutParams.WRAP_CONTENT,
-//                            ViewGroup.LayoutParams.WRAP_CONTENT
-//                        )
-//                        setTextColor(Color.WHITE)
-//                        text = pair.first
-//                    }
-//                    context?.let {
-//                        val recycler = HorizontalGridView(it).apply {
-//                            layoutParams = ViewGroup.LayoutParams(
-//                                ViewGroup.LayoutParams.MATCH_PARENT,
-//                                160.dp
-//                            )
-//                           // layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-//
-//                            focusScrollStrategy = BaseGridView.FOCUS_SCROLL_ITEM
-//
-//                            adapter = PlaylistAdapter() {
-//                                viewModel.play(it, (adapter as PlaylistAdapter).currentList)
-//                            }.apply {
-//                                submitList(pair.second.sortedBy { it.start })
-//                            }
-//                            isFocusable = true
-//
-//
-//                        }
-//
-//                        playlistsContainer.addView(title)
-//                        playlistsContainer.addView(recycler)
-//                    }
-//                }
+//            Timber.tag("TAG").d(Gson().toJson(source))
+            bottom_button_line_layout.initButtons(source, viewModel)
         }
 
         subscribe(viewModel.matchInfoLiveData) { matchInfo ->
-            //todo
-//            smallGameTitle.text = matchInfo.info
             bigGameTitle.text = "${matchInfo.team1.name} : ${matchInfo.team2.name}"
         }
 
@@ -641,23 +552,6 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
             }
         }
     }
-
-    private fun showContent(show: Boolean) {
-
-        //todo
-//        smallGameTitle.isVisible = show
-//        bigGameTitle.isVisible = show
-//        recyclerViewVideos.isVisible = show
-    }
-
-//    private fun showControls(show: Boolean) {
-////        progress.isVisible = show
-////        duration.isVisible = show
-////        position.isVisible = show
-//        exo_play.isVisible = show
-//        exo_pause.isVisible = show
-//        menuPlayer.isVisible = show
-//    }
 
     // Timer for episode seekbar
     private val timerRunnable: Runnable = object : Runnable {
@@ -710,9 +604,9 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
         playerView.controllerAutoShow = false
         playerView.setControllerVisibilityListener { visibility ->
             if (visibility == View.VISIBLE) {
-                showContent(true)
+
             } else if (visibility == View.GONE) {
-                showContent(false)
+//                showContent(false)
 //                //трансформируем
 //                val set = ConstraintSet()
 //                set.clone(custom_control_layout)
@@ -720,9 +614,6 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
 //                TransitionManager.beginDelayedTransition(custom_control_layout)
 //                set.applyTo(custom_control_layout)
                 TransformCustomControlLayoutToBigState()
-
-
-//                bottomSheetBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED
             }
         }
 
