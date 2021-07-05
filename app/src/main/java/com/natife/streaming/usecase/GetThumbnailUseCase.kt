@@ -16,7 +16,9 @@ class GetThumbnailUseCaseImpl(private val api: MainApi): GetThumbnailUseCase {
             sportId = sportId)
         )
         return episodes.map {episode->
-            Util.getThumbnailFromVideo(video.first { it.name.substringBeforeLast(".").endsWith(episode.half.toString(),false) }.url,episode.start.toLong())
+            Util.getThumbnailFromVideo(video.first {
+                it.name.substringBeforeLast(".").endsWith(episode.half.toString(), false)
+            }.url, episode.startMs.toLong())
         }
     }
 }

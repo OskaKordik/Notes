@@ -548,7 +548,7 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
                     simpleExoPlayer,
                     viewModel
                 )
-                simpleExoPlayer?.playWhenReady = true
+//                simpleExoPlayer?.playWhenReady = true
             }
 
 
@@ -557,12 +557,12 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
 //                if (it.start >= 0 && it.end > 0) {
 //                    groupFragments.isVisible = true
                 groupFull.isVisible = true
-                start = it.start
-                end = it.end
+                start = it.startMs
+                end = it.endMs
                 viewModel.currentWindow = it.half
-                val max = (it.end - it.start)
+                val max = (it.endMs - it.startMs)
                 duration.text = (max / 1000).toDisplayTime()
-                simpleExoPlayer?.seekTo(it.half, it.start)
+                simpleExoPlayer?.seekTo(it.half, it.startMs)
 
                 //update SeekBar
                 player_bottom_bar.updatePosition(
@@ -744,9 +744,12 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
         simpleExoPlayer?.addListener(object : Player.EventListener {
             override fun onPlayWhenReadyChanged(playWhenReady: Boolean, reason: Int) {
                 if (playWhenReady && simpleExoPlayer!!.currentPosition >= end) {
-//                    if (viewModel.isLastEpisode() && end > 0) { //TODO
-//                        simpleExoPlayer!!.seekTo(start * 1000)
-//                    }
+//                    simpleExoPlayer?.playWhenReady = false
+                    // next episode
+//                    player_bottom_bar.nextEpisode(
+//                        simpleExoPlayer?.currentWindowIndex ?: viewModel.currentWindow,
+//                        simpleExoPlayer?.contentPosition
+//                    )
 
                     handler.removeCallbacks(timerRunnable)
                     handler.postDelayed(timerRunnable, 500)

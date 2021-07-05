@@ -18,8 +18,12 @@ fun PlayerSetup.toInitBottomData(): PlayerBottomBarSetup? {
 //                    it.copy(end = it.end * 1000, start = it.start * 1000, half = it.half-1)
 //                }.toString())
             PlayerBottomBarSetup(
-                playlist = currentPlaylist.sortedWith(compareBy({ it.half }, { it.start })).map {
-                    it.copy(end = it.end * 1000, start = it.start * 1000, half = it.half - 1)
+                playlist = currentPlaylist.sortedWith(compareBy({ it.half }, { it.startMs })).map {
+                    it.copy(
+                        endMs = it.endMs * 1000,
+                        startMs = it.startMs * 1000,
+                        half = it.half - 1
+                    )
                 }
             )
         }
@@ -33,9 +37,9 @@ fun PlayerSetup.toInitBottomData(): PlayerBottomBarSetup? {
                     endTimeEpisode += (video.duration)
                     Episode(
                         title = this.currentEpisode.title,
-                        end = endTimeEpisode - startTimeEpisode,
+                        endMs = endTimeEpisode - startTimeEpisode,
                         half = (video.period) - 1,
-                        start = 0,
+                        startMs = 0,
                         image = this.currentEpisode.image,
                         placeholder = this.currentEpisode.placeholder
                     )

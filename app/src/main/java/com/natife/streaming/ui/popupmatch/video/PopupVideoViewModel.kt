@@ -57,8 +57,8 @@ class PopupVideoViewModelImpl(
                             it.translates.goalsTranslate to it.goals,
                             it.translates.fullGameTranslate to listOf(
                                 Episode(
-                                    start = 0,
-                                    end = -1,
+                                    startMs = 0,
+                                    endMs = -1,
                                     half = 0,
                                     title = "${_match?.info}",
                                     image = _match?.image ?: "",

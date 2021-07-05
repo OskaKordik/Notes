@@ -13,7 +13,7 @@ class BottomPlaylistViewHolder(view: View,private val onClick:((Episode,List<Epi
         itemView.playlistTitle.text = data.first
         val adapter = PlaylistAdapter(onClick)
         itemView.playlistList.adapter = adapter
-        adapter.submitList(data.second.sortedBy { it.start })
+        adapter.submitList(data.second.sortedBy { it.startMs })
         itemView.playlistList.focusScrollStrategy = BaseGridView.FOCUS_SCROLL_ITEM
     }
 }

@@ -17,6 +17,7 @@ import com.natife.streaming.databinding.ViewPlayerBottomBarBinding
 import com.natife.streaming.ext.dp
 import com.natife.streaming.ui.player.PlayerViewModel
 import kotlinx.android.synthetic.main.view_player_bottom_bar.view.*
+import timber.log.Timber
 import kotlin.math.ceil
 
 
@@ -65,8 +66,8 @@ class PlayerBottomBar @JvmOverloads constructor(
 
         video.playlist.forEachIndexed { index, episode ->
             sliderIds[index] = episode.copy(
-                end = episode.end,
-                start = episode.start
+                endMs = episode.endMs,
+                startMs = episode.startMs
             )
             val lp = when (index) {
                 0 -> {
@@ -93,17 +94,17 @@ class PlayerBottomBar @JvmOverloads constructor(
                     index,
                     episode,
                     simpleExoPlayer,
-                    viewModel
+                    viewModel,
+                    video.playlist.size
                 ), lp
             )
         }
-//        Timber.tag("TAG").d(sliderIds.toString())
     }
 
     fun updatePosition(half: Int, time: Long?) {
 //        Timber.tag("TAG").d("${(half)} ---${(time)} ---${(time)?.toDate()?.toDisplay3("ru")}")
         val sliderIdForUpdate = sliderIds.filterValues {
-            it.half == half && time in it.start..it.end
+            it.half == half && time in it.startMs..it.endMs
         }.keys.firstOrNull()
         sliderIdForUpdate?.let {
             findViewById<SeekBar>(sliderIdForUpdate)?.let { curentSeekBar ->
@@ -118,7 +119,8 @@ class PlayerBottomBar @JvmOverloads constructor(
         index: Int,
         episode: Episode,
         simpleExoPlayer: SimpleExoPlayer?,
-        viewModel: PlayerViewModel
+        viewModel: PlayerViewModel,
+        size: Int
     ): SeekBar {
         this.viewModel = viewModel
         if (index == 0) viewModel.play(episode)
@@ -127,32 +129,36 @@ class PlayerBottomBar @JvmOverloads constructor(
             contentDescription = ""
             id = index
             viewModel.setCurrentSeekBarId(index)
-            thumb = resources.getDrawable(R.drawable.player_seekbar_thumb_new, null)
+            thumb = if (size > 10) resources.getDrawable(
+                R.drawable.player_seekbar_thumb_small_new,
+                null
+            ) else resources.getDrawable(R.drawable.player_seekbar_thumb_new, null)
             progressDrawable = resources.getDrawable(R.drawable.player_progress, null)
-            progressBackgroundTintList
             progress = 0
-            max = (episode.end - episode.start).toInt()
+            max = (episode.endMs - episode.startMs).toInt()
 
 
             setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(
                     seekBar: SeekBar?,
-                    progress: Int,
+                    progressMs: Int,
                     fromUser: Boolean
                 ) {
                     if (fromUser) {
-                        simpleExoPlayer?.seekTo(episode.half, (episode.start + progress))
+                        Timber.tag("TAG")
+                            .d("${(episode.half)} -----------${episode.startMs} + $progressMs")
+                        simpleExoPlayer?.seekTo(episode.half, (episode.startMs + progressMs))
                         viewModel.currentWindow = episode.half
                         // todo нет обновления общего временни когда мы сменли вручную секбаром
                     }
                 }
 
                 override fun onStartTrackingTouch(seekBar: SeekBar?) {
-                    if (simpleExoPlayer?.isPlaying != false) simpleExoPlayer?.pause()
+//                    if (simpleExoPlayer?.isPlaying != false) simpleExoPlayer?.pause()
                 }
 
                 override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                    if (simpleExoPlayer?.isPlaying != true) simpleExoPlayer?.play()
+//                    if (simpleExoPlayer?.isPlaying != true) simpleExoPlayer?.play()
                 }
             })
         }
@@ -160,9 +166,39 @@ class PlayerBottomBar @JvmOverloads constructor(
 
     fun nextEpisode(half: Int, time: Long?) {
         if (time == null) return
-        val nextEpisodeForUpdate = sliderIds.filterValues {
-            half <= it.half && time < it.start && time < it.end
-        }.values.firstOrNull()
+        val a = sliderIds.mapValues {
+            it.value.half
+        }.values.toSet()
+
+
+        val nextEpisodeForUpdate: Episode? = a.toList().mapNotNull { h ->
+            when {
+                h == half -> {
+                    val a = sliderIds
+                        .filterValues { episode ->
+                            h == episode.half && episode.startMs > time
+                        }
+                        .values
+
+                    a.firstOrNull()
+                }
+                h > half -> {
+                    val b = sliderIds
+                        .filterValues { episode ->
+                            h == episode.half && episode.startMs > 0
+                        }
+                        .values
+                        .sortedWith(compareBy({ it.half }, { it.startMs }))
+
+                    b.firstOrNull()
+                }
+                else -> null
+            }
+        }.firstOrNull()
+
+
+        Timber.tag("TAG").d("---${a}---${nextEpisodeForUpdate}-")
+
         if (nextEpisodeForUpdate != null) {
             viewModel.play(nextEpisodeForUpdate)
         }

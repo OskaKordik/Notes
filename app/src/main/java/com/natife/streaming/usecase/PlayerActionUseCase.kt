@@ -97,6 +97,6 @@ class PlayerActionUseCaseImpl(
                     else -> "${player.firstNameEng} ${player.lastNameEng}" ?: ""
                 }
             )
-        }.sortedBy { it.start }
+        }.sortedBy { it.startMs }
     }
 }

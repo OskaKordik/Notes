@@ -121,8 +121,8 @@ class PopupSharedViewModel : BaseViewModel(), KoinComponent {
         _match?.let {
             _playEpisode.value = Event(
                 Episode(
-                    start = 0,
-                    end = -1,
+                    startMs = 0,
+                    endMs = -1,
                     half = 0,
                     title = "${it.value?.info}",
                     image = it.value?.image ?: "",

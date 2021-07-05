@@ -61,7 +61,7 @@ class PlayerViewModelImpl(
     init {
         initBottomBarData.value = setup.toInitBottomData()
         currentPlaylist.value =
-            setup.currentPlaylist?.sortedWith(compareBy({ it.half }, { it.start }))
+            setup.currentPlaylist?.sortedWith(compareBy({ it.half }, { it.startMs }))
 
 //        currentEpisode.value = setup.toInitBottomData()?.playlist?.get(0)
 

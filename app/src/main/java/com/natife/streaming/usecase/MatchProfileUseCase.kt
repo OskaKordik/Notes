@@ -105,7 +105,7 @@ class MatchProfileUseCaseImpl(
                         else -> "${match.team1.nameEng} - ${match.team2.nameEng}" ?: ""
                     }
                 )
-            }?.sortedBy { it.start } ?: emptyList(),
+            }?.sortedBy { it.startMs } ?: emptyList(),
             ballInPlayDuration = infoDto.data?.ballInPlay?.dur ?: 0,
             highlights = infoDto.data?.highlights?.data?.map {
                 it?.toEpisode().copy(
@@ -121,7 +121,7 @@ class MatchProfileUseCaseImpl(
                     }
 //                    title = "${match.team1.nameRus} - ${match.team2.nameRus}"
                 )
-            }?.sortedBy { it.start } ?: emptyList(),
+            }?.sortedBy { it.startMs } ?: emptyList(),
             highlightsDuration = infoDto.data?.highlights?.dur ?: 0,
             goals = infoDto.data?.goals?.data?.map {
                 it.toEpisode().copy(
@@ -136,7 +136,7 @@ class MatchProfileUseCaseImpl(
                     }
 //                    title = "${match.team1.nameRus} - ${match.team2.nameRus}"
                 )
-            }?.sortedBy { it.start } ?: emptyList(),
+            }?.sortedBy { it.startMs } ?: emptyList(),
             goalsDuration = infoDto.data?.goals?.dur ?: 0,
             players1 = infoDto.data?.players1?.map {
                 Player(
