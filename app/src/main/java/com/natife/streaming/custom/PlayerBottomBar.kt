@@ -17,7 +17,6 @@ import com.natife.streaming.databinding.ViewPlayerBottomBarBinding
 import com.natife.streaming.ext.dp
 import com.natife.streaming.ui.player.PlayerViewModel
 import kotlinx.android.synthetic.main.view_player_bottom_bar.view.*
-import timber.log.Timber
 import kotlin.math.ceil
 
 
@@ -142,7 +141,6 @@ class PlayerBottomBar @JvmOverloads constructor(
             progress = 0
             max = (episode.endMs - episode.startMs).toInt()
 
-
             setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(
                     seekBar: SeekBar?,
@@ -150,8 +148,8 @@ class PlayerBottomBar @JvmOverloads constructor(
                     fromUser: Boolean
                 ) {
                     if (fromUser) {
-                        Timber.tag("TAG")
-                            .d("${(episode.half)} -----------${episode.startMs} + $progressMs")
+//                        Timber.tag("TAG")
+//                            .d("${(episode.half)} -----------${episode.startMs} + $progressMs")
                         simpleExoPlayer?.seekTo(episode.half, (episode.startMs + progressMs))
                         viewModel.currentWindow = episode.half
                     }
@@ -178,31 +176,25 @@ class PlayerBottomBar @JvmOverloads constructor(
         val nextEpisodeForUpdate: Episode? = a.toList().mapNotNull { h ->
             when {
                 h == half -> {
-                    val a = sliderIds
+                    sliderIds
                         .filterValues { episode ->
                             h == episode.half && episode.startMs > time
                         }
-                        .values
-
-                    a.firstOrNull()
+                        .values.firstOrNull()
                 }
                 h > half -> {
-                    val b = sliderIds
+                    sliderIds
                         .filterValues { episode ->
                             h == episode.half && episode.startMs > 0
                         }
                         .values
                         .sortedWith(compareBy({ it.half }, { it.startMs }))
-
-                    b.firstOrNull()
+                        .firstOrNull()
                 }
                 else -> null
             }
         }.firstOrNull()
-
-
-        Timber.tag("TAG").d("---${a}---${nextEpisodeForUpdate}-")
-
+//        Timber.tag("TAG").d("---${a}---${nextEpisodeForUpdate}-")
         if (nextEpisodeForUpdate != null) {
             viewModel.play(nextEpisodeForUpdate)
         }
