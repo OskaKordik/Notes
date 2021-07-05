@@ -108,7 +108,12 @@ class PlayerBottomBar @JvmOverloads constructor(
         }.keys.firstOrNull()
         sliderIdForUpdate?.let {
             findViewById<SeekBar>(sliderIdForUpdate)?.let { curentSeekBar ->
-                curentSeekBar.progress = time?.toInt() ?: 0
+                curentSeekBar.progress =
+                    sliderIds[sliderIdForUpdate]?.startMs?.toInt()?.let { it1 ->
+                        time?.toInt()?.minus(
+                            it1
+                        )
+                    } ?: 0
                 viewModel.setCurrentSeekBarId(curentSeekBar.id)
             }
         }
@@ -149,7 +154,6 @@ class PlayerBottomBar @JvmOverloads constructor(
                             .d("${(episode.half)} -----------${episode.startMs} + $progressMs")
                         simpleExoPlayer?.seekTo(episode.half, (episode.startMs + progressMs))
                         viewModel.currentWindow = episode.half
-                        // todo нет обновления общего временни когда мы сменли вручную секбаром
                     }
                 }
 

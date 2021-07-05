@@ -33,7 +33,6 @@ import com.natife.streaming.R
 import com.natife.streaming.base.BaseFragment
 import com.natife.streaming.ext.dp
 import com.natife.streaming.ext.subscribe
-import com.natife.streaming.ext.toDisplayTime
 import com.natife.streaming.ui.player.menu.quality.VideoQualityDialog
 import kotlinx.android.synthetic.main.custom_playback_control.*
 import kotlinx.android.synthetic.main.fragment_player.*
@@ -548,31 +547,25 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
                     simpleExoPlayer,
                     viewModel
                 )
-//                simpleExoPlayer?.playWhenReady = true
             }
 
 
 
             subscribe(viewModel.currentEpisode) {
-//                if (it.start >= 0 && it.end > 0) {
-//                    groupFragments.isVisible = true
-                groupFull.isVisible = true
+
                 start = it.startMs
                 end = it.endMs
                 viewModel.currentWindow = it.half
-                val max = (it.endMs - it.startMs)
-                duration.text = (max / 1000).toDisplayTime()
                 simpleExoPlayer?.seekTo(it.half, it.startMs)
-
                 //update SeekBar
                 player_bottom_bar.updatePosition(
                     simpleExoPlayer?.currentWindowIndex ?: viewModel.currentWindow,
                     simpleExoPlayer?.contentPosition
                 )
-                player_bottom_bar.updatePosition(
-                    viewModel.currentWindow,
-                    simpleExoPlayer?.contentPosition
-                )
+//                player_bottom_bar.updatePosition(
+//                    viewModel.currentWindow,
+//                    simpleExoPlayer?.contentPosition
+//                )
                 handler.removeCallbacks(timerRunnable)
                 handler.postDelayed(timerRunnable, 500)
 
@@ -681,11 +674,6 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
                     simpleExoPlayer?.currentWindowIndex ?: viewModel.currentWindow,
                     simpleExoPlayer?.contentPosition
                 )
-
-                // todo нет обновления общего временни когда мы сменли вручную секбаром
-                position.text =
-                    (((simpleExoPlayer?.contentPosition?.div(1000))?.minus(start))
-                        ?: 0).toDisplayTime()
                 handler.postDelayed(this, 500)
             }
         }
@@ -719,7 +707,7 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
 
 
         playerView.player = simpleExoPlayer
-
+        playerView.controllerAutoShow = false
         playerView.setControllerVisibilityListener { visibility ->
             if (visibility == View.VISIBLE) {
                 showContent(true)
@@ -744,13 +732,6 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
         simpleExoPlayer?.addListener(object : Player.EventListener {
             override fun onPlayWhenReadyChanged(playWhenReady: Boolean, reason: Int) {
                 if (playWhenReady && simpleExoPlayer!!.currentPosition >= end) {
-//                    simpleExoPlayer?.playWhenReady = false
-                    // next episode
-//                    player_bottom_bar.nextEpisode(
-//                        simpleExoPlayer?.currentWindowIndex ?: viewModel.currentWindow,
-//                        simpleExoPlayer?.contentPosition
-//                    )
-
                     handler.removeCallbacks(timerRunnable)
                     handler.postDelayed(timerRunnable, 500)
                 }
