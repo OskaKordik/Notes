@@ -47,19 +47,14 @@ class PopupVideoViewModelImpl(
 
     override fun play(episode: Episode?, playList: List<Episode>?) {
         matchInfo?.let {
-            var endTimeEpisode = 0L
-            var startTimeEpisode = 0L
             val timeList = videos
                 ?.filter { it.abc == "0" }
                 ?.groupBy { it.quality }!!["720"]
-                ?.map { video ->
-//                Timber.tag("TAG").d(video.toString())
-                    startTimeEpisode += endTimeEpisode
-                    endTimeEpisode += (video.duration)
+                ?.mapIndexed { index, video ->
                     Episode(
                         title = "${_match?.info}",
-                        endMs = (endTimeEpisode - startTimeEpisode) / 1000,
-                        half = (video.period),
+                        endMs = video.duration / 1000,
+                        half = index,
                         startMs = 0,
                         image = _match?.image ?: "",
                         placeholder = _match?.placeholder ?: ""

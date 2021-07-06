@@ -65,7 +65,7 @@ class PlayerViewModelImpl(
         initBottomBarData.value = setup.toInitBottomData()
 //        currentPlaylist.value =
 //            setup.currentPlaylist?.sortedWith(compareBy({ it.half }, { it.startMs }))
-        sourceLiveData.value = setup.playlist // TODO нужно коректировать
+        sourceLiveData.value = setup.playlist
         videoLiveData.value = setup.video?.filter { it.abc == "0" }
             ?.groupBy { it.quality }!!["720"]/*maxByOrNull { it.key.toInt() }*/?.map { it.url to it.duration }
         matchInfoLiveData.value = setup.match
