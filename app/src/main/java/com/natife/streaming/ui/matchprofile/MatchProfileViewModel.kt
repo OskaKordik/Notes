@@ -112,8 +112,8 @@ class MatchProfileViewModelImpl(
     override fun fullMatch() {
         match?.let {
             play(episode = Episode(
-                start = 0,
-                end = -1,
+                startMs = 0,
+                endMs = -1,
                 half = 0,
                 title = "${it.info}",
                 image = it.image,
@@ -158,12 +158,12 @@ class MatchProfileViewModelImpl(
                         matchInfo!!.translates.goalsTranslate to matchInfo!!.goals,
                         matchInfo!!.translates.fullGameTranslate to listOf(
                             Episode(
-                                start = 0,
-                                end = -1,
+                                startMs = 0,
+                                endMs = -1,
                                 half = 0,
                                 title = "${match?.info}",
                                 image = match?.image ?: "",
-                                placeholder = match?.placeholder?: ""
+                                placeholder = match?.placeholder ?: ""
                             )
                         )
                     ),

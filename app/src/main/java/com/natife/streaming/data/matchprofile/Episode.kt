@@ -7,16 +7,17 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class Episode(
     val title: String = "",
-    val end: Long,
+    val endMs: Long,
     val half: Int,
-    val start: Long,
+    val startMs: Long,
     val image: String = "",
     val placeholder: String = ""
 ): Parcelable
+
 fun MatchInfoEpisodeDTO.toEpisode():Episode{
     return Episode(
-        end = this.e,
+        endMs = this.e,
         half = this.h.toInt(),
-        start = this.s
+        startMs = this.s
     )
 }

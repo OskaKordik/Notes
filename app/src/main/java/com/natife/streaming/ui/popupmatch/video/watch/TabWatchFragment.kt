@@ -125,8 +125,8 @@ class TabWatchFragment : BaseFragment<EmptyViewModel>() {
 }
 
 sealed class WatchFill() {
-    data class FullGame(val name: String, val time: String) : WatchFill()
-    data class BallInPlay(val name: String, val time: String) : WatchFill()
-    data class Highlights(val name: String, val time: String) : WatchFill()
-    data class FieldGoals(val name: String, val time: String) : WatchFill()
+    data class FullGame(val name: String, val time: String = "") : WatchFill()
+    data class BallInPlay(val name: String, val time: String = "") : WatchFill()
+    data class Highlights(val name: String, val time: String = "") : WatchFill()
+    data class FieldGoals(val name: String, val time: String = "") : WatchFill()
 }

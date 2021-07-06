@@ -26,16 +26,16 @@ class WatchFragment: BaseFragment<WatchViewModel>() {
             watchFromMoment.setOnClickListener {
                                             viewModel.toPlayer(Episode(
                                                 half = sec.second.half,
-                                                start = sec.second.second,
-                                                end = -1
+                                                startMs = sec.second.second,
+                                                endMs = -1
                                             ))
             }
         }
         watchFromStart.setOnClickListener {
             viewModel.toPlayer(Episode(
                 half = 0,
-                start = -1,
-                end = -1
+                startMs = -1,
+                endMs = -1
             ))
         }
 

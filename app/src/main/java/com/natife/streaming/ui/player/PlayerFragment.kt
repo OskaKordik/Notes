@@ -1,18 +1,25 @@
 package com.natife.streaming.ui.player
 
-import android.animation.ValueAnimator
 import android.annotation.SuppressLint
-import android.graphics.Rect
+import android.app.Activity
+import android.graphics.Insets
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.DisplayMetrics
 import android.view.View
+import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.SeekBar
 import androidx.activity.addCallback
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.isVisible
 import androidx.fragment.app.setFragmentResultListener
-import androidx.leanback.widget.BrowseFrameLayout.OnChildFocusListener
+import androidx.leanback.widget.BrowseFrameLayout
+import androidx.transition.AutoTransition
+import androidx.transition.Transition
+import androidx.transition.TransitionManager
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.Renderer
@@ -22,15 +29,16 @@ import com.google.android.exoplayer2.source.ConcatenatingMediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
-import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.button.MaterialButton
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseFragment
 import com.natife.streaming.ext.dp
 import com.natife.streaming.ext.subscribe
-import com.natife.streaming.ext.toDisplayTime
 import com.natife.streaming.ui.player.menu.quality.VideoQualityDialog
 import kotlinx.android.synthetic.main.custom_playback_control.*
 import kotlinx.android.synthetic.main.fragment_player.*
+import kotlinx.android.synthetic.main.fragment_settings.view.*
+import kotlinx.android.synthetic.main.view_player_bottom_bar.*
 import org.koin.core.parameter.ParametersDefinition
 import org.koin.core.parameter.parametersOf
 
@@ -39,21 +47,12 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
     override fun getLayoutRes(): Int = R.layout.fragment_player
 
     private var simpleExoPlayer: SimpleExoPlayer? = null
-
-    private val adapter: BottomPlaylistAdapter by lazy {
-        BottomPlaylistAdapter() { episode, playlist ->
-            viewModel.play(episode, playlist)
-        }
-    }
-
-    private var bottomSheetBehavior: BottomSheetBehavior<*>? = null
     private var start = 0L
     private var end = 0L
     private var playWhenReady = false
-    private var currentWindow = 0
     private var playbackPosition: Long = 0
-    var animation: ValueAnimator? = null
     private val handler = Handler(Looper.getMainLooper())
+    private var seekBarState: SeekBarType = SeekBarType.BIG
 
 
     override fun onResume() {
@@ -63,10 +62,18 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val sightOfBottom = view.findViewById<MaterialButton>(R.id.sight_of_bottom)
+        val exoPlay = view.findViewById<MaterialButton>(R.id.exo_play)
+        val exoPause = view.findViewById<MaterialButton>(R.id.exo_pause)
+        val exoRew = view.findViewById<MaterialButton>(R.id.exo_rew)
+        val exoIntervalRewind30 = view.findViewById<MaterialButton>(R.id.exo_interval_rewind_30)
+        val exoIntervalRewind5 = view.findViewById<MaterialButton>(R.id.exo_interval_rewind_5)
+        val exoIntervalForward5 = view.findViewById<MaterialButton>(R.id.exo_interval_forward_5)
+        val exoIntervalForward30 = view.findViewById<MaterialButton>(R.id.exo_interval_forward_30)
+        val exoFfwd = view.findViewById<MaterialButton>(R.id.exo_ffwd)
+        val menuPlayer = view.findViewById<MaterialButton>(R.id.menuPlayer)
 
         subscribeViewModels()
-        recyclerViewVideos.adapter = adapter
-
         menuPlayer.setOnClickListener {
             viewModel.openVideoQualityMenu()
         }
@@ -76,31 +83,171 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
                 viewModel.changeVideoQuality(videoQuality)
             }
         }
-//
-//        //Focus for progress
-//        progress.setOnFocusChangeListener { v, _ ->
-//            v.nextFocusDownId = R.id.recyclerViewVideos
-//            v.nextFocusUpId = R.id.menuPlayer
-//            if (v.isFocused) {
-//                //Timeout for hiding video player controls
-//                playerView.controllerShowTimeoutMs = 5000
-//                bottomSheetBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED
+        subscribe(viewModel.currentSeekBarId) { id ->
+            sightOfBottom?.let { imageView ->
+                imageView.nextFocusDownId = id
+            }
+
+            if (seekBarState == SeekBarType.BIG) {
+                view.findViewById<SeekBar>(id)?.let { seekBar ->
+                    seekBar.nextFocusDownId = sightOfBottom.id
+                    seekBar.nextFocusUpId = sightOfBottom.id
+                }
+
+                exoPlay?.let { button ->
+                    button.nextFocusDownId = sightOfBottom.id
+                    button.nextFocusUpId = sightOfBottom.id
+                }
+                exoPause?.let { button ->
+                    button.nextFocusDownId = sightOfBottom.id
+                    button.nextFocusUpId = sightOfBottom.id
+                }
+                exoRew?.let { button ->
+                    button.nextFocusDownId = sightOfBottom.id
+                    button.nextFocusUpId = sightOfBottom.id
+                }
+                exoIntervalRewind30?.let { button ->
+                    button.nextFocusDownId = sightOfBottom.id
+                    button.nextFocusUpId = sightOfBottom.id
+                }
+                exoIntervalRewind5?.let { button ->
+                    button.nextFocusDownId = sightOfBottom.id
+                    button.nextFocusUpId = sightOfBottom.id
+                }
+                exoIntervalForward5?.let { button ->
+                    button.nextFocusDownId = sightOfBottom.id
+                    button.nextFocusUpId = sightOfBottom.id
+                }
+                exoIntervalForward30?.let { button ->
+                    button.nextFocusDownId = sightOfBottom.id
+                    button.nextFocusUpId = sightOfBottom.id
+                }
+                exoFfwd?.let { button ->
+                    button.nextFocusDownId = sightOfBottom.id
+                    button.nextFocusUpId = sightOfBottom.id
+                }
+            } else {
+                view.findViewById<SeekBar>(id)?.let { seekBar ->
+                    seekBar.nextFocusDownId = if (exoPlay.isVisible) exoPlay.id else exoPause.id
+                    seekBar.nextFocusUpId = if (exoPlay.isVisible) exoPlay.id else exoPause.id
+                }
+
+                menuPlayer?.let { imageView ->
+                    imageView.nextFocusDownId = View.NO_ID
+                    imageView.nextFocusUpId = id
+                }
+
+                exoPlay?.let { button ->
+                    button.nextFocusDownId = View.NO_ID
+                    button.nextFocusUpId = id
+                }
+                exoPause?.let { button ->
+                    button.nextFocusDownId = View.NO_ID
+                    button.nextFocusUpId = id
+                }
+                exoRew?.let { button ->
+                    button.nextFocusDownId = View.NO_ID
+                    button.nextFocusUpId = id
+                }
+                exoIntervalRewind30?.let { button ->
+                    button.nextFocusDownId = View.NO_ID
+                    button.nextFocusUpId = id
+                }
+                exoIntervalRewind5?.let { button ->
+                    button.nextFocusDownId = View.NO_ID
+                    button.nextFocusUpId = id
+                }
+                exoIntervalForward5?.let { button ->
+                    button.nextFocusDownId = View.NO_ID
+                    button.nextFocusUpId = id
+                }
+                exoIntervalForward30?.let { button ->
+                    button.nextFocusDownId = View.NO_ID
+                    button.nextFocusUpId = id
+                }
+                exoFfwd?.let { button ->
+                    button.nextFocusDownId = View.NO_ID
+                    button.nextFocusUpId = id
+                }
+            }
+        }
+
+        sight_of_bottom.setOnClickListener {
+            //трансформируем
+            seekBarState = SeekBarType.SMALL
+            val set = ConstraintSet()
+            set.clone(custom_control_layout)
+            changeToSmollCustomControlLayout(set)
+            set.applyTo(custom_control_layout)
+            val autoTransition = AutoTransition()
+            autoTransition.duration = 100
+            autoTransition.addListener(object : Transition.TransitionListener {
+                override fun onTransitionStart(transition: Transition) {
+                    //уменьшаем кнопки
+                    exo_play.apply {
+                        iconSize = 27.dp
+                    }
+                    exo_pause.apply {
+                        iconSize = 27.dp
+                    }
+                    exo_rew.apply {
+                        iconSize = 27.dp
+                    }
+                    exo_interval_rewind_30.apply {
+                        iconSize = 27.dp
+                    }
+                    exo_interval_rewind_5.apply {
+                        iconSize = 27.dp
+                    }
+                    exo_interval_forward_5.apply {
+                        iconSize = 27.dp
+                    }
+                    exo_interval_forward_30.apply {
+                        iconSize = 27.dp
+                    }
+                    exo_ffwd.apply {
+                        iconSize = 27.dp
+                    }
+                }
+
+                override fun onTransitionEnd(transition: Transition) {
+                    bottom_button_line_layout.visibility = View.VISIBLE
+                    bigGameTitle.visibility = View.VISIBLE
+                    sight_of_bottom.visibility = View.GONE
+                    menuPlayer.visibility = View.VISIBLE
+                    if (exo_play.isVisible) exo_play.requestFocus() else exo_pause.requestFocus()
+                }
+
+                override fun onTransitionCancel(transition: Transition) {}
+                override fun onTransitionPause(transition: Transition) {}
+                override fun onTransitionResume(transition: Transition) {}
+            })
+            TransitionManager.beginDelayedTransition(
+                custom_control_layout,
+                autoTransition
+            )
+        }
+
+
+//        sliders_place.setOnKeyListener { v, keyCode, event ->
+//            when (keyCode) {
+//                KeyEvent.KEYCODE_DPAD_DOWN -> {
+//                    menuPlayer.visibility = View.GONE
+//                    menuPlayer.requestFocus()
+//                    return@setOnKeyListener true
+//                }
+//                else -> return@setOnKeyListener false
 //            }
-//        }
-//        //Focus for progress full match
-//        exo_progress.setOnFocusChangeListener { v, _ ->
-//            v.nextFocusDownId = R.id.recyclerViewVideos
-//            v.nextFocusUpId = R.id.menuPlayer
-//            if (v.isFocused) {
-//                //Timeout for hiding video player controls
-//                playerView.controllerShowTimeoutMs = 5000
-//
-//                bottomSheetBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED
+//            if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
+//                if (end >= 0) {
+//                    progress.requestFocus()
+//                } else {
+//                    exo_progress.requestFocus()
+//                }
+//                return@setOnKeyListener true
 //            }
-//        }
+//            return@setOnKeyListener false
 //
-//
-//        exo_play.setOnKeyListener { v, keyCode, event ->
 //            if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
 //                if (end >= 0) {
 //                    progress.requestFocus()
@@ -109,6 +256,7 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
 //                }
 //                return@setOnKeyListener true
 //            }
+//
 //            if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
 //                if (end >= 0) {
 //                    progress.requestFocus()
@@ -141,171 +289,308 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
 //        }
 
 
-        progress.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(
-                seekBar: SeekBar?,
-                progress: Int,
-                fromUser: Boolean
-            ) {
-                if (fromUser) {
-                    simpleExoPlayer?.seekTo((start + progress) * 1000)
-                }
-            }
+//        var isShow = false
+//        parentLayout.onChildFocusListener = object : OnChildFocusListener {
+//            override fun onRequestFocusInDescendants(
+//                direction: Int,
+//                previouslyFocusedRect: Rect?
+//            ): Boolean {
+//                return false
+//            }
+//
+//            override fun onRequestChildFocus(child: View?, focused: View?) {
+//                try {
+//                    if (child?.id == recyclerViewVideos.id) {
+//
+//                        if (!isShow) {
+//                            animation?.cancel()
+//                            animation = getShowAnimation()
+//                            animation!!.start()
+//                            isShow = true
+//                        }
+//                        playerView.controllerShowTimeoutMs = -1
+//                    } else {
+//                        if (isShow) {
+//                            animation?.cancel()
+//                            animation = getHideAnimation()
+//                            animation!!.start()
+//                            isShow = false
+//                        }
+//                        playerView.controllerShowTimeoutMs = 5000
+//                    }
+//                } catch (e: Exception) {
+//
+//                }
+//            }
+//
+//        }
 
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {
-                handler.removeCallbacks(timerRunnable)
-            }
-
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                handler.postDelayed(timerRunnable, 1000)
-            }
-
-        })
-
-
-        var isShow = false
-        parentLayout.onChildFocusListener = object : OnChildFocusListener {
-            override fun onRequestFocusInDescendants(
-                direction: Int,
-                previouslyFocusedRect: Rect?
-            ): Boolean {
-                return false
-            }
-
-            override fun onRequestChildFocus(child: View?, focused: View?) {
-                try {
-                    if (child?.id == recyclerViewVideos.id) {
-                        if (!isShow) {
-                            animation?.cancel()
-                            animation = getShowAnimation()
-                            animation!!.start()
-                            isShow = true
-                        }
-                        playerView.controllerShowTimeoutMs = -1
-                    } else {
-                        if (isShow) {
-                            animation?.cancel()
-                            animation = getHideAnimation()
-                            animation!!.start()
-                            isShow = false
-                        }
-                        playerView.controllerShowTimeoutMs = 5000
+        sliders_place_layout.onFocusSearchListener =
+            BrowseFrameLayout.OnFocusSearchListener { focused, direction ->
+                when (direction) {
+                    33 -> {//top
+                        seekBarState = SeekBarType.BIG
+                        TransformCustomControlLayoutToBigState()
+                        return@OnFocusSearchListener null
                     }
-                } catch (e: Exception) {
+                    else -> return@OnFocusSearchListener null
+                }
+            }
+    }
 
+    private fun TransformCustomControlLayoutToBigState() {
+        //трансформируем
+        val set = ConstraintSet()
+        set.clone(custom_control_layout)
+        changeToBigCustomControlLayout(set)
+        set.applyTo(custom_control_layout)
+        val autoTransition = AutoTransition()
+        autoTransition.duration = 100
+        autoTransition.addListener(object : Transition.TransitionListener {
+            override fun onTransitionStart(transition: Transition) {
+                //уменьшаем кнопки
+                exo_play.apply {
+                    iconSize = 62.dp
+                }
+                exo_pause.apply {
+                    iconSize = 62.dp
+                }
+                exo_rew.apply {
+                    iconSize = 62.dp
+                }
+                exo_interval_rewind_30.apply {
+                    iconSize = 62.dp
+                }
+                exo_interval_rewind_5.apply {
+                    iconSize = 62.dp
+                }
+                exo_interval_forward_5.apply {
+                    iconSize = 62.dp
+                }
+                exo_interval_forward_30.apply {
+                    iconSize = 62.dp
+                }
+                exo_ffwd.apply {
+                    iconSize = 62.dp
                 }
             }
 
-        }
-    }
-
-    fun getShowAnimation(): ValueAnimator {
-
-        return ValueAnimator.ofInt(
-            recyclerViewVideos.height,
-            requireActivity().windowManager.defaultDisplay.height / 2
-        ).apply {
-            addUpdateListener { animator ->
-                val lp = recyclerViewVideos.layoutParams
-                recyclerViewVideos.layoutParams =
-                    lp.apply { height = animator.animatedValue as Int }
+            override fun onTransitionEnd(transition: Transition) {
+                bottom_button_line_layout.visibility = View.GONE
+                bigGameTitle.visibility = View.GONE
+                sight_of_bottom.visibility = View.VISIBLE
+                menuPlayer.visibility = View.GONE
+                if (exo_play.isVisible) exo_play.requestFocus() else exo_pause.requestFocus()
             }
-            duration = 500
-        }
 
+            override fun onTransitionCancel(transition: Transition) {}
+            override fun onTransitionPause(transition: Transition) {}
+            override fun onTransitionResume(transition: Transition) {}
+        })
+        TransitionManager.beginDelayedTransition(
+            custom_control_layout,
+            autoTransition
+        )
     }
 
-    fun getHideAnimation(): ValueAnimator {
-        return ValueAnimator.ofInt(recyclerViewVideos.height, 80.dp).apply {
-            addUpdateListener { animator ->
-                val lp = recyclerViewVideos.layoutParams
-                recyclerViewVideos.layoutParams =
-                    lp.apply { height = animator.animatedValue as Int }
-            }
-            duration = 500
-        }
-
+    private fun changeToBigCustomControlLayout(set: ConstraintSet) {
+        // увеличиваем меню
+        set.clear(R.id.player_bottom_bar, ConstraintSet.BOTTOM)
+        set.connect(
+            R.id.player_bottom_bar,
+            ConstraintSet.BOTTOM,
+            ConstraintSet.PARENT_ID,
+            ConstraintSet.BOTTOM,
+            48.dp
+        )
+        //переносим кнопки
+        set.clear(R.id.exo_play, ConstraintSet.TOP)
+        set.clear(R.id.exo_play, ConstraintSet.BOTTOM)
+        set.connect(
+            R.id.exo_play,
+            ConstraintSet.TOP,
+            R.id.center_max_control_panel_guideline,
+            ConstraintSet.TOP,
+            0.dp
+        )
+        set.connect(
+            R.id.exo_play,
+            ConstraintSet.BOTTOM,
+            R.id.center_max_control_panel_guideline,
+            ConstraintSet.BOTTOM,
+            0.dp
+        )
+        set.clear(R.id.exo_pause, ConstraintSet.TOP)
+        set.clear(R.id.exo_pause, ConstraintSet.BOTTOM)
+        set.connect(
+            R.id.exo_pause,
+            ConstraintSet.TOP,
+            R.id.center_max_control_panel_guideline,
+            ConstraintSet.TOP,
+            0.dp
+        )
+        set.connect(
+            R.id.exo_pause,
+            ConstraintSet.BOTTOM,
+            R.id.center_max_control_panel_guideline,
+            ConstraintSet.BOTTOM,
+            0.dp
+        )
+        // переносим боковые привязки
+        set.clear(R.id.exo_rew, ConstraintSet.START)
+        set.connect(
+            R.id.exo_rew,
+            ConstraintSet.START,
+            ConstraintSet.PARENT_ID,
+            ConstraintSet.START,
+            0.dp
+        )
+        set.clear(R.id.exo_ffwd, ConstraintSet.END)
+        set.connect(
+            R.id.exo_ffwd,
+            ConstraintSet.END,
+            ConstraintSet.PARENT_ID,
+            ConstraintSet.END,
+            0.dp
+        )
     }
+
+
+    private fun changeToSmollCustomControlLayout(set: ConstraintSet) {
+        // увеличиваем меню
+        set.clear(R.id.player_bottom_bar, ConstraintSet.BOTTOM)
+        set.connect(
+            R.id.player_bottom_bar,
+            ConstraintSet.BOTTOM,
+            ConstraintSet.PARENT_ID,
+            ConstraintSet.BOTTOM,
+            200.dp
+        )
+        //переносим кнопки
+        set.clear(R.id.exo_play, ConstraintSet.TOP)
+        set.clear(R.id.exo_play, ConstraintSet.BOTTOM)
+        set.connect(
+            R.id.exo_play,
+            ConstraintSet.TOP,
+            R.id.top_mini_control_panel_guideline,
+            ConstraintSet.TOP,
+            0.dp
+        )
+        set.connect(
+            R.id.exo_play,
+            ConstraintSet.BOTTOM,
+            R.id.top_mini_control_panel_guideline,
+            ConstraintSet.BOTTOM,
+            0.dp
+        )
+        set.clear(R.id.exo_pause, ConstraintSet.TOP)
+        set.clear(R.id.exo_pause, ConstraintSet.BOTTOM)
+        set.connect(
+            R.id.exo_pause,
+            ConstraintSet.TOP,
+            R.id.top_mini_control_panel_guideline,
+            ConstraintSet.TOP,
+            0.dp
+        )
+        set.connect(
+            R.id.exo_pause,
+            ConstraintSet.BOTTOM,
+            R.id.top_mini_control_panel_guideline,
+            ConstraintSet.BOTTOM,
+            0.dp
+        )
+        // переносим боковые привязки
+        set.clear(R.id.exo_rew, ConstraintSet.START)
+        set.connect(
+            R.id.exo_rew,
+            ConstraintSet.START,
+            R.id.left_mini_control_panel_guideline,
+            ConstraintSet.START,
+            0.dp
+        )
+        set.clear(R.id.exo_ffwd, ConstraintSet.END)
+        set.connect(
+            R.id.exo_ffwd,
+            ConstraintSet.END,
+            R.id.right_mini_control_panel_guideline,
+            ConstraintSet.END,
+            0.dp
+        )
+    }
+
+
+//    fun getShowAnimation(): ValueAnimator {
+//
+//        return ValueAnimator.ofInt(
+//            recyclerViewVideos.height,
+//            requireActivity().windowManager.defaultDisplay.height / 2
+//        ).apply {
+//            addUpdateListener { animator ->
+//                val lp = recyclerViewVideos.layoutParams
+//                recyclerViewVideos.layoutParams =
+//                    lp.apply { height = animator.animatedValue as Int }
+//            }
+//            duration = 500
+//        }
+//
+//    }
+//
+//    fun getHideAnimation(): ValueAnimator {
+//        return ValueAnimator.ofInt(recyclerViewVideos.height, 80.dp).apply {
+//            addUpdateListener { animator ->
+//                val lp = recyclerViewVideos.layoutParams
+//                recyclerViewVideos.layoutParams =
+//                    lp.apply { height = animator.animatedValue as Int }
+//            }
+//            duration = 500
+//        }
+//
+//    }
 
 
     @SuppressLint("RestrictedApi")
     private fun subscribeViewModels() {
+
         subscribe(viewModel.videoLiveData) { videoUrl ->
             initializePlayer(videoUrl)
 
+            subscribe(viewModel.initBottomBarData) {
+//                Timber.tag("TAG").d(Gson().toJson(it))
+                player_bottom_bar.initVideoUrl(
+                    it,
+                    getScreenWidth(requireActivity()) - 100.dp, // плавающий отступ в макете для компенсации округления при выборе длинны
+                    simpleExoPlayer,
+                    viewModel
+                )
+            }
+
+
+
             subscribe(viewModel.currentEpisode) {
-                if (it.start >= 0 && it.end > 0) {
-                    groupFragments.isVisible = true
-                    groupFull.isVisible = false
-                    start = it.start
-                    end = it.end
-                    currentWindow = it.half
-                    val max = (it.end - it.start)
-                    progress.max = max.toInt()
-                    duration.text = max.toDisplayTime()
-                    simpleExoPlayer?.seekTo((it.half - 1).toInt(), it.start * 1000)
-                    handler.removeCallbacks(timerRunnable)
-                    handler.postDelayed(timerRunnable, 1000)
-                } else {
-                    groupFragments.isVisible = false
-                    groupFull.isVisible = true
-                    //  val max = simpleExoPlayer!!.duration
-                    start = it.start
-                    end = it.end
 
-
-                    // progress.max = max.toInt()
-                    simpleExoPlayer?.seekTo((it.half).toInt(), it.start * 1000)
-                    handler.removeCallbacks(timerRunnable)
-                    handler.postDelayed(timerRunnable, 1000)
-                }
+                start = it.startMs
+                end = it.endMs
+                viewModel.currentWindow = it.half
+                simpleExoPlayer?.seekTo(it.half, it.startMs)
+                //update SeekBar
+                player_bottom_bar.updatePosition(
+                    simpleExoPlayer?.currentWindowIndex ?: viewModel.currentWindow,
+                    simpleExoPlayer?.contentPosition
+                )
+                handler.removeCallbacks(timerRunnable)
+                handler.postDelayed(timerRunnable, 500)
 
                 simpleExoPlayer?.playWhenReady = true
             }
 
         }
-        // bottom playlist
+        // bottom buttons
         subscribe(viewModel.sourceLiveData) { source ->
-
-            adapter.submitList(source.toList())
-//                playlistsContainer.removeAllViews()
-//                source.toList().forEach { pair ->
-//                    val title = TextView(context).apply {
-//                        layoutParams = ViewGroup.LayoutParams(
-//                            ViewGroup.LayoutParams.WRAP_CONTENT,
-//                            ViewGroup.LayoutParams.WRAP_CONTENT
-//                        )
-//                        setTextColor(Color.WHITE)
-//                        text = pair.first
-//                    }
-//                    context?.let {
-//                        val recycler = HorizontalGridView(it).apply {
-//                            layoutParams = ViewGroup.LayoutParams(
-//                                ViewGroup.LayoutParams.MATCH_PARENT,
-//                                160.dp
-//                            )
-//                           // layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-//
-//                            focusScrollStrategy = BaseGridView.FOCUS_SCROLL_ITEM
-//
-//                            adapter = PlaylistAdapter() {
-//                                viewModel.play(it, (adapter as PlaylistAdapter).currentList)
-//                            }.apply {
-//                                submitList(pair.second.sortedBy { it.start })
-//                            }
-//                            isFocusable = true
-//
-//
-//                        }
-//
-//                        playlistsContainer.addView(title)
-//                        playlistsContainer.addView(recycler)
-//                    }
-//                }
+//            Timber.tag("TAG").d(Gson().toJson(source))
+            bottom_button_line_layout.initButtons(source, viewModel)
         }
 
         subscribe(viewModel.matchInfoLiveData) { matchInfo ->
-            smallGameTitle.text = matchInfo.info
             bigGameTitle.text = "${matchInfo.team1.name} : ${matchInfo.team2.name}"
         }
 
@@ -332,38 +617,23 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
         }
     }
 
-    private fun showContent(show: Boolean) {
-        smallGameTitle.isVisible = show
-        bigGameTitle.isVisible = show
-        recyclerViewVideos.isVisible = show
-    }
-
-    private fun showControls(show: Boolean) {
-        progress.isVisible = show
-        duration.isVisible = show
-        position.isVisible = show
-        exo_play.isVisible = show
-        exo_pause.isVisible = show
-        menuPlayer.isVisible = show
-    }
-
     // Timer for episode seekbar
     private val timerRunnable: Runnable = object : Runnable {
         override fun run() {
-            if (end > 0) {
-                progress.progress =
-                    ((simpleExoPlayer?.contentPosition?.div(1000))?.minus(start))?.toInt() ?: 0
-                position.text =
-                    (((simpleExoPlayer?.contentPosition?.div(1000))?.minus(start))
-                        ?: 0).toDisplayTime()
-                if (simpleExoPlayer?.contentPosition?.div(1000)!! >= end) {
-                    simpleExoPlayer?.playWhenReady = false
-                    viewModel.toNextEpisode()
-                } else {
-                    handler.postDelayed(this, 1000)
-                }
+            if (end > 0 && simpleExoPlayer?.contentPosition!! >= end) {
+                simpleExoPlayer?.playWhenReady = false
+                // next episode
+                player_bottom_bar.nextEpisode(
+                    simpleExoPlayer?.currentWindowIndex ?: viewModel.currentWindow,
+                    simpleExoPlayer?.contentPosition
+                )
+            } else {
+                player_bottom_bar.updatePosition(
+                    simpleExoPlayer?.currentWindowIndex ?: viewModel.currentWindow,
+                    simpleExoPlayer?.contentPosition
+                )
+                handler.postDelayed(this, 500)
             }
-
         }
 
     }
@@ -395,13 +665,19 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
 
 
         playerView.player = simpleExoPlayer
-
+        playerView.controllerAutoShow = false
         playerView.setControllerVisibilityListener { visibility ->
             if (visibility == View.VISIBLE) {
-                showContent(true)
+
             } else if (visibility == View.GONE) {
-                showContent(false)
-                bottomSheetBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED
+//                showContent(false)
+//                //трансформируем
+//                val set = ConstraintSet()
+//                set.clone(custom_control_layout)
+//                changeToBigCustomControlLayout(set)
+//                TransitionManager.beginDelayedTransition(custom_control_layout)
+//                set.applyTo(custom_control_layout)
+                TransformCustomControlLayoutToBigState()
             }
         }
 
@@ -410,16 +686,12 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
 
         simpleExoPlayer?.addListener(object : Player.EventListener {
             override fun onPlayWhenReadyChanged(playWhenReady: Boolean, reason: Int) {
-                if (playWhenReady && simpleExoPlayer!!.currentPosition / 1000 >= end) {
-                    if (viewModel.isLastEpisode() && end > 0) {
-                        simpleExoPlayer!!.seekTo(start * 1000)
-                    }
+                if (playWhenReady && simpleExoPlayer!!.currentPosition >= end) {
                     handler.removeCallbacks(timerRunnable)
-                    handler.postDelayed(timerRunnable, 1000)
+                    handler.postDelayed(timerRunnable, 500)
                 }
                 super.onPlayWhenReadyChanged(playWhenReady, reason)
             }
-
         })
         playerView.setShowMultiWindowTimeBar(true)
         simpleExoPlayer?.prepare()
@@ -450,7 +722,7 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
         if (simpleExoPlayer != null) {
             playWhenReady = simpleExoPlayer?.playWhenReady!!
             playbackPosition = simpleExoPlayer?.currentPosition!!
-            currentWindow = simpleExoPlayer?.currentWindowIndex!!
+            viewModel.currentWindow = simpleExoPlayer?.currentWindowIndex!!
             simpleExoPlayer?.release()
             simpleExoPlayer = null
         }
@@ -458,5 +730,25 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
 
     override fun getParameters(): ParametersDefinition = {
         parametersOf(PlayerFragmentArgs.fromBundle(requireArguments()))
+    }
+
+    private fun getScreenWidth(activity: Activity): Int {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val windowMetrics = activity.windowManager.currentWindowMetrics
+            val insets: Insets = windowMetrics.windowInsets
+                .getInsetsIgnoringVisibility(WindowInsets.Type.systemBars())
+            windowMetrics.bounds.width() - insets.left - insets.right
+        } else {
+            val displayMetrics = DisplayMetrics()
+            activity.windowManager.defaultDisplay.getMetrics(displayMetrics)
+            displayMetrics.widthPixels
+        }
+    }
+
+    companion object {
+        enum class SeekBarType {
+            BIG,
+            SMALL,
+        }
     }
 }

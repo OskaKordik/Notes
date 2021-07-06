@@ -47,24 +47,33 @@ class PopupVideoViewModelImpl(
 
     override fun play(episode: Episode?, playList: List<Episode>?) {
         matchInfo?.let {
+            var endTimeEpisode = 0L
+            var startTimeEpisode = 0L
+            val timeList = videos
+                ?.filter { it.abc == "0" }
+                ?.groupBy { it.quality }!!["720"]
+                ?.map { video ->
+//                Timber.tag("TAG").d(video.toString())
+                    startTimeEpisode += endTimeEpisode
+                    endTimeEpisode += (video.duration)
+                    Episode(
+                        title = "${_match?.info}",
+                        endMs = (endTimeEpisode - startTimeEpisode) / 1000,
+                        half = (video.period),
+                        startMs = 0,
+                        image = _match?.image ?: "",
+                        placeholder = _match?.placeholder ?: ""
+                    )
+                }
             router.navigate(
                 PopupVideoFragmentDirections.actionGlobalPlayerFragment(
                     PlayerSetup(
                         playlist =
                         mutableMapOf<String, List<Episode>>(
+                            it.translates.fullGameTranslate to (timeList ?: listOf()),
                             it.translates.ballInPlayTranslate to it.ballInPlay,
                             it.translates.highlightsTranslate to it.highlights,
                             it.translates.goalsTranslate to it.goals,
-                            it.translates.fullGameTranslate to listOf(
-                                Episode(
-                                    start = 0,
-                                    end = -1,
-                                    half = 0,
-                                    title = "${_match?.info}",
-                                    image = _match?.image ?: "",
-                                    placeholder = _match?.placeholder ?: ""
-                                )
-                            )
                         ),
                         video = videos,
                         currentEpisode = episode,
