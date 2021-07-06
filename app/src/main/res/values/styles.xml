@@ -84,21 +84,15 @@
         <item name="colorPrimary">@color/black</item>
         <item name="android:textColor">@color/black</item>
         <item name="colorOnSurface">@color/black</item>
-
         <item name="colorControlNormal">@color/black</item>
         <item name="colorControlActivated">@color/black</item>
         <item name="colorControlHighlight">@color/black</item>
-
-        <!--        <item name="colorError">@color/light_red</item>-->
-        <!--        <item name="helperText">@color/light_red</item>-->
     </style>
 
 
     <style name="TextStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <!--        <item name="android:paddingHorizontal">10dp</item>-->
-        <!--        <item name="android:paddingVertical">4dp</item>-->
         <item name="android:background">@drawable/background_text_filld_w_large</item>
         <item name="android:textColor">@color/calendar_day_of_week_state</item>
     </style>
@@ -106,7 +100,6 @@
 
     <style name="LoginTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="materialThemeOverlay">@style/ThemeOverlay.TextInputLayout</item>
-        <!--        <item name="shapeAppearance">@style/ShapeAppearance.StreamingTheme.SmallComponent</item>-->
         <item name="hintTextColor">?attr/colorOnSurface</item>
         <item name="boxCollapsedPaddingTop">0dp</item>
 
@@ -115,7 +108,6 @@
 
     <style name="PasswordTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
         <item name="materialThemeOverlay">@style/ThemeOverlay.TextInputLayout</item>
-        <!--        <item name="shapeAppearance">?attr/shapeAppearanceSmallComponent</item>-->
         <item name="hintTextColor">?attr/colorOnSurface</item>
         <item name="colorError">@color/light_red</item>
     </style>
@@ -138,26 +130,19 @@
         <item name="android:minHeight">27dp</item>
     </style>
 
-    <style name="ExoStyledControlsCustom_play" parent="Widget.MaterialComponents.Button.OutlinedButton">
+    <style name="ExoStyledControlsCustom_sight" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="iconTint">@color/white</item>
         <item name="backgroundTint">@android:color/transparent</item>
         <item name="background">@android:color/transparent</item>
         <item name="iconPadding">0dp</item>
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
-        <item name="android:paddingTop">12dp</item>
-        <item name="android:paddingBottom">12dp</item>
-        <item name="android:paddingLeft">18dp</item>
+        <item name="android:paddingTop">6dp</item>
+        <item name="android:paddingBottom">6dp</item>
+        <item name="android:paddingLeft">6dp</item>
         <item name="android:paddingRight">6dp</item>
-        <item name="android:minWidth">27dp</item>
-        <item name="android:minHeight">27dp</item>
-    </style>
-    <!--    <item name="android:minHeight">86dp</item>-->
-
-
-    <style name="slider" parent="Widget.MaterialComponents.Slider">
-        <item name="paddingEnd">0dp</item>
-        <item name="paddingStart">0dp</item>
+        <item name="android:minWidth">32dp</item>
+        <item name="android:minHeight">24dp</item>
     </style>
 
 </resources>

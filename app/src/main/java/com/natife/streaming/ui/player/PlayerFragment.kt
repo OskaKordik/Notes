@@ -11,6 +11,7 @@ import android.util.DisplayMetrics
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
+import android.widget.SeekBar
 import androidx.activity.addCallback
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.isVisible
@@ -51,6 +52,7 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
     private var playWhenReady = false
     private var playbackPosition: Long = 0
     private val handler = Handler(Looper.getMainLooper())
+    private var seekBarState: SeekBarType = SeekBarType.BIG
 
 
     override fun onResume() {
@@ -60,6 +62,16 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val sightOfBottom = view.findViewById<MaterialButton>(R.id.sight_of_bottom)
+        val exoPlay = view.findViewById<MaterialButton>(R.id.exo_play)
+        val exoPause = view.findViewById<MaterialButton>(R.id.exo_pause)
+        val exoRew = view.findViewById<MaterialButton>(R.id.exo_rew)
+        val exoIntervalRewind30 = view.findViewById<MaterialButton>(R.id.exo_interval_rewind_30)
+        val exoIntervalRewind5 = view.findViewById<MaterialButton>(R.id.exo_interval_rewind_5)
+        val exoIntervalForward5 = view.findViewById<MaterialButton>(R.id.exo_interval_forward_5)
+        val exoIntervalForward30 = view.findViewById<MaterialButton>(R.id.exo_interval_forward_30)
+        val exoFfwd = view.findViewById<MaterialButton>(R.id.exo_ffwd)
+        val menuPlayer = view.findViewById<MaterialButton>(R.id.menuPlayer)
 
         subscribeViewModels()
         menuPlayer.setOnClickListener {
@@ -72,38 +84,148 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
             }
         }
         subscribe(viewModel.currentSeekBarId) { id ->
-            view.findViewById<MaterialButton>(R.id.exo_play)?.let { button ->
-                button.nextFocusDownId = id
-                button.nextFocusUpId = id
+            sightOfBottom?.let { imageView ->
+                imageView.nextFocusDownId = id
             }
-            view.findViewById<MaterialButton>(R.id.exo_pause)?.let { button ->
-                button.nextFocusDownId = id
-                button.nextFocusUpId = id
+
+            if (seekBarState == SeekBarType.BIG) {
+                view.findViewById<SeekBar>(id)?.let { seekBar ->
+                    seekBar.nextFocusDownId = sightOfBottom.id
+                    seekBar.nextFocusUpId = sightOfBottom.id
+                }
+
+                exoPlay?.let { button ->
+                    button.nextFocusDownId = sightOfBottom.id
+                    button.nextFocusUpId = sightOfBottom.id
+                }
+                exoPause?.let { button ->
+                    button.nextFocusDownId = sightOfBottom.id
+                    button.nextFocusUpId = sightOfBottom.id
+                }
+                exoRew?.let { button ->
+                    button.nextFocusDownId = sightOfBottom.id
+                    button.nextFocusUpId = sightOfBottom.id
+                }
+                exoIntervalRewind30?.let { button ->
+                    button.nextFocusDownId = sightOfBottom.id
+                    button.nextFocusUpId = sightOfBottom.id
+                }
+                exoIntervalRewind5?.let { button ->
+                    button.nextFocusDownId = sightOfBottom.id
+                    button.nextFocusUpId = sightOfBottom.id
+                }
+                exoIntervalForward5?.let { button ->
+                    button.nextFocusDownId = sightOfBottom.id
+                    button.nextFocusUpId = sightOfBottom.id
+                }
+                exoIntervalForward30?.let { button ->
+                    button.nextFocusDownId = sightOfBottom.id
+                    button.nextFocusUpId = sightOfBottom.id
+                }
+                exoFfwd?.let { button ->
+                    button.nextFocusDownId = sightOfBottom.id
+                    button.nextFocusUpId = sightOfBottom.id
+                }
+            } else {
+                view.findViewById<SeekBar>(id)?.let { seekBar ->
+                    seekBar.nextFocusDownId = if (exoPlay.isVisible) exoPlay.id else exoPause.id
+                    seekBar.nextFocusUpId = if (exoPlay.isVisible) exoPlay.id else exoPause.id
+                }
+
+                menuPlayer?.let { imageView ->
+                    imageView.nextFocusDownId = View.NO_ID
+                    imageView.nextFocusUpId = id
+                }
+
+                exoPlay?.let { button ->
+                    button.nextFocusDownId = View.NO_ID
+                    button.nextFocusUpId = id
+                }
+                exoPause?.let { button ->
+                    button.nextFocusDownId = View.NO_ID
+                    button.nextFocusUpId = id
+                }
+                exoRew?.let { button ->
+                    button.nextFocusDownId = View.NO_ID
+                    button.nextFocusUpId = id
+                }
+                exoIntervalRewind30?.let { button ->
+                    button.nextFocusDownId = View.NO_ID
+                    button.nextFocusUpId = id
+                }
+                exoIntervalRewind5?.let { button ->
+                    button.nextFocusDownId = View.NO_ID
+                    button.nextFocusUpId = id
+                }
+                exoIntervalForward5?.let { button ->
+                    button.nextFocusDownId = View.NO_ID
+                    button.nextFocusUpId = id
+                }
+                exoIntervalForward30?.let { button ->
+                    button.nextFocusDownId = View.NO_ID
+                    button.nextFocusUpId = id
+                }
+                exoFfwd?.let { button ->
+                    button.nextFocusDownId = View.NO_ID
+                    button.nextFocusUpId = id
+                }
             }
-            view.findViewById<MaterialButton>(R.id.exo_rew)?.let { button ->
-                button.nextFocusDownId = id
-                button.nextFocusUpId = id
-            }
-            view.findViewById<MaterialButton>(R.id.exo_interval_rewind_30)?.let { button ->
-                button.nextFocusDownId = id
-                button.nextFocusUpId = id
-            }
-            view.findViewById<MaterialButton>(R.id.exo_interval_rewind_5)?.let { button ->
-                button.nextFocusDownId = id
-                button.nextFocusUpId = id
-            }
-            view.findViewById<MaterialButton>(R.id.exo_interval_forward_5)?.let { button ->
-                button.nextFocusDownId = id
-                button.nextFocusUpId = id
-            }
-            view.findViewById<MaterialButton>(R.id.exo_interval_forward_30)?.let { button ->
-                button.nextFocusDownId = id
-                button.nextFocusUpId = id
-            }
-            view.findViewById<MaterialButton>(R.id.exo_ffwd)?.let { button ->
-                button.nextFocusDownId = id
-                button.nextFocusUpId = id
-            }
+        }
+
+        sight_of_bottom.setOnClickListener {
+            //трансформируем
+            seekBarState = SeekBarType.SMALL
+            val set = ConstraintSet()
+            set.clone(custom_control_layout)
+            changeToSmollCustomControlLayout(set)
+            set.applyTo(custom_control_layout)
+            val autoTransition = AutoTransition()
+            autoTransition.duration = 100
+            autoTransition.addListener(object : Transition.TransitionListener {
+                override fun onTransitionStart(transition: Transition) {
+                    //уменьшаем кнопки
+                    exo_play.apply {
+                        iconSize = 27.dp
+                    }
+                    exo_pause.apply {
+                        iconSize = 27.dp
+                    }
+                    exo_rew.apply {
+                        iconSize = 27.dp
+                    }
+                    exo_interval_rewind_30.apply {
+                        iconSize = 27.dp
+                    }
+                    exo_interval_rewind_5.apply {
+                        iconSize = 27.dp
+                    }
+                    exo_interval_forward_5.apply {
+                        iconSize = 27.dp
+                    }
+                    exo_interval_forward_30.apply {
+                        iconSize = 27.dp
+                    }
+                    exo_ffwd.apply {
+                        iconSize = 27.dp
+                    }
+                }
+
+                override fun onTransitionEnd(transition: Transition) {
+                    bottom_button_line_layout.visibility = View.VISIBLE
+                    bigGameTitle.visibility = View.VISIBLE
+                    sight_of_bottom.visibility = View.GONE
+                    menuPlayer.visibility = View.VISIBLE
+                    if (exo_play.isVisible) exo_play.requestFocus() else exo_pause.requestFocus()
+                }
+
+                override fun onTransitionCancel(transition: Transition) {}
+                override fun onTransitionPause(transition: Transition) {}
+                override fun onTransitionResume(transition: Transition) {}
+            })
+            TransitionManager.beginDelayedTransition(
+                custom_control_layout,
+                autoTransition
+            )
         }
 
 
@@ -206,62 +328,8 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
         sliders_place_layout.onFocusSearchListener =
             BrowseFrameLayout.OnFocusSearchListener { focused, direction ->
                 when (direction) {
-                    130 -> { //низ
-                        //трансформируем
-                        val set = ConstraintSet()
-                        set.clone(custom_control_layout)
-                        changeToSmollCustomControlLayout(set)
-                        set.applyTo(custom_control_layout)
-                        val autoTransition = AutoTransition()
-                        autoTransition.duration = 100
-                        autoTransition.addListener(object : Transition.TransitionListener {
-                            override fun onTransitionStart(transition: Transition) {
-                                //уменьшаем кнопки
-                                exo_play.apply {
-                                    iconSize = 27.dp
-                                }
-                                exo_pause.apply {
-                                    iconSize = 27.dp
-                                }
-                                exo_rew.apply {
-                                    iconSize = 27.dp
-                                }
-                                exo_interval_rewind_30.apply {
-                                    iconSize = 27.dp
-                                }
-                                exo_interval_rewind_5.apply {
-                                    iconSize = 27.dp
-                                }
-                                exo_interval_forward_5.apply {
-                                    iconSize = 27.dp
-                                }
-                                exo_interval_forward_30.apply {
-                                    iconSize = 27.dp
-                                }
-                                exo_ffwd.apply {
-                                    iconSize = 27.dp
-                                }
-                            }
-
-                            override fun onTransitionEnd(transition: Transition) {
-                                bottom_button_line_layout.visibility = View.VISIBLE
-                                bigGameTitle.visibility = View.VISIBLE
-                                sight_of_bottom.visibility = View.GONE
-                                menuPlayer.visibility = View.VISIBLE
-                                if (exo_play.isVisible) exo_play.requestFocus() else exo_pause.requestFocus()
-                            }
-
-                            override fun onTransitionCancel(transition: Transition) {}
-                            override fun onTransitionPause(transition: Transition) {}
-                            override fun onTransitionResume(transition: Transition) {}
-                        })
-                        TransitionManager.beginDelayedTransition(
-                            custom_control_layout,
-                            autoTransition
-                        )
-                        return@OnFocusSearchListener null
-                    }
-                    33 -> { //top
+                    33 -> {//top
+                        seekBarState = SeekBarType.BIG
                         TransformCustomControlLayoutToBigState()
                         return@OnFocusSearchListener null
                     }
@@ -509,10 +577,6 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
                     simpleExoPlayer?.currentWindowIndex ?: viewModel.currentWindow,
                     simpleExoPlayer?.contentPosition
                 )
-//                player_bottom_bar.updatePosition(
-//                    viewModel.currentWindow,
-//                    simpleExoPlayer?.contentPosition
-//                )
                 handler.removeCallbacks(timerRunnable)
                 handler.postDelayed(timerRunnable, 500)
 
@@ -678,6 +742,13 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
             val displayMetrics = DisplayMetrics()
             activity.windowManager.defaultDisplay.getMetrics(displayMetrics)
             displayMetrics.widthPixels
+        }
+    }
+
+    companion object {
+        enum class SeekBarType {
+            BIG,
+            SMALL,
         }
     }
 }

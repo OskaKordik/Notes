@@ -19,6 +19,8 @@ class BottomButtonLine @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr) {
     private val startIndexId = 500
+    private lateinit var viewModel: PlayerViewModel
+
     var textColorStateList = ColorStateList(
         arrayOf(intArrayOf(android.R.attr.state_focused), intArrayOf()), intArrayOf(
             context.resources.getColor(R.color.gray_300, null),
@@ -31,26 +33,33 @@ class BottomButtonLine @JvmOverloads constructor(
 
     }
 
-    fun initButtons(keys: Map<String, List<Episode>>, viewModel: PlayerViewModel) {
+    fun initButtons(data: Map<String, List<Episode>>, viewModel: PlayerViewModel) {
+        this.viewModel = viewModel
         bottom_button_line_layout.removeAllViews()
-        keys.keys.forEachIndexed { index, button ->
-            val lp = LayoutParams(
-                LayoutParams.WRAP_CONTENT,
-                LayoutParams.WRAP_CONTENT
-            ).apply {
-                setMargins(0, 0, 10.dp, 0)
+        data.keys.forEachIndexed { index, button ->
+            if (data[button]?.isEmpty() == false) {
+                val lp = LayoutParams(
+                    LayoutParams.WRAP_CONTENT,
+                    LayoutParams.WRAP_CONTENT
+                ).apply {
+                    setMargins(0, 0, 10.dp, 0)
+                }
+                bottom_button_line_layout.addView(
+                    data[button]?.let {
+                        initButton(
+                            startIndexId + index,
+                            button,
+                            it,
+                        )
+                    }, lp
+                )
             }
-            bottom_button_line_layout.addView(
-                initButton(
-                    startIndexId + index,
-                    button
-                ), lp
-            )
         }
     }
 
+
     @SuppressLint("UseCompatLoadingForDrawables")
-    private fun initButton(_id: Int, buttonText: String): Button {
+    private fun initButton(_id: Int, buttonText: String, list: List<Episode>): Button {
         return Button(context).apply {
             text = buttonText
             id = _id
@@ -59,6 +68,9 @@ class BottomButtonLine @JvmOverloads constructor(
                 resources.getDrawable(R.drawable.background_button_fild_wite_grey_bigradius, null)
             isFocusable = true
             setPadding(10.dp, 0, 10.dp, 0)
+            setOnClickListener {
+                viewModel.updatePlayList(list)
+            }
         }
     }
 }

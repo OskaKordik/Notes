@@ -8,7 +8,6 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import android.widget.SeekBar
-import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.natife.streaming.R
 import com.natife.streaming.data.matchprofile.Episode
@@ -24,7 +23,7 @@ class PlayerBottomBar @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : ConstraintLayout(context, attrs, defStyleAttr) {
+) : LinearLayout(context, attrs, defStyleAttr) {
     private var _binding: ViewPlayerBottomBarBinding? = null
     private val binding get() = _binding!!
     private val sliderIds = mutableMapOf<Int, Episode>()
@@ -194,7 +193,6 @@ class PlayerBottomBar @JvmOverloads constructor(
                 else -> null
             }
         }.firstOrNull()
-//        Timber.tag("TAG").d("---${a}---${nextEpisodeForUpdate}-")
         if (nextEpisodeForUpdate != null) {
             viewModel.play(nextEpisodeForUpdate)
         }
