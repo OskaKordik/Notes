@@ -69,7 +69,7 @@ class PlayerBottomBar @JvmOverloads constructor(
             )
             val lp = when (index) {
                 0 -> {
-                    LinearLayout.LayoutParams(
+                    LayoutParams(
                         widthSeekBar,
                         4.dp
                     ).apply {
@@ -78,7 +78,7 @@ class PlayerBottomBar @JvmOverloads constructor(
                     }
                 }
                 else -> {
-                    LinearLayout.LayoutParams(
+                    LayoutParams(
                         widthSeekBar,
                         4.dp
                     ).apply {
@@ -101,12 +101,22 @@ class PlayerBottomBar @JvmOverloads constructor(
 
     fun updatePosition(half: Int, time: Long?) {
 //        Timber.tag("TAG").d("${(half)} ---${(time)} ---${(time)?.toDate()?.toDisplay3("ru")}")
+        //убираем все подвисшие tumb
+        sliderIds.keys.forEach {
+            findViewById<SeekBar>(it)?.let { seekBar ->
+                seekBar.thumb.alpha = 0
+                invalidate()
+            }
+        }
+        // находим нужный и подсвечиваем его
         val sliderIdForUpdate = sliderIds.filterValues {
             it.half == half && time in it.startMs..it.endMs
         }.keys.firstOrNull()
-        sliderIdForUpdate?.let {
+        if (sliderIdForUpdate == null) {
+            nextEpisode(half, time)
+        } else {
             findViewById<SeekBar>(sliderIdForUpdate)?.let { curentSeekBar ->
-                curentSeekBar.thumb.mutate().alpha = 255
+                curentSeekBar.thumb.alpha = 255
                 curentSeekBar.progress =
                     sliderIds[sliderIdForUpdate]?.startMs?.toInt()?.let { it1 ->
                         time?.toInt()?.minus(
@@ -172,14 +182,6 @@ class PlayerBottomBar @JvmOverloads constructor(
         val a = sliderIds.mapValues {
             it.value.half
         }.values.toSet()
-
-        sliderIds.keys.forEach {
-            findViewById<SeekBar>(it)?.let { seekBar ->
-                seekBar.thumb.mutate().alpha = 0
-                invalidate()
-            }
-        }
-
         val nextEpisodeForUpdate: Episode? = a.toList().mapNotNull { h ->
             when {
                 h == half -> {

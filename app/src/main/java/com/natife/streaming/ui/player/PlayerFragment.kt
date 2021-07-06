@@ -86,6 +86,8 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
         subscribe(viewModel.currentSeekBarId) { id ->
             sightOfBottom?.let { imageView ->
                 imageView.nextFocusDownId = id
+                imageView.nextFocusLeftId = id
+                imageView.nextFocusRightId = id
             }
 
             if (seekBarState == SeekBarType.BIG) {
@@ -105,6 +107,7 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
                 exoRew?.let { button ->
                     button.nextFocusDownId = sightOfBottom.id
                     button.nextFocusUpId = sightOfBottom.id
+                    button.nextFocusLeftId = button.id
                 }
                 exoIntervalRewind30?.let { button ->
                     button.nextFocusDownId = sightOfBottom.id
@@ -125,6 +128,7 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
                 exoFfwd?.let { button ->
                     button.nextFocusDownId = sightOfBottom.id
                     button.nextFocusUpId = sightOfBottom.id
+                    button.nextFocusRightId = button.id
                 }
             } else {
                 view.findViewById<SeekBar>(id)?.let { seekBar ->
@@ -148,6 +152,7 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
                 exoRew?.let { button ->
                     button.nextFocusDownId = View.NO_ID
                     button.nextFocusUpId = id
+                    button.nextFocusLeftId = View.NO_ID
                 }
                 exoIntervalRewind30?.let { button ->
                     button.nextFocusDownId = View.NO_ID
@@ -168,6 +173,7 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
                 exoFfwd?.let { button ->
                     button.nextFocusDownId = View.NO_ID
                     button.nextFocusUpId = id
+                    button.nextFocusRightId = id
                 }
             }
         }
@@ -227,103 +233,6 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
                 autoTransition
             )
         }
-
-
-//        sliders_place.setOnKeyListener { v, keyCode, event ->
-//            when (keyCode) {
-//                KeyEvent.KEYCODE_DPAD_DOWN -> {
-//                    menuPlayer.visibility = View.GONE
-//                    menuPlayer.requestFocus()
-//                    return@setOnKeyListener true
-//                }
-//                else -> return@setOnKeyListener false
-//            }
-//            if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
-//                if (end >= 0) {
-//                    progress.requestFocus()
-//                } else {
-//                    exo_progress.requestFocus()
-//                }
-//                return@setOnKeyListener true
-//            }
-//            return@setOnKeyListener false
-//
-//            if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
-//                if (end >= 0) {
-//                    progress.requestFocus()
-//                } else {
-//                    exo_progress.requestFocus()
-//                }
-//                return@setOnKeyListener true
-//            }
-//
-//            if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
-//                if (end >= 0) {
-//                    progress.requestFocus()
-//                } else {
-//                    exo_progress.requestFocus()
-//                }
-//                return@setOnKeyListener true
-//            }
-//            return@setOnKeyListener false
-//        }
-//
-//        exo_pause.setOnKeyListener { v, keyCode, event ->
-//            if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
-//                if (end >= 0) {
-//                    progress.requestFocus()
-//                } else {
-//                    exo_progress.requestFocus()
-//                }
-//                return@setOnKeyListener true
-//            }
-//            if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
-//                if (end >= 0) {
-//                    progress.requestFocus()
-//                } else {
-//                    exo_progress.requestFocus()
-//                }
-//                return@setOnKeyListener true
-//            }
-//            return@setOnKeyListener false
-//        }
-
-
-//        var isShow = false
-//        parentLayout.onChildFocusListener = object : OnChildFocusListener {
-//            override fun onRequestFocusInDescendants(
-//                direction: Int,
-//                previouslyFocusedRect: Rect?
-//            ): Boolean {
-//                return false
-//            }
-//
-//            override fun onRequestChildFocus(child: View?, focused: View?) {
-//                try {
-//                    if (child?.id == recyclerViewVideos.id) {
-//
-//                        if (!isShow) {
-//                            animation?.cancel()
-//                            animation = getShowAnimation()
-//                            animation!!.start()
-//                            isShow = true
-//                        }
-//                        playerView.controllerShowTimeoutMs = -1
-//                    } else {
-//                        if (isShow) {
-//                            animation?.cancel()
-//                            animation = getHideAnimation()
-//                            animation!!.start()
-//                            isShow = false
-//                        }
-//                        playerView.controllerShowTimeoutMs = 5000
-//                    }
-//                } catch (e: Exception) {
-//
-//                }
-//            }
-//
-//        }
 
         sliders_place_layout.onFocusSearchListener =
             BrowseFrameLayout.OnFocusSearchListener { focused, direction ->
@@ -517,36 +426,6 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
             0.dp
         )
     }
-
-
-//    fun getShowAnimation(): ValueAnimator {
-//
-//        return ValueAnimator.ofInt(
-//            recyclerViewVideos.height,
-//            requireActivity().windowManager.defaultDisplay.height / 2
-//        ).apply {
-//            addUpdateListener { animator ->
-//                val lp = recyclerViewVideos.layoutParams
-//                recyclerViewVideos.layoutParams =
-//                    lp.apply { height = animator.animatedValue as Int }
-//            }
-//            duration = 500
-//        }
-//
-//    }
-//
-//    fun getHideAnimation(): ValueAnimator {
-//        return ValueAnimator.ofInt(recyclerViewVideos.height, 80.dp).apply {
-//            addUpdateListener { animator ->
-//                val lp = recyclerViewVideos.layoutParams
-//                recyclerViewVideos.layoutParams =
-//                    lp.apply { height = animator.animatedValue as Int }
-//            }
-//            duration = 500
-//        }
-//
-//    }
-
 
     @SuppressLint("RestrictedApi")
     private fun subscribeViewModels() {

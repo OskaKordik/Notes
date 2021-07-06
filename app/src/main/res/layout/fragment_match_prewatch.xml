@@ -1,105 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/buttonBack"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:rotation="180"
-        android:src="@drawable/ic_back"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/button_background_state" />
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_marginStart="12dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/buttonBack"
-        app:layout_constraintTop_toTopOf="parent">
+    <!--    <ImageView-->
+    <!--        android:id="@+id/buttonBack"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginStart="12dp"-->
+    <!--        android:clickable="true"-->
+    <!--        android:focusable="true"-->
+    <!--        android:rotation="180"-->
+    <!--        android:src="@drawable/ic_back"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:tint="@color/button_background_state" />-->
+    <!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:layout_marginStart="12dp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toEndOf="@+id/buttonBack"-->
+    <!--        app:layout_constraintTop_toTopOf="parent">-->
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Настройки плейлистов"
-            android:textColor="@color/white"
-            android:textSize="21sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <!--        <TextView-->
+    <!--            android:id="@+id/title"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginTop="20dp"-->
+    <!--            android:text="Настройки плейлистов"-->
+    <!--            android:textColor="@color/white"-->
+    <!--            android:textSize="21sp"-->
+    <!--            app:layout_constraintStart_toStartOf="parent"-->
+    <!--            app:layout_constraintTop_toTopOf="parent" />-->
 
-        <TextView
-            android:id="@+id/watchStream"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:background="@drawable/timed_button_background"
-            android:button="@null"
-            android:clickable="true"
-            android:focusable="true"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="8dp"
-            android:text="Смотреть прямую трансляцию"
-            android:textColor="@color/button_text_b_w_state_new"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title"
-            app:layout_constraintWidth_percent="0.3" />
+    <!--        <TextView-->
+    <!--            android:id="@+id/watchStream"-->
+    <!--            android:layout_width="0dp"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginTop="30dp"-->
+    <!--            android:background="@drawable/timed_button_background"-->
+    <!--            android:button="@null"-->
+    <!--            android:clickable="true"-->
+    <!--            android:focusable="true"-->
+    <!--            android:paddingHorizontal="16dp"-->
+    <!--            android:paddingVertical="8dp"-->
+    <!--            android:text="Смотреть прямую трансляцию"-->
+    <!--            android:textColor="@color/button_text_b_w_state_new"-->
+    <!--            android:textSize="12sp"-->
+    <!--            android:textStyle="bold"-->
+    <!--            app:layout_constraintEnd_toEndOf="parent"-->
+    <!--            app:layout_constraintHorizontal_bias="0.0"-->
+    <!--            app:layout_constraintStart_toStartOf="parent"-->
+    <!--            app:layout_constraintTop_toBottomOf="@+id/title"-->
+    <!--            app:layout_constraintWidth_percent="0.3" />-->
 
-        <TextView
-            android:id="@+id/watchFromStart"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
-            android:background="@drawable/timed_button_background"
-            android:button="@null"
-            android:clickable="true"
-            android:focusable="true"
-            android:paddingVertical="8dp"
-            android:paddingHorizontal="16dp"
-            android:text="Смотреть с самого начала"
-            android:textSize="12sp"
-            android:textColor="@color/button_text_b_w_state_new"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/watchStream"
-            app:layout_constraintWidth_percent="0.3" />
+    <!--        <TextView-->
+    <!--            android:id="@+id/watchFromStart"-->
+    <!--            android:layout_width="0dp"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginTop="3dp"-->
+    <!--            android:background="@drawable/timed_button_background"-->
+    <!--            android:button="@null"-->
+    <!--            android:clickable="true"-->
+    <!--            android:focusable="true"-->
+    <!--            android:paddingVertical="8dp"-->
+    <!--            android:paddingHorizontal="16dp"-->
+    <!--            android:text="Смотреть с самого начала"-->
+    <!--            android:textSize="12sp"-->
+    <!--            android:textColor="@color/button_text_b_w_state_new"-->
+    <!--            android:textStyle="bold"-->
+    <!--            app:layout_constraintEnd_toEndOf="parent"-->
+    <!--            app:layout_constraintHorizontal_bias="0.0"-->
+    <!--            app:layout_constraintStart_toStartOf="parent"-->
+    <!--            app:layout_constraintTop_toBottomOf="@+id/watchStream"-->
+    <!--            app:layout_constraintWidth_percent="0.3" />-->
 
-        <TextView
-            android:id="@+id/watchFromMoment"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
-            android:background="@drawable/timed_button_background"
-            android:button="@null"
-            android:clickable="true"
-            android:focusable="true"
-            android:paddingVertical="8dp"
-            android:paddingHorizontal="16dp"
-            android:text="Смотреть с "
-            android:textSize="12sp"
-            android:textColor="@color/button_text_b_w_state_new"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/watchFromStart"
-            app:layout_constraintWidth_percent="0.3" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <!--        <TextView-->
+    <!--            android:id="@+id/watchFromMoment"-->
+    <!--            android:layout_width="0dp"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginTop="3dp"-->
+    <!--            android:background="@drawable/timed_button_background"-->
+    <!--            android:button="@null"-->
+    <!--            android:clickable="true"-->
+    <!--            android:focusable="true"-->
+    <!--            android:paddingVertical="8dp"-->
+    <!--            android:paddingHorizontal="16dp"-->
+    <!--            android:text="Смотреть с "-->
+    <!--            android:textSize="12sp"-->
+    <!--            android:textColor="@color/button_text_b_w_state_new"-->
+    <!--            android:textStyle="bold"-->
+    <!--            app:layout_constraintEnd_toEndOf="parent"-->
+    <!--            app:layout_constraintHorizontal_bias="0.0"-->
+    <!--            app:layout_constraintStart_toStartOf="parent"-->
+    <!--            app:layout_constraintTop_toBottomOf="@+id/watchFromStart"-->
+    <!--            app:layout_constraintWidth_percent="0.3" />-->
+    <!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

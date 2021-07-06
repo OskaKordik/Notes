@@ -13,17 +13,9 @@ import com.natife.streaming.data.player.PlayerSetup
 import com.natife.streaming.data.player.toInitBottomData
 import com.natife.streaming.router.Router
 import com.natife.streaming.ui.player.menu.quality.VideoQualityParams
-import timber.log.Timber
 
 abstract class PlayerViewModel : BaseViewModel() {
-    //    abstract fun showMatchInfo()
-//    abstract fun showVideo()
-//    abstract fun showMatches()
-//    abstract fun onMatchClicked(match: Match)
     abstract fun play(it: Episode, playlist: List<Episode>? = null)
-
-    //    abstract fun toNextEpisode()
-//    abstract fun isLastEpisode(): Boolean
     abstract fun openVideoQualityMenu()
     abstract fun changeVideoQuality(videoQuality: String)
     abstract fun onBackClicked()
@@ -34,8 +26,6 @@ abstract class PlayerViewModel : BaseViewModel() {
     abstract val matchInfoLiveData: LiveData<Match>
     abstract val sourceLiveData: LiveData<Map<String, List<Episode>>>
     abstract val currentEpisode: LiveData<Episode>
-
-    //    abstract val currentPlaylist: LiveData<List<Episode>>
     abstract val videoQualityListLiveData: LiveData<List<String>>
     abstract val initBottomBarData: LiveData<PlayerBottomBarSetup>
     abstract var currentWindow: Int
@@ -51,8 +41,6 @@ class PlayerViewModelImpl(
     override val matchInfoLiveData = MutableLiveData<Match>()
     override val sourceLiveData = MutableLiveData<Map<String, List<Episode>>>()
     override val currentEpisode = MutableLiveData<Episode>()
-
-    //    private val currentPlaylist = MutableLiveData<List<Episode>>()
     override val videoQualityListLiveData = MutableLiveData<List<String>>()
     override val initBottomBarData = MutableLiveData<PlayerBottomBarSetup>()
     override var currentWindow: Int = 0
@@ -63,8 +51,6 @@ class PlayerViewModelImpl(
 
     init {
         initBottomBarData.value = setup.toInitBottomData()
-//        currentPlaylist.value =
-//            setup.currentPlaylist?.sortedWith(compareBy({ it.half }, { it.startMs }))
         sourceLiveData.value = setup.playlist
         videoLiveData.value = setup.video?.filter { it.abc == "0" }
             ?.groupBy { it.quality }!!["720"]/*maxByOrNull { it.key.toInt() }*/?.map { it.url to it.duration }
@@ -117,11 +103,11 @@ class PlayerViewModelImpl(
                 it.copy(
                     endMs = it.endMs * 1000,
                     startMs = it.startMs * 1000,
-                    half = it.half - 1
+                    half = it.half
                 )
             }
         )
-        Timber.tag("TAG").d("---${initBottomBarData.value}---")
+//        Timber.tag("TAG").d("---${initBottomBarData.value}---")
     }
 
 }

@@ -35,7 +35,6 @@ import com.natife.streaming.ui.live.LiveViewModelImpl
 import com.natife.streaming.ui.login.LoginViewModel
 import com.natife.streaming.ui.login.LoginViewModelImpl
 import com.natife.streaming.ui.main.MainViewModel
-import com.natife.streaming.ui.matchprofile.*
 import com.natife.streaming.ui.mypreferences.UserPreferencesViewModel
 import com.natife.streaming.ui.mypreferences.UserPreferencesViewModelImpl
 import com.natife.streaming.ui.payStory.PayStoryViewModel
@@ -56,8 +55,6 @@ import com.natife.streaming.ui.register.RegisterViewModel
 import com.natife.streaming.ui.register.RegisterViewModelImpl
 import com.natife.streaming.ui.search.SearchViewModel
 import com.natife.streaming.ui.search.SearchViewModelImpl
-import com.natife.streaming.ui.settings.SettingsViewModel
-import com.natife.streaming.ui.settings.SettingsViewModelImpl
 import com.natife.streaming.ui.subscriptions.SubscriptionsViewModel
 import com.natife.streaming.ui.subscriptions.SubscriptionsViewModelImpl
 import com.natife.streaming.ui.tournament.TournamentFragmentArgs
@@ -152,18 +149,18 @@ val viewModelModule = module {
 
     viewModel<CalendarViewModel> { CalendarViewModelImpl(get(), get()) }
 
-//    @Deprecated("Don't use")
-    viewModel<MatchProfileViewModel> { (args: MatchProfileFragmentArgs) ->
-        MatchProfileViewModelImpl(
-            args.sportId,
-            args.matchId,
-            get(),
-            get(),
-            get(),
-            get(),
-            get()
-        )
-    }
+////    @Deprecated("Don't use")
+//    viewModel<MatchProfileViewModel> { (args: MatchProfileFragmentArgs) ->
+//        MatchProfileViewModelImpl(
+//            args.sportId,
+//            args.matchId,
+//            get(),
+//            get(),
+//            get(),
+//            get(),
+//            get()
+//        )
+//    }
     viewModel<PopupStatisticsViewModel> { (args: PopupStatisticsFragmentArgs) ->
         PopupStatisticsViewModelImpl(
             args.sportId,
@@ -196,21 +193,21 @@ val viewModelModule = module {
         )
     }
 
-    viewModel<MatchSettingsViewModel> { (args: MatchSettingsFragmentArgs) ->
-        MatchSettingsViewModelImpl(
-            args.match, args.sportId, args.videos,
-            get(), get(), get()
-        )
-    }
-    viewModel<WatchViewModel> { (args: WatchFragmentArgs) ->
-        WatchViewModelImpl(
-            args.match,
-            args.video,
-            get(),
-            get(),
-            get()
-        )
-    }
+//    viewModel<MatchSettingsViewModel> { (args: MatchSettingsFragmentArgs) ->
+//        MatchSettingsViewModelImpl(
+//            args.match, args.sportId, args.videos,
+//            get(), get(), get()
+//        )
+//    }
+//    viewModel<WatchViewModel> { (args: WatchFragmentArgs) ->
+//        WatchViewModelImpl(
+//            args.match,
+//            args.video,
+//            get(),
+//            get(),
+//            get()
+//        )
+//    }
     viewModel<SearchViewModel> { SearchViewModelImpl(get(), get()) }
 //    viewModel<com.natife.streaming.ui.search.sport.SportViewModel> {
 //        com.natife.streaming.ui.search.sport.SportViewModelImpl(
@@ -227,7 +224,7 @@ val viewModelModule = module {
             get()
         )
     }
-    viewModel<SettingsViewModel> { SettingsViewModelImpl(get(), get(), get(), get(), get(), get()) }
+//    viewModel<SettingsViewModel> { SettingsViewModelImpl(get(), get(), get(), get(), get(), get()) }
     viewModel<FavoriteViewModel> {
         FavoriteViewModelImpl(
             get(),

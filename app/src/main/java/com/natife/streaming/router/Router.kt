@@ -87,12 +87,13 @@ class Router : KoinComponent {
         navigate(R.id.action_main_favoriteFragment)
     }
 
-    fun toSettings() {
-        navigate(R.id.action_main_settingsFragment)
-    }
+    //    fun toSettings() {
+//        navigate(R.id.action_main_settingsFragment)
+//    }
     fun toSearch() {
         navigate(R.id.action_main_searchFragment)
     }
+
     fun addListener(navListener: NavController.OnDestinationChangedListener) {
         val activity = activity ?: return
         val navHostId = navHostId ?: return
