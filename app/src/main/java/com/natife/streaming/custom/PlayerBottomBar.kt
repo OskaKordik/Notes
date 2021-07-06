@@ -106,6 +106,7 @@ class PlayerBottomBar @JvmOverloads constructor(
         }.keys.firstOrNull()
         sliderIdForUpdate?.let {
             findViewById<SeekBar>(sliderIdForUpdate)?.let { curentSeekBar ->
+                curentSeekBar.thumb.mutate().alpha = 255
                 curentSeekBar.progress =
                     sliderIds[sliderIdForUpdate]?.startMs?.toInt()?.let { it1 ->
                         time?.toInt()?.minus(
@@ -139,6 +140,7 @@ class PlayerBottomBar @JvmOverloads constructor(
             progressDrawable = resources.getDrawable(R.drawable.player_progress, null)
             progress = 0
             max = (episode.endMs - episode.startMs).toInt()
+            splitTrack = false
 
             setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(
@@ -171,6 +173,12 @@ class PlayerBottomBar @JvmOverloads constructor(
             it.value.half
         }.values.toSet()
 
+        sliderIds.keys.forEach {
+            findViewById<SeekBar>(it)?.let { seekBar ->
+                seekBar.thumb.mutate().alpha = 0
+                invalidate()
+            }
+        }
 
         val nextEpisodeForUpdate: Episode? = a.toList().mapNotNull { h ->
             when {
