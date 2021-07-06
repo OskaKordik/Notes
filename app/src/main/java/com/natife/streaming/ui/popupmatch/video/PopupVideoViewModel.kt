@@ -70,22 +70,11 @@ class PopupVideoViewModelImpl(
                     PlayerSetup(
                         playlist =
                         mutableMapOf<String, List<Episode>>(
+                            it.translates.fullGameTranslate to (timeList ?: listOf()),
                             it.translates.ballInPlayTranslate to it.ballInPlay,
                             it.translates.highlightsTranslate to it.highlights,
                             it.translates.goalsTranslate to it.goals,
-                            it.translates.fullGameTranslate to (timeList ?: listOf())
                         ),
-//                            it.translates.fullGameTranslate to listOf(
-//                                Episode(
-//                                    startMs = 0,
-//                                    endMs = -1,
-//                                    half = 0,
-//                                    title = "${_match?.info}",
-//                                    image = _match?.image ?: "",
-//                                    placeholder = _match?.placeholder ?: ""
-//                                )
-//                            )
-//                        ),
                         video = videos,
                         currentEpisode = episode,
                         currentPlaylist = playList,
