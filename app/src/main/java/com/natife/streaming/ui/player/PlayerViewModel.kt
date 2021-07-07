@@ -6,7 +6,6 @@ import com.natife.streaming.VIDEO_1080
 import com.natife.streaming.VIDEO_480
 import com.natife.streaming.VIDEO_720
 import com.natife.streaming.base.BaseViewModel
-import com.natife.streaming.data.match.Match
 import com.natife.streaming.data.matchprofile.Episode
 import com.natife.streaming.data.player.PlayerBottomBarSetup
 import com.natife.streaming.data.player.PlayerSetup
@@ -21,10 +20,10 @@ abstract class PlayerViewModel : BaseViewModel() {
     abstract fun changeVideoQuality(videoQuality: String)
     abstract fun onBackClicked()
     abstract fun setCurrentSeekBarId(id: Int)
-    abstract fun updatePlayList(list: List<Episode>)
+    abstract fun updatePlayList(list: List<Episode>, buttonText: String)
 
     abstract val videoLiveData: LiveData<Event<List<Pair<String, Long>>>>
-    abstract val matchInfoLiveData: LiveData<Match>
+    abstract val matchInfoLiveData: LiveData<String>
     abstract val sourceLiveData: LiveData<Map<String, List<Episode>>>
     abstract val currentEpisode: LiveData<Event<Episode>>
     abstract val videoQualityListLiveData: LiveData<List<String>>
@@ -40,7 +39,7 @@ class PlayerViewModelImpl(
 ) : PlayerViewModel() {
 
     override val videoLiveData = MutableLiveData<Event<List<Pair<String, Long>>>>()
-    override val matchInfoLiveData = MutableLiveData<Match>()
+    override val matchInfoLiveData = MutableLiveData<String>()
     override val sourceLiveData = MutableLiveData<Map<String, List<Episode>>>()
     override val currentEpisode = MutableLiveData<Event<Episode>>()
     override val videoQualityListLiveData = MutableLiveData<List<String>>()
@@ -58,7 +57,7 @@ class PlayerViewModelImpl(
         videoLiveData.value = setup.video?.filter { it.abc == "0" }
             ?.groupBy { it.quality }!!["720"]/*maxByOrNull { it.key.toInt() }*/?.map { it.url to it.duration }
             ?.let { Event(it) }
-        matchInfoLiveData.value = setup.match
+        matchInfoLiveData.value = setup.startTitle
 
     }
 
@@ -101,7 +100,7 @@ class PlayerViewModelImpl(
         currentSeekBarId.value = id
     }
 
-    override fun updatePlayList(list: List<Episode>) {
+    override fun updatePlayList(list: List<Episode>, buttonText: String) {
         initBottomBarData.value = Event(PlayerBottomBarSetup(
             playlist = list
                 .sortedWith(compareBy({ it.half }, { it.startMs }))
@@ -113,7 +112,7 @@ class PlayerViewModelImpl(
                     )
                 }
         ))
-//        Timber.tag("TAG").d("---${initBottomBarData.value}---")
+        matchInfoLiveData.value = setup.titlesForButtons[buttonText]
     }
 
 }

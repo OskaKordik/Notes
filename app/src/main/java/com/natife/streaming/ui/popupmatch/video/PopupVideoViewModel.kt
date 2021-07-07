@@ -75,7 +75,8 @@ class PopupVideoViewModelImpl(
                     PlayerSetup(
                         playlist =
                         mutableMapOf<String, List<Episode>>(
-                            (playerPlayList?.first ?: "") to (playerPlayList?.second ?: listOf()),
+                            playerPlayList?.first.toString() to (playerPlayList?.second
+                                ?: listOf()),
                             it.translates.fullGameTranslate to (timeList ?: listOf()),
                             it.translates.ballInPlayTranslate to it.ballInPlay,
                             it.translates.highlightsTranslate to it.highlights,
@@ -84,7 +85,31 @@ class PopupVideoViewModelImpl(
                         video = videos,
                         currentEpisode = episode,
                         currentPlaylist = playList ?: playerPlayList?.second,
-                        match = _match
+                        startTitle = playerPlayList?.first
+                            ?: "${_match?.team1?.name} : ${_match?.team2?.name}",
+                        match = _match,
+                        titlesForButtons = mapOf(
+                            Pair(
+                                playerPlayList?.first.toString(),
+                                playerPlayList?.first.toString()
+                            ),
+                            Pair(
+                                it.translates.fullGameTranslate,
+                                "${_match?.team1?.name} : ${_match?.team2?.name}"
+                            ),
+                            Pair(
+                                it.translates.ballInPlayTranslate,
+                                "${_match?.team1?.name} : ${_match?.team2?.name}"
+                            ),
+                            Pair(
+                                it.translates.highlightsTranslate,
+                                "${_match?.team1?.name} : ${_match?.team2?.name}"
+                            ),
+                            Pair(
+                                it.translates.goalsTranslate,
+                                "${_match?.team1?.name} : ${_match?.team2?.name}"
+                            ),
+                        )
                     )
                 )
             )

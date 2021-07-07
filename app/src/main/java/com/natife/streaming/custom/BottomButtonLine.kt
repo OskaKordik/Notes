@@ -69,7 +69,7 @@ class BottomButtonLine @JvmOverloads constructor(
             isFocusable = true
             setPadding(10.dp, 0, 10.dp, 0)
             setOnClickListener {
-                viewModel.updatePlayList(list)
+                viewModel.updatePlayList(list, buttonText)
             }
         }
     }

@@ -10,7 +10,9 @@ import kotlinx.android.parcel.Parcelize
 data class PlayerSetup(
     val playlist: Map<String, List<Episode>>,
     val currentEpisode: Episode? = null,
-    val match: Match?= null,
+    val match: Match? = null,
     val currentPlaylist: List<Episode>? = null,
-    val video: List<Video>?= null
+    val startTitle: String,
+    val video: List<Video>? = null,
+    val titlesForButtons: Map<String, String> = mapOf()
 ) : Parcelable

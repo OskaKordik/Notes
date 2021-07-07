@@ -472,8 +472,8 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
             bottom_button_line_layout.initButtons(source, viewModel)
         }
 
-        subscribe(viewModel.matchInfoLiveData) { matchInfo ->
-            bigGameTitle.text = "${matchInfo.team1.name} : ${matchInfo.team2.name}"
+        subscribe(viewModel.matchInfoLiveData) { info ->
+            bigGameTitle.text = info
         }
 
         exo_interval_rewind_30.setOnClickListener {
