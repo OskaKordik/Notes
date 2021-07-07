@@ -11,6 +11,7 @@ import com.natife.streaming.data.matchprofile.Episode
 import com.natife.streaming.data.player.PlayerBottomBarSetup
 import com.natife.streaming.data.player.PlayerSetup
 import com.natife.streaming.data.player.toInitBottomData
+import com.natife.streaming.ext.Event
 import com.natife.streaming.router.Router
 import com.natife.streaming.ui.player.menu.quality.VideoQualityParams
 
@@ -22,14 +23,15 @@ abstract class PlayerViewModel : BaseViewModel() {
     abstract fun setCurrentSeekBarId(id: Int)
     abstract fun updatePlayList(list: List<Episode>)
 
-    abstract val videoLiveData: LiveData<List<Pair<String, Long>>>
+    abstract val videoLiveData: LiveData<Event<List<Pair<String, Long>>>>
     abstract val matchInfoLiveData: LiveData<Match>
     abstract val sourceLiveData: LiveData<Map<String, List<Episode>>>
-    abstract val currentEpisode: LiveData<Episode>
+    abstract val currentEpisode: LiveData<Event<Episode>>
     abstract val videoQualityListLiveData: LiveData<List<String>>
-    abstract val initBottomBarData: LiveData<PlayerBottomBarSetup>
+    abstract val initBottomBarData: LiveData<Event<PlayerBottomBarSetup?>>
     abstract var currentWindow: Int
     abstract val currentSeekBarId: LiveData<Int>
+    abstract var isNewEpisodeStarted: Boolean
 }
 
 class PlayerViewModelImpl(
@@ -37,29 +39,31 @@ class PlayerViewModelImpl(
     private val router: Router
 ) : PlayerViewModel() {
 
-    override val videoLiveData = MutableLiveData<List<Pair<String, Long>>>()
+    override val videoLiveData = MutableLiveData<Event<List<Pair<String, Long>>>>()
     override val matchInfoLiveData = MutableLiveData<Match>()
     override val sourceLiveData = MutableLiveData<Map<String, List<Episode>>>()
-    override val currentEpisode = MutableLiveData<Episode>()
+    override val currentEpisode = MutableLiveData<Event<Episode>>()
     override val videoQualityListLiveData = MutableLiveData<List<String>>()
-    override val initBottomBarData = MutableLiveData<PlayerBottomBarSetup>()
+    override val initBottomBarData = MutableLiveData<Event<PlayerBottomBarSetup?>>()
     override var currentWindow: Int = 0
         set(value) {
             field = if (value >= 0) value else 0
         }
     override val currentSeekBarId = MutableLiveData<Int>()
+    override var isNewEpisodeStarted: Boolean = false
 
     init {
-        initBottomBarData.value = setup.toInitBottomData()
+        initBottomBarData.value = Event(setup.toInitBottomData())
         sourceLiveData.value = setup.playlist
         videoLiveData.value = setup.video?.filter { it.abc == "0" }
             ?.groupBy { it.quality }!!["720"]/*maxByOrNull { it.key.toInt() }*/?.map { it.url to it.duration }
+            ?.let { Event(it) }
         matchInfoLiveData.value = setup.match
 
     }
 
     override fun play(it: Episode, playlist: List<Episode>?) {
-        currentEpisode.value = it
+        currentEpisode.value = Event(it)
     }
 
     override fun openVideoQualityMenu() {
@@ -86,7 +90,7 @@ class PlayerViewModelImpl(
             .video
             ?.filter { it.abc == "0" }
             ?.groupBy { it.quality }!![videoQuality]
-            ?.map { it.url to it.duration }
+            ?.map { it.url to it.duration }?.let { Event(it) }
     }
 
     override fun onBackClicked() {
@@ -98,15 +102,17 @@ class PlayerViewModelImpl(
     }
 
     override fun updatePlayList(list: List<Episode>) {
-        initBottomBarData.value = PlayerBottomBarSetup(
-            playlist = list.sortedWith(compareBy({ it.half }, { it.startMs })).map {
-                it.copy(
-                    endMs = it.endMs * 1000,
-                    startMs = it.startMs * 1000,
-                    half = it.half
-                )
-            }
-        )
+        initBottomBarData.value = Event(PlayerBottomBarSetup(
+            playlist = list
+                .sortedWith(compareBy({ it.half }, { it.startMs }))
+                .map {
+                    it.copy(
+                        endMs = it.endMs * 1000,
+                        startMs = it.startMs * 1000,
+                        half = it.half - 1
+                    )
+                }
+        ))
 //        Timber.tag("TAG").d("---${initBottomBarData.value}---")
     }
 

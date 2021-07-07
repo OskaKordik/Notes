@@ -60,6 +60,9 @@ class PopupSharedViewModel : BaseViewModel(), KoinComponent {
     private val _playPlayList = MutableLiveData<Event<List<Episode>?>>()
     val playPlayList: LiveData<Event<List<Episode>?>> = _playPlayList
 
+    private val _playPlayListPlayers = MutableLiveData<Event<Pair<String, List<Episode>>>>()
+    val playPlayListPlayers: LiveData<Event<Pair<String, List<Episode>>>> = _playPlayListPlayers
+
     fun setStartId(startId: ArrayList<Int>) {
         _startViewID.value = startId
     }
@@ -142,9 +145,9 @@ class PopupSharedViewModel : BaseViewModel(), KoinComponent {
         playerJob?.cancel()
         playerJob = launch {
             withContext(Dispatchers.IO) {
-                val episods = playerUseCase.execute(matchId, sportId, player.id)
+                val episodes = playerUseCase.execute(matchId, sportId, player.id)
                 withContext(Dispatchers.Main) {
-                    _playPlayList.value = Event(episods)
+                    _playPlayListPlayers.value = Event(Pair(player.name, episodes))
                 }
             }
         }

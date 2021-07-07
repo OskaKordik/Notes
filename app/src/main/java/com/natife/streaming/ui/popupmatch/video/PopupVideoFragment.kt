@@ -2,9 +2,7 @@ package com.natife.streaming.ui.popupmatch.video
 
 
 import android.annotation.SuppressLint
-import android.os.Bundle
 import android.view.View
-import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
@@ -107,6 +105,9 @@ class PopupVideoFragment : BaseFragment<PopupVideoViewModel>() {
         }
         subscribeEvent(popupSharedViewModel.playPlayList) {
             viewModel.play(playList = it)
+        }
+        subscribeEvent(popupSharedViewModel.playPlayListPlayers) {
+            viewModel.play(playerPlayList = it)
         }
 
         subscribe(popupSharedViewModel.startViewID) { start ->

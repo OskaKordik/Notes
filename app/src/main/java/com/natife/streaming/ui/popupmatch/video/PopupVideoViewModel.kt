@@ -22,7 +22,12 @@ abstract class PopupVideoViewModel : BaseViewModel() {
     abstract val episodes: LiveData<List<Episode>>
     abstract val fullVideoDuration: LiveData<Long>
     abstract val match: LiveData<Match>
-    abstract fun play(episode: Episode? = null, playList: List<Episode>? = null)
+    abstract fun play(
+        episode: Episode? = null,
+        playList: List<Episode>? = null,
+        playerPlayList: Pair<String, List<Episode>>? = null
+    )
+
     abstract fun onStatisticClicked()
     abstract fun onFinishClicked()
 }
@@ -45,16 +50,21 @@ class PopupVideoViewModelImpl(
     override val fullVideoDuration = MutableLiveData<Long>()
     private var matchInfo: MatchInfo? = null
 
-    override fun play(episode: Episode?, playList: List<Episode>?) {
+    override fun play(
+        episode: Episode?,
+        playList: List<Episode>?,
+        playerPlayList: Pair<String, List<Episode>>?
+    ) {
         matchInfo?.let {
             val timeList = videos
                 ?.filter { it.abc == "0" }
                 ?.groupBy { it.quality }!!["720"]
+                ?.sortedBy { it.period }
                 ?.mapIndexed { index, video ->
                     Episode(
                         title = "${_match?.info}",
                         endMs = video.duration / 1000,
-                        half = index,
+                        half = video.period,//  TODO иногда приходят не правильные данные
                         startMs = 0,
                         image = _match?.image ?: "",
                         placeholder = _match?.placeholder ?: ""
@@ -65,6 +75,7 @@ class PopupVideoViewModelImpl(
                     PlayerSetup(
                         playlist =
                         mutableMapOf<String, List<Episode>>(
+                            (playerPlayList?.first ?: "") to (playerPlayList?.second ?: listOf()),
                             it.translates.fullGameTranslate to (timeList ?: listOf()),
                             it.translates.ballInPlayTranslate to it.ballInPlay,
                             it.translates.highlightsTranslate to it.highlights,
@@ -72,7 +83,7 @@ class PopupVideoViewModelImpl(
                         ),
                         video = videos,
                         currentEpisode = episode,
-                        currentPlaylist = playList,
+                        currentPlaylist = playList ?: playerPlayList?.second,
                         match = _match
                     )
                 )

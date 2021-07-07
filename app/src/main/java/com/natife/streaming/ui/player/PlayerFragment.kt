@@ -20,10 +20,7 @@ import androidx.leanback.widget.BrowseFrameLayout
 import androidx.transition.AutoTransition
 import androidx.transition.Transition
 import androidx.transition.TransitionManager
-import com.google.android.exoplayer2.MediaItem
-import com.google.android.exoplayer2.Player
-import com.google.android.exoplayer2.Renderer
-import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.source.ClippingMediaSource
 import com.google.android.exoplayer2.source.ConcatenatingMediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
@@ -32,8 +29,7 @@ import com.google.android.exoplayer2.util.Util
 import com.google.android.material.button.MaterialButton
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseFragment
-import com.natife.streaming.ext.dp
-import com.natife.streaming.ext.subscribe
+import com.natife.streaming.ext.*
 import com.natife.streaming.ui.player.menu.quality.VideoQualityDialog
 import kotlinx.android.synthetic.main.custom_playback_control.*
 import kotlinx.android.synthetic.main.fragment_player.*
@@ -430,27 +426,34 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
     @SuppressLint("RestrictedApi")
     private fun subscribeViewModels() {
 
-        subscribe(viewModel.videoLiveData) { videoUrl ->
+        subscribeEvent(viewModel.videoLiveData) { videoUrl ->
             initializePlayer(videoUrl)
 
-            subscribe(viewModel.initBottomBarData) {
+            subscribeEvent(viewModel.initBottomBarData) {
 //                Timber.tag("TAG").d(Gson().toJson(it))
-                player_bottom_bar.initVideoUrl(
-                    it,
-                    getScreenWidth(requireActivity()) - 100.dp, // плавающий отступ в макете для компенсации округления при выборе длинны
-                    simpleExoPlayer,
-                    viewModel
-                )
+                if (it != null) {
+                    player_bottom_bar.initVideoUrl(
+                        it,
+                        getScreenWidth(requireActivity()) - 100.dp, // плавающий отступ в макете для компенсации округления при выборе длинны
+                        simpleExoPlayer,
+                        viewModel
+                    )
+                }
             }
 
 
 
-            subscribe(viewModel.currentEpisode) {
-
+            subscribeEvent(viewModel.currentEpisode) {
                 start = it.startMs
                 end = it.endMs
                 viewModel.currentWindow = it.half
-                simpleExoPlayer?.seekTo(it.half, it.startMs)
+                try {
+                    simpleExoPlayer?.seekTo(it.half, it.startMs)
+                } catch (e: IllegalSeekPositionException) {
+//                    Timber.tag("TAG").d("PlaerFragment --------  /n------${Gson().toJson(it)}")
+                    releasePlayer()
+                    viewModel.onBackClicked()
+                }
                 //update SeekBar
                 player_bottom_bar.updatePosition(
                     simpleExoPlayer?.currentWindowIndex ?: viewModel.currentWindow,
@@ -460,12 +463,12 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
                 handler.postDelayed(timerRunnable, 500)
 
                 simpleExoPlayer?.playWhenReady = true
+                viewModel.isNewEpisodeStarted = true
             }
 
         }
         // bottom buttons
         subscribe(viewModel.sourceLiveData) { source ->
-//            Timber.tag("TAG").d(Gson().toJson(source))
             bottom_button_line_layout.initButtons(source, viewModel)
         }
 
@@ -571,6 +574,16 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
                 }
                 super.onPlayWhenReadyChanged(playWhenReady, reason)
             }
+
+//            override fun onPlayerError(error: ExoPlaybackException) {
+//                //TODO убрать
+//                if (error.type == ExoPlaybackException.TYPE_SOURCE) {
+//                    val cause = error.sourceException
+//                    Timber.tag("TAG")
+//                        .d("onPlayerError ---ExoPlaybackException.TYPE_SOURCE ---${cause}")
+//                    viewModel.onBackClicked()
+//                }
+//            }
         })
         playerView.setShowMultiWindowTimeBar(true)
         simpleExoPlayer?.prepare()
@@ -623,6 +636,14 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
             displayMetrics.widthPixels
         }
     }
+
+//    override fun onError(throwable: Throwable) {
+//        when (throwable) {
+//            is ExoPlaybackException -> {viewModel.onBackClicked()}
+//            is IllegalSeekPositionException -> {viewModel.onBackClicked()}
+//            else -> super.onError(throwable)
+//        }
+//    }
 
     companion object {
         enum class SeekBarType {

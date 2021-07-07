@@ -8,6 +8,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import android.widget.SeekBar
+import com.google.android.exoplayer2.IllegalSeekPositionException
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.natife.streaming.R
 import com.natife.streaming.data.matchprofile.Episode
@@ -28,6 +29,7 @@ class PlayerBottomBar @JvmOverloads constructor(
     private val binding get() = _binding!!
     private val sliderIds = mutableMapOf<Int, Episode>()
     private lateinit var viewModel: PlayerViewModel
+
 
 
     init {
@@ -100,7 +102,6 @@ class PlayerBottomBar @JvmOverloads constructor(
     }
 
     fun updatePosition(half: Int, time: Long?) {
-//        Timber.tag("TAG").d("${(half)} ---${(time)} ---${(time)?.toDate()?.toDisplay3("ru")}")
         //убираем все подвисшие tumb
         sliderIds.keys.forEach {
             findViewById<SeekBar>(it)?.let { seekBar ->
@@ -158,10 +159,14 @@ class PlayerBottomBar @JvmOverloads constructor(
                     progressMs: Int,
                     fromUser: Boolean
                 ) {
-                    if (fromUser) {
-//                        Timber.tag("TAG")
-//                            .d("${(episode.half)} -----------${episode.startMs} + $progressMs")
-                        simpleExoPlayer?.seekTo(episode.half, (episode.startMs + progressMs))
+                    if (fromUser && viewModel.isNewEpisodeStarted) {
+                        try {
+                            simpleExoPlayer?.seekTo(episode.half, (episode.startMs + progressMs))
+                        } catch (e: IllegalSeekPositionException) {
+//                            Timber.tag("TAG").d("PlayerBottomBar error!!!!!!!!!! --- ${(episode.half)} -----------${episode.startMs} + $progressMs")
+                            simpleExoPlayer?.release()
+                            viewModel.onBackClicked()
+                        }
                         viewModel.currentWindow = episode.half
                     }
                 }
@@ -178,6 +183,7 @@ class PlayerBottomBar @JvmOverloads constructor(
     }
 
     fun nextEpisode(half: Int, time: Long?) {
+        viewModel.isNewEpisodeStarted = false
         if (time == null) return
         val a = sliderIds.mapValues {
             it.value.half
@@ -207,4 +213,6 @@ class PlayerBottomBar @JvmOverloads constructor(
             viewModel.play(nextEpisodeForUpdate)
         }
     }
+
+
 }
