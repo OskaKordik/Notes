@@ -80,9 +80,9 @@
     <string name="text_logout">Вы уверены, что хотите выйти из аккаунта?</string>
     <string name="text_close_app_title">Подтверждение</string>
     <string-array name="billing_type_names">
-        <item>Месяц</item>
-        <item>Год</item>
-        <item>Плата за просмотр</item>
+        <item>Помесячно</item>
+        <item>За весь год</item>
+        <item>За просмотр</item>
     </string-array>
     <string name="text_choose_quality">Выберите качество</string>
     <string name="text_not_find_match">Матчи не найдены</string>
