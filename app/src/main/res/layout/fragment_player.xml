@@ -4,10 +4,6 @@
     android:id="@+id/parentLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <!--<androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:layout_width="match_parent"
-    android:layout_height="match_parent">-->
-
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/playerContainer"
@@ -24,26 +20,4 @@
             app:controller_layout_id="@layout/custom_playback_control" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    <!--       <androidx.leanback.widget.VerticalGridView-->
-    <!--           android:id="@+id/recyclerViewVideos"-->
-    <!--           android:layout_width="match_parent"-->
-    <!--           android:layout_height="80dp"-->
-    <!--           android:visibility="gone"-->
-    <!--           android:background="@android:color/transparent"-->
-    <!--           android:descendantFocusability="beforeDescendants"-->
-    <!--           app:focusOutFront="true"-->
-    <!--           android:layout_gravity="bottom"-->
-    <!--           android:layout_marginHorizontal="40dp"-->
-    <!--           android:focusable="false"-->
-    <!--            app:layout_constraintHeight_percent="0"-->
-    <!--           app:layout_behavior="@string/bottom_sheet_behavior"-->
-    <!--           app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--           app:layout_constraintEnd_toEndOf="parent"-->
-    <!--           app:layout_constraintStart_toStartOf="parent"-->
-    <!--           app:layout_constraintTop_toTopOf="parent"-->
-    <!--           app:layout_constraintVertical_bias="1.0"/>-->
-
-
 </androidx.leanback.widget.BrowseFrameLayout>

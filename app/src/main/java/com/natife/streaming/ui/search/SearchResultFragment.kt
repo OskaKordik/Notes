@@ -17,7 +17,6 @@ import com.natife.streaming.ext.subscribe
 import kotlinx.android.synthetic.main.fragment_mypreferences_new.*
 import kotlinx.android.synthetic.main.fragment_search_new.*
 import kotlinx.android.synthetic.main.fragment_search_result.*
-import kotlinx.android.synthetic.main.fragment_settings.view.*
 import kotlinx.android.synthetic.main.view_side_menu_new.*
 import timber.log.Timber
 

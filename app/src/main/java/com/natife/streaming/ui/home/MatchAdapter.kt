@@ -42,24 +42,4 @@ class MatchDiffUtil: DiffUtil.ItemCallback<Match>() {
         return oldItem == newItem
     }
 
-//    override fun getChangePayload(oldItem: Match, newItem: Match): Any? {
-//
-//        val payloads = mutableListOf<Any>()
-//        if (oldItem.image != newItem.image){
-//            payloads.add(IMAGE_PAYLOAD)
-//        }
-//        if (oldItem.info != oldItem.info){
-//            payloads.add(INFO_PAYLOAD)
-//        }
-//        if (oldItem.sportName != newItem.sportName){
-//            payloads.add(SPORT_PAYLOAD)
-//        }
-//
-//        return  payloads
-//    }
-//
-//    object IMAGE_PAYLOAD
-//    object INFO_PAYLOAD
-//    object SPORT_PAYLOAD
-
 }

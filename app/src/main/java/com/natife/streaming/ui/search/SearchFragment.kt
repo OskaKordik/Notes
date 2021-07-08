@@ -3,9 +3,6 @@ package com.natife.streaming.ui.search
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
-import android.content.Context
-import android.app.Activity
-import android.view.inputmethod.InputMethodManager
 import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
 import android.widget.TextView.OnEditorActionListener
@@ -28,7 +25,6 @@ import com.natife.streaming.ui.main.MainActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_popup_video.*
 import kotlinx.android.synthetic.main.fragment_search_new.*
-import kotlinx.android.synthetic.main.fragment_settings.view.*
 import kotlinx.android.synthetic.main.fragment_settings_page.*
 
 

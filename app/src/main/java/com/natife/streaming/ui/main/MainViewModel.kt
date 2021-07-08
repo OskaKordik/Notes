@@ -20,12 +20,8 @@ class MainViewModel(
     private val settingsPrefs: SettingsPrefs,
     private val localSqlDataSourse: LocalSqlDataSourse,
 ) : BaseViewModel() {
-//    val name = MutableLiveData<String>()
     val date = MutableLiveData<Date>()
     val settings = MutableLiveData<GlobalSettings>()
-    fun back() {
-        router.navigateUp()
-    }
 
     init {
         launch {
@@ -38,13 +34,6 @@ class MainViewModel(
         }
         setPrefToday() // при каждом заходе в приложение всегда сбиваем дату на текущюю
         date.value = Date()
-
-//        val date = settingsPrefs.getDate()
-//        if (date == null) {
-//            this.date.value = Date()
-//        } else {
-//            this.date.value = Date(date)
-//        }
 
         launchCatching {
             withContext(Dispatchers.IO) {

@@ -34,7 +34,6 @@ import com.natife.streaming.ext.*
 import com.natife.streaming.ui.player.menu.quality.VideoQualityDialog
 import kotlinx.android.synthetic.main.custom_playback_control.*
 import kotlinx.android.synthetic.main.fragment_player.*
-import kotlinx.android.synthetic.main.fragment_settings.view.*
 import kotlinx.android.synthetic.main.view_player_bottom_bar.*
 import org.koin.core.parameter.ParametersDefinition
 import org.koin.core.parameter.parametersOf

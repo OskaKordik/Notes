@@ -1,7 +1,6 @@
 package com.natife.streaming.ui.mypreferences
 
 import android.annotation.SuppressLint
-import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.ProgressBar
@@ -23,7 +22,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.custom_playback_control.view.*
 import kotlinx.android.synthetic.main.fragment_mypreferences_new.*
 import kotlinx.android.synthetic.main.fragment_search_new.*
-import kotlinx.android.synthetic.main.fragment_settings.view.*
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
