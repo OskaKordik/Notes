@@ -75,12 +75,38 @@ class TournamentViewModel(
         }
     }
 
-    //TODO COLOR
-    fun gepProfileColor() {
-        launch {
-            val a = profileColorUseCase.execute(sportId, "p_player", additionalId)
-        }
-    }
+//    //TODO COLOR
+//    init {
+//        launch {
+//            var a = profileColorUseCase.execute(1, "tournament", 39)
+//        }
+//        launch {
+//            var a = profileColorUseCase.execute(1, "team", 242)
+//        }
+//        launch {
+//            var a = profileColorUseCase.execute(1, "player", 96358)
+//        }
+//    }
+
+//    private fun saveSecond(){
+//        launch {
+//            var a = saveUserLiveMatchSecond.execute(
+//                _sportId = 1,
+//                _matchId = 1724780,
+//                _half = 1,
+//                _second = 20
+//            )
+//        }
+//    }
+//
+//    private fun getSecond(){
+//        launch {
+//            var a =getUserLiveMatchSecond.execute(
+//                _sportId = 1,
+//                _matchId = 1724780,
+//            )
+//        }
+//    }
 
     init {
         launchCatching {
@@ -116,14 +142,20 @@ class TournamentViewModel(
             SearchResult.Type.PLAYER -> launch {
                 _player.value = playerUseCase.execute(sportId, additionalId)
 //                val a = profileColorUseCase.execute(sportId, "player", additionalId)
+//                val b = profileColorUseCase.execute2(sportId, "player", additionalId)
+//                Timber.tag("TAG").d("${a.toString()} ------${b.toString()}")
             }
             SearchResult.Type.TEAM -> launch {
                 _team.value = teamUseCase.execute(sportId, additionalId)
 //                val a = profileColorUseCase.execute(sportId, "team", additionalId)
+//                val b = profileColorUseCase.execute2(sportId, "team", additionalId)
+//                Timber.tag("TAG").d("${a.toString()} ------${b.toString()}")
             }
             SearchResult.Type.TOURNAMENT -> launch {
                 _tournament.value = tournamentUseCase.execute(sportId, additionalId)
 //                val a = profileColorUseCase.execute(sportId, "tournament", additionalId)
+//                val b = profileColorUseCase.execute2(sportId, "tournament", additionalId)
+//                Timber.tag("TAG").d("${a.toString()} ------${b.toString()}")
             }
             SearchResult.Type.NON -> launch { cancel() }
         }

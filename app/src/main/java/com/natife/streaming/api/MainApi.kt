@@ -19,6 +19,9 @@ import com.natife.streaming.data.dto.team.TeamDTO
 import com.natife.streaming.data.dto.tournament.TournamentListDTO
 import com.natife.streaming.data.dto.tournamentprofile.TournamentProfileDTO
 import com.natife.streaming.data.dto.translate.TranslatesDTO
+import com.natife.streaming.data.dto.videoPosition.GetVideoPositionRequest
+import com.natife.streaming.data.dto.videoPosition.StoreVideoPositionRequest
+import com.natife.streaming.data.dto.videoPosition.StoreVideoPositionResponse
 import com.natife.streaming.data.request.*
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -51,8 +54,18 @@ interface MainApi {
     @POST("data")
     suspend fun getTranslate(@Body body: BaseRequest<TranslateRequest>): TranslatesDTO //new
 
-    @POST("profile/color")
-    suspend fun getProfileColor(@Body body: BaseRequest<ProfileColorRequest>): ProfileColorDTO //new
+    @POST
+    suspend fun getProfileColor(
+        @Url url: String = "https://api-staging.instat.tv/profile/color",
+        @Body body: ProfileColorRequest
+    ): ProfileColorDTO //new
+
+    @POST("data")
+    suspend fun saveUserLiveMatchSecond(@Body body: BaseRequest<StoreVideoPositionRequest>): StoreVideoPositionResponse // new
+
+    @POST("data")
+    suspend fun getUserLiveMatchSecond(@Body body: BaseRequest<GetVideoPositionRequest>): StoreVideoPositionResponse // new
+
 
     @POST("data/{sport}")
     suspend fun getMatchInfo(
@@ -64,7 +77,7 @@ interface MainApi {
     suspend fun getVideoFile(@Body body: VideoRequest): VideoDTO
 
     @POST("video/stream")
-    suspend fun getVideoStream(@Body body: VideoRequest): List<String>
+    suspend fun getVideoStream(@Body body: VideoRequest): List<String> // todo https://api.instat.tv/video/stream
 
     @POST("data/{sport}")
     suspend fun getActions(
@@ -82,13 +95,19 @@ interface MainApi {
     suspend fun getMatchInfoGlobal(@Body body: BaseRequest<MatchInfo>): BroadcastDTO
 
     @POST
-    suspend fun getMatchPreview(@Url url: String = "https://api-staging.instat.tv/videoapi/preview",@Body body: PreviewRequest): PreviewDTO
+    suspend fun getMatchPreview(
+        @Url url: String = "https://api-staging.instat.tv/videoapi/preview",
+        @Body body: PreviewRequest
+    ): PreviewDTO
 
     @POST("data")
     suspend fun getSecond(@Body body: BaseRequest<MatchInfo>): SecondDTO
 
     @POST("data/{sport}")
-    suspend fun getPlayerActions(@Body body: BaseRequest<PlayerActionsRequest>,@Path("sport") sport: String): PlayerEpisodesDTO
+    suspend fun getPlayerActions(
+        @Body body: BaseRequest<PlayerActionsRequest>,
+        @Path("sport") sport: String
+    ): PlayerEpisodesDTO
 
     @POST("data")
     suspend fun getPlayerInfo(@Body body: BaseRequest<PlayerInfoRequest>): PlayerDTO

@@ -113,7 +113,7 @@ val viewModelModule = module {
             get(),
             get(),
             get(),
-            get()
+            get(),
         )
     }
     viewModel<HomeViewModel> {
@@ -273,6 +273,8 @@ val prefsModule = module {
 }
 
 val useCaseModule = module {
+    factory<GetUserLiveMatchSecond> { GetUserLiveMatchSecondImpl(get(), get()) }
+    factory<SaveUserLiveMatchSecond> { SaveUserLiveMatchSecondImpl(get(), get()) }
     factory<LoginUseCase> { LoginUseCaseImpl(get(), get(), get(), get()) }
     factory<RegisterUseCase> { RegisterUseCaseImpl(get(), get()) }
     factory<LogoutUseCase> { LogoutUseCaseImpl(get(), get(), get(), get(), get()) }
