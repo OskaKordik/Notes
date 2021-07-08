@@ -14,6 +14,7 @@ import android.view.WindowManager
 import android.widget.SeekBar
 import androidx.activity.addCallback
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.setFragmentResultListener
 import androidx.leanback.widget.BrowseFrameLayout
@@ -79,6 +80,13 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
                 viewModel.changeVideoQuality(videoQuality)
             }
         }
+        subscribe(viewModel.videoQualityParams) {
+            val d = VideoQualityDialog().apply {
+                arguments = bundleOf(VIDEO_QUALITY to it)
+            }
+            d.show(parentFragmentManager, DIALOG_QUALITY)
+        }
+
         subscribe(viewModel.currentSeekBarId) { id ->
             sightOfBottom?.let { imageView ->
                 imageView.nextFocusDownId = id
@@ -429,7 +437,7 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
         subscribeEvent(viewModel.videoLiveData) { videoUrl ->
             initializePlayer(videoUrl)
 
-            subscribeEvent(viewModel.initBottomBarData) {
+            subscribe(viewModel.initBottomBarData) {
 //                Timber.tag("TAG").d(Gson().toJson(it))
                 if (it != null) {
                     player_bottom_bar.initVideoUrl(
@@ -443,7 +451,7 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
 
 
 
-            subscribeEvent(viewModel.currentEpisode) {
+            subscribe(viewModel.currentEpisode) {
                 start = it.startMs
                 end = it.endMs
                 viewModel.currentWindow = it.half
@@ -650,5 +658,8 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
             BIG,
             SMALL,
         }
+
+        const val VIDEO_QUALITY = "videoQualityParams"
+        const val DIALOG_QUALITY = "dialogQuality"
     }
 }

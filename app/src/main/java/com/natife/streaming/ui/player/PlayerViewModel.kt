@@ -25,12 +25,13 @@ abstract class PlayerViewModel : BaseViewModel() {
     abstract val videoLiveData: LiveData<Event<List<Pair<String, Long>>>>
     abstract val matchInfoLiveData: LiveData<String>
     abstract val sourceLiveData: LiveData<Map<String, List<Episode>>>
-    abstract val currentEpisode: LiveData<Event<Episode>>
+    abstract val currentEpisode: LiveData<Episode>
     abstract val videoQualityListLiveData: LiveData<List<String>>
-    abstract val initBottomBarData: LiveData<Event<PlayerBottomBarSetup?>>
+    abstract val initBottomBarData: LiveData<PlayerBottomBarSetup?>
     abstract var currentWindow: Int
     abstract val currentSeekBarId: LiveData<Int>
     abstract var isNewEpisodeStarted: Boolean
+    abstract val videoQualityParams: LiveData<VideoQualityParams>
 }
 
 class PlayerViewModelImpl(
@@ -41,18 +42,19 @@ class PlayerViewModelImpl(
     override val videoLiveData = MutableLiveData<Event<List<Pair<String, Long>>>>()
     override val matchInfoLiveData = MutableLiveData<String>()
     override val sourceLiveData = MutableLiveData<Map<String, List<Episode>>>()
-    override val currentEpisode = MutableLiveData<Event<Episode>>()
+    override val currentEpisode = MutableLiveData<Episode>()
     override val videoQualityListLiveData = MutableLiveData<List<String>>()
-    override val initBottomBarData = MutableLiveData<Event<PlayerBottomBarSetup?>>()
+    override val initBottomBarData = MutableLiveData<PlayerBottomBarSetup?>()
     override var currentWindow: Int = 0
         set(value) {
             field = if (value >= 0) value else 0
         }
     override val currentSeekBarId = MutableLiveData<Int>()
     override var isNewEpisodeStarted: Boolean = false
+    override val videoQualityParams = MutableLiveData<VideoQualityParams>()
 
     init {
-        initBottomBarData.value = Event(setup.toInitBottomData())
+        initBottomBarData.value = setup.toInitBottomData()
         sourceLiveData.value = setup.playlist
         videoLiveData.value = setup.video?.filter { it.abc == "0" }
             ?.groupBy { it.quality }!!["720"]/*maxByOrNull { it.key.toInt() }*/?.map { it.url to it.duration }
@@ -62,11 +64,11 @@ class PlayerViewModelImpl(
     }
 
     override fun play(it: Episode, playlist: List<Episode>?) {
-        currentEpisode.value = Event(it)
+        currentEpisode.value = it
     }
 
     override fun openVideoQualityMenu() {
-        val videoQualityParams = VideoQualityParams(
+        videoQualityParams.value = VideoQualityParams(
             setup
                 .video
                 ?.sortedByDescending { it.quality.toInt() }
@@ -75,11 +77,6 @@ class PlayerViewModelImpl(
                 VIDEO_1080,
                 VIDEO_720,
                 VIDEO_480
-            )
-        )
-        router.navigate(
-            PlayerFragmentDirections.actionPlayerFragmentToVideoQualityDialog(
-                videoQualityParams
             )
         )
     }
@@ -101,7 +98,7 @@ class PlayerViewModelImpl(
     }
 
     override fun updatePlayList(list: List<Episode>, buttonText: String) {
-        initBottomBarData.value = Event(PlayerBottomBarSetup(
+        initBottomBarData.value = PlayerBottomBarSetup(
             playlist = list
                 .sortedWith(compareBy({ it.half }, { it.startMs }))
                 .map {
@@ -111,7 +108,7 @@ class PlayerViewModelImpl(
                         half = it.half - 1
                     )
                 }
-        ))
+        )
         matchInfoLiveData.value = setup.titlesForButtons[buttonText]
     }
 

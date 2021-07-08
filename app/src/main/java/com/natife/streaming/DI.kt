@@ -42,9 +42,6 @@ import com.natife.streaming.ui.payStory.PayStoryViewModelImpl
 import com.natife.streaming.ui.player.PlayerFragmentArgs
 import com.natife.streaming.ui.player.PlayerViewModel
 import com.natife.streaming.ui.player.PlayerViewModelImpl
-import com.natife.streaming.ui.player.menu.quality.VideoQualityDialogArgs
-import com.natife.streaming.ui.player.menu.quality.VideoQualityViewModel
-import com.natife.streaming.ui.player.menu.quality.VideoQualityViewModelImpl
 import com.natife.streaming.ui.popupmatch.statistics.PopupStatisticsFragmentArgs
 import com.natife.streaming.ui.popupmatch.statistics.PopupStatisticsViewModel
 import com.natife.streaming.ui.popupmatch.statistics.PopupStatisticsViewModelImpl
@@ -236,9 +233,10 @@ val viewModelModule = module {
         )
     }
 
-    viewModel<VideoQualityViewModel> { (args: VideoQualityDialogArgs) ->
-        VideoQualityViewModelImpl(args.params)
-    }
+//    viewModel<VideoQualityViewModel> { //(args: VideoQualityDialogArgs) ->
+//        VideoQualityViewModelImpl()
+////        VideoQualityViewModelImpl(args.params)
+//    }
 }
 
 val prefsModule = module {
