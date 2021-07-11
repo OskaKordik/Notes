@@ -49,7 +49,7 @@ class LoginUseCaseImpl(
         try {
             val login = api.login(request)
             if (login.status == 1) {
-                onComplete(Result.success("Success"))
+                onComplete(Result.success("Success", login.userId))
             }
         } catch (e: ApiException) {
             try {

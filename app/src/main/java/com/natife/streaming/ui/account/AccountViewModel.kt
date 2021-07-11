@@ -61,9 +61,9 @@ class AccountViewModelImpl(
             val globalSettings = localSqlDataSourse.getGlobalSettings()
             if (globalSettings == null) {
                 settingsPrefs.saveLanguage(lang.uppercase()) // TODO продублировал в преференс тк не нашел решения как брать из бд при загрузке в BaseActivity
-                localSqlDataSourse.setGlobalSettings(
+                localSqlDataSourse.setGlobalSettingsCurrentUser(
                     showScore = false,
-                    lang = Lang.valueOf(lang.uppercase())
+                    lang = Lang.valueOf(lang.uppercase()),
                 )
                 settings.value = localSqlDataSourse.getGlobalSettings()
             } else {
@@ -94,15 +94,15 @@ class AccountViewModelImpl(
 
     override fun setScore() {
         launch {
-            localSqlDataSourse.updateGlobalSettings(
+            localSqlDataSourse.updateGlobalSettingsCurrentUser(
                 showScore = !settings.value!!.showScore ?: false,
                 lang = settings?.value?.lang ?: Lang.EN
             )
             val globalSettings = localSqlDataSourse.getGlobalSettings()
             if (globalSettings == null) {
-                localSqlDataSourse.setGlobalSettings(
+                localSqlDataSourse.setGlobalSettingsCurrentUser(
                     showScore = true,
-                    lang = settings?.value?.lang ?: Lang.EN
+                    lang = settings?.value?.lang ?: Lang.EN,
                 )
                 settings.value = localSqlDataSourse.getGlobalSettings()
             } else {
@@ -115,7 +115,7 @@ class AccountViewModelImpl(
     override fun setLang(lang: Int) {
         if ((lastposition != null) && (lastposition != lang)) launch {
             settingsPrefs.saveLanguage(language[lang].name) // TODO продублировал в преференс тк не нашел решения как брать из бд при загрузке в BaseActivity
-            localSqlDataSourse.updateGlobalSettings(
+            localSqlDataSourse.updateGlobalSettingsCurrentUser(
                 showScore = settings.value!!.showScore ?: false,
                 lang = language[lang]
             )

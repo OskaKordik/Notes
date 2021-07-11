@@ -16,10 +16,17 @@ class LoadListOfSportsWorker(
     private val saveSportUseCase: SaveSportUseCase = get()
 
     override suspend fun doWork(): Result {
-
         val sports = getSportUseCase.execute().toPreferencesSport()
-        saveSportUseCase.savePreferencesSportList(sports)
-
+        val allSportsInBD = getSportUseCase.getAllUserPreferencesInSport()
+        if (allSportsInBD.isEmpty()) {// проверяем локальное хранилище
+            saveSportUseCase.savePreferencesSportList(sports)
+        } else {
+            // обновляем
+            saveSportUseCase.deleteAllPreferencesSportAndCreateAndSynchronize(
+                newList = sports,
+                oldList = allSportsInBD
+            )
+        }
         return Result.success()
     }
 }

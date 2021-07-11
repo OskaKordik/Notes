@@ -1,8 +1,12 @@
 package com.natife.streaming.ui.mypreferences
 
+import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
+import androidx.work.ExistingWorkPolicy
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkManager
 import com.natife.streaming.API_TRANSLATE
 import com.natife.streaming.R
 import com.natife.streaming.api.MainApi
@@ -12,13 +16,12 @@ import com.natife.streaming.data.dto.sports.toSportTranslateDTO
 import com.natife.streaming.data.dto.tournament.TournamentTranslateDTO
 import com.natife.streaming.data.request.BaseRequest
 import com.natife.streaming.data.request.TranslateRequest
+import com.natife.streaming.db.LocalSqlDataSourse
 import com.natife.streaming.db.entity.PreferencesSport
 import com.natife.streaming.db.entity.PreferencesTournament
 import com.natife.streaming.router.Router
-import com.natife.streaming.usecase.GetSportUseCase
-import com.natife.streaming.usecase.GetTournamentUseCase
-import com.natife.streaming.usecase.SaveSportUseCase
-import com.natife.streaming.usecase.SaveTournamentUseCase
+import com.natife.streaming.usecase.*
+import com.natife.streaming.workers.UpdatePreferencesInRemote
 import kotlinx.coroutines.flow.Flow
 
 
@@ -46,14 +49,34 @@ class UserPreferencesViewModelImpl(
     private val saveTournamentUseCase: SaveTournamentUseCase,
     private val api: MainApi,
     private val router: Router,
+    private val application: Application,
+    private val localSqlDataSourse: LocalSqlDataSourse,
+    private val saveUserPreferencesUseCase: SaveUserPreferencesUseCase
 ) : UserPreferencesViewModel() {
     override val sportsList = MutableLiveData<List<SportTranslateDTO>>()
     override val sportsSelected = MutableLiveData<SportTranslateDTO>()
     override var sportsViewSelectedPosition: Int? = null
     override val allUserPreferencesInSport: LiveData<List<PreferencesSport>>
         get() = getSportUseCase.getAllUserPreferencesInSportFlow().asLiveData()
+    private val workManager = WorkManager.getInstance(application)
+
+//    init{
+//        launch {
+//            getUserPreferencesUseCase.execute(189)
+//        }
+//    }
 
     override fun applyMypreferencesClicked() {
+//        launch {
+//            //send to server
+//            val preferencesTournamentInDB = localSqlDataSourse.getOnlyIsCheckedPreferencesTournament()
+//            localSqlDataSourse.getGlobalSettings()?.let{
+//                val data = preferencesTournamentInDB.toUserPreferencesDTO()
+//                it.userId?.let { id -> saveUserPreferencesUseCase.execute(id,data) }
+//            }
+//            router.navigate(R.id.action_global_nav_main)
+//        }
+        updatePreferences()
         router.navigate(R.id.action_global_nav_main)
     }
 
@@ -99,6 +122,18 @@ class UserPreferencesViewModelImpl(
                     )))
             sportsList.value = sports.toSportTranslateDTO(translates)
         }
+    }
+
+    private fun updatePreferences() {
+        val updateListOfTournamentWorker =
+            OneTimeWorkRequest.Builder(UpdatePreferencesInRemote::class.java).build()
+        var continuation = workManager
+            .beginUniqueWork(
+                "UPDATE_PREFERENCES",
+                ExistingWorkPolicy.REPLACE,
+                updateListOfTournamentWorker
+            )
+        continuation.enqueue()
     }
 }
 

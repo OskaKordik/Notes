@@ -1,6 +1,7 @@
 package com.natife.streaming.db.dao
 
 import androidx.room.*
+import com.natife.streaming.data.dto.preferences.UserPreferencesDTO
 import com.natife.streaming.db.entity.GlobalSettings
 import com.natife.streaming.db.entity.PreferencesSport
 import com.natife.streaming.db.entity.PreferencesTournament
@@ -40,18 +41,72 @@ interface LocalSqlTasksDao {
     @Update
     fun updatePreferencesSport(sport: PreferencesSport)
 
+    @Update
+    fun updateListPreferencesSport(sports: List<PreferencesSport>)
+
     @Delete
     fun deletePreferencesSport(sport: PreferencesSport)
 
+    @Query("DELETE FROM 'PreferencesSport'")
+    fun deleteAllPreferencesSport()
 
+    @Transaction
+    fun deleteAllPreferencesSportAndCreateAndSynchronize(
+        newlist: List<PreferencesSport>,
+        oldList: List<PreferencesSport>
+    ) {
+        deleteAllPreferencesSport()
+        setPreferencesSportList(newlist)
+        updateListPreferencesSport(oldList)
+    }
+
+    //tournament
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun setListPreferencesTournament(preferencesTournament: List<PreferencesTournament>)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun updateTournamentList(preferencesTournament: List<PreferencesTournament>)
 
+    @Transaction
+    fun deleteAllPreferencesTournamentAndCreate(list: List<PreferencesTournament>) {
+        deleteAllPreferencesTournament()
+        setListPreferencesTournament(list)
+    }
+
+    @Transaction
+    fun deleteAllPreferencesTournamentAndCreateAndSetAllTournamentOff(list: List<PreferencesTournament>) {
+        deleteAllPreferencesTournament()
+        setListPreferencesTournament(list.map {
+            it.copy(isPreferred = false)
+        })
+    }
+
+    @Transaction
+    fun deleteAllPreferencesTournamentAndCreateAndSynchronize(
+        list: List<PreferencesTournament>,
+        listForSynchronize: List<UserPreferencesDTO>
+    ) {
+        deleteAllPreferencesTournament()
+        setListPreferencesTournament(list.map {
+            it.copy(isPreferred = false)
+        })
+        listForSynchronize.forEach {
+            val res = getPreferencesTournamentBySportIDAndtournamentId(it.sport, it.tournamentId)
+            updatePreferencesTournament(res.copy(isPreferred = true))
+        }
+    }
+
+    @Query("SELECT * FROM 'PreferencesTournament' WHERE sport ==:sport AND id ==:tournamentId")
+    fun getPreferencesTournamentBySportIDAndtournamentId(
+        sport: Int?,
+        tournamentId: Int?
+    ): PreferencesTournament
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun setPreferencesTournament(preferencesTournament: PreferencesTournament)
+
+    @Query("DELETE FROM 'PreferencesTournament'")
+    fun deleteAllPreferencesTournament()
 
     @Query("SELECT * FROM 'PreferencesTournament'")
     fun getPreferencesTournamentFlow(): Flow<List<PreferencesTournament>>
@@ -59,7 +114,33 @@ interface LocalSqlTasksDao {
     @Query("SELECT * FROM 'PreferencesTournament'")
     fun getPreferencesTournament(): List<PreferencesTournament>
 
+    @Query("SELECT * FROM 'PreferencesTournament' WHERE isPreferred == 1 ")
+    fun getOnlyIsCheckedPreferencesTournament(): List<PreferencesTournament>
 
+    @Query("SELECT * FROM 'PreferencesTournament' WHERE id ==:id AND sport ==:sport AND tournamentType ==:tournamentType")
+    fun getPreferencesTournamentByID(
+        id: Int,
+        sport: Int,
+        tournamentType: Int
+    ): PreferencesTournament
+
+    @Query("SELECT * FROM 'PreferencesTournament' WHERE sport ==:sportId")
+    fun getPreferencesTournamentBySport(sportId: Int): List<PreferencesTournament>
+
+    @Query("SELECT * FROM 'PreferencesTournament' WHERE sport ==:sportId AND id ==:prefID ")
+    fun getPreferencesTournamentBySportIDPrefID(sportId: Int, prefID: Int): PreferencesTournament?
+
+    @Update
+    fun updatePreferencesTournament(preferencesTournament: PreferencesTournament)
+
+    @Delete
+    fun deletePreferencesTournament(preferencesTournament: PreferencesTournament)
+
+    @Update
+    fun updatePreferencesTournamentList(tournament: List<PreferencesTournament>)
+
+
+    // search
     @Query("SELECT * FROM 'PreferencesTournament' WHERE nameRus LIKE :queryString OR countryNameRus LIKE :queryString")
     fun searchRUPreferencesTournament(queryString: String): List<PreferencesTournament>
 
@@ -96,29 +177,6 @@ interface LocalSqlTasksDao {
         queryString: String,
         id: Int
     ): Flow<List<PreferencesTournament>>
-
-
-    @Query("SELECT * FROM 'PreferencesTournament' WHERE id ==:id AND sport ==:sport AND tournamentType ==:tournamentType")
-    fun getPreferencesTournamentByID(
-        id: Int,
-        sport: Int,
-        tournamentType: Int
-    ): PreferencesTournament
-
-    @Query("SELECT * FROM 'PreferencesTournament' WHERE sport ==:sportId")
-    fun getPreferencesTournamentBySport(sportId: Int): List<PreferencesTournament>
-
-    @Query("SELECT * FROM 'PreferencesTournament' WHERE sport ==:sportId AND id ==:prefID ")
-    fun getPreferencesTournamentBySportIDPrefID(sportId: Int, prefID: Int): PreferencesTournament?
-
-    @Update
-    fun updatePreferencesTournament(preferencesTournament: PreferencesTournament)
-
-    @Delete
-    fun deletePreferencesTournament(preferencesTournament: PreferencesTournament)
-
-    @Update
-    fun updatePreferencesTournamentList(tournament: List<PreferencesTournament>)
 
 
 }

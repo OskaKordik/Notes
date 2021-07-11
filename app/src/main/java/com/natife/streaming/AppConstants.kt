@@ -41,6 +41,8 @@ const val API_TEAM_MATCHES = "get_team_matches"
 const val API_TEAM_INFO = "get_team_info"
 const val API_SAVE_USER_MATCH_SECOND = "save_user_match_second"
 const val API_GET_USER_MATCH_SECOND = "get_user_match_second"
+const val API_GET_USER_PREFERENCES = "get_user_preferences"
+const val API_SAVE_USER_PREFERENCES = "save_user_preferences"
 
 const val VIDEO_1080 = "1080"
 const val VIDEO_720 = "720"

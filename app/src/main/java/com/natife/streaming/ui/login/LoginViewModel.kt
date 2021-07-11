@@ -15,8 +15,6 @@ import com.natife.streaming.usecase.LoginUseCase
 import com.natife.streaming.utils.Result
 import com.natife.streaming.workers.LoadListOfSportsWorker
 import com.natife.streaming.workers.LoadListOfTournamentWorker
-import com.natife.streaming.workers.UpdateListOfSportsWorker
-import com.natife.streaming.workers.UpdateListOfTournamentWorker
 import java.util.*
 
 abstract class LoginViewModel : BaseViewModel() {
@@ -39,28 +37,22 @@ class LoginViewModelImpl(
             loginUseCase.execute(email, password) { result ->
                 if (result.status == Result.Status.SUCCESS) {
                     launch {
+                        val userId = result.userId
                         accountUseCase.getProfile()
                         //проверка всех настроек если клиент вошел под старым аккаунтом на новую установку
                         if (localSqlDataSourse.getGlobalSettings() == null) {
                             settingsPrefs.saveLanguage(application.resources.getString(R.string.lang)) // TODO продублировал в преференс тк не нашел решения как брать из бд при загрузке в BaseActivity
                             localSqlDataSourse.setGlobalSettings(
                                 showScore = true,
-                                lang = Lang.valueOf(application.resources.getString(R.string.lang))
+                                lang = Lang.valueOf(application.resources.getString(R.string.lang)),
+                                id = userId
                             )
                         }
                         if (settingsPrefs.getDate() == null) {
                             settingsPrefs.saveDate(Date().time)
                         }
-                        if (localSqlDataSourse.getPreferencesSport().isEmpty()
-                            || localSqlDataSourse.getPreferencesTournament().isEmpty()
-                        ) {
-                            loadPreferences()
-                            router.navigate(R.id.action_global_preferences)
-                        } else {
-                            // если все настройки в наличии
-                            updatePreferences()
-                            router.navigate(R.id.action_global_nav_main)
-                        }
+                        loadPreferences()
+                        router.navigate(R.id.action_global_nav_main)
                     }
                 } else {
                     onError.invoke(result.message)
@@ -80,20 +72,6 @@ class LoginViewModelImpl(
                 ExistingWorkPolicy.REPLACE,
                 loadListOfTournamentWorker
             ).then(loadListOfSportsWorker)
-        continuation.enqueue()
-    }
-
-    private fun updatePreferences() {
-        val updateListOfSportsWorker =
-            OneTimeWorkRequest.Builder(UpdateListOfSportsWorker::class.java).build()
-        val updateListOfTournamentWorker =
-            OneTimeWorkRequest.Builder(UpdateListOfTournamentWorker::class.java).build()
-        var continuation = workManager
-            .beginUniqueWork(
-                "UPDATE_PREFERENCES",
-                ExistingWorkPolicy.REPLACE,
-                updateListOfTournamentWorker
-            ).then(updateListOfSportsWorker)
         continuation.enqueue()
     }
 

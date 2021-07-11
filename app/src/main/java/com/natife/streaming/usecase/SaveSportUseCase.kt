@@ -11,6 +11,11 @@ interface SaveSportUseCase {
 
     suspend fun savePreferencesSportList(list: List<PreferencesSport>)
     suspend fun setSportCheckUncheck(sport: SportTranslateDTO)
+    suspend fun deleteAllSports()
+    suspend fun deleteAllPreferencesSportAndCreateAndSynchronize(
+        newList: List<PreferencesSport>,
+        oldList: List<PreferencesSport>
+    )
 }
 
 class SaveSportUseCaseImpl(
@@ -30,6 +35,17 @@ class SaveSportUseCaseImpl(
 
     override suspend fun savePreferencesSportList(list: List<PreferencesSport>) {
         localSqlDataSourse.setPreferencesSportList(list)
+    }
+
+    override suspend fun deleteAllSports() {
+        localSqlDataSourse.deleteAllPreferencesSport()
+    }
+
+    override suspend fun deleteAllPreferencesSportAndCreateAndSynchronize(
+        newList: List<PreferencesSport>,
+        oldList: List<PreferencesSport>
+    ) {
+        localSqlDataSourse.deleteAllPreferencesSportAndCreateAndSynchronize(newList, oldList)
     }
 
 

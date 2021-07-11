@@ -7,6 +7,7 @@ import androidx.room.Entity
 data class GlobalSettings(
     val authEmail: String,
     val showScore: Boolean,
+    val userId: Int? = null,
     val lang: Lang
 )
 

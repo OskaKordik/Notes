@@ -15,13 +15,13 @@ import kotlinx.coroutines.flow.Flow
 interface GetSportUseCase {
     suspend fun execute(reload: Boolean = false): List<Sport>
     fun getAllUserPreferencesInSportFlow(): Flow<List<PreferencesSport>>
+    suspend fun getAllUserPreferencesInSport(): List<PreferencesSport>
 }
 
 class GetSportUseCaseImpl(
     private val api: MainApi,
     private val localSqlDataSourse: LocalSqlDataSourse
-) :
-    GetSportUseCase {
+) : GetSportUseCase {
 
     private var catche: List<Sport>? = null
 
@@ -42,4 +42,7 @@ class GetSportUseCaseImpl(
 
     override fun getAllUserPreferencesInSportFlow(): Flow<List<PreferencesSport>> =
         localSqlDataSourse.getPreferencesSportFlow()
+
+    override suspend fun getAllUserPreferencesInSport(): List<PreferencesSport> =
+        localSqlDataSourse.getPreferencesSport()
 }

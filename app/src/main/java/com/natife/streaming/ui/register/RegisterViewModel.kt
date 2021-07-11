@@ -50,6 +50,7 @@ class RegisterViewModelImpl(
                     launch {
                         loginUseCase.execute(email, password) { result ->
                             if (result.status == Result.Status.SUCCESS) {
+                                val userId = result.userId
                                 launch {
                                     accountUseCase.getProfile()
                                     loadPreferences()
@@ -61,7 +62,8 @@ class RegisterViewModelImpl(
                                     settingsPrefs.saveLanguage(lang.uppercase()) // TODO продублировал в преференс тк не нашел решения как брать из бд при загрузке в BaseActivity
                                     localSqlDataSourse.setGlobalSettings(
                                         showScore = true,
-                                        lang = Lang.valueOf(lang.uppercase())
+                                        lang = Lang.valueOf(lang.uppercase()),
+                                        id = userId
                                     )
                                     router.navigate(R.id.action_global_preferences)
                                 }
@@ -77,7 +79,7 @@ class RegisterViewModelImpl(
         }
     }
 
-    fun loadPreferences() {
+    private fun loadPreferences() {
         val loadListOfSportsWorker =
             OneTimeWorkRequest.Builder(LoadListOfSportsWorker::class.java).build()
         val loadListOfTournamentWorker =

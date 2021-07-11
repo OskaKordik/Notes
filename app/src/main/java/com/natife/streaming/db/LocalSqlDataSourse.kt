@@ -1,5 +1,6 @@
 package com.natife.streaming.db
 
+import com.natife.streaming.data.dto.preferences.UserPreferencesDTO
 import com.natife.streaming.data.dto.sports.SportTranslateDTO
 import com.natife.streaming.data.dto.tournament.TournamentTranslateDTO
 import com.natife.streaming.db.dao.LocalSqlTasksDao
@@ -24,13 +25,15 @@ class LocalSqlDataSourse internal constructor(
         }
 
     //Global Settings
-    suspend fun setGlobalSettings(showScore: Boolean, lang: Lang) {
+    suspend fun setGlobalSettingsCurrentUser(showScore: Boolean, lang: Lang) {
         withContext(ioDispatcher) {
             getUserAuthEmail().let { userAuthEmail ->
+                val currentUser = getGlobalSettings()
                 GlobalSettings(
                     authEmail = userAuthEmail,
                     showScore = showScore,
-                    lang = lang
+                    lang = lang,
+                    userId = currentUser?.userId
                 ).let {
                     localSqlTasksDao.setGlobalSettings(it)
                 }
@@ -38,16 +41,31 @@ class LocalSqlDataSourse internal constructor(
         }
     }
 
-    suspend fun updateGlobalSettings(showScore: Boolean, lang: Lang) {
+    suspend fun setGlobalSettings(showScore: Boolean, lang: Lang, id: Int?) {
         withContext(ioDispatcher) {
-            if (getGlobalSettings() == null) {
-                setGlobalSettings(showScore, lang)
-            } else {
+            getUserAuthEmail().let { userAuthEmail ->
+                GlobalSettings(
+                    authEmail = userAuthEmail,
+                    showScore = showScore,
+                    lang = lang,
+                    userId = id
+                ).let {
+                    localSqlTasksDao.setGlobalSettings(it)
+                }
+            }
+        }
+    }
+
+    suspend fun updateGlobalSettingsCurrentUser(showScore: Boolean, lang: Lang) {
+        withContext(ioDispatcher) {
+            val currentUser = getGlobalSettings()
+            if (currentUser != null) {
                 getUserAuthEmail().let { userAuthEmail ->
                     GlobalSettings(
                         authEmail = userAuthEmail,
                         showScore = showScore,
-                        lang = lang
+                        lang = lang,
+                        userId = currentUser.userId
                     ).let {
                         localSqlTasksDao.updateGlobalSettings(it)
                     }
@@ -88,7 +106,8 @@ class LocalSqlDataSourse internal constructor(
                     GlobalSettings(
                         authEmail = userAuthEmail,
                         showScore = showScore,
-                        lang = globalSettings.lang
+                        lang = globalSettings.lang,
+                        userId = globalSettings.userId
                     ).let {
                         localSqlTasksDao.updateGlobalSettings(it)
                     }
@@ -104,7 +123,8 @@ class LocalSqlDataSourse internal constructor(
                     GlobalSettings(
                         authEmail = userAuthEmail,
                         showScore = globalSettings.showScore,
-                        lang = lang
+                        lang = lang,
+                        userId = globalSettings.userId
                     ).let {
                         localSqlTasksDao.updateGlobalSettings(it)
                     }
@@ -167,6 +187,21 @@ class LocalSqlDataSourse internal constructor(
         }
     }
 
+    suspend fun deleteAllPreferencesSport() {
+        withContext(ioDispatcher) {
+            localSqlTasksDao.deleteAllPreferencesSport()
+        }
+    }
+
+    suspend fun deleteAllPreferencesSportAndCreateAndSynchronize(
+        newList: List<PreferencesSport>,
+        oldList: List<PreferencesSport>
+    ) {
+        withContext(ioDispatcher) {
+            localSqlTasksDao.deleteAllPreferencesSportAndCreateAndSynchronize(newList, oldList)
+        }
+    }
+
 
     //PreferencesTournament
     suspend fun setlistPreferencesTournament(tournamentList: List<PreferencesTournament>) {
@@ -178,6 +213,30 @@ class LocalSqlDataSourse internal constructor(
     suspend fun updateTournamentList(tournamentList: List<PreferencesTournament>) {
         withContext(ioDispatcher) {
             localSqlTasksDao.updateTournamentList(tournamentList)
+        }
+    }
+
+    suspend fun deleteAllPreferencesTournamentAndCreate(list: List<PreferencesTournament>) {
+        withContext(ioDispatcher) {
+            localSqlTasksDao.deleteAllPreferencesTournamentAndCreate(list)
+        }
+    }
+
+    suspend fun deleteAllPreferencesTournamentAndCreateAndSetAllTournamentOff(list: List<PreferencesTournament>) {
+        withContext(ioDispatcher) {
+            localSqlTasksDao.deleteAllPreferencesTournamentAndCreateAndSetAllTournamentOff(list)
+        }
+    }
+
+    suspend fun deleteAllPreferencesTournamentAndCreateAndSynchronize(
+        newList: List<PreferencesTournament>,
+        listForSynchronize: List<UserPreferencesDTO>
+    ) {
+        withContext(ioDispatcher) {
+            localSqlTasksDao.deleteAllPreferencesTournamentAndCreateAndSynchronize(
+                newList,
+                listForSynchronize
+            )
         }
     }
 
@@ -196,6 +255,11 @@ class LocalSqlDataSourse internal constructor(
     suspend fun getPreferencesTournament(): List<PreferencesTournament> =
         withContext(ioDispatcher) {
             localSqlTasksDao.getPreferencesTournament()
+        }
+
+    suspend fun getOnlyIsCheckedPreferencesTournament(): List<PreferencesTournament> =
+        withContext(ioDispatcher) {
+            localSqlTasksDao.getOnlyIsCheckedPreferencesTournament()
         }
 
     suspend fun searchPreferencesTournament(

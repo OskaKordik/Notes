@@ -12,7 +12,9 @@ import com.natife.streaming.data.dto.matchprofile.MatchProfileDTO
 import com.natife.streaming.data.dto.matchprofile.ProfileColorDTO
 import com.natife.streaming.data.dto.player.PlayerDTO
 import com.natife.streaming.data.dto.preferences.GetUserPreferencesRequest
-import com.natife.streaming.data.dto.preferences.UserPreferencesResponse
+import com.natife.streaming.data.dto.preferences.SaveUserPreferencesRequest2
+import com.natife.streaming.data.dto.preferences.SaveUserPreferencesResponse
+import com.natife.streaming.data.dto.preferences.UserPreferencesDTO
 import com.natife.streaming.data.dto.register.RegisterDTO
 import com.natife.streaming.data.dto.register.RequestRegister
 import com.natife.streaming.data.dto.search.SearchResultDTO
@@ -124,5 +126,9 @@ interface MainApi {
     suspend fun getTeamInfo(@Body body: BaseRequest<TeamRequest>): TeamDTO
 
     @POST("data")
-    suspend fun getUserPreferences(@Body body: BaseRequest<GetUserPreferencesRequest>): List<UserPreferencesResponse>
+    suspend fun getUserPreferences(@Body body: BaseRequest<GetUserPreferencesRequest>): List<UserPreferencesDTO>?
+
+
+    @POST("data")
+    suspend fun saveUserPreferences2(@Body body: BaseRequest<SaveUserPreferencesRequest2>): SaveUserPreferencesResponse
 }

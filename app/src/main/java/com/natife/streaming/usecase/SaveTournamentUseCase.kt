@@ -1,5 +1,6 @@
 package com.natife.streaming.usecase
 
+import com.natife.streaming.data.dto.preferences.UserPreferencesDTO
 import com.natife.streaming.data.dto.tournament.TournamentTranslateDTO
 import com.natife.streaming.db.LocalSqlDataSourse
 import com.natife.streaming.db.entity.PreferencesTournament
@@ -12,6 +13,13 @@ interface SaveTournamentUseCase {
     suspend fun setTournamentCheckUncheck(tournament: TournamentTranslateDTO)
     suspend fun saveTournamentList(list: List<PreferencesTournament>)
     suspend fun updateTournamentList(list: List<PreferencesTournament>)
+    suspend fun deleteAllPreferencesTournamentAndCreate(newList: List<PreferencesTournament>)
+    suspend fun deleteAllPreferencesTournamentAndCreateAndSetAllTournamentOff(newList: List<PreferencesTournament>)
+    suspend fun deleteAllPreferencesTournamentAndCreateAndSynchronize(
+        newList: List<PreferencesTournament>,
+        listForSynchronize: List<UserPreferencesDTO>
+    )
+
 
 }
 class SaveTournamentUseCaseImpl(
@@ -36,5 +44,23 @@ class SaveTournamentUseCaseImpl(
 
     override suspend fun updateTournamentList(list: List<PreferencesTournament>) {
         localSqlDataSourse.updateTournamentList(list)
+    }
+
+    override suspend fun deleteAllPreferencesTournamentAndCreate(newList: List<PreferencesTournament>) {
+        localSqlDataSourse.deleteAllPreferencesTournamentAndCreate(newList)
+    }
+
+    override suspend fun deleteAllPreferencesTournamentAndCreateAndSetAllTournamentOff(newList: List<PreferencesTournament>) {
+        localSqlDataSourse.deleteAllPreferencesTournamentAndCreateAndSetAllTournamentOff(newList)
+    }
+
+    override suspend fun deleteAllPreferencesTournamentAndCreateAndSynchronize(
+        newList: List<PreferencesTournament>,
+        listForSynchronize: List<UserPreferencesDTO>
+    ) {
+        localSqlDataSourse.deleteAllPreferencesTournamentAndCreateAndSynchronize(
+            newList,
+            listForSynchronize
+        )
     }
 }
