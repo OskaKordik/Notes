@@ -15,7 +15,7 @@ import com.natife.streaming.usecase.LoginUseCase
 import com.natife.streaming.usecase.RegisterUseCase
 import com.natife.streaming.utils.Result
 import com.natife.streaming.workers.LoadListOfSportsWorker
-import com.natife.streaming.workers.LoadListOfTournamentWorker
+import com.natife.streaming.workers.LoadListOfTournamentWorkerRegistration
 import java.util.*
 
 abstract class RegisterViewModel : BaseViewModel() {
@@ -83,8 +83,8 @@ class RegisterViewModelImpl(
         val loadListOfSportsWorker =
             OneTimeWorkRequest.Builder(LoadListOfSportsWorker::class.java).build()
         val loadListOfTournamentWorker =
-            OneTimeWorkRequest.Builder(LoadListOfTournamentWorker::class.java).build()
-        var continuation = workManager
+            OneTimeWorkRequest.Builder(LoadListOfTournamentWorkerRegistration::class.java).build()
+        val continuation = workManager
             .beginUniqueWork(
                 "LOAD_PREFERENCES",
                 ExistingWorkPolicy.REPLACE,
