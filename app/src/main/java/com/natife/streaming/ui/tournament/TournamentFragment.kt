@@ -2,7 +2,6 @@ package com.natife.streaming.ui.tournament
 
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
-import android.os.Bundle
 import android.view.View
 import androidx.activity.addCallback
 import androidx.core.content.ContextCompat
@@ -47,11 +46,11 @@ class TournamentFragment : BaseFragment<TournamentViewModel>() {
         (activity as MainActivity).main_group?.visibility = View.GONE
         (activity as MainActivity).tournament_group?.visibility = View.VISIBLE
         //Heading in the predominant team color
-        // TODO запрос цвета
-        (activity as MainActivity).mainMotion?.predominantColorToGradient("#CCCB312A")
+        subscribe(viewModel.color) {
+            (activity as MainActivity).mainMotion?.predominantColorToGradient(it)
+        }
 
         subscribe(viewModel.tournament) {
-//            viewModel.gepProfileColor(1,1,1)
             (activity as MainActivity).tournament_title_text?.text = it.title
             (activity as MainActivity).tournament_logo_image?.url(it.icon, it.placeholder)
             (activity as MainActivity).favorites_button?.apply {

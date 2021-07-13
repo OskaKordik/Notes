@@ -36,10 +36,12 @@ class TournamentViewModel(
     private val _team = MutableLiveData<SearchResult>()
     private val _player = MutableLiveData<Player>()
     private val _list = MutableLiveData<List<Match>>()
+    private val _color = MutableLiveData<String>()
     val list: LiveData<List<Match>> = _list
     val tournament: LiveData<Tournament> = _tournament
     val team: LiveData<SearchResult> = _team
     val player: LiveData<Player> = _player
+    val color: LiveData<String> = _color
     private var params = MatchParams(
         date = null,
         pageSize = 60,
@@ -53,7 +55,6 @@ class TournamentViewModel(
     fun loadList() {
         launch {
             mutex.withLock {
-//                Timber.e("JHDIDND ${System.currentTimeMillis()} load ${list.value?.size}")
                 if (isLoading.get()) {
                     return@launch
                 }
@@ -67,26 +68,10 @@ class TournamentViewModel(
                 SearchResult.Type.TOURNAMENT -> matchUseCase.load(ProfileUseCase.Type.TOURNAMENT)
                 SearchResult.Type.NON -> matchUseCase.load(ProfileUseCase.Type.TOURNAMENT)
             }
-
-
-//            Timber.e("JHDIDND 2 ${System.currentTimeMillis()} loaded ${list.value?.size}")
             isLoading.set(false)
 
         }
     }
-
-//    //TODO COLOR
-//    init {
-//        launch {
-//            var a = profileColorUseCase.execute(1, "tournament", 39)
-//        }
-//        launch {
-//            var a = profileColorUseCase.execute(1, "team", 242)
-//        }
-//        launch {
-//            var a = profileColorUseCase.execute(1, "player", 96358)
-//        }
-//    }
 
 //    private fun saveSecond(){
 //        launch {
@@ -136,26 +121,18 @@ class TournamentViewModel(
         }
 
         params = params.copy(additionalId = additionalId, sportId = sportId)
-
-//        Timber.e("komdkmfkdfmlfkmdlkfmf $type")
         when (type) {
             SearchResult.Type.PLAYER -> launch {
                 _player.value = playerUseCase.execute(sportId, additionalId)
-//                val a = profileColorUseCase.execute(sportId, "player", additionalId)
-//                val b = profileColorUseCase.execute2(sportId, "player", additionalId)
-//                Timber.tag("TAG").d("${a.toString()} ------${b.toString()}")
+                _color.value = profileColorUseCase.execute(sportId, "player", additionalId)
             }
             SearchResult.Type.TEAM -> launch {
                 _team.value = teamUseCase.execute(sportId, additionalId)
-//                val a = profileColorUseCase.execute(sportId, "team", additionalId)
-//                val b = profileColorUseCase.execute2(sportId, "team", additionalId)
-//                Timber.tag("TAG").d("${a.toString()} ------${b.toString()}")
+                _color.value = profileColorUseCase.execute(sportId, "team", additionalId)
             }
             SearchResult.Type.TOURNAMENT -> launch {
                 _tournament.value = tournamentUseCase.execute(sportId, additionalId)
-//                val a = profileColorUseCase.execute(sportId, "tournament", additionalId)
-//                val b = profileColorUseCase.execute2(sportId, "tournament", additionalId)
-//                Timber.tag("TAG").d("${a.toString()} ------${b.toString()}")
+                _color.value = profileColorUseCase.execute(sportId, "tournament", additionalId)
             }
             SearchResult.Type.NON -> launch { cancel() }
         }

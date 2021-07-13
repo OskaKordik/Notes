@@ -32,7 +32,6 @@ import com.natife.streaming.data.request.*
 import retrofit2.http.Body
 import retrofit2.http.POST
 import retrofit2.http.Path
-import retrofit2.http.Url
 
 interface MainApi {
 
@@ -60,9 +59,9 @@ interface MainApi {
     @POST("data")
     suspend fun getTranslate(@Body body: BaseRequest<TranslateRequest>): TranslatesDTO //new
 
-    @POST
+    @POST("profile/color")
     suspend fun getProfileColor(
-        @Url url: String = "https://api-staging.instat.tv/profile/color",
+//        @Url url: String = "https://api-staging.instat.tv/profile/color",
         @Body body: ProfileColorRequest
     ): ProfileColorDTO //new
 
@@ -100,9 +99,9 @@ interface MainApi {
     @POST("data")
     suspend fun getMatchInfoGlobal(@Body body: BaseRequest<MatchInfo>): BroadcastDTO
 
-    @POST
+    @POST("videoapi/preview")
     suspend fun getMatchPreview(
-        @Url url: String = "https://api-staging.instat.tv/videoapi/preview",
+//        @Url url: String = "https://api-staging.instat.tv/videoapi/preview",
         @Body body: PreviewRequest
     ): PreviewDTO
 

@@ -6,7 +6,7 @@ import com.natife.streaming.data.request.ProfileColorRequest
 
 
 interface ProfileColorUseCase {
-    suspend fun execute(sportId: Int, profileType: String, profileId: Int): ProfileColorDTO
+    suspend fun execute(sportId: Int, profileType: String, profileId: Int): String
 }
 
 class ProfileColorUseCaseImpl(private val api: MainApi) : ProfileColorUseCase {
@@ -14,7 +14,7 @@ class ProfileColorUseCaseImpl(private val api: MainApi) : ProfileColorUseCase {
         sportId: Int,
         profileType: String,
         profileId: Int
-    ): ProfileColorDTO {
+    ): String {
         val color: ProfileColorDTO = api.getProfileColor(
             body = ProfileColorRequest(
                 sportId = sportId,
@@ -23,7 +23,7 @@ class ProfileColorUseCaseImpl(private val api: MainApi) : ProfileColorUseCase {
             )
         )
 
-        return color
+        return color.code.toString()
     }
 }
 

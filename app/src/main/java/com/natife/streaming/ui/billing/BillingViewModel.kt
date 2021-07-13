@@ -238,8 +238,8 @@ class BillingViewModelImpl(
                         "  }\n" +
                         "}", SubscribeResponse::class.java
             )
-            subscribtionData =
-                getMatchSubscriptionsUseCase.execute(sportId, matchId)// TODO пока не работает
+//            subscribtionData =
+//                getMatchSubscriptionsUseCase.execute(sportId, matchId)// TODO пока не работает
 
 
             title.value = "$team1 - $team2"
