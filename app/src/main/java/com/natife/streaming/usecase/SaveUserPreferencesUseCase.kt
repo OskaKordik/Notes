@@ -17,13 +17,13 @@ class SaveUserPreferencesUseCaseImpl(
     private val localSqlDataSourse: LocalSqlDataSourse
 ) : SaveUserPreferencesUseCase {
 
-    override suspend fun execute(_userId: Int, a: List<UserPreferencesDTO>?): Boolean {
+    override suspend fun execute(_userId: Int, list: List<UserPreferencesDTO>?): Boolean {
         val response = api.saveUserPreferences2(
             BaseRequest(
                 procedure = API_SAVE_USER_PREFERENCES,
                 params = SaveUserPreferencesRequest2(
                     userId = _userId,
-                    listOfPreferences = a
+                    listOfPreferences = list
                 )
             )
         )
