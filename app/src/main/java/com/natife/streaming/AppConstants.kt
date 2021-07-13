@@ -43,6 +43,7 @@ const val API_SAVE_USER_MATCH_SECOND = "save_user_match_second"
 const val API_GET_USER_MATCH_SECOND = "get_user_match_second"
 const val API_GET_USER_PREFERENCES = "get_user_preferences"
 const val API_SAVE_USER_PREFERENCES = "save_user_preferences"
+const val API_MATCH_SUBSCRIPTION = "get_match_subscriptions"
 
 const val VIDEO_1080 = "1080"
 const val VIDEO_720 = "720"

@@ -189,6 +189,7 @@ val viewModelModule = module {
             args.live,
             args.team1,
             args.team2,
+            get(),
             get()
         )
     }
@@ -293,6 +294,7 @@ val useCaseModule = module {
     factory<GetThumbnailUseCase> { GetThumbnailUseCaseImpl(get()) }
     factory<ActionsUseCase> { ActionsUseCaseImpl(get(), get()) }
     factory<GetTournamentUseCase> { GetTournamentUseCaseImpl(get(), get()) }
+    factory<GetMatchSubscriptionsUseCase> { GetMatchSubscriptionsUseCaseImpl(get()) }
     factory<SaveTournamentUseCase> { SaveTournamentUseCaseImpl(get(), get()) }
     factory<TournamentUseCase> { TournamentUseCaseImpl(get(), get()) }
     factory<SearchUseCase> { SearchUseCaseImpl(get(), get(), get()) }

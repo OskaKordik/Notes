@@ -19,6 +19,8 @@ import com.natife.streaming.data.dto.register.RegisterDTO
 import com.natife.streaming.data.dto.register.RequestRegister
 import com.natife.streaming.data.dto.search.SearchResultDTO
 import com.natife.streaming.data.dto.sports.SportsDTO
+import com.natife.streaming.data.dto.subscription.SubscribeRequest
+import com.natife.streaming.data.dto.subscription.SubscribeResponse
 import com.natife.streaming.data.dto.team.TeamDTO
 import com.natife.streaming.data.dto.tournament.TournamentListDTO
 import com.natife.streaming.data.dto.tournamentprofile.TournamentProfileDTO
@@ -131,4 +133,7 @@ interface MainApi {
 
     @POST("data")
     suspend fun saveUserPreferences2(@Body body: BaseRequest<SaveUserPreferencesRequest2>): SaveUserPreferencesResponse
+
+    @POST("data")
+    suspend fun getMatchSubscriptions(@Body body: BaseRequest<SubscribeRequest>): SubscribeResponse
 }
