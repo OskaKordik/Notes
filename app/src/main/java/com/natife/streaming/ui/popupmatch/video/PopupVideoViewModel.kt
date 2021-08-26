@@ -144,11 +144,13 @@ class PopupVideoViewModelImpl(
         launch {
             val video = videoUseCase.execute(matchId, sport)
             videos = video
-            fullVideoDuration.value = video.filter { it.abc == "0" }
-                .groupBy { it.quality }?.entries?.maxByOrNull { it.key.toInt() }!!.value.map { (it.duration / 1000) }
-                .sum()
+
+            fullVideoDuration.value = (videos
+                ?.filter { it.abc == "0" && it.quality == "720" }
+                ?.sortedBy { it.period }?.sumOf { it.duration })?.div(1000) // min
+//            fullVideoDuration.value = video.filter { it.abc == "0" }
+//                .groupBy { it.quality }?.entries?.maxByOrNull { it.key.toInt() }!!.value.map { (it.duration / 1000) }
+//                .sum()
         }
     }
-
-
 }

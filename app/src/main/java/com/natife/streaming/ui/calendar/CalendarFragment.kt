@@ -83,8 +83,11 @@ class CalendarFragment : BaseFragment<CalendarViewModel>() {
                 } else if (cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR) &&
                     cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR)
                 ) {
+                    container.view.isFocusable = true
                     container.backgroundview.setBackgroundResource(R.drawable.calendar_current_day)
+                    container.view.requestFocus()
                 } else {
+                    container.view.isFocusable = true
                     container.backgroundview.setBackgroundResource(R.drawable.day_item_background)
                 }
                 container.view.setOnClickListener {

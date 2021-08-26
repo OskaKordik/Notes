@@ -1,7 +1,6 @@
 package com.natife.streaming.ui.popupmatch.video.watch
 
 import android.annotation.SuppressLint
-import android.os.Bundle
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.leanback.widget.BaseGridView
@@ -14,7 +13,6 @@ import com.natife.streaming.base.EmptyViewModel
 import com.natife.streaming.ext.subscribe
 import com.natife.streaming.ext.toDisplayTime
 import com.natife.streaming.ui.popupmatch.PopupSharedViewModel
-import kotlinx.android.synthetic.main.fragment_popup_video.*
 import kotlinx.android.synthetic.main.fragment_tab_watch.*
 
 

@@ -5,6 +5,7 @@ import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.temporal.WeekFields
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 ///new
 fun Date.dayOfWeek(lang: String): String {
@@ -52,18 +53,36 @@ fun Long.toDate(): Date {
     return Date(this)
 }
 
-fun Long.toDisplayTime(): String {
-    val miliss = this * 1000
-    val sdf1 = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
-    val sdf2 = SimpleDateFormat("mm:ss", Locale.getDefault())
-    val sdf3 = SimpleDateFormat("ss", Locale.getDefault())
-    return when {
-        miliss < 1000 * 60 -> sdf2.format(Date(miliss))
-        miliss in 1000 * 60..1000 * 60 * 60 -> sdf2.format(Date(miliss))
-        else -> sdf1.format(Date(miliss))
+fun Long.toDisplayTime() = when (val miliss = this * 1000) {
+    in 0..1000 * 60 * 60 -> {
+        String.format(
+            "%02d:%02d",
+            TimeUnit.MILLISECONDS.toMinutes(miliss) - TimeUnit.HOURS.toMinutes(
+                TimeUnit.MILLISECONDS.toHours(
+                    miliss
+                )
+            ),
+            TimeUnit.MILLISECONDS.toSeconds(miliss) - TimeUnit.MINUTES.toSeconds(
+                TimeUnit.MILLISECONDS.toMinutes(
+                    miliss
+                )
+            )
+        )
     }
-
-
+    else -> String.format(
+        "%02d:%02d:%02d",
+        TimeUnit.MILLISECONDS.toHours(miliss),
+        TimeUnit.MILLISECONDS.toMinutes(miliss) - TimeUnit.HOURS.toMinutes(
+            TimeUnit.MILLISECONDS.toHours(
+                miliss
+            )
+        ),
+        TimeUnit.MILLISECONDS.toSeconds(miliss) - TimeUnit.MINUTES.toSeconds(
+            TimeUnit.MILLISECONDS.toMinutes(
+                miliss
+            )
+        )
+    )
 }
 
 fun daysOfWeekFromLocale(): Array<DayOfWeek> {
