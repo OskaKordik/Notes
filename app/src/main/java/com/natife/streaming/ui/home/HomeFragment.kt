@@ -16,12 +16,13 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_account.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import timber.log.Timber
+import com.natife.streaming.ui.home.TournamentItem.RegularTournamentItem
 
 class HomeFragment : BaseFragment<HomeViewModel>() {
     override fun getLayoutRes() = R.layout.fragment_home
 
     @SuppressLint("RestrictedApi")
-    override fun onStart(){
+    override fun onStart() {
         super.onStart()
         val adapter = TournamentAdapter(viewModel)
         homeRecycler.windowAlignment = VerticalGridView.WINDOW_ALIGN_BOTH_EDGE;
@@ -35,10 +36,20 @@ class HomeFragment : BaseFragment<HomeViewModel>() {
         homeRecycler.focusScrollStrategy = BaseGridView.FOCUS_SCROLL_ITEM
 
 
-            viewModel.loadList()
+        viewModel.loadList()
 
         subscribe(viewModel.listTournament) {
-            adapter.submitList(it)
+            var list = emptyList<TournamentItem>()
+            it.forEach { tournamentItem ->
+                val matchs = tournamentItem.match.filter { match ->
+                    match.access
+                }
+                if (matchs.size > 0) list = list.plus(
+                    if (tournamentItem is RegularTournamentItem) tournamentItem.copy(match = matchs)
+                    else tournamentItem
+                )
+            }
+            adapter.submitList(list)
             textView_match_not_find.isVisible = (it.isEmpty()) && (!viewModel.load)
         }
         subscribeEvent(viewModel.isLoadData) {
