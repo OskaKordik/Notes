@@ -1,5 +1,6 @@
 package com.natife.streaming.ui.main
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseViewModel
@@ -10,8 +11,7 @@ import com.natife.streaming.ext.toDate
 import com.natife.streaming.preferenses.AuthPrefs
 import com.natife.streaming.preferenses.SettingsPrefs
 import com.natife.streaming.router.Router
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import java.util.*
 
 class MainViewModel(

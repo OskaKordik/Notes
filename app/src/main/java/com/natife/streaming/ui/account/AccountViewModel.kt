@@ -13,6 +13,7 @@ import com.natife.streaming.preferenses.SettingsPrefs
 import com.natife.streaming.router.Router
 import com.natife.streaming.usecase.AccountUseCase
 import com.natife.streaming.usecase.LogoutUseCase
+import com.natife.streaming.utils.TokenRefreshLoop
 
 abstract class AccountViewModel : BaseViewModel() {
     abstract fun logout()
@@ -36,7 +37,8 @@ class AccountViewModelImpl(
     private val logoutUseCase: LogoutUseCase,
     private val accountUseCase: AccountUseCase,
     private val localSqlDataSourse: LocalSqlDataSourse,
-    private val settingsPrefs: SettingsPrefs
+    private val settingsPrefs: SettingsPrefs,
+    private val tokenRefreshLoop: TokenRefreshLoop
 ) : AccountViewModel() {
     override val loadersLiveData = MutableLiveData<Boolean>(true)
     override val restart = MutableLiveData<Event<Boolean>>()
@@ -75,6 +77,7 @@ class AccountViewModelImpl(
 
     override fun logout() {
         loadersLiveData.value = true
+        tokenRefreshLoop.stop()
         logoutUseCase.execute(false)
         loadersLiveData.value = false
     }

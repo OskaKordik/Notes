@@ -127,7 +127,7 @@ class UserPreferencesViewModelImpl(
     private fun updatePreferences() {
         val updateListOfTournamentWorker =
             OneTimeWorkRequest.Builder(UpdatePreferencesInRemote::class.java).build()
-        var continuation = workManager
+        val continuation = workManager
             .beginUniqueWork(
                 "UPDATE_PREFERENCES",
                 ExistingWorkPolicy.REPLACE,

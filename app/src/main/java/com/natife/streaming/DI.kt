@@ -58,6 +58,8 @@ import com.natife.streaming.ui.tournament.TournamentFragmentArgs
 import com.natife.streaming.ui.tournament.TournamentViewModel
 import com.natife.streaming.usecase.*
 import com.natife.streaming.utils.OneTimeScope
+import com.natife.streaming.utils.TokenRefreshLoop
+import com.natife.streaming.utils.TokenRefreshLoopImpl
 import okhttp3.OkHttpClient
 import okhttp3.internal.platform.Platform
 import org.koin.android.ext.koin.androidApplication
@@ -99,7 +101,7 @@ val viewModelModule = module {
     }//new
 
     viewModel { MainViewModel(get(), get(), get(), get()) }
-    viewModel<AccountViewModel> { AccountViewModelImpl(get(), get(), get(), get(), get()) }
+    viewModel<AccountViewModel> { AccountViewModelImpl(get(), get(), get(), get(), get(), get()) }
     viewModel { (args: TournamentFragmentArgs) ->
         TournamentViewModel(
             args.sportId,
@@ -279,7 +281,7 @@ val useCaseModule = module {
     factory<GetUserPreferencesUseCase> { GetUserPreferencesUseCaseImpl(get(), get()) }
     factory<GetUserLiveMatchSecond> { GetUserLiveMatchSecondImpl(get(), get()) }
     factory<SaveUserLiveMatchSecond> { SaveUserLiveMatchSecondImpl(get(), get()) }
-    factory<LoginUseCase> { LoginUseCaseImpl(get(), get(), get(), get()) }
+    factory<LoginUseCase> { LoginUseCaseImpl(get(), get(), get()) }
     factory<RegisterUseCase> { RegisterUseCaseImpl(get(), get()) }
     factory<LogoutUseCase> { LogoutUseCaseImpl(get(), get(), get(), get(), get()) }
     factory<AccountUseCase> { AccountUseCaseImpl(get(), get()) }
@@ -315,6 +317,11 @@ val useCaseModule = module {
     factory<ProfileUseCase> { ProfileUseCaseImpl(get(), get(), get(), get()) }
     factory<ProfileColorUseCase> { ProfileColorUseCaseImpl(get()) }
     factory<GetVideoQualityUseCase> { GetVideoQualityImpl() }
+    factory<RefreshTokenUseCase> { RefreshTokenUseCaseImpl(get()) }
+}
+
+val refreshTokenModule = module {
+    single<TokenRefreshLoop> { TokenRefreshLoopImpl(get(), get()) }
 }
 
 val mockModule = module {
@@ -392,4 +399,5 @@ val appModules = arrayListOf(
     apiModule,
     databaseModule,
     utilModule,
+    refreshTokenModule
 )
