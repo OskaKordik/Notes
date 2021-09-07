@@ -1,5 +1,10 @@
 package com.natife.streaming.api
 
+import com.natife.streaming.AUTH_API_URL
+import com.natife.streaming.data.api.request.LoginRequest
+import com.natife.streaming.data.api.request.RefreshTokenRequest
+import com.natife.streaming.data.api.response.LoginResponse
+import com.natife.streaming.data.api.response.RefreshTokenResponse
 import com.natife.streaming.data.dto.*
 import com.natife.streaming.data.dto.account.AccountDTO
 import com.natife.streaming.data.dto.actions.ActionsDTO
@@ -35,8 +40,11 @@ import retrofit2.http.Path
 
 interface MainApi {
 
-    @POST("data")
-    suspend fun login(@Body body: BaseRequest<RequestLogin>): LoginDTO
+    @POST(AUTH_API_URL)
+    suspend fun login(@Body body: LoginRequest): LoginResponse
+
+    @POST(AUTH_API_URL)
+    suspend fun refreshToken(@Body body: RefreshTokenRequest): RefreshTokenResponse
 
     @POST("data")
     suspend fun makeRegister(@Body body: BaseRequest<RequestRegister>): RegisterDTO

@@ -1,6 +1,8 @@
 package com.natife.streaming.ui.mypreferences
 
 import android.annotation.SuppressLint
+import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.ProgressBar
@@ -40,6 +42,11 @@ class UserPreferencesFragment : BaseFragment<UserPreferencesViewModel>() {
     //    var isSearchMode = false
     private var searchJob: Job? = null
     private var searchText: String = ""
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        Log.d("MyLog", UserPreferencesFragment::class.java.simpleName)
+    }
 
 
     @SuppressLint("RestrictedApi")
