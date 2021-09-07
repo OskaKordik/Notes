@@ -17,7 +17,7 @@ import com.natife.streaming.ui.player.menu.quality.VideoQualityParams
 abstract class PlayerViewModel : BaseViewModel() {
     abstract fun play(it: Episode, playlist: List<Episode>? = null)
     abstract fun openVideoQualityMenu()
-    abstract fun changeVideoQuality(videoQuality: String)
+    abstract fun changeVideoQuality(videoQuality: String, currentPosition: Long)
     abstract fun onBackClicked()
     abstract fun setCurrentSeekBarId(id: Int)
     abstract fun updatePlayList(list: List<Episode>, buttonText: String)
@@ -81,12 +81,13 @@ class PlayerViewModelImpl(
         )
     }
 
-    override fun changeVideoQuality(videoQuality: String) {
+    override fun changeVideoQuality(videoQuality: String, currentPosition: Long) {
         videoLiveData.value = setup
             .video
             ?.filter { it.abc == "0" }
             ?.groupBy { it.quality }!![videoQuality]
             ?.map { it.url to it.duration }?.let { Event(it) }
+        currentEpisode.postValue(currentEpisode.value?.copy( startMs = currentPosition))
     }
 
     override fun onBackClicked() {

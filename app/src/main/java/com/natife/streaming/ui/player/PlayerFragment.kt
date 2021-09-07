@@ -76,7 +76,7 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
 
         setFragmentResultListener(VideoQualityDialog.KEY_QUALITY) { _, bundle ->
             bundle.getString(VideoQualityDialog.KEY_QUALITY)?.let { videoQuality ->
-                viewModel.changeVideoQuality(videoQuality)
+                viewModel.changeVideoQuality(videoQuality, simpleExoPlayer?.currentPosition ?: 0)
             }
         }
         subscribe(viewModel.videoQualityParams) {
