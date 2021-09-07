@@ -68,11 +68,12 @@ class HomeViewModelImpl(
         when {
             (match.live && match.subscribed) -> {
                 router.navigate(
-                    HomeFragmentDirections.actionHomeFragmentToLiveFragment(
-                        sportId = match.sportId,
-                        matchId = match.id,
-                        title = "${match.team1} - ${match.team2}"
-                    )
+//                    HomeFragmentDirections.actionHomeFragmentToLiveFragment(
+//                        sportId = match.sportId,
+//                        matchId = match.id,
+//                        title = "${match.team1} - ${match.team2}"
+//                    )
+                    HomeFragmentDirections.actionHomeFragmentToLiveDialog()
                 )
             }
             (match.hasVideo && match.subscribed) -> {

@@ -1,5 +1,6 @@
 package com.natife.streaming.usecase
 
+import android.util.Log
 import com.natife.streaming.api.MainApi
 import com.natife.streaming.data.request.VideoRequest
 
@@ -9,10 +10,11 @@ interface GetLiveVideoUseCase {
 
 class GetLiveVideoUseCaseImpl(private val api: MainApi) : GetLiveVideoUseCase {
     override suspend fun execute(matchId: Int, sportId: Int): List<String> {
-        val video: List<String> = api.getVideoStream(VideoRequest(matchId, sportId))
+        val response = api.getVideoStream(VideoRequest(matchId, sportId))
+        Log.d("MyLog", "File: ${response.body()?.byteStream()}")
 
         // TODO Надо понять что приходит и сделать правельный возврат
-        return video
+        return listOf()
     }
 
 }

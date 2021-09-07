@@ -9,10 +9,17 @@ import com.google.android.exoplayer2.util.Util
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_live.*
+import org.koin.core.parameter.ParametersDefinition
+import org.koin.core.parameter.parametersOf
 
 
 class LiveFragment : BaseFragment<LiveViewModel>() {
     override fun getLayoutRes() = R.layout.fragment_live
+
+    override fun getParameters(): ParametersDefinition = {
+        parametersOf(LiveFragmentArgs.fromBundle(requireArguments()))
+    }
+
     private var player: SimpleExoPlayer? = null
     private var playWhenReady = true
     private var currentWindow = 0

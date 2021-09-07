@@ -50,6 +50,8 @@
             <action
                 android:id="@+id/action_homeFragment_to_billingFragment"
                 app:destination="@id/billing" />
+            <action android:id="@+id/action_homeFragment_to_liveDialog"
+                app:destination="@+id/liveDialog" />
         </fragment>
         <fragment
             android:id="@+id/playerFragment"
@@ -341,6 +343,10 @@
                 android:name="com.natife.streaming.ui.billing.BillingTypeListFragment"
                 android:label="BillingTypeListFragment" />
         </navigation>
+        <dialog
+            android:id="@+id/liveDialog"
+            android:name="com.natife.streaming.ui.live.LiveDialog"
+            android:label="LiveDialog" />
 
     </navigation>
 

@@ -22,7 +22,7 @@ class LiveViewModelImpl(
 
     init {
         launch {
-            val a = getLiveVideoUseCase.execute(matchId, sportId)
+            getLiveVideoUseCase.execute(matchId, sportId)
         }
     }
 }

@@ -34,6 +34,8 @@ import com.natife.streaming.data.dto.videoPosition.GetVideoPositionRequest
 import com.natife.streaming.data.dto.videoPosition.StoreVideoPositionRequest
 import com.natife.streaming.data.dto.videoPosition.StoreVideoPositionResponse
 import com.natife.streaming.data.request.*
+import okhttp3.ResponseBody
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -90,7 +92,7 @@ interface MainApi {
     suspend fun getVideoFile(@Body body: VideoRequest): VideoDTO
 
     @POST("video/stream")
-    suspend fun getVideoStream(@Body body: VideoRequest): List<String> // todo https://api.instat.tv/video/stream
+    suspend fun getVideoStream(@Body body: VideoRequest): Response<ResponseBody>
 
     @POST("data/{sport}")
     suspend fun getActions(
