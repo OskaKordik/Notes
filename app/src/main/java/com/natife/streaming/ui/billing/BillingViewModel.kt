@@ -243,7 +243,7 @@ class BillingViewModelImpl(
 
 
             title.value = "$team1 - $team2"
-            val a: List<OfferData>? = subscribtionData.month?.montchToOfferData()
+            val a: List<OfferData>? = subscribtionData.month?.monthToOfferData()
         }
     }
 
@@ -256,7 +256,7 @@ class BillingViewModelImpl(
                 "League Pass",
                 tournamentTitle,
                 "All matches in season 2020-21, live and on demand",
-                "USD/montch",
+                "USD/Month",
                 150,
                 live,
                 "$team1 - $team2"
@@ -268,7 +268,7 @@ class BillingViewModelImpl(
                 "Team pass",
                 team1,
                 "All matches of $team1 in season 2020-21, live and on demand",
-                "USD/montch",
+                "USD/Month",
                 70,
                 live,
                 "$team1 - $team2"
@@ -280,7 +280,7 @@ class BillingViewModelImpl(
                 "Team Pass",
                 team2,
                 "All matches of $team2 in season 2020-21, live and on demand",
-                "USD/montch",
+                "USD/Month",
                 80,
                 live,
                 "$team1 - $team2"
@@ -389,7 +389,7 @@ class BillingViewModelImpl(
     }
 }
 
-private fun Month.montchToOfferData(): List<OfferData> {
+private fun Month.monthToOfferData(): List<OfferData> {
     return listOf()//TODO
 }
 

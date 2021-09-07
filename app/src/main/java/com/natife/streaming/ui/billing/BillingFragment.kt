@@ -1,8 +1,11 @@
 package com.natife.streaming.ui.billing
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
+import android.widget.TextView
 import androidx.activity.addCallback
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
@@ -53,7 +56,11 @@ class BillingFragment : BaseFragment<BillingViewModel>() {
         billing_pager.registerOnPageChangeCallback(onPage)
 
         TabLayoutMediator(tab_billing_layout, billing_pager) { tab, position ->
-            tab.text = billingType[position]
+            val text = TextView( requireContext())
+            text.text = billingType[position]
+            text.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            text.textSize = 18f
+            tab.customView = text
         }.attach()
 
         subscribe(viewModel.title) {

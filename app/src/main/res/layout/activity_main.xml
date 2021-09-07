@@ -431,7 +431,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="200dp"
-            android:layout_marginBottom="10dp"
             android:button="@null"
             android:clickable="true"
             android:focusable="true"
@@ -439,6 +438,7 @@
             android:gravity="center"
             android:text="@string/text_football"
             android:textAllCaps="false"
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@id/guideline_end_search"
             app:layout_constraintEnd_toStartOf="@+id/button_subscriptions_hockey"
             app:layout_constraintHorizontal_bias="0.5"
@@ -449,7 +449,6 @@
             style="@style/ButtonTransparentNoOutlinedProfile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
             android:button="@null"
             android:clickable="true"
             android:focusable="true"
@@ -457,10 +456,11 @@
             android:gravity="center|center_vertical"
             android:text="@string/text_hockey"
             android:textAllCaps="false"
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@id/guideline_end_search"
-            app:layout_constraintEnd_toStartOf="@+id/button_subscriptions_basketball"
+            app:layout_constraintEnd_toEndOf="@+id/textView2"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/button_subscriptions_football" />
+            app:layout_constraintStart_toStartOf="@+id/textView2" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_subscriptions_basketball"
@@ -468,7 +468,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="200dp"
-            android:layout_marginBottom="10dp"
             android:button="@null"
             android:clickable="true"
             android:focusable="true"
@@ -476,6 +475,7 @@
             android:gravity="center|center_vertical"
             android:text="@string/text_basketball"
             android:textAllCaps="false"
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@id/guideline_end_search"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
