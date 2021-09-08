@@ -86,7 +86,7 @@ class PopupVideoViewModelImpl(
                         currentEpisode = episode,
                         currentPlaylist = playList ?: playerPlayList?.second,
                         startTitle = playerPlayList?.first
-                            ?: "${_match?.team1?.name} : ${_match?.team2?.name}",
+                            ?: "${_match?.team1?.name} ${_match?.team1?.score} - ${_match?.team2?.score} ${_match?.team2?.name}",
                         match = _match,
                         titlesForButtons = mapOf(
                             Pair(
