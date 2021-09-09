@@ -28,6 +28,7 @@ class PlayerBottomBar @JvmOverloads constructor(
     private var _binding: ViewPlayerBottomBarBinding? = null
     private val binding get() = _binding!!
     private val sliderIds = mutableMapOf<Int, Episode>()
+    private var lastSliderId: Int? = 0
     private lateinit var viewModel: PlayerViewModel
 
 
@@ -113,6 +114,7 @@ class PlayerBottomBar @JvmOverloads constructor(
         val sliderIdForUpdate = sliderIds.filterValues {
             it.half == half && time in it.startMs..it.endMs
         }.keys.firstOrNull()
+
         if (sliderIdForUpdate == null) {
             nextEpisode(half, time)
         } else {
@@ -126,6 +128,7 @@ class PlayerBottomBar @JvmOverloads constructor(
                     } ?: 0
                 viewModel.setCurrentSeekBarId(curentSeekBar.id)
             }
+            lastSliderId = sliderIdForUpdate
         }
     }
 
@@ -183,6 +186,15 @@ class PlayerBottomBar @JvmOverloads constructor(
     }
 
     fun nextEpisode(half: Int, time: Long?) {
+
+        // закрашиваем предыдущий просмотренный эпизод
+        lastSliderId?.let { id ->
+            findViewById<SeekBar>(id)?.let { currentSeekBar ->
+                currentSeekBar.thumb.alpha = 255
+                currentSeekBar.progress = time?.toInt() ?: 0
+            }
+        }
+
         viewModel.isNewEpisodeStarted = false
         if (time == null) return
         val a = sliderIds.mapValues {
