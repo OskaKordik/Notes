@@ -109,6 +109,9 @@ class PopupVideoFragment : BaseFragment<PopupVideoViewModel>() {
         subscribeEvent(popupSharedViewModel.playPlayListPlayers) {
             viewModel.play(playerPlayList = it)
         }
+        subscribe(popupSharedViewModel.videoType) {
+            viewModel.seVideoType(it)
+        }
 
         subscribe(popupSharedViewModel.startViewID) { start ->
             page.apply {

@@ -14,5 +14,6 @@ data class PlayerSetup(
     val currentPlaylist: List<Episode>? = null,
     val startTitle: String,
     val video: List<Video>? = null,
+    val videoDuration: Long,
     val titlesForButtons: Map<String, String> = mapOf()
 ) : Parcelable

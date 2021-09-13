@@ -37,6 +37,7 @@ import kotlinx.android.synthetic.main.fragment_player.*
 import kotlinx.android.synthetic.main.view_player_bottom_bar.*
 import org.koin.core.parameter.ParametersDefinition
 import org.koin.core.parameter.parametersOf
+import timber.log.Timber
 
 
 class PlayerFragment : BaseFragment<PlayerViewModel>() {
@@ -61,12 +62,12 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
         val sightOfBottom = view.findViewById<MaterialButton>(R.id.sight_of_bottom)
         val exoPlay = view.findViewById<MaterialButton>(R.id.exo_play)
         val exoPause = view.findViewById<MaterialButton>(R.id.exo_pause)
-        val exoRew = view.findViewById<MaterialButton>(R.id.exo_rew)
+        val exoRew = view.findViewById<MaterialButton>(R.id.exo_preview)
         val exoIntervalRewind30 = view.findViewById<MaterialButton>(R.id.exo_interval_rewind_30)
         val exoIntervalRewind5 = view.findViewById<MaterialButton>(R.id.exo_interval_rewind_5)
         val exoIntervalForward5 = view.findViewById<MaterialButton>(R.id.exo_interval_forward_5)
         val exoIntervalForward30 = view.findViewById<MaterialButton>(R.id.exo_interval_forward_30)
-        val exoFfwd = view.findViewById<MaterialButton>(R.id.exo_ffwd)
+        val exoFfwd = view.findViewById<MaterialButton>(R.id.exo_next)
         val menuPlayer = view.findViewById<MaterialButton>(R.id.menuPlayer)
 
         subscribeViewModels()
@@ -199,7 +200,7 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
                     exo_pause.apply {
                         iconSize = 27.dp
                     }
-                    exo_rew.apply {
+                    exo_preview.apply {
                         iconSize = 27.dp
                     }
                     exo_interval_rewind_30.apply {
@@ -214,7 +215,7 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
                     exo_interval_forward_30.apply {
                         iconSize = 27.dp
                     }
-                    exo_ffwd.apply {
+                    exo_next_episode.apply {
                         iconSize = 27.dp
                     }
                 }
@@ -267,7 +268,7 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
                 exo_pause.apply {
                     iconSize = 62.dp
                 }
-                exo_rew.apply {
+                exo_preview.apply {
                     iconSize = 62.dp
                 }
                 exo_interval_rewind_30.apply {
@@ -282,7 +283,7 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
                 exo_interval_forward_30.apply {
                     iconSize = 62.dp
                 }
-                exo_ffwd.apply {
+                exo_next_episode.apply {
                     iconSize = 62.dp
                 }
             }
@@ -479,6 +480,10 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
             bottom_button_line_layout.initButtons(source, viewModel)
         }
 
+        subscribe(viewModel.videoDuration) { duration ->
+            exo_duration_video.text = duration.toDisplayTime()
+        }
+
         subscribe(viewModel.matchInfoLiveData) { info ->
             bigGameTitle.text = info
         }
@@ -499,6 +504,14 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
             simpleExoPlayer?.currentPosition?.plus(5000)
                 ?.let { it1 -> simpleExoPlayer?.seekTo(it1) }
         }
+        exo_next_episode.setOnClickListener {
+            viewModel.currentEpisode.value?.let {
+                    it1 -> simpleExoPlayer?.seekTo(it1.endMs)
+            }
+        }
+//        exo_preview.setOnClickListener {
+//            simpleExoPlayer?.seekTo(viewModel.getStartMsPreviewEpisode())
+//        }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             if (playerView.isControllerVisible) playerView.hideController() else {
                 viewModel.onBackClicked()
