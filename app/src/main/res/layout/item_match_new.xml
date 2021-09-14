@@ -168,8 +168,8 @@
 
         <ImageView
             android:id="@+id/type_of_game_image_l"
-            android:layout_width="11dp"
-            android:layout_height="11dp"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
             app:layout_constraintBottom_toBottomOf="@+id/flag_of_command_country_image_l"
             app:layout_constraintStart_toStartOf="@+id/guidelineStart"
             app:layout_constraintTop_toTopOf="@+id/flag_of_command_country_image_l"
@@ -178,8 +178,8 @@
 
         <ImageView
             android:id="@+id/flag_of_command_country_image_l"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
+            android:layout_width="wrap_content"
+            android:layout_height="11dp"
             android:layout_marginStart="8dp"
             android:scaleType="centerInside"
             app:layout_constraintBottom_toBottomOf="@+id/tournament_name_text"
