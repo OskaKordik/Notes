@@ -200,7 +200,7 @@
             app:autoSizeStepGranularity="1sp"
             app:autoSizeTextType="uniform"
             android:textAppearance="@style/TextAppearance.StreamingTheme.Body2"
-            android:textColor="@color/button_text_b_w_state_new"
+            android:textColor="@color/white70"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/favorite_imageView"
             app:layout_constraintHorizontal_bias="0.0"
