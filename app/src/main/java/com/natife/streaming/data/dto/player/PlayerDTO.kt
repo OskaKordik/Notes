@@ -32,5 +32,7 @@ data class PlayerDTO(
     val isFavorite: Boolean,
     @SerializedName("country")
     val country: CountryDTO,
-    val sport: Int
+    val sport: Int,
+    @SerializedName("dur")
+    val duration: Long,
 )

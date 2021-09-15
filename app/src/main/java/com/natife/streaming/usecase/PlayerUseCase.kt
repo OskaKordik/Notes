@@ -54,7 +54,8 @@ class PlayerUseCaseImpl(
                 "en", "EN" -> player.country.nameEng ?: ""
                 "ru", "RU" -> player.country.nameRus ?: ""
                 else -> player.country.nameEng ?: ""
-            }
+            },
+            duration = player.duration
         )
     }
 

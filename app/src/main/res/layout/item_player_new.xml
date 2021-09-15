@@ -67,7 +67,7 @@
             android:duplicateParentState="true"
             android:gravity="center_horizontal"
             android:maxLines="1"
-            android:text="5:17"
+            tools:text="5:17"
             android:textAppearance="@style/TextAppearance.StreamingTheme.Headline5"
             android:textColor="@color/button_text_g_w_40_state_new"
             app:layout_constraintBaseline_toBaselineOf="@+id/player_name"
