@@ -9,6 +9,7 @@ import com.natife.streaming.data.matchprofile.Episode
 import com.natife.streaming.data.matchprofile.MatchInfo
 import com.natife.streaming.data.matchprofile.Player
 import com.natife.streaming.ext.Event
+import com.natife.streaming.ui.popupmatch.video.watch.WatchFill
 import com.natife.streaming.usecase.PlayerActionUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -63,6 +64,9 @@ class PopupSharedViewModel : BaseViewModel(), KoinComponent {
     private val _playPlayListPlayers = MutableLiveData<Event<Pair<String, List<Episode>>>>()
     val playPlayListPlayers: LiveData<Event<Pair<String, List<Episode>>>> = _playPlayListPlayers
 
+    private val _videoType = MutableLiveData<WatchFill>()
+    val videoType: LiveData<WatchFill> = _videoType
+
     fun setStartId(startId: ArrayList<Int>) {
         _startViewID.value = startId
     }
@@ -94,6 +98,7 @@ class PopupSharedViewModel : BaseViewModel(), KoinComponent {
     fun goals() {
         matchInfo?.let {
             if (!it.value?.goals.isNullOrEmpty()) {
+                _videoType.value = WatchFill.FieldGoals("FieldGoals", "${it.value?.goalsDuration}")
                 _playPlayList.value = Event(it.value?.goals)
             }
         }
@@ -103,6 +108,7 @@ class PopupSharedViewModel : BaseViewModel(), KoinComponent {
         matchInfo?.let {
             //episodes.value = it.highlights
             if (!it.value?.highlights.isNullOrEmpty()) {
+                _videoType.value = WatchFill.Highlights("Highlights", "${it.value?.highlightsDuration}")
                 _playPlayList.value = Event(it.value?.highlights)
             }
 
@@ -113,14 +119,14 @@ class PopupSharedViewModel : BaseViewModel(), KoinComponent {
         matchInfo?.let {
             //episodes.value = it.ballInPlay
             if (!it.value?.ballInPlay.isNullOrEmpty()) {
+                _videoType.value = WatchFill.BallInPlay("BallInPlay", "${it.value?.ballInPlayDuration}")
                 _playPlayList.value = Event(it.value?.ballInPlay)
             }
-
-
         }
     }
 
     fun fullMatch() {
+        _videoType.value = WatchFill.FullGame("FullGame", "")
         _match?.let {
             _playEpisode.value = Event(
                 Episode(
@@ -133,7 +139,6 @@ class PopupSharedViewModel : BaseViewModel(), KoinComponent {
                 )
             )
         }
-
     }
 
     fun playEpisode(episod: Episode) {

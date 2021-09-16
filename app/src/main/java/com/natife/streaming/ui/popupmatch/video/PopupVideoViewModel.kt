@@ -11,6 +11,7 @@ import com.natife.streaming.data.matchprofile.MatchInfo
 import com.natife.streaming.data.matchprofile.Player
 import com.natife.streaming.data.player.PlayerSetup
 import com.natife.streaming.router.Router
+import com.natife.streaming.ui.popupmatch.video.watch.WatchFill
 import com.natife.streaming.usecase.MatchInfoUseCase
 import com.natife.streaming.usecase.MatchProfileUseCase
 import com.natife.streaming.usecase.VideoUseCase
@@ -27,6 +28,9 @@ abstract class PopupVideoViewModel : BaseViewModel() {
         playList: List<Episode>? = null,
         playerPlayList: Pair<String, List<Episode>>? = null
     )
+    abstract fun seVideoType(
+        videoType: WatchFill? = null
+    )
 
     abstract fun onStatisticClicked()
     abstract fun onFinishClicked()
@@ -41,7 +45,9 @@ class PopupVideoViewModelImpl(
     private val videoUseCase: VideoUseCase,
 ) : PopupVideoViewModel() {
     private var _match: Match? = null
+    private var videoType: WatchFill? = null
     override val match = MutableLiveData<Match>()
+
     private var videos: List<Video>? = null
     override val team1 = MutableLiveData<List<Player>>()
     override val team2 = MutableLiveData<List<Player>>()
@@ -83,10 +89,19 @@ class PopupVideoViewModelImpl(
                             it.translates.goalsTranslate to it.goals,
                         ),
                         video = videos,
+                        videoDuration = when (videoType) {
+                            is WatchFill.BallInPlay -> it.ballInPlayDuration
+                            is WatchFill.FieldGoals -> it.goalsDuration
+                            is WatchFill.FullGame -> (videos
+                                ?.groupBy { it.quality }!!["720"] as ArrayList)
+                                .sumOf { it.duration.div(1000) }
+                            is WatchFill.Highlights -> it.highlightsDuration
+                            else -> 0L
+                        },
                         currentEpisode = episode,
                         currentPlaylist = playList ?: playerPlayList?.second,
                         startTitle = playerPlayList?.first
-                            ?: "${_match?.team1?.name} : ${_match?.team2?.name}",
+                            ?: "${_match?.team1?.name} ${_match?.team1?.score} - ${_match?.team2?.score} ${_match?.team2?.name}",
                         match = _match,
                         titlesForButtons = mapOf(
                             Pair(
@@ -114,6 +129,10 @@ class PopupVideoViewModelImpl(
                 )
             )
         }
+    }
+
+    override fun seVideoType(videoType: WatchFill?) {
+        this.videoType = videoType
     }
 
     override fun onStatisticClicked() {
