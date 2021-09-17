@@ -346,7 +346,17 @@
         <dialog
             android:id="@+id/liveDialog"
             android:name="com.natife.streaming.ui.live.LiveDialog"
-            android:label="LiveDialog" />
+            android:label="LiveDialog" >
+            <argument
+                android:name="matchId"
+                app:argType="integer" />
+            <argument
+                android:name="sportId"
+                app:argType="integer" />
+            <argument
+                android:name="title"
+                app:argType="string" />
+        </dialog>
 
     </navigation>
 

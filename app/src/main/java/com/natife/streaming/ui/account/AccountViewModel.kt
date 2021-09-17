@@ -14,6 +14,7 @@ import com.natife.streaming.router.Router
 import com.natife.streaming.usecase.AccountUseCase
 import com.natife.streaming.usecase.LogoutUseCase
 import com.natife.streaming.utils.TokenRefreshLoop
+import com.natife.streaming.utils.VideoHeaderUpdater
 
 abstract class AccountViewModel : BaseViewModel() {
     abstract fun logout()
@@ -38,7 +39,8 @@ class AccountViewModelImpl(
     private val accountUseCase: AccountUseCase,
     private val localSqlDataSourse: LocalSqlDataSourse,
     private val settingsPrefs: SettingsPrefs,
-    private val tokenRefreshLoop: TokenRefreshLoop
+    private val tokenRefreshLoop: TokenRefreshLoop,
+    private val videoHeaderUpdater: VideoHeaderUpdater
 ) : AccountViewModel() {
     override val loadersLiveData = MutableLiveData<Boolean>(true)
     override val restart = MutableLiveData<Event<Boolean>>()
@@ -78,6 +80,7 @@ class AccountViewModelImpl(
     override fun logout() {
         loadersLiveData.value = true
         tokenRefreshLoop.stop()
+        videoHeaderUpdater.stop()
         logoutUseCase.execute(false)
         loadersLiveData.value = false
     }

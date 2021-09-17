@@ -29,6 +29,7 @@ import com.natife.streaming.ui.favorites.FavoriteViewModel
 import com.natife.streaming.ui.favorites.FavoriteViewModelImpl
 import com.natife.streaming.ui.home.HomeViewModel
 import com.natife.streaming.ui.home.HomeViewModelImpl
+import com.natife.streaming.ui.live.LiveDialogArgs
 import com.natife.streaming.ui.live.LiveFragmentArgs
 import com.natife.streaming.ui.live.LiveViewModel
 import com.natife.streaming.ui.live.LiveViewModelImpl
@@ -57,9 +58,7 @@ import com.natife.streaming.ui.subscriptions.SubscriptionsViewModelImpl
 import com.natife.streaming.ui.tournament.TournamentFragmentArgs
 import com.natife.streaming.ui.tournament.TournamentViewModel
 import com.natife.streaming.usecase.*
-import com.natife.streaming.utils.OneTimeScope
-import com.natife.streaming.utils.TokenRefreshLoop
-import com.natife.streaming.utils.TokenRefreshLoopImpl
+import com.natife.streaming.utils.*
 import okhttp3.OkHttpClient
 import okhttp3.internal.platform.Platform
 import org.koin.android.ext.koin.androidApplication
@@ -101,7 +100,7 @@ val viewModelModule = module {
     }//new
 
     viewModel { MainViewModel(get(), get(), get(), get()) }
-    viewModel<AccountViewModel> { AccountViewModelImpl(get(), get(), get(), get(), get(), get()) }
+    viewModel<AccountViewModel> { AccountViewModelImpl(get(), get(), get(), get(), get(), get(), get()) }
     viewModel { (args: TournamentFragmentArgs) ->
         TournamentViewModel(
             args.sportId,
@@ -127,7 +126,7 @@ val viewModelModule = module {
             get(),
         )
     }
-    viewModel<LiveViewModel> { (args: LiveFragmentArgs) ->
+    viewModel<LiveViewModel> { (args: LiveDialogArgs) ->
         LiveViewModelImpl(
             args.matchId,
             args.sportId,
@@ -304,7 +303,7 @@ val useCaseModule = module {
     factory<SearchTypeUseCase> { SearchTypeUseCaseImpl() }
     factory<MatchInfoUseCase> { MatchInfoUseCaseImpl(get(), get(), get()) }
     factory<VideoUseCase> { VideoUseCaseImpl(get()) }
-    factory<GetLiveVideoUseCase> { GetLiveVideoUseCaseImpl(get()) }
+    factory<GetLiveVideoUseCase> { GetLiveVideoUseCaseImpl(androidApplication(), get(), get(), get()) }
     factory<SecondUseCase> { SecondUseCaseImpl(get()) }
     factory<PlayerActionUseCase> { PlayerActionUseCaseImpl(get(), get(), get(), get()) }
     factory<LexisUseCase> { LexisUseCaseImpl(get(), get(), get(), androidApplication()) }
@@ -322,6 +321,10 @@ val useCaseModule = module {
 
 val refreshTokenModule = module {
     single<TokenRefreshLoop> { TokenRefreshLoopImpl(get(), get()) }
+}
+
+val videoHeaderModule = module {
+    single<VideoHeaderUpdater> { VideoHeaderUpdaterImpl(get()) }
 }
 
 val mockModule = module {
@@ -399,5 +402,6 @@ val appModules = arrayListOf(
     apiModule,
     databaseModule,
     utilModule,
-    refreshTokenModule
+    refreshTokenModule,
+    videoHeaderModule
 )
