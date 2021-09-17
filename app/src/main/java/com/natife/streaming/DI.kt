@@ -20,6 +20,8 @@ import com.natife.streaming.preferenses.*
 import com.natife.streaming.router.Router
 import com.natife.streaming.ui.account.AccountViewModel
 import com.natife.streaming.ui.account.AccountViewModelImpl
+import com.natife.streaming.ui.account.language.LanguageSelectionViewModel
+import com.natife.streaming.ui.account.language.LanguageSelectionViewModelImpl
 import com.natife.streaming.ui.billing.BillingFragmentArgs
 import com.natife.streaming.ui.billing.BillingViewModel
 import com.natife.streaming.ui.billing.BillingViewModelImpl
@@ -102,6 +104,11 @@ val viewModelModule = module {
 
     viewModel { MainViewModel(get(), get(), get(), get()) }
     viewModel<AccountViewModel> { AccountViewModelImpl(get(), get(), get(), get(), get(), get()) }
+    viewModel<LanguageSelectionViewModel> {
+        LanguageSelectionViewModelImpl(
+            get(), get()
+        )
+    }
     viewModel { (args: TournamentFragmentArgs) ->
         TournamentViewModel(
             args.sportId,

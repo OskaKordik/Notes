@@ -1,10 +1,8 @@
 package com.natife.streaming.ui.account
 
 import android.annotation.SuppressLint
-import android.app.AlarmManager
 import android.app.AlertDialog
 import android.app.PendingIntent
-import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
@@ -20,6 +18,8 @@ import com.natife.streaming.base.BaseFragment
 import com.natife.streaming.db.entity.Lang
 import com.natife.streaming.ext.predominantColorToGradient
 import com.natife.streaming.ext.subscribeEvent
+import com.natife.streaming.ui.account.language.LanguageSelectionDialog
+import com.natife.streaming.ui.player.PlayerFragment
 import kotlinx.android.synthetic.main.fragment_account.*
 import timber.log.Timber
 
@@ -125,7 +125,8 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
         button_subscriptions.setOnClickListener { viewModel.toSubscriptions() }
         button_pay_story.setOnClickListener { viewModel.toPayStory() }
         button_language.setOnClickListener {
-            text_language.performClick()
+            LanguageSelectionDialog().show(parentFragmentManager, PlayerFragment.DIALOG_QUALITY)
+//            text_language.performClick()
         }
 
         button_score_visible.setOnClickListener {
@@ -181,4 +182,7 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
         requireActivity().findViewById<Group>(R.id.profile_background_group).visibility = View.GONE
     }
 
+    companion object {
+        const val DIALOG_LANGUAGE = "dialogLanguage"
+    }
 }

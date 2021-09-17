@@ -84,6 +84,7 @@
         <item>За весь год</item>
         <item>За просмотр</item>
     </string-array>
+    <string name="language_selection">Выбор языка</string>
     <string name="text_choose_quality">Выберите качество</string>
     <string name="text_not_find_match">Матчи не найдены</string>
     <string name="text_not_find_tour">Турниры не найдены</string>
