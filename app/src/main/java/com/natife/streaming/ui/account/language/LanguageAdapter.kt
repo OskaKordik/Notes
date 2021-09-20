@@ -26,11 +26,11 @@ class LanguageAdapter(private val onClick: (LanguageModel) -> Unit) : ListAdapte
 
             if(language.isCurrent) {
                 tv.setTextColor(ContextCompat.getColor(itemView.context, R.color.black))
-                tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 38f)
+                tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)
                 fl.background = ContextCompat.getDrawable(itemView.context, R.drawable.round_white_background)
             } else {
                 tv.setTextColor(ContextCompat.getColor(itemView.context, R.color.text_gray_selection))
-                tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 31f)
+                tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
                 fl.background = ContextCompat.getDrawable(itemView.context, R.color.black)
             }
 

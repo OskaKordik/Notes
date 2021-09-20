@@ -18,23 +18,32 @@ abstract class LanguageSelectionViewModel : BaseViewModel() {
 
 class LanguageSelectionViewModelImpl(
     private val localSqlDataSourse: LocalSqlDataSourse,
-    private val settingsPrefs: SettingsPrefs,
+    private val settingsPrefs: SettingsPrefs
 ) : LanguageSelectionViewModel() {
 
     override var languages =
-        listOf(LanguageModel(0, "Русский", Lang.RU, true), LanguageModel(1, "Английский", Lang.EN))
+        listOf(
+            LanguageModel(0, "Русский", Lang.RU, getCurrentLang() == Lang.RU.name),
+            LanguageModel(1, "Английский", Lang.EN, getCurrentLang() == Lang.EN.name)
+        )
 
     override val restart = MutableLiveData<Event<Boolean>>()
 
+    private fun getCurrentLang(): String = settingsPrefs.getLanguage()
+
     //TODO work with it when data on the BE is ready
     override fun setLang(lm: LanguageModel) {
-        launch {
-            settingsPrefs.saveLanguage(lm.lang.name)
-            localSqlDataSourse.updateGlobalSettingsCurrentUser(
-                showScore =  false,
-                lang = lm.lang
-            )
-            restart.value = Event(true)
+        if (lm.isCurrent) {
+            restart.value = Event(false)
+        } else {
+            launch {
+                settingsPrefs.saveLanguage(lm.lang.name)
+                localSqlDataSourse.updateGlobalSettingsCurrentUser(
+                    showScore = false,
+                    lang = lm.lang
+                )
+                restart.value = Event(true)
+            }
         }
     }
 }

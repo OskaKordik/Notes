@@ -38,6 +38,7 @@ class LanguageSelectionDialog : BaseDialog<LanguageSelectionViewModel>(){
                 requireActivity().finish()
                 requireActivity().startActivity(mStartActivity)
             }
+            dismiss()
         }
     }
 
@@ -54,10 +55,6 @@ class LanguageSelectionDialog : BaseDialog<LanguageSelectionViewModel>(){
     }
 
     private fun onLanguageClicked(language: LanguageModel) {
-        if (!language.isCurrent) {
             viewModel.setLang(language)
-        }
-        dismiss()
     }
-
 }

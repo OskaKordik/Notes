@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:text="@string/language_selection"
         android:textColor="@color/white"
-        android:textSize="57sp" />
+        android:textSize="30sp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvLanguages"

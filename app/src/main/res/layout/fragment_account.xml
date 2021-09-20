@@ -213,16 +213,16 @@
                 app:layout_constraintEnd_toEndOf="@+id/button_score_visible"
                 app:layout_constraintTop_toTopOf="@+id/button_score_visible" />
 
-            <androidx.appcompat.widget.AppCompatSpinner
-                android:id="@+id/text_language"
-                android:visibility="gone"
+            <TextView
+                android:id="@+id/tv_language"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:background="@null"
-                android:gravity="center_vertical|end"
+                android:layout_marginEnd="22dp"
+                android:textColor="@color/text_gray"
+                android:textSize="20sp"
+                tools:text="English"
                 app:layout_constraintBottom_toBottomOf="@+id/button_language"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/button_language"
                 app:layout_constraintTop_toTopOf="@+id/button_language" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
