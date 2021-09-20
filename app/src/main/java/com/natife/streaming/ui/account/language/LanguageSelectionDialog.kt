@@ -16,7 +16,7 @@ class LanguageSelectionDialog : BaseDialog<LanguageSelectionViewModel>(){
     override fun getLayoutRes(): Int  = R.layout.dialog_language_selection
 
     private val languageAdapter by lazy {
-        LanguageAdapter{
+        LanguageSelectionAdapter{
             onLanguageClicked(it)
         }
     }

@@ -24,7 +24,7 @@ class LanguageSelectionViewModelImpl(
     override var languages =
         listOf(
             LanguageModel(0, "Русский", Lang.RU, getCurrentLang() == Lang.RU.name),
-            LanguageModel(1, "Английский", Lang.EN, getCurrentLang() == Lang.EN.name)
+            LanguageModel(1, "English", Lang.EN, getCurrentLang() == Lang.EN.name)
         )
 
     override val restart = MutableLiveData<Event<Boolean>>()
