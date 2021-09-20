@@ -2,7 +2,10 @@ package com.natife.streaming.ui.live
 
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import androidx.activity.addCallback
+import com.google.android.exoplayer2.ExoPlayer
+import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.util.Util
@@ -25,6 +28,7 @@ class LiveDialog : BaseDialog<LiveViewModel>() {
         parametersOf(LiveDialogArgs.fromBundle(requireArguments()))
     }
 
+    private val playbackStateListener: Player.EventListener = playbackStateListener()
     private var player: SimpleExoPlayer? = null
     private var playWhenReady = true
     private var currentWindow = 0
@@ -37,20 +41,20 @@ class LiveDialog : BaseDialog<LiveViewModel>() {
 
         tvWatchLive.setOnClickListener {
             start_group.visibility = View.GONE
+            initializePlayer()
             live_video_view.visibility = View.VISIBLE
-            releasePlayer()
 
         }
         tvWatchFromStart.setOnClickListener {
             start_group.visibility = View.GONE
             live_video_view.visibility = View.VISIBLE
-            releasePlayer()
+            initializePlayer()
         }
 
         tvContinueWatch.setOnClickListener {
             start_group.visibility = View.GONE
             live_video_view.visibility = View.VISIBLE
-            releasePlayer()
+            initializePlayer()
         }
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
@@ -65,17 +69,6 @@ class LiveDialog : BaseDialog<LiveViewModel>() {
         tvTitle.text = arguments?.getString("title")
     }
 
-    private fun initializePlayer() {
-        mediaSource?.let {
-            player = SimpleExoPlayer.Builder(requireContext()).build()
-            live_video_view.player = player
-
-            player!!.playWhenReady = playWhenReady
-            player!!.seekTo(currentWindow, playbackPosition)
-            player!!.prepare(it)
-        }
-    }
-
     private fun releasePlayer() {
         if (player != null) {
             playWhenReady = player!!.playWhenReady
@@ -86,18 +79,57 @@ class LiveDialog : BaseDialog<LiveViewModel>() {
         }
     }
 
-
-    override fun onStart() {
-        super.onStart()
-        if (Util.SDK_INT >= 24) {
-            initializePlayer()
+    override fun onPause() {
+        super.onPause()
+        player?.pause()
+        activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        if (Util.SDK_INT <= 23) {
+            releasePlayer()
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        if (Util.SDK_INT < 24 || player == null) {
-            initializePlayer()
+    override fun onStop() {
+        super.onStop()
+        player?.stop()
+        if (Util.SDK_INT > 23) {
+            releasePlayer()
         }
+    }
+
+    private fun initializePlayer() {
+//        val uri = Uri.parse("https://moctobpltc-i.akamaihd.net/hls/live/571329/eight/playlist.m3u8")
+//        val mediaSource = buildMediaSource(uri)
+
+        player?.release()
+        player = SimpleExoPlayer.Builder(requireContext()).build()
+        player?.addListener(playbackStateListener)
+        mediaSource?.let {
+            player?.setMediaSource(it)
+        }
+
+        live_video_view.player = player
+
+        player?.seekTo(currentWindow, playbackPosition)
+        player?.playWhenReady = playWhenReady
+        player?.prepare()
+    }
+
+//    private fun buildMediaSource(uri: Uri): MediaSource {
+//        val dataSourceFactory: DefaultDataSourceFactory =
+//            DefaultDataSourceFactory(requireContext(), "exoplayer-codelab")
+//        return HlsMediaSource.Factory(dataSourceFactory).createMediaSource(uri)
+//    }
+}
+
+private fun playbackStateListener() = object : Player.EventListener {
+    override fun onPlaybackStateChanged(playbackState: Int) {
+        val stateString: String = when (playbackState) {
+            ExoPlayer.STATE_IDLE -> "ExoPlayer.STATE_IDLE      -"
+            ExoPlayer.STATE_BUFFERING -> "ExoPlayer.STATE_BUFFERING -"
+            ExoPlayer.STATE_READY -> "ExoPlayer.STATE_READY     -"
+            ExoPlayer.STATE_ENDED -> "ExoPlayer.STATE_ENDED     -"
+            else -> "UNKNOWN_STATE             -"
+        }
+//        Timber.tag("LiveDialog").d("changed state to $stateString")
     }
 }

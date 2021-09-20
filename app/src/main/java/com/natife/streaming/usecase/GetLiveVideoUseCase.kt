@@ -41,7 +41,9 @@ class GetLiveVideoUseCaseImpl(
         val authHeaders: HashMap<String, String> = HashMap()
         authHeaders["Cookie"] = accessToken
 
-        val uri: Uri = Uri.parse(urlLive.toString())
+//        val uri: Uri = Uri.parse(urlLive.toString())
+        // test URI
+        val uri: Uri = Uri.parse("https://moctobpltc-i.akamaihd.net/hls/live/571329/eight/playlist.m3u8")
 
         val mediaDataSourceFactory = DefaultHttpDataSourceFactory(
             Util.getUserAgent(context, "InstatTV"),

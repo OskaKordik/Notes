@@ -83,6 +83,9 @@
         android:id="@+id/live_video_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone" />
+        android:visibility="gone"
+        app:resize_mode="zoom"
+        android:focusable="true"
+        app:use_controller="true"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
