@@ -34,8 +34,7 @@ class LanguageSelectionAdapter(private val onClick: (LanguageModel) -> Unit) :
         override fun onBind(data: LanguageModel) {
             itemView.tvLang.text = data.language
 
-            //Doesn't work ((
-            itemView.tvLang.setOnFocusChangeListener { _, hasFocus ->
+            itemView.setOnFocusChangeListener { _, hasFocus ->
                 if (hasFocus) {
                     itemView.tvLang.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)
                 } else {
