@@ -132,6 +132,7 @@ val viewModelModule = module {
             args.sportId,
             args.title,
             get(),
+            get(),
             get()
         )
     }

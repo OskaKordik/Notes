@@ -7,7 +7,7 @@ import com.natife.streaming.R
 import com.natife.streaming.base.BaseViewModel
 import com.natife.streaming.router.Router
 import com.natife.streaming.usecase.GetLiveVideoUseCase
-import timber.log.Timber
+import com.natife.streaming.utils.VideoHeaderUpdater
 
 abstract class LiveViewModel : BaseViewModel() {
     abstract val mediaSourceLiveData: LiveData<MediaSource>
@@ -19,7 +19,8 @@ class LiveViewModelImpl(
     private val sportId: Int,
     private val title: String,
     private val router: Router,
-    private val getLiveVideoUseCase: GetLiveVideoUseCase
+    private val getLiveVideoUseCase: GetLiveVideoUseCase,
+    private val videoHeaderUpdater: VideoHeaderUpdater
 ) : LiveViewModel() {
     override val mediaSourceLiveData = MutableLiveData<MediaSource>()
 
@@ -31,9 +32,11 @@ class LiveViewModelImpl(
         launch {
             val mediaSource = getLiveVideoUseCase.execute(matchId, sportId)
             mediaSourceLiveData.postValue(mediaSource)
-            Timber.tag("MediaSource").d("matchId=$matchId sportId=$sportId")
-            Timber.tag("MediaSource").d(mediaSource.mediaItem.mediaId)
         }
     }
 
+    override fun onCleared() {
+        videoHeaderUpdater.stop()
+        super.onCleared()
+    }
 }
