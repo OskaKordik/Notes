@@ -31,39 +31,18 @@ import org.koin.core.parameter.parametersOf
 
 class PopupVideoFragment : BaseFragment<PopupVideoViewModel>() {
 
-//    private val tabList = mutableListOf<String>()
-
     override fun getLayoutRes(): Int = R.layout.fragment_popup_video
 
-    //    private lateinit var popupVideoNames: Array<String>
     private val popupSharedViewModel: PopupSharedViewModel by navGraphViewModels(R.id.popupVideo)
     private var page = 0
 
     lateinit var onPage: ViewPager2.OnPageChangeCallback
 
-    /*val onPage = object : ViewPager2.OnPageChangeCallback() {
-        override fun onPageSelected(position: Int) {
-            super.onPageSelected(position)
-            position.apply {
-                page = this
-                popupSharedViewModel.startViewID.value?.let { start ->
-
-                    tab_layout.getTabAt(0)?.view?.nextFocusDownId = start[this]
-                    tab_layout.getTabAt(1)?.view?.nextFocusDownId = start[this]
-                    tab_layout.getTabAt(2)?.view?.nextFocusDownId = start[this]
-                    tab_layout.getTabAt(3)?.view?.nextFocusDownId = start[this]
-                    tab_layout.getTabAt(4)?.view?.nextFocusDownId = start[this]
-                }
-
-            }
-        }
-    }*/
-
     @SuppressLint("SetTextI18n")
     override fun onStart() {
         super.onStart()
 
-        viewModel.updateStrings()
+        viewModel.updateData(resources.getStringArray(R.array.popup_video_names))
 
         popap_layout.visibility = View.VISIBLE
         (activity as MainActivity).score_text?.text = ""
@@ -177,55 +156,8 @@ class PopupVideoFragment : BaseFragment<PopupVideoViewModel>() {
                 viewModel.tabList.value?.forEachIndexed { index, _ ->
                     tab_layout.getTabAt(index)?.view?.nextFocusDownId = start[this]
                 }
-//                tab_layout.getTabAt(0)?.view?.nextFocusDownId = start[this]
-//                tab_layout.getTabAt(1)?.view?.nextFocusDownId = start[this]
-//                tab_layout.getTabAt(2)?.view?.nextFocusDownId = start[this]
-//                tab_layout.getTabAt(3)?.view?.nextFocusDownId = start[this]
-//                tab_layout.getTabAt(4)?.view?.nextFocusDownId = start[this]
             }
         }
-
-
-//        popupVideoNames = resources.getStringArray(R.array.popup_video_names)
-//        tabList.clear()
-//        tabList.add(0, popupVideoNames[0])
-//        tabList.add(popupVideoNames[2])
-//        tabList.add(popupVideoNames[3])
-//        val popupVideoAdapter = PopupVideoFragmentAdapter(
-//            childFragmentManager,
-//            this.lifecycle, viewModel.tabList.value?.size ?: 0
-////            this.lifecycle, popupVideoNames.size
-//        )
-
-//        onPage = object : ViewPager2.OnPageChangeCallback() {
-//            override fun onPageSelected(position: Int) {
-//                super.onPageSelected(position)
-//                position.apply {
-//                    page = this
-//                    popupSharedViewModel.startViewID.value?.let { start ->
-//
-//                        viewModel.tabList.value?.forEachIndexed { index, _ ->
-//                            tab_layout.getTabAt(index)?.view?.nextFocusDownId = start[this]
-//                        }
-////                        tab_layout.getTabAt(0)?.view?.nextFocusDownId = start[this]
-////                        tab_layout.getTabAt(1)?.view?.nextFocusDownId = start[this]
-////                        tab_layout.getTabAt(2)?.view?.nextFocusDownId = start[this]
-////                        tab_layout.getTabAt(3)?.view?.nextFocusDownId = start[this]
-////                        tab_layout.getTabAt(4)?.view?.nextFocusDownId = start[this]
-//                    }
-//
-//                }
-//            }
-//        }
-//        popup_video_pager.adapter = popupVideoAdapter
-//        popup_video_pager.registerOnPageChangeCallback(onPage)
-
-//        TabLayoutMediator(tab_layout, popup_video_pager) { tab, position ->
-//            tab.text = viewModel.tabList.value?.get(position) ?: ""
-////            tab.text = popupVideoNames[position]
-//        }.attach()
-//        tab_layout.getChildAt(0).requestFocus()
-//        tab_layout.getChildAt(0).isSelected = true
     }
 
     override fun getParameters(): ParametersDefinition = {
@@ -259,14 +191,6 @@ class PopupVideoFragment : BaseFragment<PopupVideoViewModel>() {
                 viewModel.popupVideoNames[4] -> TabLanguagesFragment()
                 else -> TabWatchFragment()
             }
-            /*return when (position) {
-                0 -> TabWatchFragment()
-                1 -> TabAdditionallyFragment()
-                2 -> TabByPlayersFragment()
-                3 -> TabMatchEventsFragment()
-                4 -> TabLanguagesFragment()
-                else -> TabWatchFragment()
-            }*/
         }
     }
 }
