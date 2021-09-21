@@ -8,6 +8,7 @@
 
 
     <color name="text_gray">#7A7A7A</color>
+    <color name="text_gray_selection">#9F9F9F</color>
     <color name="text_accent">#F1903B</color>
     <color name="dialog_gray">#5C5C5C</color>
     <color name="btn">#5C5C5C</color>

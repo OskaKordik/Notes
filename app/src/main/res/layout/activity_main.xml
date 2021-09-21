@@ -205,12 +205,13 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@drawable/mock_tournament" />
 
-        <TextView
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/name_first_team"
+            style="@style/ButtonTransparentNoOutlined"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
             android:textAllCaps="true"
+            android:checkable="true"
             android:textAppearance="@style/TextAppearance.StreamingTheme.Headline2"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/logo_first_team"
@@ -227,12 +228,13 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@drawable/mock_tournament" />
 
-        <TextView
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/name_second_team"
+            style="@style/ButtonTransparentNoOutlined"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             android:textAllCaps="true"
+            android:focusable="true"
             android:textAppearance="@style/TextAppearance.StreamingTheme.Headline2"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/logo_second_team"
@@ -352,7 +354,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
 
 
         <androidx.constraintlayout.widget.Group
@@ -556,13 +557,13 @@
             android:layout_width="305dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
-            app:startIconDrawable="@drawable/ic_search2"
             android:textColorHint="@color/hint_text_field_color"
             app:hintTextColor="@android:color/transparent"
             app:layout_constraintBottom_toTopOf="@+id/guideline_end_search"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-<!--            android:hint="@string/search"-->
+            app:layout_constraintStart_toStartOf="parent"
+            app:startIconDrawable="@drawable/ic_search2">
+            <!--            android:hint="@string/search"-->
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/search_text"

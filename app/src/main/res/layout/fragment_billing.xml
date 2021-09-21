@@ -75,10 +75,11 @@
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tab_billing_layout"
+                app:tabTextAppearance="@style/TextAppearance.StreamingTheme.AllCapsFalse"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                android:focusable="false"
+                android:focusable="true"
                 app:focusOutEnd="true"
                 app:focusOutFront="true"
                 app:focusOutSideEnd="true"

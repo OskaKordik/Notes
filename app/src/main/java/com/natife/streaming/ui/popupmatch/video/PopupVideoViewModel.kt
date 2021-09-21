@@ -11,6 +11,7 @@ import com.natife.streaming.data.matchprofile.Episode
 import com.natife.streaming.data.matchprofile.MatchInfo
 import com.natife.streaming.data.matchprofile.Player
 import com.natife.streaming.data.player.PlayerSetup
+import com.natife.streaming.data.search.SearchResult
 import com.natife.streaming.router.Router
 import com.natife.streaming.ui.popupmatch.video.watch.WatchFill
 import com.natife.streaming.usecase.MatchInfoUseCase
@@ -36,6 +37,7 @@ abstract class PopupVideoViewModel : BaseViewModel() {
     )
 
     abstract fun onStatisticClicked()
+    abstract fun onCommandClicked(teamNumber: Int)
     abstract fun onFinishClicked()
     abstract fun updateStrings()
 }
@@ -161,6 +163,20 @@ class PopupVideoViewModelImpl(
             PopupVideoFragmentDirections.actionPopupVideoFragmentToPopupStatisticsFragment(
                 sportId = sport,
                 matchId = matchId
+            )
+        router.navigate(direction)
+    }
+
+    override fun onCommandClicked(teamNumber: Int) {
+        val direction =
+            PopupVideoFragmentDirections.actionPopupVideoFragmentToTournamentFragment(
+                sportId = match.value?.sportId ?: 0,
+                tournamentId = when (teamNumber) {
+                    1 -> match.value?.team1?.id ?: 0
+                    2 -> match.value?.team2?.id ?: 0
+                    else -> 0
+                },
+                type = SearchResult.Type.TEAM
             )
         router.navigate(direction)
     }

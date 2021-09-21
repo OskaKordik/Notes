@@ -121,4 +121,6 @@
     <!-- Player -->
     <string name="text_slash" translatable="false">\u0020/\u0020</string>
     <string name="sight_of_bottom" translatable="false">\u0020/\u02C4</string>
+
+    <string name="language_selection">Language selection</string>
 </resources>
