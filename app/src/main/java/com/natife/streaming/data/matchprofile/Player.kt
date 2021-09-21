@@ -10,6 +10,7 @@ data class Player(
     val number: String,
     val countryId: Int = -1,
     val countryName: String = "",
-    val isFavorite: Boolean = false
+    val isFavorite: Boolean = false,
+    val duration: Long
 )
 

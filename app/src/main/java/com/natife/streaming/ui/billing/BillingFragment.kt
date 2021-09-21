@@ -56,11 +56,7 @@ class BillingFragment : BaseFragment<BillingViewModel>() {
         billing_pager.registerOnPageChangeCallback(onPage)
 
         TabLayoutMediator(tab_billing_layout, billing_pager) { tab, position ->
-            val text = TextView( requireContext())
-            text.text = billingType[position]
-            text.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
-            text.textSize = 18f
-            tab.customView = text
+            tab.text = billingType[position]
         }.attach()
 
         subscribe(viewModel.title) {

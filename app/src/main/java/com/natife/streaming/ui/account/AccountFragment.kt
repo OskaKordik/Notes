@@ -1,15 +1,10 @@
 package com.natife.streaming.ui.account
 
 import android.annotation.SuppressLint
-import android.app.AlarmManager
 import android.app.AlertDialog
-import android.app.PendingIntent
-import android.content.Context
 import android.content.DialogInterface
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.constraintlayout.motion.widget.MotionLayout
@@ -19,24 +14,13 @@ import com.natife.streaming.R
 import com.natife.streaming.base.BaseFragment
 import com.natife.streaming.db.entity.Lang
 import com.natife.streaming.ext.predominantColorToGradient
-import com.natife.streaming.ext.subscribeEvent
+import com.natife.streaming.ui.account.language.LanguageSelectionDialog
+import com.natife.streaming.ui.player.PlayerFragment
 import kotlinx.android.synthetic.main.fragment_account.*
-import timber.log.Timber
 
 
 class AccountFragment : BaseFragment<AccountViewModel>() {
     override fun getLayoutRes() = R.layout.fragment_account
-
-    private val listener = object : AdapterView.OnItemSelectedListener {
-        override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-            viewModel.setLang(position)
-            Timber.e(position.toString())
-            viewModel.lastposition = position
-        }
-
-        override fun onNothingSelected(parent: AdapterView<*>?) {}
-
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -44,7 +28,6 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
             this.requestFocus()
             isSelected = true
         }
-
     }
 
     override fun onStart() {
@@ -56,22 +39,6 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
             View.VISIBLE
         requireActivity().findViewById<MotionLayout>(R.id.mainMotion)
             .predominantColorToGradient("#CB312A")
-
-        subscribeEvent(viewModel.restart) {
-            if (it) {
-                val mStartActivity: Intent =
-                    Intent(requireContext(), com.natife.streaming.ui.main.MainActivity::class.java)
-                val mPendingIntentId: Int = 123456
-                val mPendingIntent: PendingIntent = PendingIntent.getActivity(
-                    requireContext(),
-                    mPendingIntentId,
-                    mStartActivity,
-                    PendingIntent.FLAG_CANCEL_CURRENT
-                )
-                requireActivity().finish()
-                requireActivity().startActivity(mStartActivity)
-            }
-        }
 
         buttonLogout.setOnClickListener {
 
@@ -119,13 +86,10 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
             R.layout.item_spinner_lang,
         )
 
-        text_language.adapter = adapter
-        text_language.onItemSelectedListener = listener
-
         button_subscriptions.setOnClickListener { viewModel.toSubscriptions() }
         button_pay_story.setOnClickListener { viewModel.toPayStory() }
         button_language.setOnClickListener {
-            text_language.performClick()
+            LanguageSelectionDialog().show(parentFragmentManager, PlayerFragment.DIALOG_QUALITY)
         }
 
         button_score_visible.setOnClickListener {
@@ -141,9 +105,7 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
             }
         }
 
-
         subscribeLiveData()
-
     }
 
     @SuppressLint("SetTextI18n")
@@ -161,9 +123,9 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
             if (!setting.showScore) text_visible_score.text = getText(R.string.text_no)
             else text_visible_score.text = getText(R.string.text_yes)
             if (setting.lang == Lang.EN) {
-                text_language.setSelection(0)
+                tv_language.text = "English"
             } else {
-                text_language.setSelection(1)
+                tv_language.text = "Русский"
             }
         })
         viewModel.loadersLiveData.observe(viewLifecycleOwner) {
@@ -180,5 +142,4 @@ class AccountFragment : BaseFragment<AccountViewModel>() {
             .predominantColorToGradient("#3560E1")
         requireActivity().findViewById<Group>(R.id.profile_background_group).visibility = View.GONE
     }
-
 }

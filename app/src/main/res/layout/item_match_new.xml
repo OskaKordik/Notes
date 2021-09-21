@@ -38,7 +38,7 @@
             android:textAppearance="@style/TextAppearance.StreamingTheme.Headline6"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="22:30" />
+            tools:text="21.04.21" />
         <!--            android:background="@drawable/alert_background"/>-->
 
 

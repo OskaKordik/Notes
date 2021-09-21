@@ -24,6 +24,7 @@ abstract class AccountViewModel : BaseViewModel() {
     abstract fun toSubscriptions()
     abstract fun toPayStory()
     abstract fun initialization(lang: String)
+    abstract fun openLanguageSelectionDialog()
 
     abstract val loadersLiveData: LiveData<Boolean>
     abstract val profileLiveData: LiveData<Profile>
@@ -97,7 +98,6 @@ class AccountViewModelImpl(
         router.navigate(R.id.action_accountFragment_to_payStoryFragment)
     }
 
-
     override fun setScore() {
         launch {
             localSqlDataSourse.updateGlobalSettingsCurrentUser(
@@ -117,7 +117,6 @@ class AccountViewModelImpl(
         }
     }
 
-
     override fun setLang(lang: Int) {
         if ((lastposition != null) && (lastposition != lang)) launch {
             settingsPrefs.saveLanguage(language[lang].name) // TODO продублировал в преференс тк не нашел решения как брать из бд при загрузке в BaseActivity
@@ -127,5 +126,9 @@ class AccountViewModelImpl(
             )
             restart.value = Event(true)
         }
+    }
+
+    override fun openLanguageSelectionDialog() {
+        TODO("Not yet implemented")
     }
 }

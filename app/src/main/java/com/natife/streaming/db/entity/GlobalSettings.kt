@@ -14,3 +14,10 @@ data class GlobalSettings(
 enum class Lang(code: String) {
     RU("ru"), EN("en")
 }
+
+data class LanguageModel(
+    val id: Int,
+    val language: String,
+    val lang: Lang,
+    val isCurrent: Boolean = false
+)

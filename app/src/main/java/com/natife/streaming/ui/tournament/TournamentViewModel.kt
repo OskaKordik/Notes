@@ -115,7 +115,7 @@ class TournamentViewModel(
                         }?.isFavorite ?: false,
                     )
                 }.let { matchList ->
-                    _list.value = matchList
+                    _list.value = matchList.filter { match -> match.access }
                 }
             }
         }

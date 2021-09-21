@@ -61,4 +61,9 @@
     <style name="TextAppearance.StreamingTheme.Overline" parent="TextAppearance.MaterialComponents.Overline">
         <!--Your custom type style here-->
     </style>
+
+    <style name="TextAppearance.StreamingTheme.AllCapsFalse" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
 </resources>

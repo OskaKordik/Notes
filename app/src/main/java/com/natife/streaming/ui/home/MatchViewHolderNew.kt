@@ -22,7 +22,7 @@ open class MatchViewHolderNew(private val view: View) : BaseViewHolder<Match>(vi
                 view.resources.getDrawable(R.drawable.alert_background, view.context.theme)
         } else {
             itemView.alert_textView.text =
-                data.date.fromResponse().toDisplay3(view.resources.getString(R.string.lang))
+                data.date.fromResponse().toDisplayDate(view.resources.getString(R.string.lang))
             itemView.alert_textView.background =
                 view.resources.getDrawable(R.drawable.time_background, view.context.theme)
         }

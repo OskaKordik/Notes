@@ -73,6 +73,16 @@ class PopupVideoFragment : BaseFragment<PopupVideoViewModel>() {
             }
             text = resources.getString(R.string.statistics)
         }
+        (activity as MainActivity).name_first_team?.apply {
+            setOnClickListener {
+                viewModel.onCommandClicked(1)
+            }
+        }
+        (activity as MainActivity).name_second_team?.apply {
+            setOnClickListener {
+                viewModel.onCommandClicked(2)
+            }
+        }
 
         subscribe(viewModel.match) {
             popupSharedViewModel.setMatch(it)

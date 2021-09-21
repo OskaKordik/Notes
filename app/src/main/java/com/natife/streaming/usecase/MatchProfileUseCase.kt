@@ -156,7 +156,8 @@ class MatchProfileUseCaseImpl(
                         sportId,
                         ImageUrlBuilder.Companion.Type.PLAYER
                     ),
-                    number = it.num
+                    number = it.num,
+                    duration = it.dur
                 )
             } ?: emptyList(),
             players2 = infoDto.data?.players2?.map {
@@ -177,7 +178,8 @@ class MatchProfileUseCaseImpl(
                         sportId,
                         ImageUrlBuilder.Companion.Type.PLAYER
                     ),
-                    number = it.num
+                    number = it.num,
+                    duration = it.dur
                 )
             } ?: emptyList()
         )

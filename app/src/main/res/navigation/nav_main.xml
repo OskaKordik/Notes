@@ -201,6 +201,9 @@
                 <action
                     android:id="@+id/action_popupVideoFragment_to_popupStatisticsFragment"
                     app:destination="@id/popupStatisticsFragment" />
+                <action
+                    android:id="@+id/action_popupVideoFragment_to_tournamentFragment"
+                    app:destination="@id/tournamentFragment" />
             </fragment>
             <fragment
                 android:id="@+id/tabByPlayersFragment"
