@@ -1,15 +1,14 @@
 package com.natife.streaming.usecase
 
-import android.content.Context
 import com.natife.streaming.API_MATCH_INFO
 import com.natife.streaming.API_MATCH_POPUP
 import com.natife.streaming.API_TRANSLATE
-import com.natife.streaming.R
 import com.natife.streaming.api.MainApi
 import com.natife.streaming.data.matchprofile.MatchInfo
 import com.natife.streaming.data.matchprofile.Player
 import com.natife.streaming.data.matchprofile.toEpisode
 import com.natife.streaming.data.request.*
+import com.natife.streaming.preferenses.SettingsPrefs
 import com.natife.streaming.usecase.MatchProfileUseCase.Companion.getPath
 import com.natife.streaming.utils.ImageUrlBuilder
 import java.util.*
@@ -31,7 +30,7 @@ interface MatchProfileUseCase {
 
 class MatchProfileUseCaseImpl(
     private val api: MainApi,
-    private val context: Context
+    private val settingsPrefs: SettingsPrefs
 ) : MatchProfileUseCase {
     override suspend fun getMatchInfo(matchId: Int, sportId: Int): MatchInfo {
         val infoDto = api.getMatchInfo(
@@ -49,10 +48,11 @@ class MatchProfileUseCaseImpl(
         )
 
         val translates = api.getTranslate(
+
             BaseRequest(
                 procedure = API_TRANSLATE,
                 params = TranslateRequest(
-                    context.resources.getString(R.string.lang).toLowerCase(Locale.ROOT),
+                    settingsPrefs.getLanguage().toLowerCase(Locale.ROOT),
                     listOf(
                         infoDto.data?.lexics?.ballInPlay ?: 0,
                         infoDto.data?.lexics?.fullGame ?: 0,
@@ -99,7 +99,7 @@ class MatchProfileUseCaseImpl(
                         sportId,
                         ImageUrlBuilder.Companion.Type.TOURNAMENT
                     ),
-                    title = when (context.resources.getString(R.string.lang)) {
+                    title = when (settingsPrefs.getLanguage()) {
                         "en", "EN" -> "${match.team1.nameEng} - ${match.team2.nameEng}" ?: ""
                         "ru", "RU" -> "${match.team1.nameRus} - ${match.team2.nameRus}" ?: ""
                         else -> "${match.team1.nameEng} - ${match.team2.nameEng}" ?: ""
@@ -114,7 +114,7 @@ class MatchProfileUseCaseImpl(
                         sportId,
                         ImageUrlBuilder.Companion.Type.TOURNAMENT
                     ),
-                    title = when (context.resources.getString(R.string.lang)) {
+                    title = when (settingsPrefs.getLanguage()) {
                         "en", "EN" -> "${match.team1.nameEng} - ${match.team2.nameEng}" ?: ""
                         "ru", "RU" -> "${match.team1.nameRus} - ${match.team2.nameRus}" ?: ""
                         else -> "${match.team1.nameEng} - ${match.team2.nameEng}" ?: ""
@@ -129,7 +129,7 @@ class MatchProfileUseCaseImpl(
                         sportId,
                         ImageUrlBuilder.Companion.Type.TOURNAMENT
                     ),
-                    title = when (context.resources.getString(R.string.lang)) {
+                    title = when (settingsPrefs.getLanguage()) {
                         "en", "EN" -> "${match.team1.nameEng} - ${match.team2.nameEng}" ?: ""
                         "ru", "RU" -> "${match.team1.nameRus} - ${match.team2.nameRus}" ?: ""
                         else -> "${match.team1.nameEng} - ${match.team2.nameEng}" ?: ""
@@ -142,7 +142,7 @@ class MatchProfileUseCaseImpl(
                 Player(
                     id = it.id,
                     team = 1,
-                    name = when (context.resources.getString(R.string.lang)) {
+                    name = when (settingsPrefs.getLanguage()) {
                         "en", "EN" -> it.name_eng ?: ""
                         "ru", "RU" -> it.name_rus ?: ""
                         else -> it.name_eng ?: ""
@@ -164,7 +164,7 @@ class MatchProfileUseCaseImpl(
                 Player(
                     id = it.id,
                     team = 2,
-                    name = when (context.resources.getString(R.string.lang)) {
+                    name = when (settingsPrefs.getLanguage()) {
                         "en", "EN" -> it.name_eng ?: ""
                         "ru", "RU" -> it.name_rus ?: ""
                         else -> it.name_eng ?: ""
