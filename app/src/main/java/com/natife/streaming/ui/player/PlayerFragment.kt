@@ -567,6 +567,15 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
 
 
         playerView.player = simpleExoPlayer
+        simpleExoPlayer!!.addListener(object : Player.Listener {
+            override fun onPlaybackStateChanged(playbackState: Int) {
+                if (playbackState == ExoPlayer.STATE_BUFFERING){
+                    progress_buffering.visibility = View.VISIBLE
+                } else {
+                    progress_buffering.visibility = View.INVISIBLE
+                }
+            }
+        })
         playerView.controllerAutoShow = false
         playerView.setControllerVisibilityListener { visibility ->
             if (visibility == View.VISIBLE) {
