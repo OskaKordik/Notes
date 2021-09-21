@@ -58,6 +58,7 @@ class PopupVideoFragment : BaseFragment<PopupVideoViewModel>() {
         (activity as MainActivity).mainMotion?.predominantColorToGradient("#CCCB312A")
 
         (activity as MainActivity).statistics_button?.apply {
+            visibility = View.INVISIBLE
             setOnClickListener {
                 viewModel.onStatisticClicked()
             }
