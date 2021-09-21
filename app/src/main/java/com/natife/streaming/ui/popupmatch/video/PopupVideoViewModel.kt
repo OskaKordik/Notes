@@ -1,5 +1,6 @@
 package com.natife.streaming.ui.popupmatch.video
 
+import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.natife.streaming.R
@@ -17,6 +18,8 @@ import com.natife.streaming.usecase.MatchProfileUseCase
 import com.natife.streaming.usecase.VideoUseCase
 
 abstract class PopupVideoViewModel : BaseViewModel() {
+    abstract var popupVideoNames: Array<String>
+    abstract val tabList: LiveData<List<String>>
     abstract val team1: LiveData<List<Player>>
     abstract val team2: LiveData<List<Player>>
     abstract val info: LiveData<MatchInfo>
@@ -34,6 +37,7 @@ abstract class PopupVideoViewModel : BaseViewModel() {
 
     abstract fun onStatisticClicked()
     abstract fun onFinishClicked()
+    abstract fun updateStrings()
 }
 
 class PopupVideoViewModelImpl(
@@ -43,7 +47,9 @@ class PopupVideoViewModelImpl(
     private val matchInfoUseCase: MatchInfoUseCase,
     private val router: Router,
     private val videoUseCase: VideoUseCase,
+    private val context: Application
 ) : PopupVideoViewModel() {
+
     private var _match: Match? = null
     private var videoType: WatchFill? = null
     override val match = MutableLiveData<Match>()
@@ -55,6 +61,21 @@ class PopupVideoViewModelImpl(
     override val episodes = MutableLiveData<List<Episode>>()
     override val fullVideoDuration = MutableLiveData<Long>()
     private var matchInfo: MatchInfo? = null
+
+    override val tabList = MutableLiveData<List<String>>()
+    override var popupVideoNames: Array<String> = context.applicationContext.resources.getStringArray(R.array.popup_video_names)
+
+    init {
+        val list = mutableListOf<String>()
+        list.add(popupVideoNames[0])
+        list.add(popupVideoNames[1])
+        list.add(popupVideoNames[2])
+        tabList.value = list
+    }
+
+    override fun updateStrings() {
+        popupVideoNames = context.applicationContext.resources.getStringArray(R.array.popup_video_names)
+    }
 
     override fun play(
         episode: Episode?,
