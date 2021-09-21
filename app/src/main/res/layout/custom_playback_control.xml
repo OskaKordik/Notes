@@ -166,10 +166,11 @@
         android:textAppearance="@style/TextAppearance.StreamingTheme.Headline1"
         android:textStyle="bold"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/exo_duration_video"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/exo_duration"
         app:layout_constraintEnd_toStartOf="@+id/exo_position"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/exo_duration_video"
+        app:layout_constraintTop_toTopOf="@+id/exo_duration"
         tools:text="КПРФ-Футзал : Сибиряк Новосибирск" />
 
     <com.google.android.material.button.MaterialButton
@@ -179,10 +180,10 @@
         android:layout_height="wrap_content"
         android:focusable="true"
         app:icon="@drawable/ic_sight_of_bottom"
-        app:layout_constraintBottom_toBottomOf="@+id/exo_duration_video"
-        app:layout_constraintEnd_toEndOf="@+id/exo_duration_video"
+        app:layout_constraintBottom_toBottomOf="@+id/exo_duration"
+        app:layout_constraintEnd_toEndOf="@+id/exo_duration"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/exo_duration_video"
+        app:layout_constraintTop_toTopOf="@+id/exo_duration"
         app:strokeWidth="0dp" />
 
     <TextView
@@ -202,11 +203,11 @@
         android:text="@string/text_slash"
         android:textAppearance="@style/TextAppearance.StreamingTheme.Headline6"
         android:textColor="@color/white"
-        app:layout_constraintEnd_toStartOf="@+id/exo_duration_video"
-        app:layout_constraintTop_toTopOf="@+id/exo_duration_video" />
+        app:layout_constraintEnd_toStartOf="@+id/exo_duration"
+        app:layout_constraintTop_toTopOf="@+id/exo_duration" />
 
     <TextView
-        android:id="@+id/exo_duration_video"
+        android:id="@id/exo_duration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"

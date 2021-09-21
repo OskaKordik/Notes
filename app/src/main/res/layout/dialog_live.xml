@@ -86,6 +86,7 @@
         android:visibility="gone"
         app:resize_mode="zoom"
         android:focusable="true"
-        app:use_controller="true"/>
+        app:use_controller="true"
+        app:controller_layout_id="@layout/custom_playback_control" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

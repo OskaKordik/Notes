@@ -4,6 +4,11 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import androidx.activity.addCallback
+import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.view.isVisible
+import androidx.transition.AutoTransition
+import androidx.transition.Transition
+import androidx.transition.TransitionManager
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
@@ -11,7 +16,9 @@ import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.util.Util
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseDialog
+import com.natife.streaming.ext.dp
 import com.natife.streaming.ext.subscribe
+import kotlinx.android.synthetic.main.custom_playback_control.*
 import kotlinx.android.synthetic.main.dialog_live.*
 import org.koin.core.parameter.ParametersDefinition
 import org.koin.core.parameter.parametersOf
@@ -66,7 +73,267 @@ class LiveDialog : BaseDialog<LiveViewModel>() {
             initializePlayer()
         }
 
-        tvTitle.text = arguments?.getString("title")
+        arguments?.getString("title")?.let {
+            tvTitle.text = it
+            bigGameTitle.text = it
+        }
+
+        exo_interval_rewind_30.setOnClickListener {
+            player?.currentPosition?.minus(30000)
+                ?.let { it1 -> player?.seekTo(it1) }
+        }
+        exo_interval_rewind_5.setOnClickListener {
+            player?.currentPosition?.minus(5000)
+                ?.let { it1 -> player?.seekTo(it1) }
+        }
+        exo_interval_forward_30.setOnClickListener {
+            player?.currentPosition?.plus(30000)
+                ?.let { it1 -> player?.seekTo(it1) }
+        }
+        exo_interval_forward_5.setOnClickListener {
+            player?.currentPosition?.plus(5000)
+                ?.let { it1 -> player?.seekTo(it1) }
+        }
+//        exo_next_episode.setOnClickListener {
+//            player?.seekToNext()
+//        }
+        exo_preview.isEnabled = false
+        exo_next_episode.isEnabled = false
+
+        sight_of_bottom.setOnClickListener {
+            //трансформируем
+            val set = ConstraintSet()
+            set.clone(custom_control_layout)
+            changeToSmollCustomControlLayout(set)
+            set.applyTo(custom_control_layout)
+            val autoTransition = AutoTransition()
+            autoTransition.duration = 100
+            autoTransition.addListener(object : Transition.TransitionListener {
+                override fun onTransitionStart(transition: Transition) {
+                    //уменьшаем кнопки
+                    exo_play.apply {
+                        iconSize = 27.dp
+                    }
+                    exo_pause.apply {
+                        iconSize = 27.dp
+                    }
+                    exo_preview.apply {
+                        iconSize = 27.dp
+                    }
+                    exo_interval_rewind_30.apply {
+                        iconSize = 27.dp
+                    }
+                    exo_interval_rewind_5.apply {
+                        iconSize = 27.dp
+                    }
+                    exo_interval_forward_5.apply {
+                        iconSize = 27.dp
+                    }
+                    exo_interval_forward_30.apply {
+                        iconSize = 27.dp
+                    }
+                    exo_next_episode.apply {
+                        iconSize = 27.dp
+                    }
+                }
+
+                override fun onTransitionEnd(transition: Transition) {
+                    bottom_button_line_layout.visibility = View.VISIBLE
+                    bigGameTitle.visibility = View.VISIBLE
+                    sight_of_bottom.visibility = View.GONE
+                    menuPlayer.visibility = View.VISIBLE
+                    if (exo_play.isVisible) exo_play.requestFocus() else exo_pause.requestFocus()
+                }
+
+                override fun onTransitionCancel(transition: Transition) {}
+                override fun onTransitionPause(transition: Transition) {}
+                override fun onTransitionResume(transition: Transition) {}
+            })
+            TransitionManager.beginDelayedTransition(
+                custom_control_layout,
+                autoTransition
+            )
+        }
+    }
+
+    private fun TransformCustomControlLayoutToBigState() {
+        //трансформируем
+        val set = ConstraintSet()
+        set.clone(custom_control_layout)
+        changeToBigCustomControlLayout(set)
+        set.applyTo(custom_control_layout)
+        val autoTransition = AutoTransition()
+        autoTransition.duration = 100
+        autoTransition.addListener(object : Transition.TransitionListener {
+            override fun onTransitionStart(transition: Transition) {
+                //уменьшаем кнопки
+                exo_play.apply {
+                    iconSize = 62.dp
+                }
+                exo_pause.apply {
+                    iconSize = 62.dp
+                }
+                exo_preview.apply {
+                    iconSize = 62.dp
+                }
+                exo_interval_rewind_30.apply {
+                    iconSize = 62.dp
+                }
+                exo_interval_rewind_5.apply {
+                    iconSize = 62.dp
+                }
+                exo_interval_forward_5.apply {
+                    iconSize = 62.dp
+                }
+                exo_interval_forward_30.apply {
+                    iconSize = 62.dp
+                }
+                exo_next_episode.apply {
+                    iconSize = 62.dp
+                }
+            }
+
+            override fun onTransitionEnd(transition: Transition) {
+                bottom_button_line_layout.visibility = View.GONE
+                bigGameTitle.visibility = View.GONE
+                sight_of_bottom.visibility = View.VISIBLE
+                menuPlayer.visibility = View.GONE
+                if (exo_play.isVisible) exo_play.requestFocus() else exo_pause.requestFocus()
+            }
+
+            override fun onTransitionCancel(transition: Transition) {}
+            override fun onTransitionPause(transition: Transition) {}
+            override fun onTransitionResume(transition: Transition) {}
+        })
+        TransitionManager.beginDelayedTransition(
+            custom_control_layout,
+            autoTransition
+        )
+    }
+
+    private fun changeToBigCustomControlLayout(set: ConstraintSet) {
+        // увеличиваем меню
+        set.clear(R.id.player_bottom_bar, ConstraintSet.BOTTOM)
+        set.connect(
+            R.id.player_bottom_bar,
+            ConstraintSet.BOTTOM,
+            ConstraintSet.PARENT_ID,
+            ConstraintSet.BOTTOM,
+            48.dp
+        )
+        //переносим кнопки
+        set.clear(R.id.exo_play, ConstraintSet.TOP)
+        set.clear(R.id.exo_play, ConstraintSet.BOTTOM)
+        set.connect(
+            R.id.exo_play,
+            ConstraintSet.TOP,
+            R.id.center_max_control_panel_guideline,
+            ConstraintSet.TOP,
+            0.dp
+        )
+        set.connect(
+            R.id.exo_play,
+            ConstraintSet.BOTTOM,
+            R.id.center_max_control_panel_guideline,
+            ConstraintSet.BOTTOM,
+            0.dp
+        )
+        set.clear(R.id.exo_pause, ConstraintSet.TOP)
+        set.clear(R.id.exo_pause, ConstraintSet.BOTTOM)
+        set.connect(
+            R.id.exo_pause,
+            ConstraintSet.TOP,
+            R.id.center_max_control_panel_guideline,
+            ConstraintSet.TOP,
+            0.dp
+        )
+        set.connect(
+            R.id.exo_pause,
+            ConstraintSet.BOTTOM,
+            R.id.center_max_control_panel_guideline,
+            ConstraintSet.BOTTOM,
+            0.dp
+        )
+        // переносим боковые привязки
+        set.clear(R.id.exo_rew, ConstraintSet.START)
+        set.connect(
+            R.id.exo_rew,
+            ConstraintSet.START,
+            ConstraintSet.PARENT_ID,
+            ConstraintSet.START,
+            0.dp
+        )
+        set.clear(R.id.exo_ffwd, ConstraintSet.END)
+        set.connect(
+            R.id.exo_ffwd,
+            ConstraintSet.END,
+            ConstraintSet.PARENT_ID,
+            ConstraintSet.END,
+            0.dp
+        )
+    }
+
+
+    private fun changeToSmollCustomControlLayout(set: ConstraintSet) {
+        // увеличиваем меню
+        set.clear(R.id.player_bottom_bar, ConstraintSet.BOTTOM)
+        set.connect(
+            R.id.player_bottom_bar,
+            ConstraintSet.BOTTOM,
+            ConstraintSet.PARENT_ID,
+            ConstraintSet.BOTTOM,
+            200.dp
+        )
+        //переносим кнопки
+        set.clear(R.id.exo_play, ConstraintSet.TOP)
+        set.clear(R.id.exo_play, ConstraintSet.BOTTOM)
+        set.connect(
+            R.id.exo_play,
+            ConstraintSet.TOP,
+            R.id.top_mini_control_panel_guideline,
+            ConstraintSet.TOP,
+            0.dp
+        )
+        set.connect(
+            R.id.exo_play,
+            ConstraintSet.BOTTOM,
+            R.id.top_mini_control_panel_guideline,
+            ConstraintSet.BOTTOM,
+            0.dp
+        )
+        set.clear(R.id.exo_pause, ConstraintSet.TOP)
+        set.clear(R.id.exo_pause, ConstraintSet.BOTTOM)
+        set.connect(
+            R.id.exo_pause,
+            ConstraintSet.TOP,
+            R.id.top_mini_control_panel_guideline,
+            ConstraintSet.TOP,
+            0.dp
+        )
+        set.connect(
+            R.id.exo_pause,
+            ConstraintSet.BOTTOM,
+            R.id.top_mini_control_panel_guideline,
+            ConstraintSet.BOTTOM,
+            0.dp
+        )
+        // переносим боковые привязки
+        set.clear(R.id.exo_rew, ConstraintSet.START)
+        set.connect(
+            R.id.exo_rew,
+            ConstraintSet.START,
+            R.id.left_mini_control_panel_guideline,
+            ConstraintSet.START,
+            0.dp
+        )
+        set.clear(R.id.exo_ffwd, ConstraintSet.END)
+        set.connect(
+            R.id.exo_ffwd,
+            ConstraintSet.END,
+            R.id.right_mini_control_panel_guideline,
+            ConstraintSet.END,
+            0.dp
+        )
     }
 
     private fun releasePlayer() {
@@ -97,9 +364,6 @@ class LiveDialog : BaseDialog<LiveViewModel>() {
     }
 
     private fun initializePlayer() {
-//        val uri = Uri.parse("https://moctobpltc-i.akamaihd.net/hls/live/571329/eight/playlist.m3u8")
-//        val mediaSource = buildMediaSource(uri)
-
         player?.release()
         player = SimpleExoPlayer.Builder(requireContext()).build()
         player?.addListener(playbackStateListener)
@@ -108,17 +372,17 @@ class LiveDialog : BaseDialog<LiveViewModel>() {
         }
 
         live_video_view.player = player
+        live_video_view.controllerAutoShow = false
+        live_video_view.setControllerVisibilityListener { visibility ->
+            if (visibility == View.VISIBLE) {
+                TransformCustomControlLayoutToBigState()
+            }
+        }
 
         player?.seekTo(currentWindow, playbackPosition)
         player?.playWhenReady = playWhenReady
         player?.prepare()
     }
-
-//    private fun buildMediaSource(uri: Uri): MediaSource {
-//        val dataSourceFactory: DefaultDataSourceFactory =
-//            DefaultDataSourceFactory(requireContext(), "exoplayer-codelab")
-//        return HlsMediaSource.Factory(dataSourceFactory).createMediaSource(uri)
-//    }
 }
 
 private fun playbackStateListener() = object : Player.EventListener {

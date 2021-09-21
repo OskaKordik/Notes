@@ -102,7 +102,6 @@ val viewModelModule = module {
     }//new
 
     viewModel { MainViewModel(get(), get(), get(), get()) }
-    viewModel<AccountViewModel> { AccountViewModelImpl(get(), get(), get(), get(), get(), get()) }
     viewModel<LanguageSelectionViewModel> {
         LanguageSelectionViewModelImpl(
             get(), get()
