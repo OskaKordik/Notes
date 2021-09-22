@@ -50,18 +50,18 @@ class LiveDialog : BaseDialog<LiveViewModel>() {
         super.onViewCreated(view, savedInstanceState)
 
         tvWatchLive.setOnClickListener {
-            initializePlayer(WatchType.WATCH_LIVE)
+            setPlayerPosition(WatchType.WATCH_LIVE)
             start_group.visibility = View.GONE
             live_video_view.visibility = View.VISIBLE
         }
         tvWatchFromStart.setOnClickListener {
-            initializePlayer(WatchType.WATCH_FROM_START)
+            setPlayerPosition(WatchType.WATCH_FROM_START)
             start_group.visibility = View.GONE
             live_video_view.visibility = View.VISIBLE
         }
 
         tvContinueWatch.setOnClickListener {
-            initializePlayer(WatchType.CONTINUE_WATCH)
+            setPlayerPosition(WatchType.CONTINUE_WATCH)
             start_group.visibility = View.GONE
             live_video_view.visibility = View.VISIBLE
         }
@@ -72,6 +72,7 @@ class LiveDialog : BaseDialog<LiveViewModel>() {
 
         subscribe(viewModel.mediaSourceLiveData) {
             mediaSource = it
+            initializePlayer()
         }
 
         subscribe(viewModel.currentPositionLiveData) { seconds ->
@@ -104,6 +105,7 @@ class LiveDialog : BaseDialog<LiveViewModel>() {
 //        }
         exo_preview.isEnabled = false
         exo_next_episode.isEnabled = false
+        menuPlayer.visibility = View.GONE
 
         sight_of_bottom.setOnClickListener {
             //трансформируем
@@ -146,7 +148,6 @@ class LiveDialog : BaseDialog<LiveViewModel>() {
                     bottom_button_line_layout.visibility = View.VISIBLE
                     bigGameTitle.visibility = View.VISIBLE
                     sight_of_bottom.visibility = View.GONE
-                    menuPlayer.visibility = View.VISIBLE
                     if (exo_play.isVisible) exo_play.requestFocus() else exo_pause.requestFocus()
                 }
 
@@ -202,7 +203,6 @@ class LiveDialog : BaseDialog<LiveViewModel>() {
                 bottom_button_line_layout.visibility = View.GONE
                 bigGameTitle.visibility = View.GONE
                 sight_of_bottom.visibility = View.VISIBLE
-                menuPlayer.visibility = View.GONE
                 if (exo_play.isVisible) exo_play.requestFocus() else exo_pause.requestFocus()
             }
 
@@ -369,7 +369,7 @@ class LiveDialog : BaseDialog<LiveViewModel>() {
         }
     }
 
-    private fun initializePlayer(watchType: WatchType) {
+    private fun initializePlayer() {
         player?.release()
         player = SimpleExoPlayer.Builder(requireContext()).build()
         mediaSource?.let { player?.setMediaSource(it) }
@@ -391,6 +391,12 @@ class LiveDialog : BaseDialog<LiveViewModel>() {
             }
         }
 
+        player?.seekTo(currentWindow, playbackPosition)
+        player?.playWhenReady = playWhenReady
+        player?.prepare()
+    }
+
+    private fun setPlayerPosition(watchType: WatchType) {
         playbackPosition = when (watchType) {
             WatchType.WATCH_LIVE -> player?.duration ?: 0
             WatchType.WATCH_FROM_START -> 0
@@ -398,11 +404,7 @@ class LiveDialog : BaseDialog<LiveViewModel>() {
                 ((viewModel.currentPositionLiveData.value ?: 0) * 1000).toLong()
             }
         }
-//        Timber.tag("LiveDialog").d("playbackPosition=$playbackPosition")
-//        Timber.tag("LiveDialog").d("player duration=${player?.duration}")
         player?.seekTo(currentWindow, playbackPosition)
-        player?.playWhenReady = playWhenReady
-        player?.prepare()
     }
 
     // Timer for saving current position
@@ -410,7 +412,6 @@ class LiveDialog : BaseDialog<LiveViewModel>() {
         override fun run() {
             player?.currentPosition?.let { position ->
                 viewModel.saveCurrentPosition(position.div(1000))
-//                Timber.tag("LiveDialog").d("saveCurrentPosition=${position.div(1000)}")
             }
             handler.postDelayed(this, 10000)
         }
