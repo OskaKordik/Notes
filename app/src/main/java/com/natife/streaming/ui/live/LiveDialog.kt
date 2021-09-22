@@ -1,6 +1,8 @@
 package com.natife.streaming.ui.live
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.view.WindowManager
 import androidx.activity.addCallback
@@ -9,7 +11,6 @@ import androidx.core.view.isVisible
 import androidx.transition.AutoTransition
 import androidx.transition.Transition
 import androidx.transition.TransitionManager
-import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.MediaSource
@@ -18,10 +19,12 @@ import com.natife.streaming.R
 import com.natife.streaming.base.BaseDialog
 import com.natife.streaming.ext.dp
 import com.natife.streaming.ext.subscribe
+import com.natife.streaming.ext.toDisplayTime
 import kotlinx.android.synthetic.main.custom_playback_control.*
 import kotlinx.android.synthetic.main.dialog_live.*
 import org.koin.core.parameter.ParametersDefinition
 import org.koin.core.parameter.parametersOf
+import timber.log.Timber
 
 class LiveDialog : BaseDialog<LiveViewModel>() {
     override fun getLayoutRes(): Int = R.layout.dialog_live
@@ -35,33 +38,32 @@ class LiveDialog : BaseDialog<LiveViewModel>() {
         parametersOf(LiveDialogArgs.fromBundle(requireArguments()))
     }
 
-    private val playbackStateListener: Player.EventListener = playbackStateListener()
     private var player: SimpleExoPlayer? = null
     private var playWhenReady = true
     private var currentWindow = 0
     private var playbackPosition: Long = 0
     private var mediaSource: MediaSource? = null
+    private val handler = Handler(Looper.getMainLooper())
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         tvWatchLive.setOnClickListener {
+            initializePlayer(WatchType.WATCH_LIVE)
             start_group.visibility = View.GONE
-            initializePlayer()
             live_video_view.visibility = View.VISIBLE
-
         }
         tvWatchFromStart.setOnClickListener {
+            initializePlayer(WatchType.WATCH_FROM_START)
             start_group.visibility = View.GONE
             live_video_view.visibility = View.VISIBLE
-            initializePlayer()
         }
 
         tvContinueWatch.setOnClickListener {
+            initializePlayer(WatchType.CONTINUE_WATCH)
             start_group.visibility = View.GONE
             live_video_view.visibility = View.VISIBLE
-            initializePlayer()
         }
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
@@ -70,7 +72,10 @@ class LiveDialog : BaseDialog<LiveViewModel>() {
 
         subscribe(viewModel.mediaSourceLiveData) {
             mediaSource = it
-            initializePlayer()
+        }
+
+        subscribe(viewModel.currentPositionLiveData) { seconds ->
+            tvContinueWatch.text = getString(R.string.continue_with, seconds.toLong().toDisplayTime())
         }
 
         arguments?.getString("title")?.let {
@@ -358,18 +363,25 @@ class LiveDialog : BaseDialog<LiveViewModel>() {
     override fun onStop() {
         super.onStop()
         player?.stop()
+        handler.removeCallbacks(timerRunnable)
         if (Util.SDK_INT > 23) {
             releasePlayer()
         }
     }
 
-    private fun initializePlayer() {
+    private fun initializePlayer(watchType: WatchType) {
         player?.release()
         player = SimpleExoPlayer.Builder(requireContext()).build()
-        player?.addListener(playbackStateListener)
-        mediaSource?.let {
-            player?.setMediaSource(it)
-        }
+        mediaSource?.let { player?.setMediaSource(it) }
+        player?.addListener(object : Player.EventListener {
+            override fun onPlayWhenReadyChanged(playWhenReady: Boolean, reason: Int) {
+                if (playWhenReady) {
+                    handler.removeCallbacks(timerRunnable)
+                    handler.postDelayed(timerRunnable, 10000)
+                }
+                super.onPlayWhenReadyChanged(playWhenReady, reason)
+            }
+        })
 
         live_video_view.player = player
         live_video_view.controllerAutoShow = false
@@ -379,21 +391,28 @@ class LiveDialog : BaseDialog<LiveViewModel>() {
             }
         }
 
+        playbackPosition = when (watchType) {
+            WatchType.WATCH_LIVE -> player?.duration ?: 0
+            WatchType.WATCH_FROM_START -> 0
+            WatchType.CONTINUE_WATCH -> {
+                ((viewModel.currentPositionLiveData.value ?: 0) * 1000).toLong()
+            }
+        }
+//        Timber.tag("LiveDialog").d("playbackPosition=$playbackPosition")
+//        Timber.tag("LiveDialog").d("player duration=${player?.duration}")
         player?.seekTo(currentWindow, playbackPosition)
         player?.playWhenReady = playWhenReady
         player?.prepare()
     }
-}
 
-private fun playbackStateListener() = object : Player.EventListener {
-    override fun onPlaybackStateChanged(playbackState: Int) {
-        val stateString: String = when (playbackState) {
-            ExoPlayer.STATE_IDLE -> "ExoPlayer.STATE_IDLE      -"
-            ExoPlayer.STATE_BUFFERING -> "ExoPlayer.STATE_BUFFERING -"
-            ExoPlayer.STATE_READY -> "ExoPlayer.STATE_READY     -"
-            ExoPlayer.STATE_ENDED -> "ExoPlayer.STATE_ENDED     -"
-            else -> "UNKNOWN_STATE             -"
+    // Timer for saving current position
+    private val timerRunnable: Runnable = object : Runnable {
+        override fun run() {
+            player?.currentPosition?.let { position ->
+                viewModel.saveCurrentPosition(position.div(1000))
+//                Timber.tag("LiveDialog").d("saveCurrentPosition=${position.div(1000)}")
+            }
+            handler.postDelayed(this, 10000)
         }
-//        Timber.tag("LiveDialog").d("changed state to $stateString")
     }
 }

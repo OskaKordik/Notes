@@ -140,6 +140,8 @@ val viewModelModule = module {
             args.title,
             get(),
             get(),
+            get(),
+            get(),
             get()
         )
     }

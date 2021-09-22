@@ -69,7 +69,8 @@
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvWatchFromStart" />
+        app:layout_constraintTop_toBottomOf="@+id/tvWatchFromStart"
+        tools:text="Continue with 00:00"/>
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/start_group"
