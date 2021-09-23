@@ -17,7 +17,21 @@
             app:resize_mode="zoom"
             android:focusable="true"
             app:use_controller="true"
-            app:controller_layout_id="@layout/custom_playback_control" />
+            app:controller_layout_id="@layout/custom_playback_control"
+            app:show_buffering="always"
+            app:buffered_color="@color/white" />
+
+        <ProgressBar
+            android:id="@+id/progress_buffering"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="invisible"
+            android:indeterminateTint="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.leanback.widget.BrowseFrameLayout>
