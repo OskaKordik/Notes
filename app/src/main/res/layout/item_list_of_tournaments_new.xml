@@ -30,8 +30,8 @@
 
     <ImageView
         android:id="@+id/type_of_game_image_l"
-        android:layout_width="11dp"
-        android:layout_height="11dp"
+        android:layout_width="8dp"
+        android:layout_height="8dp"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="@+id/flag_of_command_country_image_l"
         app:layout_constraintStart_toStartOf="@+id/name_of_comand_text_l"
@@ -41,10 +41,10 @@
 
     <ImageView
         android:id="@+id/flag_of_command_country_image_l"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="8dp"
-        android:scaleType="centerCrop"
+        android:layout_width="wrap_content"
+        android:layout_height="11dp"
+        android:layout_marginStart="6dp"
+        android:scaleType="centerInside"
         app:layout_constraintBottom_toBottomOf="@+id/country_name_text_l"
         app:layout_constraintStart_toEndOf="@+id/type_of_game_image_l"
         app:layout_constraintTop_toTopOf="@+id/country_name_text_l"
@@ -57,7 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="6dp"
+        android:layout_marginBottom="8dp"
         android:duplicateParentState="true"
         android:maxLines="1"
         android:textAppearance="@style/TextAppearance.StreamingTheme.Body2"
