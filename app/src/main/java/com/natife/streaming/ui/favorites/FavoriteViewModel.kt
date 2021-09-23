@@ -150,7 +150,7 @@ class FavoriteViewModelImpl(
                         matchList.map { match ->
                             match.copy(isShowScore = globalSetings?.showScore ?: false)
                         }.let {
-                            matches.value = it
+                            matches.value = it.filter { match -> match.access }
                         }
                     }
                 }
