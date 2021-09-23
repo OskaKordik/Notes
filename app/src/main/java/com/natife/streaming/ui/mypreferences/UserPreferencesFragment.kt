@@ -43,12 +43,6 @@ class UserPreferencesFragment : BaseFragment<UserPreferencesViewModel>() {
     private var searchJob: Job? = null
     private var searchText: String = ""
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        Log.d("MyLog", UserPreferencesFragment::class.java.simpleName)
-    }
-
-
     @SuppressLint("RestrictedApi")
     override fun onStart() {
         super.onStart()
@@ -168,12 +162,12 @@ class UserPreferencesFragment : BaseFragment<UserPreferencesViewModel>() {
                 text, resources.getString(R.string.lang)
             ).collect {
                 if (it.isEmpty()) {
-                        requireActivity().findViewById<ProgressBar>(
-                            R.id.load_progress
-                        ).visibility = View.GONE
-                        requireActivity().findViewById<TextView>(
-                            R.id.textView_match_not_find_preference
-                        ).visibility = View.VISIBLE
+                    requireActivity().findViewById<ProgressBar>(
+                        R.id.load_progress
+                    ).visibility = View.GONE
+                    requireActivity().findViewById<TextView>(
+                        R.id.textView_match_not_find_preference
+                    ).visibility = View.VISIBLE
                 } else {
                     requireActivity().findViewById<ProgressBar>(
                         R.id.load_progress

@@ -1,18 +1,60 @@
 package com.natife.streaming.usecase
 
+import android.content.Context
+import android.net.Uri
+import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.source.MediaSource
+import com.google.android.exoplayer2.source.hls.HlsMediaSource
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
+import com.google.android.exoplayer2.upstream.DefaultLoadErrorHandlingPolicy
+import com.google.android.exoplayer2.util.Util
 import com.natife.streaming.api.MainApi
-import com.natife.streaming.data.request.VideoRequest
+import com.natife.streaming.api.exception.ApiException
+import com.natife.streaming.preferenses.AuthPrefs
+import com.natife.streaming.utils.VideoHeaderUpdater
+import java.lang.StringBuilder
 
 interface GetLiveVideoUseCase {
-    suspend fun execute(matchId: Int, sportId: Int): List<String>
+    suspend fun execute(matchId: Int, sportId: Int): MediaSource
 }
 
-class GetLiveVideoUseCaseImpl(private val api: MainApi) : GetLiveVideoUseCase {
-    override suspend fun execute(matchId: Int, sportId: Int): List<String> {
-        val video: List<String> = api.getVideoStream(VideoRequest(matchId, sportId))
+class GetLiveVideoUseCaseImpl(
+    private val context: Context,
+    private val api: MainApi,
+    private val authPrefs: AuthPrefs,
+    private val videoHeaderUpdater: VideoHeaderUpdater
+) : GetLiveVideoUseCase {
+    override suspend fun execute(matchId: Int, sportId: Int): MediaSource {
+        val accessToken = "access_token=" + authPrefs.getAuthToken()
 
-        // TODO Надо понять что приходит и сделать правельный возврат
-        return video
+        val urlLive = StringBuilder()
+        urlLive.append("https://api.instat.tv/video/stream/")
+        urlLive.append(sportId)
+        urlLive.append("/")
+        urlLive.append(matchId)
+        urlLive.append(".m3u8")
+
+        val authHeaders: HashMap<String, String> = HashMap()
+        authHeaders["Cookie"] = accessToken
+
+        val uri: Uri = Uri.parse(urlLive.toString())
+        val mediaDataSourceFactory = DefaultHttpDataSource.Factory()
+            .setUserAgent(Util.getUserAgent(context, "InstatTV"))
+            .setConnectTimeoutMs(1000)
+            .setReadTimeoutMs(1000)
+            .setAllowCrossProtocolRedirects(true)
+            .setDefaultRequestProperties(authHeaders)
+
+        return try {
+            videoHeaderUpdater.start(mediaDataSourceFactory)
+            HlsMediaSource.Factory(mediaDataSourceFactory)
+            .setLoadErrorHandlingPolicy(DefaultLoadErrorHandlingPolicy(10))
+                .setAllowChunklessPreparation(true)
+                .createMediaSource(MediaItem.fromUri(uri))
+        } catch (e: ApiException) {
+            videoHeaderUpdater.stop()
+            throw Exception(e)
+        }
     }
 
 }

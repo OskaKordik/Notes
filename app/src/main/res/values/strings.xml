@@ -76,7 +76,7 @@
     <!-- Live -->
     <string name="watch_live_stream">Watch live stream</string>
     <string name="watch_from_the_start">Watch from the start</string>
-    <string name="continue_with">Continue with</string>
+    <string name="continue_with">Continue with %s</string>
     <!--Alert-->
     <string name="alert_text">Sorry, this match is \nnot available in your country</string>
     <string name="alert_title">Not available</string>

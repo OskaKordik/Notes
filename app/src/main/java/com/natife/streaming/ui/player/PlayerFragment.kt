@@ -481,7 +481,7 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
         }
 
         subscribe(viewModel.videoDuration) { duration ->
-            exo_duration_video.text = duration.toDisplayTime()
+            exo_duration.text = duration.toDisplayTime()
         }
 
         subscribe(viewModel.matchInfoLiveData) { info ->

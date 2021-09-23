@@ -39,4 +39,5 @@
     <color name="white10">#1AFFFFFF</color>
     <color name="white40">#66FFFFFF</color>
     <color name="white70">#B3FFFFFF</color>
+    <color name="light_gray">#9F9F9F</color>
 </resources>
