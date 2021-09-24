@@ -103,7 +103,7 @@
             android:paddingTop="8dp"
             android:paddingRight="14dp"
             android:paddingBottom="8dp"
-            android:text="buying it"
+            android:text="@string/buying_it"
             android:textAllCaps="true"
             android:textAppearance="@style/TextAppearance.StreamingTheme.Headline5"
             android:textColor="@color/button_text_b_w_state_new"
