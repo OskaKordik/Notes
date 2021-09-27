@@ -96,58 +96,63 @@ class PopupVideoViewModelImpl(
                         placeholder = _match?.placeholder ?: ""
                     )
                 }
-            router.navigate(
-                PopupVideoFragmentDirections.actionGlobalPlayerFragment(
-                    PlayerSetup(
-                        playlist =
-                        mutableMapOf<String, List<Episode>>(
-                            playerPlayList?.first.toString() to (playerPlayList?.second
-                                ?: listOf()),
-                            it.translates.fullGameTranslate to (timeList ?: listOf()),
-                            it.translates.ballInPlayTranslate to it.ballInPlay,
-                            it.translates.highlightsTranslate to it.highlights,
-                            it.translates.goalsTranslate to it.goals,
-                        ),
-                        video = videos,
-                        videoDuration = when (videoType) {
-                            is WatchFill.BallInPlay -> it.ballInPlayDuration
-                            is WatchFill.FieldGoals -> it.goalsDuration
-                            is WatchFill.FullGame -> (videos
-                                ?.groupBy { it.quality }!!["720"] as ArrayList)
-                                .sumOf { it.duration.div(1000) }
-                            is WatchFill.Highlights -> it.highlightsDuration
-                            else -> 0L
-                        },
-                        currentEpisode = episode,
-                        currentPlaylist = playList ?: playerPlayList?.second,
-                        startTitle = playerPlayList?.first
-                            ?: "${_match?.team1?.name} ${_match?.team1?.score} - ${_match?.team2?.score} ${_match?.team2?.name}",
-                        match = _match,
-                        titlesForButtons = mapOf(
-                            Pair(
-                                playerPlayList?.first.toString(),
-                                playerPlayList?.first.toString()
+            if (!timeList.isNullOrEmpty()) {
+                router.navigate(
+                    PopupVideoFragmentDirections.actionGlobalPlayerFragment(
+                        PlayerSetup(
+                            playlist =
+                            mutableMapOf<String, List<Episode>>(
+                                playerPlayList?.first.toString() to (playerPlayList?.second
+                                    ?: listOf()),
+                                it.translates.fullGameTranslate to (timeList ?: listOf()),
+                                it.translates.ballInPlayTranslate to it.ballInPlay,
+                                it.translates.highlightsTranslate to it.highlights,
+                                it.translates.goalsTranslate to it.goals,
                             ),
-                            Pair(
-                                it.translates.fullGameTranslate,
-                                "${_match?.team1?.name} : ${_match?.team2?.name}"
-                            ),
-                            Pair(
-                                it.translates.ballInPlayTranslate,
-                                "${_match?.team1?.name} : ${_match?.team2?.name}"
-                            ),
-                            Pair(
-                                it.translates.highlightsTranslate,
-                                "${_match?.team1?.name} : ${_match?.team2?.name}"
-                            ),
-                            Pair(
-                                it.translates.goalsTranslate,
-                                "${_match?.team1?.name} : ${_match?.team2?.name}"
-                            ),
+                            video = videos,
+                            videoDuration = when (videoType) {
+                                is WatchFill.BallInPlay -> it.ballInPlayDuration
+                                is WatchFill.FieldGoals -> it.goalsDuration
+                                is WatchFill.FullGame -> (videos
+                                    ?.groupBy { it.quality }!!["720"] as ArrayList)
+                                    .sumOf { it.duration.div(1000) }
+                                is WatchFill.Highlights -> it.highlightsDuration
+                                else -> 0L
+                            },
+                            currentEpisode = episode,
+                            currentPlaylist = playList ?: playerPlayList?.second,
+                            startTitle = playerPlayList?.first
+                                ?: "${_match?.team1?.name} ${_match?.team1?.score} - ${_match?.team2?.score} ${_match?.team2?.name}",
+                            match = _match,
+                            titlesForButtons = mapOf(
+                                Pair(
+                                    playerPlayList?.first.toString(),
+                                    playerPlayList?.first.toString()
+                                ),
+                                Pair(
+                                    it.translates.fullGameTranslate,
+                                    "${_match?.team1?.name} : ${_match?.team2?.name}"
+                                ),
+                                Pair(
+                                    it.translates.ballInPlayTranslate,
+                                    "${_match?.team1?.name} : ${_match?.team2?.name}"
+                                ),
+                                Pair(
+                                    it.translates.highlightsTranslate,
+                                    "${_match?.team1?.name} : ${_match?.team2?.name}"
+                                ),
+                                Pair(
+                                    it.translates.goalsTranslate,
+                                    "${_match?.team1?.name} : ${_match?.team2?.name}"
+                                ),
+                            )
                         )
                     )
                 )
-            )
+            } else {
+                router.toast("Video not found!")
+                router.popBackStack()
+            }
         }
     }
 
