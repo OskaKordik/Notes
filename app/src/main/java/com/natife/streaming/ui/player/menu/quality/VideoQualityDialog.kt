@@ -7,8 +7,10 @@ import androidx.fragment.app.setFragmentResult
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseDialog
 import com.natife.streaming.base.EmptyViewModel
+import com.natife.streaming.ui.player.PlayerFragment.Companion.CURRENT_VIDEO_QUALITY
 import com.natife.streaming.ui.player.PlayerFragment.Companion.VIDEO_QUALITY
 import kotlinx.android.synthetic.main.dialog_video_quality.*
+import timber.log.Timber
 
 class VideoQualityDialog : BaseDialog<EmptyViewModel>() {
     override fun getLayoutRes(): Int = R.layout.dialog_video_quality
@@ -32,6 +34,17 @@ class VideoQualityDialog : BaseDialog<EmptyViewModel>() {
         val params: VideoQualityParams = arguments?.let {
             it.get(VIDEO_QUALITY)
         } as VideoQualityParams
+        val currentQuality: String = arguments?.let {
+            it.get(CURRENT_VIDEO_QUALITY)
+        } as String
+
+        params.videoQualityList.forEachIndexed { index, quality ->
+            if (quality == currentQuality) {
+                videoQualityAdapter.setCurrentPosition(index)
+                return@forEachIndexed
+            }
+        }
+
         rvQuality.adapter = videoQualityAdapter
         videoQualityAdapter.submitList(params.videoQualityList)
     }

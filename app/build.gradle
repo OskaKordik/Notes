@@ -113,10 +113,10 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
 
     //ExoPlayer
-    implementation 'com.google.android.exoplayer:exoplayer-core:2.15.0'
-    implementation 'com.google.android.exoplayer:exoplayer-dash:2.15.0'
-    implementation 'com.google.android.exoplayer:exoplayer-ui:2.15.0'
-    implementation 'com.google.android.exoplayer:exoplayer-hls:2.15.0'
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.15.1'
+    implementation 'com.google.android.exoplayer:exoplayer-dash:2.15.1'
+    implementation 'com.google.android.exoplayer:exoplayer-ui:2.15.1'
+    implementation 'com.google.android.exoplayer:exoplayer-hls:2.15.1'
 
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.1'
     implementation 'com.github.kizitonwose:CalendarView:1.0.0'
