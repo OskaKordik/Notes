@@ -177,7 +177,7 @@ class FavoriteViewModelImpl(
                         }?.isFavorite ?: false,
                     )
                 }.let {
-                    matches.value = it
+                    matches.value = it.filter { match -> match.access }
                 }
             }
         }
