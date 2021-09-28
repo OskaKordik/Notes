@@ -1,15 +1,19 @@
 package com.natife.streaming.ui.mypreferences
 
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.natife.streaming.R
 import com.natife.streaming.data.dto.tournament.TournamentTranslateDTO
 import com.natife.streaming.databinding.ItemListOfTournamentsNewBinding
 import com.natife.streaming.ext.bindFlagImage
 import com.natife.streaming.ext.bindSportImage
+import com.natife.streaming.utils.setMarginHorizontal
+import com.natife.streaming.utils.setSize
 
 class TournamentAdapter(private val onListOfTournamentsClickListener: ((tournament: TournamentTranslateDTO) -> Unit)) :
     ListAdapter<TournamentTranslateDTO, TournamentAdapter.TournamentAdapterViewHolder>(
@@ -41,6 +45,23 @@ class TournamentAdapter(private val onListOfTournamentsClickListener: ((tourname
             binding.checkImage.visibility = if (data.isCheck) View.VISIBLE else View.GONE
             itemView.setOnClickListener {
                 onListOfTournamentsClickListener.invoke(data)
+            }
+            itemView.setOnFocusChangeListener { _, hasFocus ->
+                if (hasFocus) {
+                    binding.nameOfComandTextL.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)
+                    binding.countryNameTextL.setTextSize(TypedValue.COMPLEX_UNIT_SP, 11f)
+                    val margin = itemView.resources.getDimension(R.dimen.dp_6).toInt()
+                    binding.itemTournament.setMarginHorizontal(margin)
+                    val size = itemView.resources.getDimension(R.dimen.dp_12).toInt()
+                    binding.typeOfGameImageL.setSize(size, size)
+                } else {
+                    binding.nameOfComandTextL.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
+                    binding.countryNameTextL.setTextSize(TypedValue.COMPLEX_UNIT_SP, 9f)
+                    val margin = itemView.resources.getDimension(R.dimen.dp_10).toInt()
+                    binding.itemTournament.setMarginHorizontal(margin)
+                    val size = itemView.resources.getDimension(R.dimen.dp_8).toInt()
+                    binding.typeOfGameImageL.setSize(size, size)
+                }
             }
         }
     }

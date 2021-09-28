@@ -2,6 +2,8 @@ package com.natife.streaming.utils
 
 import android.graphics.Bitmap
 import android.media.MediaMetadataRetriever
+import android.view.View
+import android.view.ViewGroup
 import kotlinx.coroutines.*
 
 
@@ -46,4 +48,17 @@ class OneTimeScope(
         scope.cancel()
     }
 
+}
+
+fun View.setMarginHorizontal(margin: Int) {
+    val params = layoutParams as ViewGroup.MarginLayoutParams
+    params.setMargins(margin, params.topMargin, margin, params.bottomMargin)
+    layoutParams = params
+}
+
+fun View.setSize(width: Int, height: Int) {
+    val params = layoutParams as ViewGroup.LayoutParams
+    params.width = width
+    params.height = height
+    layoutParams = params
 }
