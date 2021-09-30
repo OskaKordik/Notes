@@ -87,7 +87,8 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
         }
         subscribe(viewModel.videoQualityParams) {
             val d = VideoQualityDialog().apply {
-                arguments = bundleOf(VIDEO_QUALITY to it, CURRENT_VIDEO_QUALITY to currentVideoQuality)
+                arguments =
+                    bundleOf(VIDEO_QUALITY to it, CURRENT_VIDEO_QUALITY to currentVideoQuality)
             }
             d.show(parentFragmentManager, DIALOG_QUALITY)
         }
@@ -510,13 +511,13 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
                 ?.let { it1 -> simpleExoPlayer?.seekTo(it1) }
         }
         exo_next_episode.setOnClickListener {
-            viewModel.currentEpisode.value?.let {
-                    it1 -> simpleExoPlayer?.seekTo(it1.endMs)
+            viewModel.currentEpisode.value?.let { it1 ->
+                simpleExoPlayer?.seekTo(it1.endMs)
             }
         }
-//        exo_preview.setOnClickListener {
-//            simpleExoPlayer?.seekTo(viewModel.getStartMsPreviewEpisode())
-//        }
+        exo_preview.setOnClickListener {
+            simpleExoPlayer?.seekTo(viewModel.getStartMsPreviewEpisode())
+        }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             if (playerView.isControllerVisible) playerView.hideController() else {
                 viewModel.onBackClicked()
@@ -553,9 +554,12 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
 
         trackSelector = DefaultTrackSelector(requireContext())
         // When player is initialized it'll be played with a quality of MaxVideoSize to prevent loading in 1080p from the start
-        trackSelector.setParameters(trackSelector.buildUponParameters().setMaxVideoBitrate(Int.MAX_VALUE))
+        trackSelector.setParameters(
+            trackSelector.buildUponParameters().setMaxVideoBitrate(Int.MAX_VALUE)
+        )
 
-        simpleExoPlayer = SimpleExoPlayer.Builder(requireContext()).setTrackSelector(trackSelector).build()
+        simpleExoPlayer =
+            SimpleExoPlayer.Builder(requireContext()).setTrackSelector(trackSelector).build()
         //hack for full playlist duration
         val concatenatedSource = ConcatenatingMediaSource()
         list.forEach {
@@ -582,7 +586,7 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
         playerView.player = simpleExoPlayer
         simpleExoPlayer!!.addListener(object : Player.Listener {
             override fun onPlaybackStateChanged(playbackState: Int) {
-                if (playbackState == ExoPlayer.STATE_BUFFERING){
+                if (playbackState == ExoPlayer.STATE_BUFFERING) {
                     progress_buffering.visibility = View.VISIBLE
                 } else {
                     progress_buffering.visibility = View.INVISIBLE
