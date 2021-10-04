@@ -41,10 +41,11 @@
 
     <ImageView
         android:id="@+id/flag_of_command_country_image_l"
-        android:layout_width="wrap_content"
-        android:layout_height="11dp"
+        android:layout_width="@dimen/dp_12"
+        android:layout_height="@dimen/dp_8"
         android:layout_marginStart="6dp"
-        android:scaleType="centerInside"
+        android:foregroundGravity="center_vertical"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="@+id/country_name_text_l"
         app:layout_constraintStart_toEndOf="@+id/type_of_game_image_l"
         app:layout_constraintTop_toTopOf="@+id/country_name_text_l"

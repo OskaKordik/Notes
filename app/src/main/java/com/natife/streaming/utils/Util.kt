@@ -57,8 +57,7 @@ fun View.setMarginHorizontal(margin: Int) {
 }
 
 fun View.setSize(width: Int, height: Int) {
-    val params = layoutParams as ViewGroup.LayoutParams
-    params.width = width
-    params.height = height
-    layoutParams = params
+    layoutParams.width = width
+    layoutParams.height = height
+    requestLayout()
 }
