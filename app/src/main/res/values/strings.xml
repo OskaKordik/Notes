@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name" translatable="false">InStat</string>
     <!--    <string name="login" translatable="false">Login</string>-->
     <!--    <string name="e_mail" translatable="false">E-mail</string>-->
@@ -116,6 +116,8 @@
     <string name="text_choose_quality">Choose quality</string>
     <string name="text_not_find_match">No matches found</string>
     <string name="text_not_find_tour">Tournaments not found</string>
+    <string name="text_not_find_players">Players not found</string>
+    <string name="text_not_find_teams">Teams not found</string>
     <string name="wrong_login_or_password">Wrong login or password!</string>
     <string name="this_login_is_already_used">This login is already used!</string>
     <!-- Player -->
@@ -124,4 +126,5 @@
 
     <string name="language_selection">Language selection</string>
     <string name="buying_it">buying it</string>
+    <string name="exo_track_resolution_pixel" translatable="false"><xliff:g example="768" id="height">%1$dp</xliff:g></string>
 </resources>

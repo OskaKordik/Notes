@@ -51,6 +51,7 @@ const val API_SAVE_USER_PREFERENCES = "save_user_preferences"
 const val API_MATCH_SUBSCRIPTION = "get_match_subscriptions"
 const val API_REFRESH_TOKEN = "refresh_token"
 
+const val VIDEO_AUTO = "Auto"
 const val VIDEO_1080 = "1080"
 const val VIDEO_720 = "720"
 const val VIDEO_480 = "480"

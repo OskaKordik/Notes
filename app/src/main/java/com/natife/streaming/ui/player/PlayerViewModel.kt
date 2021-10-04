@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.natife.streaming.VIDEO_1080
 import com.natife.streaming.VIDEO_480
 import com.natife.streaming.VIDEO_720
+import com.natife.streaming.VIDEO_AUTO
 import com.natife.streaming.base.BaseViewModel
 import com.natife.streaming.data.matchprofile.Episode
 import com.natife.streaming.data.player.PlayerBottomBarSetup
@@ -63,7 +64,8 @@ class PlayerViewModelImpl(
         initBottomBarData.value = setup.toInitBottomData()
         sourceLiveData.value = setup.playlist
         videoLiveData.value = setup.video?.filter { it.abc == "0" }
-            ?.groupBy { it.quality }!!["720"]/*maxByOrNull { it.key.toInt() }*/?.map { it.url to it.duration }
+            ?.sortedByDescending { it.quality }
+            ?.map { it.url to it.duration }
             ?.let { Event(it) }
         matchInfoLiveData.value = setup.startTitle
         videoDuration.value = setup.videoDuration
@@ -85,25 +87,35 @@ class PlayerViewModelImpl(
 
     override fun openVideoQualityMenu() {
         videoQualityParams.value = VideoQualityParams(
-            setup
+            listOf(VIDEO_AUTO).plus(setup
                 .video
                 ?.sortedByDescending { it.quality.toInt() }
                 ?.map { it.quality }
                 ?.distinct() ?: listOf(
+                VIDEO_AUTO,
                 VIDEO_1080,
                 VIDEO_720,
                 VIDEO_480
-            )
+            ))
         )
     }
 
     override fun changeVideoQuality(videoQuality: String, currentPosition: Long) {
-        videoLiveData.value = setup
-            .video
-            ?.filter { it.abc == "0" }
-            ?.groupBy { it.quality }!![videoQuality]
-            ?.map { it.url to it.duration }?.let { Event(it) }
-        currentEpisode.postValue(currentEpisode.value?.copy( startMs = currentPosition))
+        if (videoQuality == VIDEO_AUTO) {
+            videoLiveData.value = setup
+                .video
+                ?.filter { it.abc == "0" }
+                ?.sortedByDescending { it.quality }
+                ?.map { it.url to it.duration }?.let { Event(it) }
+            currentEpisode.postValue(currentEpisode.value?.copy(startMs = currentPosition))
+        } else {
+            videoLiveData.value = setup
+                .video
+                ?.filter { it.abc == "0" }
+                ?.groupBy { it.quality }!![videoQuality]
+                ?.map { it.url to it.duration }?.let { Event(it) }
+            currentEpisode.postValue(currentEpisode.value?.copy(startMs = currentPosition))
+        }
     }
 
     override fun onBackClicked() {

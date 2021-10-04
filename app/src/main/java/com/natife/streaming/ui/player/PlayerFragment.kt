@@ -25,10 +25,13 @@ import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.source.ClippingMediaSource
 import com.google.android.exoplayer2.source.ConcatenatingMediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
+import com.google.android.exoplayer2.util.MimeTypes
 import com.google.android.exoplayer2.util.Util
 import com.google.android.material.button.MaterialButton
 import com.natife.streaming.R
+import com.natife.streaming.VIDEO_AUTO
 import com.natife.streaming.base.BaseFragment
 import com.natife.streaming.ext.*
 import com.natife.streaming.ui.player.menu.quality.VideoQualityDialog
@@ -37,13 +40,14 @@ import kotlinx.android.synthetic.main.fragment_player.*
 import kotlinx.android.synthetic.main.view_player_bottom_bar.*
 import org.koin.core.parameter.ParametersDefinition
 import org.koin.core.parameter.parametersOf
-import timber.log.Timber
 
 
 class PlayerFragment : BaseFragment<PlayerViewModel>() {
     override fun getLayoutRes(): Int = R.layout.fragment_player
 
     private var simpleExoPlayer: SimpleExoPlayer? = null
+    private lateinit var trackSelector: DefaultTrackSelector
+    private var currentVideoQuality = VIDEO_AUTO
     private var start = 0L
     private var end = 0L
     private var playWhenReady = false
@@ -78,11 +82,13 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
         setFragmentResultListener(VideoQualityDialog.KEY_QUALITY) { _, bundle ->
             bundle.getString(VideoQualityDialog.KEY_QUALITY)?.let { videoQuality ->
                 viewModel.changeVideoQuality(videoQuality, simpleExoPlayer?.currentPosition ?: 0)
+                currentVideoQuality = videoQuality
             }
         }
         subscribe(viewModel.videoQualityParams) {
             val d = VideoQualityDialog().apply {
-                arguments = bundleOf(VIDEO_QUALITY to it)
+                arguments =
+                    bundleOf(VIDEO_QUALITY to it, CURRENT_VIDEO_QUALITY to currentVideoQuality)
             }
             d.show(parentFragmentManager, DIALOG_QUALITY)
         }
@@ -505,13 +511,13 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
                 ?.let { it1 -> simpleExoPlayer?.seekTo(it1) }
         }
         exo_next_episode.setOnClickListener {
-            viewModel.currentEpisode.value?.let {
-                    it1 -> simpleExoPlayer?.seekTo(it1.endMs)
+            viewModel.currentEpisode.value?.let { it1 ->
+                simpleExoPlayer?.seekTo(it1.endMs)
             }
         }
-//        exo_preview.setOnClickListener {
-//            simpleExoPlayer?.seekTo(viewModel.getStartMsPreviewEpisode())
-//        }
+        exo_preview.setOnClickListener {
+            simpleExoPlayer?.seekTo(viewModel.getStartMsPreviewEpisode())
+        }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             if (playerView.isControllerVisible) playerView.hideController() else {
                 viewModel.onBackClicked()
@@ -546,7 +552,14 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
             simpleExoPlayer = null
         }
 
-        simpleExoPlayer = SimpleExoPlayer.Builder(requireContext()).build()
+        trackSelector = DefaultTrackSelector(requireContext())
+        // When player is initialized it'll be played with a quality of MaxVideoSize to prevent loading in 1080p from the start
+        trackSelector.setParameters(
+            trackSelector.buildUponParameters().setMaxVideoBitrate(Int.MAX_VALUE)
+        )
+
+        simpleExoPlayer =
+            SimpleExoPlayer.Builder(requireContext()).setTrackSelector(trackSelector).build()
         //hack for full playlist duration
         val concatenatedSource = ConcatenatingMediaSource()
         list.forEach {
@@ -557,7 +570,11 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
                             requireContext()
                         )
                     ).createMediaSource(
-                        MediaItem.fromUri(it.first)
+                        MediaItem.Builder()
+                            .setUri(it.first)
+                            .setMimeType(MimeTypes.APPLICATION_MPD)
+                            .build()
+//                        MediaItem.fromUri(it.first)
                     ), it.second * 1000
                 )
             )
@@ -569,7 +586,7 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
         playerView.player = simpleExoPlayer
         simpleExoPlayer!!.addListener(object : Player.Listener {
             override fun onPlaybackStateChanged(playbackState: Int) {
-                if (playbackState == ExoPlayer.STATE_BUFFERING){
+                if (playbackState == ExoPlayer.STATE_BUFFERING) {
                     progress_buffering.visibility = View.VISIBLE
                 } else {
                     progress_buffering.visibility = View.INVISIBLE
@@ -682,5 +699,6 @@ class PlayerFragment : BaseFragment<PlayerViewModel>() {
 
         const val VIDEO_QUALITY = "videoQualityParams"
         const val DIALOG_QUALITY = "dialogQuality"
+        const val CURRENT_VIDEO_QUALITY = "currentVideoQualityParam"
     }
 }
