@@ -79,6 +79,17 @@ class LiveDialog : BaseDialog<LiveViewModel>() {
             tvContinueWatch.text = getString(R.string.continue_with, seconds.toLong().toDisplayTime())
         }
 
+        bottom_button_line_layout.initButtonLive(viewModel)
+
+        subscribe(viewModel.returnToLiveEvent) {
+            if (it) {
+                playbackPosition = player?.duration ?: 0
+                player?.seekTo(currentWindow, playbackPosition)
+                playWhenReady = true
+                player?.playWhenReady = playWhenReady
+            }
+        }
+
         arguments?.getString("title")?.let {
             tvTitle.text = it
             bigGameTitle.text = it

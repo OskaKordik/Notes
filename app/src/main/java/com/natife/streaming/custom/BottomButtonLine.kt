@@ -9,6 +9,7 @@ import android.widget.LinearLayout
 import com.natife.streaming.R
 import com.natife.streaming.data.matchprofile.Episode
 import com.natife.streaming.ext.dp
+import com.natife.streaming.ui.live.LiveViewModel
 import com.natife.streaming.ui.player.PlayerViewModel
 import kotlinx.android.synthetic.main.custom_playback_control.view.*
 
@@ -55,6 +56,30 @@ class BottomButtonLine @JvmOverloads constructor(
                 )
             }
         }
+    }
+
+    fun initButtonLive(viewModel: LiveViewModel) {
+        bottom_button_line_layout.removeAllViews()
+        val lp = LayoutParams(
+            LayoutParams.WRAP_CONTENT,
+            LayoutParams.WRAP_CONTENT
+        ).apply {
+            setMargins(0, 0, 10.dp, 0)
+        }
+        bottom_button_line_layout.addView(
+            Button(context).apply {
+                text = resources.getText(R.string.returnToLive)
+                id = startIndexId
+                setTextColor(textColorStateList)
+                background =
+                    resources.getDrawable(R.drawable.background_button_fild_wite_grey_bigradius, null)
+                isFocusable = true
+                setPadding(10.dp, 0, 10.dp, 0)
+                setOnClickListener {
+                    viewModel.returnToLive()
+                }
+            }, lp
+        )
     }
 
 

@@ -17,8 +17,10 @@ import kotlinx.coroutines.launch
 abstract class LiveViewModel : BaseViewModel() {
     abstract val mediaSourceLiveData: LiveData<MediaSource>
     abstract val currentPositionLiveData: LiveData<Int>
+    abstract val returnToLiveEvent: LiveData<Boolean>
     abstract fun onFinishClicked()
     abstract fun saveCurrentPosition(position: Long)
+    abstract fun returnToLive()
 }
 
 class LiveViewModelImpl(
@@ -33,6 +35,7 @@ class LiveViewModelImpl(
 ) : LiveViewModel() {
     override val mediaSourceLiveData = MutableLiveData<MediaSource>()
     override val currentPositionLiveData = MutableLiveData<Int>()
+    override val returnToLiveEvent = MutableLiveData<Boolean>(false)
 
     override fun onFinishClicked() {
         router.navigate(R.id.action_global_nav_main)
@@ -57,6 +60,10 @@ class LiveViewModelImpl(
                 _second = position.toInt()
             )
         }
+    }
+
+    override fun returnToLive() {
+        returnToLiveEvent.postValue(true)
     }
 
     override fun onCleared() {

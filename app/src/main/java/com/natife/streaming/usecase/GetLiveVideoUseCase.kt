@@ -8,6 +8,7 @@ import com.google.android.exoplayer2.source.hls.HlsMediaSource
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
 import com.google.android.exoplayer2.upstream.DefaultLoadErrorHandlingPolicy
 import com.google.android.exoplayer2.util.Util
+import com.natife.streaming.BuildConfig
 import com.natife.streaming.api.MainApi
 import com.natife.streaming.api.exception.ApiException
 import com.natife.streaming.preferenses.AuthPrefs
@@ -25,17 +26,23 @@ class GetLiveVideoUseCaseImpl(
     private val videoHeaderUpdater: VideoHeaderUpdater
 ) : GetLiveVideoUseCase {
     override suspend fun execute(matchId: Int, sportId: Int): MediaSource {
-        val accessToken = "access_token=" + authPrefs.getAuthToken()
 
+        val accessToken = "access_token=" + authPrefs.getAuthToken()
         val urlLive = StringBuilder()
-        urlLive.append("https://api.instat.tv/video/stream/")
+        urlLive.append(BuildConfig.BASE_URL)
+        urlLive.append("video/stream/")
         urlLive.append(sportId)
         urlLive.append("/")
         urlLive.append(matchId)
         urlLive.append(".m3u8")
+        urlLive.append("?")
+        urlLive.append("access_token")
+        urlLive.append("=")
+        urlLive.append(authPrefs.getAuthToken())
 
         val authHeaders: HashMap<String, String> = HashMap()
         authHeaders["Cookie"] = accessToken
+        authHeaders["Origin"] = "https://instat.tv"
 
         val uri: Uri = Uri.parse(urlLive.toString())
         val mediaDataSourceFactory = DefaultHttpDataSource.Factory()

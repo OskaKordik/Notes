@@ -24,6 +24,7 @@ class VideoHeaderUpdaterImpl(
                 while (true) {
                     val authHeaders: HashMap<String, String> = HashMap()
                     authHeaders["Cookie"] = "access_token=" + authPrefs.getAuthToken()
+                    authHeaders["Origin"] = "https://instat.tv"
                     mediaDataSourceFactory.setDefaultRequestProperties(authHeaders)
                     delay(TIME_UPDATE_MS)
                 }
