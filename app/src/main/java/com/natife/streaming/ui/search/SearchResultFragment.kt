@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.Group
+import androidx.core.view.isVisible
 import androidx.leanback.widget.BaseGridView
 import androidx.leanback.widget.BrowseFrameLayout
 import androidx.leanback.widget.VerticalGridView
@@ -49,15 +50,27 @@ class SearchResultFragment : BaseFragment<EmptyViewModel>() {
         }
 
         subscribe(searchResultViewModel.resultsPlayer) {
-            if (typeOfSearch == SearchResult.Type.PLAYER) adapter.submitList(it)
+            if (typeOfSearch == SearchResult.Type.PLAYER) {
+                adapter.submitList(it)
+                textView_match_not_find_search.text = getText(R.string.text_not_find_players)
+                textView_match_not_find_search.isVisible = it.isEmpty()
+            }
         }
 
         subscribe(searchResultViewModel.resultsTeam) {
-            if (typeOfSearch == SearchResult.Type.TEAM) adapter.submitList(it)
+            if (typeOfSearch == SearchResult.Type.TEAM) {
+                adapter.submitList(it)
+                textView_match_not_find_search.text = getText(R.string.text_not_find_teams)
+                textView_match_not_find_search.isVisible = it.isEmpty()
+            }
         }
 
         subscribe(searchResultViewModel.resultsTournament) {
-            if (typeOfSearch == SearchResult.Type.TOURNAMENT) adapter.submitList(it)
+            if (typeOfSearch == SearchResult.Type.TOURNAMENT) {
+                adapter.submitList(it)
+                textView_match_not_find_search.text = getText(R.string.text_not_find_tour)
+                textView_match_not_find_search.isVisible = it.isEmpty()
+            }
         }
 
         tab_search_recycler_layout.onFocusSearchListener =
@@ -68,6 +81,7 @@ class SearchResultFragment : BaseFragment<EmptyViewModel>() {
                 } else
                     return@OnFocusSearchListener null
             }
+        textView_match_not_find_search.isVisible = false
     }
 
 

@@ -88,6 +88,8 @@
     <string name="text_choose_quality">Выберите качество</string>
     <string name="text_not_find_match">Матчи не найдены</string>
     <string name="text_not_find_tour">Турниры не найдены</string>
+    <string name="text_not_find_players">Игроки не найдены</string>
+    <string name="text_not_find_teams">Команды не найдены</string>
     <string name="wrong_login_or_password">Неверный логин или пароль!</string>
     <string name="this_login_is_already_used">Пользователь с таким логином уже существует!</string>
     <string name="buying_it">Купить</string>

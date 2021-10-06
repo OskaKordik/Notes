@@ -12,6 +12,7 @@ abstract class SearchViewModel : BaseViewModel() {
     abstract val resultsTeam: LiveData<List<SearchResult>>
     abstract val resultsPlayer: LiveData<List<SearchResult>>
     abstract val resultsTournament: LiveData<List<SearchResult>>
+    abstract val setupTypeSearchResult: LiveData<SearchResult.Type>
 
 
     abstract fun search(text: String)
@@ -26,6 +27,7 @@ class SearchViewModelImpl(
     override val resultsTeam = MutableLiveData<List<SearchResult>>()
     override val resultsPlayer = MutableLiveData<List<SearchResult>>()
     override val resultsTournament = MutableLiveData<List<SearchResult>>()
+    override val setupTypeSearchResult = MutableLiveData<SearchResult.Type>()
 
 
 //    override val sportLiveDate = MutableLiveData<String>()
@@ -133,6 +135,14 @@ class SearchViewModelImpl(
             resultsTeam.value = sourceList.filter { it.type == SearchResult.Type.TEAM }
             resultsPlayer.value = sourceList.filter { it.type == SearchResult.Type.PLAYER }
             resultsTournament.value = sourceList.filter { it.type == SearchResult.Type.TOURNAMENT }
+
+            setupTypeSearchResult.postValue(
+                when {
+                    resultsPlayer.value?.isNotEmpty() == true -> SearchResult.Type.PLAYER
+                    resultsTeam.value?.isNotEmpty() == true -> SearchResult.Type.TEAM
+                    resultsTournament.value?.isNotEmpty() == true -> SearchResult.Type.TOURNAMENT
+                    else -> SearchResult.Type.PLAYER
+            })
         }
     }
 

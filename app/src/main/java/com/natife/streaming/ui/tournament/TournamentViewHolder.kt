@@ -10,7 +10,7 @@ class TournamentViewHolder(view: View, private val onClick: ((Match) -> Unit)) :
     MatchViewHolderNew(view) {
     override fun onBind(data: Match) {
         super.onBind(data)
-        itemView.paid_content_image.isVisible = data.subscribed
+        itemView.paid_content_image.isVisible = !data.subscribed
         itemView.setOnClickListener {
             onClick.invoke(data)
         }

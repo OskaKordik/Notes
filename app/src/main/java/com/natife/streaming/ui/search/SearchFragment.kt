@@ -17,6 +17,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.natife.streaming.R
 import com.natife.streaming.base.BaseFragment
+import com.natife.streaming.data.search.SearchResult
 import com.natife.streaming.ext.hideKeyboard
 import com.natife.streaming.ext.predominantColorToGradient
 import com.natife.streaming.ext.subscribe
@@ -25,7 +26,9 @@ import com.natife.streaming.ui.main.MainActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_popup_video.*
 import kotlinx.android.synthetic.main.fragment_search_new.*
+import kotlinx.android.synthetic.main.fragment_search_result.*
 import kotlinx.android.synthetic.main.fragment_settings_page.*
+import timber.log.Timber
 
 
 class SearchFragment : BaseFragment<SearchViewModel>() {
@@ -204,17 +207,25 @@ class SearchFragment : BaseFragment<SearchViewModel>() {
             })
 
 
-        subscribe(viewModel.resultsTeam) {
-            searchResultViewModel.setResultsTeam(it)
-            load_progress.visibility = View.GONE
-        }
         subscribe(viewModel.resultsPlayer) {
             searchResultViewModel.setResultsPlayer(it)
+            load_progress.visibility = View.GONE
+        }
+        subscribe(viewModel.resultsTeam) {
+            searchResultViewModel.setResultsTeam(it)
             load_progress.visibility = View.GONE
         }
         subscribe(viewModel.resultsTournament) {
             searchResultViewModel.setResultsTournament(it)
             load_progress.visibility = View.GONE
+        }
+
+        subscribe(viewModel.setupTypeSearchResult) { searchType ->
+            when (searchType) {
+                SearchResult.Type.PLAYER -> search_tab_layout.getTabAt(0)?.select()
+                SearchResult.Type.TEAM -> search_tab_layout.getTabAt(1)?.select()
+                SearchResult.Type.TOURNAMENT -> search_tab_layout.getTabAt(2)?.select()
+            }
         }
 
         subscribe(searchResultViewModel.startViewID) { start ->
